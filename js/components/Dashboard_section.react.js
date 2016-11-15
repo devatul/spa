@@ -4,7 +4,6 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 
 module.exports = React.createClass({
-
   _goToAlerts: function() {
     redirect('alerts');
   },

@@ -21,4 +21,11 @@ module.exports = {
       res: publicCloud,
     });
   },
+  
+  showAlerts: function(alerts) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_ALERTS,
+      res: alerts,
+    });
+  },
 }

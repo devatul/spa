@@ -1,8 +1,8 @@
 var React                         = require('react');
 var Router                        = require('../router');
 var redirect                      = require('../actions/RouteActions').redirect;
-var getInfrastructureOverview     = require('../actions/InfrastructureActions').getInfrastructureOverview;
-var getInfrastructurePublicCloud  = require('../actions/InfrastructureActions').getInfrastructurePublicCloud;
+var getInfrastructureOverview     = require('../actions/RequestActions').getInfrastructureOverview;
+var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
 var SessionStore                  = require('../stores/SessionStore');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var InfrastructureOverview        = require('./Infrastructure_overview.react');
@@ -11,7 +11,6 @@ var InfrastructurePrivateCloud    = require('./Infrastructure_overview.react');
 var InfrastructureOnPremise       = require('./Infrastructure_overview.react');
 
 module.exports = React.createClass({
-
   getInitialState: function() {
     return {
       overview: '',
