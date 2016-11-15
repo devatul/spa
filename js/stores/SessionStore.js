@@ -43,28 +43,12 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
     return _textError;
   },
 
-  getAdminId: function() {
-    return _adminID;
-  },
-
-  getAdminMail: function() {
-    return _adminMail;
-  },
-
   getAuthToken: function() {
     return localStorage.getItem('nubity-token');
   },
 
   setAuthToken: function(token) {
     localStorage.setItem('nubity-token', token);
-  },
-
-  getLinkOk: function() {
-    return _linkOK;
-  },
-
-  resetLinkOk: function() {
-    _linkOK = false;
   },
 
   logOut: function (argument) {
@@ -83,7 +67,7 @@ SessionStore.dispatchToken = Dispatcher.register(function(payload) {
     break;
 
     case ActionTypes.ERROR:
-      if (action.code == 401) {     
+      if (401 == action.code) {     
         router.transitionTo('login');
       }
       _textError = action.res;
@@ -100,7 +84,7 @@ SessionStore.dispatchToken = Dispatcher.register(function(payload) {
     break;
 
     default:
-      if (action.res != null && action.code != null && (action.code == 401)) {       
+      if (null != action.res && null!= action.code && (401 == action.code)) {       
         router.transitionTo('login');
       }
       SessionStore.emitChange();

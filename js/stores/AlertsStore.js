@@ -7,12 +7,11 @@ var assign       = require('object-assign');
 var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _overview = '';
-var _public = '';
+var _alerts = '';
 var _textError = '';
 var _errorCode = '';
 
-var InfrastructureStore = assign({}, EventEmitter.prototype, {
+var AlertsStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -26,31 +25,21 @@ var InfrastructureStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getInfrastructureOverview: function() {
-    return _overview;
+  getAlerts: function() {
+    return _alerts;
   },
-
-  getInfrastructurePublicCloud: function() {
-    return _public;
-  }
 });
 
-InfrastructureStore.dispatchToken = Dispatcher.register(function(payload) {
+AlertsStore.dispatchToken = Dispatcher.register(function(payload) {
   var action = payload.action;
 
   switch (action.actionType) {
-    case ActionTypes.SHOW_INFRASTRUCTURE_OVERVIEW:
-      _overview = action.res;
-      _textError = '';
-      _errorCode = '';
-      InfrastructureStore.emitChange();
-    break;
 
-    case ActionTypes.SHOW_INFRASTRUCTURE_PUBLIC_CLOUD:
-      _public = action.res;
+    case ActionTypes.SHOW_ALERTS:
+      _alerts = action.res;
       _textError = '';
       _errorCode = '';
-      InfrastructureStore.emitChange();
+      AlertsStore.emitChange();
     break;
 
     case ActionTypes.ERROR:
@@ -60,7 +49,7 @@ InfrastructureStore.dispatchToken = Dispatcher.register(function(payload) {
       if (SessionStore.isLoggedIn()) {
         _textError = action.res.message;
         _errorCode = action.code;
-        InfrastructureStore.emitChange();
+        AlertsStore.emitChange();
       }
     break;
   }
@@ -68,4 +57,4 @@ InfrastructureStore.dispatchToken = Dispatcher.register(function(payload) {
   return true;
 });
 
-module.exports = InfrastructureStore;
+module.exports = AlertsStore;

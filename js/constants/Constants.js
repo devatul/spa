@@ -8,6 +8,7 @@ module.exports = {
     REDIRECT: null,
     ERROR: null,
     SHOW_INFRASTRUCTURE_OVERVIEW: null,
+    SHOW_ALERTS: null,
   }),
 
   PayloadSources: keyMirror({

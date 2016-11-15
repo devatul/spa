@@ -29,7 +29,7 @@ module.exports = React.createClass({
     var url = window.location.href;
     var login = url.search("login");
     var signup = url.search("signup");
-    if (login > 0 || signup > 0) {
+    if (0 < login || 0 < signup) {
       return (<div></div>);
     } else {
       return (
