@@ -49,7 +49,6 @@ var NavBar = React.createClass({
   _openBilling: function() {
     $('#myModal').modal('show');
     $('#myModal').on('shown.bs.modal', function (e) {
-      $('##billingHistory').tab('show');
     });
   },
 
@@ -59,9 +58,12 @@ var NavBar = React.createClass({
   },
 
   render: function() {
-    var url = window.location.href;
-    var login = url.search("login");
-    var signup = url.search("signup");
+    var url       = window.location.href;
+    var firstname = localStorage.getItem('nubity-firstname');
+    var lastname  = localStorage.getItem('nubity-lastname');
+    var login     = url.search("login");
+    var signup    = url.search("signup");
+
     if (0 < login || 0 < signup) {
       return (
         <div></div>
@@ -90,8 +92,8 @@ var NavBar = React.createClass({
                   <img src="./images/nubity-logo-hd.png" alt="add photo" title="add photo" className="user-photo img-circle"/>
                 </li>
                 <li className="dropdown">
-                  <a href="#" className="dropdown-toggle white-color" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>Delfina, Polito! <b className="caret"></b></span></a>
-                  <ul className="dropdown-menu">
+                  <a className="dropdown-toggle white-color" data-toggle="dropdown" id="dropdown-nav" role="button" aria-haspopup="true" aria-expanded="false"><span>{firstname}, {lastname}! <b className="caret"></b></span></a>
+                  <ul className="dropdown-menu" aria-labelledby="dropdown-nav">
                     <li>
                       <a onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
                         <i className="fa fa-cog"></i> My Account

@@ -15,10 +15,17 @@ module.exports = React.createClass({
     SessionStore.removeChangeListener(this._onChange);
   },
 
+  _onChange: function() {
+    console.log("change");
+  },
+
   _onSubmit: function(e) {
     e.preventDefault();
-    var form  = e.target.elements;
-    loginAction("user"); 
+    var user      = {};
+    user.email    = this.refs.email.getDOMNode().value;
+    user.password = this.refs.password.getDOMNode().value;
+    
+    loginAction(user); 
   },
 
   render: function() {

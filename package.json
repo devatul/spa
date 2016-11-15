@@ -5,7 +5,7 @@
   "main": "js/app.js",
   "scripts": {
     "start": "watchify js/app.js -o js/bundle.js -v -d",
-    "build": "NODE_ENV=production browserify . | uglifyjs -cm > js/bundle.min.js"
+    "build": "NODE_ENV=production browserify . | uglifyjs -cm > js/bundle.js"
   },
   "repository": {
     "type": "git",
