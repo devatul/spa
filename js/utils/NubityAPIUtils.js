@@ -13,7 +13,7 @@ module.exports = {
   login: function(user) {
     request
       .post(APIEndpoints.PUBLIC + '/login.json')
-      .send({_username: 'mail', _password: 'password'})
+      .send({_username: user.email, _password: user.password})
       .set('Accept', 'aplication/json')
       .end(function(res) {
         var text = JSON.parse(res.text);
@@ -23,14 +23,34 @@ module.exports = {
         } else {
           var token = 'Bearer '+ text.token;
           localStorage.setItem('nubity-token', token);
+          this.getUser();
+        }
+      }.bind(this));
+  },
+
+  getUser: function() {
+    request
+      .get(APIEndpoints.PUBLIC + '/user.json')
+      .set('Accept', 'aplication/json')
+      .set('Authorization', localStorage.getItem('nubity-token'))
+      .end(function(res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (400 <= code) {
+          console.error("Error in user request", code);
+        } else {
+          localStorage.setItem('nubity-company', text.company);
+          localStorage.setItem('nubity-firstname', text.firstname);
+          localStorage.setItem('nubity-lastname', text.lastname);
           redirect('infrastructure');
         }
       }.bind(this));
   },
 
   getInfrastructureOverview: function() {
+    var company = localStorage.getItem('nubity-company');
     request
-      .get(APIEndpoints.PUBLIC + '/company/78/instances')
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
       .set('Accept', 'aplication/json')
       .set('Authorization', localStorage.getItem('nubity-token'))
       .end(function(res) {
@@ -44,8 +64,9 @@ module.exports = {
       }.bind(this));
   },
   getInfrastructurePublicCloud: function() {
+    var company = localStorage.getItem('nubity-company');
     request
-      .get(APIEndpoints.PUBLIC + '/company/78/instances')
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
       .set('Accept', 'aplication/json')
       .set('Authorization', localStorage.getItem('nubity-token'))
       .end(function(res) {
@@ -60,8 +81,9 @@ module.exports = {
   },
 
   getAlerts: function() {
+    var company = localStorage.getItem('nubity-company');
     request
-      .get(APIEndpoints.PUBLIC + '/company/78/alerts')
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
       .set('Accept', 'aplication/json')
       .set('Authorization', localStorage.getItem('nubity-token'))
       .end(function(res) {
