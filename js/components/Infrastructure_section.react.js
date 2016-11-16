@@ -18,7 +18,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    getInfrastructureOverview();
+    getInfrastructureOverview(0);
     getInfrastructurePublicCloud();
     InfrastructureStore.addChangeListener(this._onChange);
   },

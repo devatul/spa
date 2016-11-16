@@ -47,13 +47,16 @@ module.exports = {
       }.bind(this));
   },
 
-  getInfrastructureOverview: function() {
+  getInfrastructureOverview: function(page) {
     var company = localStorage.getItem('nubity-company');
-    request
+    if (page != 0) {
+      request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({page: page})
       .set('Accept', 'aplication/json')
       .set('Authorization', localStorage.getItem('nubity-token'))
       .end(function(res) {
+        console.log(res);
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (400 <= code) {
@@ -62,6 +65,25 @@ module.exports = {
           showInfrastructureOverview(text);
         }
       }.bind(this));
+
+    } else {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .set('Accept', 'aplication/json')
+      .set('Authorization', localStorage.getItem('nubity-token'))
+      .end(function(res) {
+        console.log(res);
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (400 <= code) {
+          console.error("Error in instances request", code);
+        } else {
+          showInfrastructureOverview(text);
+        }
+      }.bind(this));
+    }
+    
+    
   },
   getInfrastructurePublicCloud: function() {
     var company = localStorage.getItem('nubity-company');

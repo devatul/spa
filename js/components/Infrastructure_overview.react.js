@@ -4,6 +4,7 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var InfrastructureStore        = require('../stores/InfrastructureStore');
+var getInfrastructureOverview  = require('../actions/RequestActions').getInfrastructureOverview;
 
 module.exports = React.createClass({
 
@@ -14,6 +15,7 @@ module.exports = React.createClass({
     return {
       overview: overview,
       rows: rows,
+      totalItems: overview.totalItems,
     };
   },
   
@@ -30,12 +32,27 @@ module.exports = React.createClass({
       var overview = InfrastructureStore.getInfrastructureOverview();
       this.setState({
         overview: overview.member,
+        totalItems: overview.totalItems,
       });
     }
   },
+  _newPage: function(page) {
+    getInfrastructureOverview(page);
+  },
 
   render: function() {
-    overview = this.state.overview;
+    var overview = this.state.overview;
+    
+    var totalItems = this.state.totalItems;
+    var pages = Math.trunc(parseInt(totalItems)/10);
+
+    var navPages = [];
+    for (var key = 0 ; key < pages ; key++) {
+      var page = key + 1;
+      var send = page.toString()
+      navPages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
+    }
+
     var rows = [];
     for (var key in overview) {
       rows.push(
@@ -83,6 +100,21 @@ module.exports = React.createClass({
             {rows}
           </tbody>
         </table>
+        <nav aria-label="Page navigation">
+          <ul className="pagination">
+            <li>
+              <a aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {navPages}
+            <li>
+              <a aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     );
   }
