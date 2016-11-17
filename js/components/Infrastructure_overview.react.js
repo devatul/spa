@@ -49,7 +49,7 @@ module.exports = React.createClass({
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
-      var send = page.toString()
+      var send = page.toString();
       navpages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
     }
 

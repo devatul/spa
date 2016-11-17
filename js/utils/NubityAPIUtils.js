@@ -100,9 +100,25 @@ module.exports = {
       }.bind(this));
   },
 
-  getAlerts: function() {
+  getAlerts: function(page) {
     var company = localStorage.getItem('nubity-company');
-    request
+    if (page != 0) {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .query({page: page})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', localStorage.getItem('nubity-token'))
+      .end(function(res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (400 <= code) {
+          console.error("Error in alerts request", code);
+        } else {
+          showAlerts(text);
+        }
+      }.bind(this));
+    } else {
+      request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
       .set('Accept', 'aplication/json')
       .set('Authorization', localStorage.getItem('nubity-token'))
@@ -115,5 +131,6 @@ module.exports = {
           showAlerts(text);
         }
       }.bind(this));
+    }
   },
 };

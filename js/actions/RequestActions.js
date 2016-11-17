@@ -13,7 +13,7 @@ module.exports = {
     NubityAPIUtils.getInfrastructurePublicCloud();
   },
 
-  getAlerts: function() {
-    NubityAPIUtils.getAlerts();
+  getAlerts: function(page) {
+    NubityAPIUtils.getAlerts(page);
   },
 }
