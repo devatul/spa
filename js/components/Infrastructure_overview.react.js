@@ -46,11 +46,11 @@ module.exports = React.createClass({
     var totalItems = this.state.totalItems;
     var pages = Math.trunc(parseInt(totalItems)/10);
 
-    var navPages = [];
+    var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
       var send = page.toString()
-      navPages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
+      navpages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
     }
 
     var rows = [];
@@ -107,7 +107,7 @@ module.exports = React.createClass({
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            {navPages}
+            {navpages}
             <li>
               <a aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>

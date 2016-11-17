@@ -56,7 +56,6 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', localStorage.getItem('nubity-token'))
       .end(function(res) {
-        console.log(res);
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (400 <= code) {
@@ -81,10 +80,9 @@ module.exports = {
           showInfrastructureOverview(text);
         }
       }.bind(this));
-    }
-    
-    
+    }   
   },
+
   getInfrastructurePublicCloud: function() {
     var company = localStorage.getItem('nubity-company');
     request
