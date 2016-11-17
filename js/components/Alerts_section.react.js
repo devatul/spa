@@ -8,13 +8,15 @@ var getAlerts                  = require('../actions/RequestActions').getAlerts;
 
 module.exports = React.createClass({
   getInitialState: function() {
+    var alerts = AlertsStore.getAlerts();
     return {
-      alerts: '',
+      alerts: alerts,
+      totalItems: overview.totalItems,
     };
   },
 
   componentDidMount: function() {
-    getAlerts();
+    getAlerts(0);
     AlertsStore.addChangeListener(this._onChange);
   },
 
@@ -27,8 +29,13 @@ module.exports = React.createClass({
       var alerts = AlertsStore.getAlerts();
       this.setState({
         alerts: alerts,
+        totalItems: alerts.totalItems,
       });
     }
+  },
+
+  _newPage: function(page) {
+    getAlerts(page);
   },
 
   render: function() {
@@ -49,6 +56,16 @@ module.exports = React.createClass({
         state = 'fa fa-check-circle green-icon';
       } else {
         state = 'fa fa-exclamation-circle red-icon';
+      }
+
+      var totalItems = this.state.totalItems;
+      var pages = Math.trunc(parseInt(totalItems)/10);
+
+      var navpages = [];
+      for (var key = 0 ; key < pages ; key++) {
+        var page = key + 1;
+        var send = page.toString();
+        navpages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
       }
 
       var date = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -169,6 +186,21 @@ module.exports = React.createClass({
               </tr>
             </tbody>
           </table>
+          <nav aria-label="Page navigation">
+          <ul className="pagination">
+            <li>
+              <a aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {navpages}
+            <li>
+              <a aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
         </div>
       </div>
     );
