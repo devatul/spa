@@ -5,8 +5,8 @@ module.exports = {
     NubityAPIUtils.login(user);
   },
 
-  getInfrastructureOverview: function() {
-    NubityAPIUtils.getInfrastructureOverview();
+  getInfrastructureOverview: function(page) {
+    NubityAPIUtils.getInfrastructureOverview(page);
   },
 
   getInfrastructurePublicCloud: function() {
