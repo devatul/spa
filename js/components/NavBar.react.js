@@ -63,8 +63,9 @@ var NavBar = React.createClass({
     var lastname  = localStorage.getItem('nubity-lastname');
     var login     = url.search("login");
     var signup    = url.search("signup");
+    var forgot    = url.search("forgot");
 
-    if (0 < login || 0 < signup) {
+    if (0 < login || 0 < signup || 0 < forgot) {
       return (
         <div></div>
       );

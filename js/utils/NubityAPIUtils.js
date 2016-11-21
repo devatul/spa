@@ -18,13 +18,58 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (400 <= code) {
+        if (401 == code) {
+          this.refreshToken();
+          this.login(user);
+        } else if (400 <= code) {
           console.error("Error in login request", code);
         } else {
           var token = 'Bearer '+ text.token;
           localStorage.setItem('nubity-token', token);
+          localStorage.setItem('nubity-refresh-token', text.refresh_token);
           this.getUser();
         }
+      }.bind(this));
+  },
+
+  forgotPassword: function(email) {
+    request
+      .post(APIEndpoints.PUBLIC + '/password/request-reset.json')
+      .send({_username: email})
+      .set('Accept', 'aplication/json')
+      .end(function(res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (400 <= code) {
+          console.error("Error in request password request", code);
+        } 
+      }.bind(this));
+  },
+
+  changePassword: function(token, password, confirmation_password) {
+    request
+      .post(APIEndpoints.PUBLIC + '/password/reset/' + token + '.json')
+      .send({_password: password, _password_confirmation: confirmation_password})
+      .set('Accept', 'aplication/json')
+      .end(function(res) {
+        if (400 <= code) {
+          console.error("Error in request password request", code);
+        } else {
+          redirect('login');
+        }
+      }.bind(this));
+  },
+
+  refreshToken: function() {
+    console.log("refresh");
+    request
+      .post(APIEndpoints.PUBLIC + '/token/refresh.json')
+      .set('Accept', 'aplication/json')
+      .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
+      .end(function(res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        console.log(res);
       }.bind(this));
   },
 
@@ -36,7 +81,10 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (400 <= code) {
+        if (401 == code) {
+          this.refreshToken();
+          this.getUser();
+        } else if (400 <= code) {
           console.error("Error in user request", code);
         } else {
           localStorage.setItem('nubity-company', text.company);
@@ -58,7 +106,10 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (400 <= code) {
+        if (401 == code) {
+          this.refreshToken();
+          this.getInfrastructureOverview(page);
+        } else if (400 <= code) {
           console.error("Error in instances request", code);
         } else {
           showInfrastructureOverview(text);
@@ -74,7 +125,10 @@ module.exports = {
         console.log(res);
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (400 <= code) {
+        if (401 == code) {
+          this.refreshToken();
+          this.getInfrastructureOverview(page);
+        } else if (400 <= code) {
           console.error("Error in instances request", code);
         } else {
           showInfrastructureOverview(text);
@@ -92,7 +146,10 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (400 <= code) {
+        if (401 == code) {
+          this.refreshToken();
+          this.getInfrastructurePublicCloud();
+        } else if (400 <= code) {
           console.error("Error in instances request", code);
         } else {
           showInfrastructurePublicCloud(text);
@@ -111,7 +168,10 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (400 <= code) {
+        if (401 == code) {
+          this.refreshToken();
+          this.getAlerts(page);
+        } else if (400 <= code) {
           console.error("Error in alerts request", code);
         } else {
           showAlerts(text);
@@ -125,7 +185,10 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (400 <= code) {
+        if (401 == code) {
+          this.refreshToken();
+          this.getAlerts(page);
+        } else if (400 <= code) {
           console.error("Error in alerts request", code);
         } else {
           showAlerts(text);
