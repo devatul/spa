@@ -26,10 +26,12 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var url = window.location.href;
-    var login = url.search("login");
+    var url    = window.location.href;
+    var login  = url.search("login");
     var signup = url.search("signup");
-    if (0 < login || 0 < signup) {
+    var forgot = url.search("forgot");
+
+    if (0 < login || 0 < signup || 0 < forgot) {
       return (<div></div>);
     } else {
       return (

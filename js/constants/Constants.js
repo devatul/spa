@@ -9,6 +9,7 @@ module.exports = {
     ERROR: null,
     SHOW_INFRASTRUCTURE_OVERVIEW: null,
     SHOW_ALERTS: null,
+    SHOW_NINJA: null,
   }),
 
   PayloadSources: keyMirror({

@@ -2,8 +2,40 @@ var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
+var NinjaStore                 = require('../stores/NinjaStore');
+var getNinja                   = require('../actions/RequestActions').getNinja;
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    var ninja = NinjaStore.getninja();
+    return {
+      ninja: ninja,
+      totalItems: ninja.totalItems,
+    };
+  },
+
+  componentDidMount: function() {
+    getNinja(0);
+    NinjaStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    NinjaStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    if (this.isMounted()) {
+      var ninja = NinjaStore.getNinja();
+      this.setState({
+        ninja: ninja,
+        totalItems: ninja.totalItems,
+      });
+    }
+  },
+
+  _newPage: function(page) {
+    getNinja(page);
+  },
 
   render: function() {
     return (

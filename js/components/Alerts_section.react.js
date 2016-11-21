@@ -11,7 +11,7 @@ module.exports = React.createClass({
     var alerts = AlertsStore.getAlerts();
     return {
       alerts: alerts,
-      totalItems: overview.totalItems,
+      totalItems: alerts.totalItems,
     };
   },
 

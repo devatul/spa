@@ -4,6 +4,8 @@ var Route                   = Router.Route;
 var DefaultRoute            = Router.DefaultRoute;
 var NubityApp               = require ('./components/NubityApp.react');
 var Login                   = require ('./components/Login.react');
+var ForgotPassword          = require ('./components/Forgot_password.react');
+var ChangePassword          = require ('./components/Change_password.react');
 var Signup                  = require ('./components/Signup.react');
 var Infrastructure          = require ('./components/Infrastructure_section.react');
 var Dashboard               = require ('./components/Dashboard_section.react');
@@ -16,6 +18,8 @@ var LiveChat                = require ('./components/Live_chat.react');
 var routes = (
   <Route handler={NubityApp}           path="/">
     <Route name="login"                path='/login'                   handler={Login} />
+    <Route name="forgot_password"      path='/forgot_password'         handler={ForgotPassword} />
+    <Route name="change_password"      path='/change_password/:token'  handler={ChangePassword} />
     <Route name="signup"               path='/signup'                  handler={Signup} />
     <Route name="infrastructure"       path='/infrastructure'          handler={Infrastructure} />
     <Route name="dashboard"            path='/dashboard'               handler={Dashboard} />
