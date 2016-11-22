@@ -5,6 +5,7 @@ var APIRoot   = Root;
 module.exports = {
   ActionTypes: keyMirror({
     LOGIN_RESPONSE: null,
+    LOGOUT: null,
     REDIRECT: null,
     ERROR: null,
     SHOW_INFRASTRUCTURE_OVERVIEW: null,

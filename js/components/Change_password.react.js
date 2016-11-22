@@ -6,7 +6,6 @@ var ChangePasswordAction       = require('../actions/RequestActions').changePass
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return {
       codeClass: 'hidden',
     };
   },
@@ -33,7 +32,7 @@ module.exports = React.createClass({
     if (password != password2) {
       this.setState({ 
         codeClass: 'alert alert-danger',
-        textError: 'Las contraseñas ingresadas son distintas'
+        textError: 'Las contraseñas ingresadas son distintas',
       });
     } else {
       ChangePasswordAction(token, password, password2);   
@@ -45,7 +44,7 @@ module.exports = React.createClass({
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
           <div className="top-div">
-            <p className="login-p">Dont have an account yet? </p>
+            <p className="login-p">Dont have an account yet?</p>
             <button className="go-to-signup">Start Now!</button>
           </div>
           <div className="login-logo"></div>
@@ -54,7 +53,7 @@ module.exports = React.createClass({
           <div className={this.state.codeClass}>{this.state.textError}</div>
           <p className="login-title">One account.</p>
           <p className="login-title">All infrastructure.</p>
-          <p className="login-subtitle">Sign in to check all your Clouds, Servers,Devices and Apps.</p>
+          <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
             <div className="form-group row">
               <div className="input-group col-xs-10 col-xs-offset-1">

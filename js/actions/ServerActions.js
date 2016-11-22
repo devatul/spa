@@ -8,6 +8,12 @@ module.exports = {
     });
   },
 
+  logOut: function() {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.LOGOUT,
+    });
+  },
+
   showInfrastructureOverview: function(overview) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_OVERVIEW,

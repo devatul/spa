@@ -22,6 +22,11 @@ var NavBar = React.createClass({
   componentDidMount: function() {
     SessionStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
+    $('.nav a').on('click', function() {
+      $(".btn-navbar").click(); 
+      $(".navbar-toggle").click(); 
+      $(".dropdown-toggle").click();
+    });
   },
 
   componentWillUnmount: function() {
@@ -55,6 +60,9 @@ var NavBar = React.createClass({
   _profileButton: function() {
     localStorage.setItem("landing", true);
     redirect('landing');
+  },
+  onSelected: function(e) {
+    // doesn't need to have functionality
   },
 
   render: function() {
@@ -116,7 +124,7 @@ var NavBar = React.createClass({
                       </a>
                     </li>
                     <li>
-                      <a onClick={this._openAccount}>
+                      <a onClick={this._onClickLogOut}>
                         <i className="fa fa-sign-out"></i> Log Out
                       </a>
                     </li>

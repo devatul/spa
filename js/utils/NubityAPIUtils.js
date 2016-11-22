@@ -18,10 +18,11 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (401 == code) {
+        if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.login(user);
         } else if (400 <= code) {
+          redirect('login');
           console.error("Error in login request", code);
         } else {
           var token = 'Bearer '+ text.token;
@@ -41,6 +42,7 @@ module.exports = {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (400 <= code) {
+          redirect('login');
           console.error("Error in request password request", code);
         } 
       }.bind(this));
@@ -53,6 +55,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .end(function(res) {
         if (400 <= code) {
+          redirect('login');
           console.error("Error in request password request", code);
         } else {
           redirect('login');
@@ -70,6 +73,14 @@ module.exports = {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         console.log(res);
+        if (401 == code) {
+          localStorage.removeItem('nubity-token');
+          localStorage.removeItem('nubity-refresh-token');
+          redirect('login');
+        } else {
+          localStorage.setItem('nubity-token', res.token);
+          localStorage.setItem('nubity-refresh-token', res.refresh_token);
+        }
       }.bind(this));
   },
 
@@ -81,10 +92,11 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (401 == code) {
+        if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getUser();
         } else if (400 <= code) {
+          redirect('login');
           console.error("Error in user request", code);
         } else {
           localStorage.setItem('nubity-company', text.company);
@@ -106,10 +118,11 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (401 == code) {
+        if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getInfrastructureOverview(page);
         } else if (400 <= code) {
+          redirect('login');
           console.error("Error in instances request", code);
         } else {
           showInfrastructureOverview(text);
@@ -125,10 +138,11 @@ module.exports = {
         console.log(res);
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (401 == code) {
+        if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getInfrastructureOverview(page);
         } else if (400 <= code) {
+          redirect('login');
           console.error("Error in instances request", code);
         } else {
           showInfrastructureOverview(text);
@@ -146,10 +160,11 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (401 == code) {
+        if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getInfrastructurePublicCloud();
         } else if (400 <= code) {
+          redirect('login');
           console.error("Error in instances request", code);
         } else {
           showInfrastructurePublicCloud(text);
@@ -168,10 +183,11 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (401 == code) {
+        if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getAlerts(page);
         } else if (400 <= code) {
+          redirect('login');
           console.error("Error in alerts request", code);
         } else {
           showAlerts(text);
@@ -185,15 +201,20 @@ module.exports = {
       .end(function(res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        if (401 == code) {
+        if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getAlerts(page);
         } else if (400 <= code) {
+          redirect('login');
           console.error("Error in alerts request", code);
         } else {
           showAlerts(text);
         }
       }.bind(this));
     }
+  },
+
+  hasToRefresh: function(){
+    return (null != localStorage.getItem('nubity-token') && null != localStorage.getItem('nubity-refresh-token'));
   },
 };

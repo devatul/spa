@@ -3,6 +3,7 @@ var Constants     = require('../constants/Constants');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
 var router        = require('../router');
+var redirect      = require('../actions/RouteActions').redirect;
 
 var ActionTypes   = Constants.ActionTypes;
 var CHANGE_EVENT  = 'change';
@@ -76,6 +77,8 @@ SessionStore.dispatchToken = Dispatcher.register(function(payload) {
     break;
 
     case ActionTypes.LOGOUT:
+      localStorage.removeItem('nubity-token');
+      localStorage.removeItem('nubity-refresh-token');
       SessionStore.emitChange();
     break;
     
