@@ -18,16 +18,16 @@ var LiveChat                = require ('./components/Live_chat.react');
 var routes = (
   <Route handler={NubityApp}           path="/">
     <Route name="login"                path='/login'                   handler={Login} />
-    <Route name="forgot_password"      path='/forgot_password'         handler={ForgotPassword} />
-    <Route name="change_password"      path='/change_password/:token'  handler={ChangePassword} />
+    <Route name="forgot_password"      path='/forgot-password'         handler={ForgotPassword} />
+    <Route name="change_password"      path='/change-password/:token'  handler={ChangePassword} />
     <Route name="signup"               path='/signup'                  handler={Signup} />
     <Route name="infrastructure"       path='/infrastructure'          handler={Infrastructure} />
     <Route name="dashboard"            path='/dashboard'               handler={Dashboard} />
     <Route name="alerts"               path='/alerts'                  handler={Alerts} />
     <Route name="performance"          path='/performance'             handler={Performance} />
-    <Route name="ninja"                path='/ninja_support'           handler={Ninja} />
-    <Route name="create_ticket"        path='/create_ticket'           handler={CreateTicket} />
-    <Route name="live_chat"            path='/live_chat'               handler={LiveChat} />
+    <Route name="ninja"                path='/ninja-support'           handler={Ninja} />
+    <Route name="create_ticket"        path='/create-ticket'           handler={CreateTicket} />
+    <Route name="live_chat"            path='/live-chat'               handler={LiveChat} />
     <DefaultRoute                                                      handler={Dashboard}/>
   </Route>
 );

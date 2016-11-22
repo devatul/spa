@@ -7,7 +7,7 @@ var getNinja                   = require('../actions/RequestActions').getNinja;
 
 module.exports = React.createClass({
   getInitialState: function() {
-    var ninja = NinjaStore.getninja();
+    var ninja = NinjaStore.getNinja();
     return {
       ninja: ninja,
       totalItems: ninja.totalItems,

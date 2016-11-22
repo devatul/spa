@@ -29,6 +29,9 @@ var RouteStore = assign({}, EventEmitter.prototype, {
 
 
 RouteStore.dispatchToken = Dispatcher.register(function(payload) {
+  Dispatcher.waitFor([
+    SessionStore.dispatchToken,
+  ]);
 
   var action = payload.action;
   switch (action.actionType) {
@@ -43,6 +46,10 @@ RouteStore.dispatchToken = Dispatcher.register(function(payload) {
         router.transitionTo('');
       }
       RouteStore.emitChange();
+    break;
+
+    case ActionTypes.LOGOUT:
+      router.transitionTo('login');
     break;
   }
   return true;

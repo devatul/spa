@@ -38,6 +38,10 @@ module.exports = React.createClass({
     getAlerts(page);
   },
 
+  _createTicket: function() {
+    redirect('create_ticket');
+  },
+
   render: function() {
     var alerts = this.state.alerts.member;
     var rows = [];
@@ -68,7 +72,12 @@ module.exports = React.createClass({
         navpages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
       }
 
-      var date = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
+      var from = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
+      var to = '';
+      if (null != alerts[key].resolved_on) {
+        to = moment(alerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
+      }
+      
       rows.push(
         <tr>
           <td>
@@ -81,16 +90,16 @@ module.exports = React.createClass({
             <i className={level} aria-hidden="true"></i>
           </td>
           <td>
-            <time datetime="">{date}</time>
+            <time datetime="">{from}</time>
           </td>
           <td>
-            <time datetime="">DD/MM/YYYY 00:00:00</time>
+            <time datetime="">{to}</time>
           </td>
           <td>
             <span className="label label-danger">Stop Alerting</span>
           </td>
           <td>
-            <span className="label label-success">Create Ticket</span>
+            <span className="label label-success" onClick={this._createTicket}>Create Ticket</span>
           </td>
         </tr>
       );
@@ -115,75 +124,6 @@ module.exports = React.createClass({
             </tr>
             <tbody>
               {rows}
-              <tr>
-                <td>
-                  <i className="fa fa-exclamation-circle red-icon" aria-hidden="true"></i>
-                </td>
-                <td>server - bla bla</td>
-                <td>front 1</td>
-                <td>Server down. Nubity agent is unreachable</td>
-                <td>
-                  <i className="fa fa-info-circle blue-color" aria-hidden="true"></i>
-                </td>
-                <td>
-                  <time datetime="">DD/MM/YYYY 00:00:00</time>
-                </td>
-                <td>
-                  <time datetime="">DD/MM/YYYY 00:00:00</time>
-                </td>
-                <td>
-                  <span className="label label-danger">Stop Alerting</span>
-                </td>
-                <td>
-                  <span className="label label-success">Create Ticket</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <i className="fa fa-exclamation-circle red-icon" aria-hidden="true"></i>
-                </td>
-                <td>server - bla bla</td>
-                <td>back 1</td>
-                <td>Host information was changed</td>
-                <td>
-                  <i className="fa fa-exclamation-triangle yellow-color" aria-hidden="true"></i>
-                </td>
-                <td>
-                  <time datetime="">DD/MM/YYYY 00:00:00</time>
-                </td>
-                <td>
-                  <time datetime="">DD/MM/YYYY 00:00:00</time>
-                </td>
-                <td>
-                  <span className="label label-default">Alerting Stopped</span>
-                </td>
-                <td>
-                  <span className="label label-success">Create Ticket</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-                </td>
-                <td>server - bla bla</td>
-                <td>back 2</td>
-                <td>Lack of free memory</td>
-                <td>
-                  <i className="fa fa-exclamation-triangle yellow-color" aria-hidden="true"></i>
-                </td>
-                <td>
-                  <time datetime="">DD/MM/YYYY 00:00:00</time>
-                </td>
-                <td>
-                  <time datetime="">DD/MM/YYYY 00:00:00</time>
-                </td>
-                <td>
-                  <span>Resolved</span>
-                </td>
-                <td>
-                  <span className="label label-success">Create Ticket</span>
-                </td>
-              </tr>
             </tbody>
           </table>
           <nav aria-label="Page navigation">
