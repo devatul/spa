@@ -6,8 +6,6 @@ var ChangePasswordAction       = require('../actions/RequestActions').changePass
 
 module.exports = React.createClass({
   getInitialState: function() {
-      codeClass: 'hidden',
-    };
   },
 
   componentDidMount: function() {
