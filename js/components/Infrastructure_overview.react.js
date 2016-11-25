@@ -72,7 +72,7 @@ module.exports = React.createClass({
             <i className="fa fa-stop icon-margin" aria-hidden="true"></i> 
             <i className="fa fa-retweet icon-margin" aria-hidden="true"></i>
           </td>
-          <td>{overview[key].memory} GB</td>
+          <td>{overview[key].memory/1024} GB</td>
           <td><i className="fa fa-minus-square red-color" aria-hidden="true"/></td>
           <td>
             <span className="label label-primary">Configure</span>

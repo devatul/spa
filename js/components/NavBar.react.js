@@ -137,7 +137,7 @@ var NavBar = React.createClass({
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-body">
-                  <div role="navigation">
+                  <div role="navigation" className="modal-title">
                     <ul className="nav nav-tabs section-tabs">
                       <li role="presentation" className="active" >
                         <a className="grey-color" data-toggle="tab" href="#myAccount">

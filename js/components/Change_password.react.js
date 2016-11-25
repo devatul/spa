@@ -49,8 +49,7 @@ module.exports = React.createClass({
           <div className="row left-align">
           </div>
           <div className={this.state.codeClass}>{this.state.textError}</div>
-          <p className="login-title">One account.</p>
-          <p className="login-title">All infrastructure.</p>
+          <p className="login-title">Your cloud, managed.</p>
           <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
             <div className="form-group row">
