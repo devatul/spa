@@ -28,7 +28,7 @@ var routes = (
     <Route name="ninja"                path='/ninja-support'           handler={Ninja} />
     <Route name="create_ticket"        path='/create-ticket'           handler={CreateTicket} />
     <Route name="live_chat"            path='/live-chat'               handler={LiveChat} />
-    <DefaultRoute                                                      handler={Dashboard}/>
+    <DefaultRoute                                                      handler={Login}/>
   </Route>
 );
 module.exports = routes;

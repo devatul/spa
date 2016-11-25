@@ -11,12 +11,14 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2>My Account</h2>
         </div>
-        <div className="col-xs-1">
-          <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="65" alt="..." className="img-circle"/>
-        </div>
-        <div className="col-xs-8">
-          <p className="my-account-title">Stephanie Flores </p>
-          <p>steph@nubity.com</p>
+        <div className="row">
+          <div className="col-xs-1">
+            <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="65" alt="..." className="img-circle"/>
+          </div>
+          <div className="col-xs-8">
+            <p className="my-account-title">Stephanie Flores </p>
+            <p>steph@nubity.com</p>
+          </div>
         </div>
         <hr/>
         <form >

@@ -9,6 +9,9 @@ module.exports = React.createClass({
 
   componentDidMount: function() {
     SessionStore.addChangeListener(this._onChange);
+    if (SessionStore.isLoggedIn()) {
+      redirect('dashboard');
+    }
   },
 
   componentWillUnmount: function() {

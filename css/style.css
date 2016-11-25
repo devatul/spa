@@ -38,6 +38,10 @@ a {
   height: auto;
   overflow: scroll;
 }
+.modal-title {
+  overflow: hidden;
+  height: 41px;
+}
 .modal-content {
   margin: auto;
   margin-top: 20px;

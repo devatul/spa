@@ -94,3 +94,9 @@ section {
   font-size: 15px;
   font-family: 'ProximaNovaRgRegular';
 }
+
+@media (max-width: 1200px) { 
+  .modal-content {
+    width: 100%!important;
+  }
+}
