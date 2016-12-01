@@ -51,6 +51,11 @@ var NavBar = React.createClass({
     logOutAction();
   },
 
+  _redirectOnboarding: function() {
+    console.log("click");
+    redirect('onboarding');
+  },
+
   _openBilling: function() {
     $('#myModal').modal('show');
     $('#myModal').on('shown.bs.modal', function (e) {
@@ -93,7 +98,7 @@ var NavBar = React.createClass({
             <div className="collapse navbar-collapse" >
               <ul className="nav navbar-nav navbar-right">
                 <li className="up-li">
-                  <button className="btn btn-primary notification-button" type="button">
+                  <button className="btn btn-primary notification-button" type="button" onClick={this._redirectOnboarding}>
                     <span className="notification-badge">+</span>
                   </button>
                 </li>
