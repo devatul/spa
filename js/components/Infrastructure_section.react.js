@@ -66,17 +66,17 @@ module.exports = React.createClass({
               </a>
             </li>
             <li role="presentation" className="disabled">
-              <a className="grey-color" href="#">
+              <a className="grey-color">
                 <i className="fa fa-sitemap" aria-hidden="true"></i> Network devices
               </a>
             </li>
             <li role="presentation" className="disabled">
-              <a className="grey-color" href="#">
+              <a className="grey-color">
                 <i className="fa fa-th" aria-hidden="true"></i> Business App
               </a>
             </li>
             <li role="presentation" className="disabled">
-              <a className="grey-color" href="#">
+              <a className="grey-color">
                 <i className="fa fa-cube" aria-hidden="true"></i> Containers
               </a>
             </li>
