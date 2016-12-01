@@ -34,4 +34,11 @@ module.exports = {
       res: alerts,
     });
   },
+
+  showProviders: function(providers) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_PROVIDERS,
+      res: providers,
+    });
+  },
 }

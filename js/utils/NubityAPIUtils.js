@@ -6,6 +6,7 @@ var error                          = require('../actions/ServerActions').error;
 var showInfrastructureOverview     = require('../actions/ServerActions').showInfrastructureOverview;
 var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInfrastructurePublicCloud;
 var showAlerts                     = require('../actions/ServerActions').showAlerts;
+var showProviders                  = require('../actions/ServerActions').showProviders;
 var APIEndpoints                   = Constants.APIEndpoints;
 
 module.exports = {
@@ -215,6 +216,29 @@ module.exports = {
         }
       }.bind(this));
     }
+  },
+
+  getProviders: function() {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+
+    request
+    .get(APIEndpoints.PUBLIC + '/provider.json')
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .end(function(res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.getProviders();
+      } else if (400 <= code) {
+        redirect('login');
+        console.error("Error in providers request", code);
+      } else {
+        showProviders(text);
+      }
+    }.bind(this));
   },
 
   hasToRefresh: function() {

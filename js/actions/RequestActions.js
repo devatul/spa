@@ -28,4 +28,8 @@ module.exports = {
   getNinja: function(page) {
     NubityAPIUtils.getAlerts(page);
   },
+  
+  getProviders: function() {
+    NubityAPIUtils.getProviders();
+  },
 }

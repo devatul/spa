@@ -195,8 +195,10 @@ a {
   height: calc(100% - 90px);
   width: calc(100% - 100px);
   margin-left: 100px;
-  margin-top: 70px;
-  overflow: scroll;
+  margin-top: 50px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
 }
 .section-title {
   height: 60px;
