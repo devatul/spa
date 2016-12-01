@@ -327,6 +327,9 @@ body {
 .centered {
   text-align: center;
 }
+#onBoarding1StepContent {
+  min-height: 250px!important;
+}
 .dashboard-icons {
   height: 51px;
   width: 20%!important;
