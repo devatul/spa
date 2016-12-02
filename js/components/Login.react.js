@@ -43,8 +43,8 @@ module.exports = React.createClass({
             <button className="go-to-signup">Start Now!</button>
           </div>
           <div className="login-logo"></div>
-          <p className="login-title">One account.</p>
-          <p className="login-title">All infrastructure.</p>
+          <p className="login-title">Your cloud.</p>
+          <p className="login-title">Managed.</p>
           <p className="login-subtitle">Sign in to check all your Clouds, Servers,Devices and Apps.</p>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
             <div className="form-group row">
