@@ -46,13 +46,13 @@ section {
   text-align: left;
   font-weight: bold;
   font-size: 25px;
-  font-family: 'ProximaNovaRgRegular';
+  font-family: 'neosansregular';
   margin: 0px;
 }
 .login-subtitle {
   text-align: left;
   font-size: 15px;
-  font-family: 'ProximaNovaRgRegular';
+  font-family: 'neosansregular';
   margin-top: 15px;
 }
 .link-login {
@@ -63,7 +63,7 @@ section {
   border: solid 0px transparent;
   border-radius: 5px;
   color: white;
-  font-family: 'ProximaNovaRgRegular';
+  font-family: 'neosansregular';
   padding: 6px;
 }
 .google-button {
@@ -71,7 +71,7 @@ section {
   border: solid 0px transparent;
   border-radius: 5px;
   color: white;
-  font-family: 'ProximaNovaRgRegular';
+  font-family: 'neosansregular';
   padding: 6px;
 }
 .login-p {
@@ -92,7 +92,7 @@ section {
 .signup-subtitle {
   text-align: left;
   font-size: 15px;
-  font-family: 'ProximaNovaRgRegular';
+  font-family: 'neosansregular';
 }
 
 @media (max-width: 1200px) { 

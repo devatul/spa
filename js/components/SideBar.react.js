@@ -35,42 +35,48 @@ module.exports = React.createClass({
       return (<div></div>);
     } else {
       return (
+
         <div className="side-bar-container" id="sidebar">
           <div className="menu-buttons">
-            <div className="menu-button">
+            <div className="menu-button nb-active">
               <a onClick={this._onClickDashboard}>
-                <i className="fa fa-tachometer menu-icon" aria-hidden="true"></i>
+                <div className="icon nb-dashboard medium"></div>
                 <p className="menu-text">Dashboard</p>
+                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickInfrastructure}>
-                <i className="fa fa-cloud menu-icon" aria-hidden="true"></i>
+                <div className="icon nb-infrastructure medium"></div>
                 <p className="menu-text">Infrastructure</p>
+                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickAlerts}>
-                <i className="fa fa-exclamation-circle menu-icon" aria-hidden="true"></i>
+                <div className="icon nb-alert medium"></div>
                 <p className="menu-text">Alerts</p>
+                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickPerformance}>
-                <i className="fa fa-line-chart menu-icon" aria-hidden="true"></i>
+                <div className="icon nb-performance medium"></div>
                 <p className="menu-text">Performance</p>
+                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickNinja}>
-                <i className="fa fa-user menu-icon" aria-hidden="true"></i>
+                <div className="icon nb-ninja-support medium"></div>
                 <p className="menu-text">Ninja Support</p>
+                <div className="arrow-left"></div>
               </a>
             </div>
           </div>
           <div className="social-links">
             <div className="menu-button">
-              <i className="fa fa-paper-plane-o menu-icon" aria-hidden="true"></i>
+              <div className="icon nb-feedback medium"></div>
               <p className="menu-text">FeedBack</p>
             </div>
             <div className="">
@@ -96,7 +102,7 @@ module.exports = React.createClass({
               <p>
                 <span>
                   <a href="" target="_blank">
-                    <i className="fa fa-facebook social-icon icon-margin" aria-hidden="true"></i>
+                    <i className="fa fa-facebook-square social-icon icon-margin" aria-hidden="true"></i>
                   </a>
                 </span>
                 <span>
@@ -106,7 +112,7 @@ module.exports = React.createClass({
                 </span>
                 <span>
                   <a href="" target="_blank">
-                    <i className="fa fa-youtube social-icon icon-margin" aria-hidden="true"></i>
+                    <i className="fa fa-youtube-play social-icon icon-margin" aria-hidden="true"></i>
                   </a>
                 </span>
               </p>

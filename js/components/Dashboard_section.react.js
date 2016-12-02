@@ -29,7 +29,7 @@ module.exports = React.createClass({
           </div>
         </div>
         <div className="margin-sides">
-          <table className="table table-striped table-condensed">
+          <table>
             <tr>
               <th>State</th>
               <th>Alert description</th>
@@ -41,11 +41,11 @@ module.exports = React.createClass({
               <th>Report an issue</th>
             </tr>
             <tr>
+              <td><i className="icon nb-thick-circle green-text icon-state"></i></td>
               <td>Ok</td>
               <td>Ok</td>
               <td>Ok</td>
-              <td>Ok</td>
-              <td>Ok</td>
+              <td><i className="icon nb-information blue-text small"></i></td>
               <td>Front 1</td>
               <td>
                 <time dateTime="">DD:MM:YYYY 00:00:00</time>
@@ -57,11 +57,11 @@ module.exports = React.createClass({
               </td>
             </tr>
             <tr>
+              <td><i className="icon nb-thick-circle green-text icon-state"></i></td>
               <td>Ok</td>
               <td>Ok</td>
               <td>Ok</td>
-              <td>Ok</td>
-              <td>Failed</td>
+              <td><i className="icon nb-critical red-text small"></i></td>
               <td>Front 2</td>
               <td>DD:MM:YYYY 00:00:00</td>
               <td>
@@ -71,11 +71,11 @@ module.exports = React.createClass({
               </td>
             </tr>
             <tr>
+              <td><i className="icon nb-thick-circle green-text icon-state"></i></td>
               <td>Ok</td>
               <td>Ok</td>
               <td>Ok</td>
-              <td>Ok</td>
-              <td>Disabled</td>
+              <td><i className="icon nb-information grey-text small"></i></td>
               <td>Front 1</td>
               <td>DD:MM:YYYY 00:00:00</td>
               <td>
@@ -88,9 +88,9 @@ module.exports = React.createClass({
         </div>
         <p className="margin-sides right-aligned">This are only the 5 alerts that needs your attention, se all <a onClick={this._goToAlerts}>here</a></p>
         <div className="margin-sides row">
-          <div className="col-xs-6">
+          <div className="col-xs-12 col-md-6">
           </div>
-          <div className="col-xs-6 right-div">
+          <div className="col-xs-12 col-md-6 right-div">
             <div className="title-div">
               <p className="widget-p">Widget</p>
             </div>

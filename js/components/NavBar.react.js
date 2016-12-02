@@ -110,27 +110,27 @@ var NavBar = React.createClass({
                   <ul className="dropdown-menu" aria-labelledby="dropdown-nav">
                     <li>
                       <a onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
-                        <i className="fa fa-cog"></i> My Account
+                        <i className="icon nb-config small"></i> My Account
                       </a>
                     </li>
                     <li>
                       <a onClick={this._openAccount}>
-                        <i className="fa fa-suitcase"></i> Company
+                        <i className="icon nb-company small"></i> Company
                       </a>
                     </li>
                     <li>
                       <a onClick={this._openAccount}>
-                        <i className="fa fa-group"></i> My Team
+                        <i className="icon nb-team small"></i> My Team
                       </a>
                     </li>
                     <li>
                       <a onClick={this._openBilling} >
-                        <i className="fa fa-credit-card-alt" aria-hidden="true"></i> Billing
+                        <i className="icon nb-billing small"></i> Billing
                       </a>
                     </li>
                     <li>
                       <a onClick={this._onClickLogOut}>
-                        <i className="fa fa-sign-out"></i> Log Out
+                        <i className="icon nb-logout small"></i> Log Out
                       </a>
                     </li>
                   </ul>
@@ -146,7 +146,7 @@ var NavBar = React.createClass({
                     <ul className="nav nav-tabs section-tabs">
                       <li role="presentation" className="active" >
                         <a className="grey-color" data-toggle="tab" href="#myAccount">
-                          <i className="fa fa-cog"></i> My Account
+                          <i className="icon nb-config"></i> My Account
                         </a>
                       </li>
                       <li role="presentation">
