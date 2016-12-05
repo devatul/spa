@@ -17,12 +17,12 @@ var APIEndpoints                   = Constants.APIEndpoints;
 
 module.exports = {
 
-  login: function(user) {
+  login: function (user) {
     request
       .post(APIEndpoints.PUBLIC + '/login.json')
       .send({_username: user.email, _password: user.password})
       .set('Accept', 'aplication/json')
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
@@ -39,12 +39,12 @@ module.exports = {
       }.bind(this));
   },
 
-  forgotPassword: function(email) {
+  forgotPassword: function (email) {
     request
       .post(APIEndpoints.PUBLIC + '/password/request-reset.json')
       .send({_username: email})
       .set('Accept', 'aplication/json')
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (400 <= code) {
@@ -54,12 +54,12 @@ module.exports = {
       }.bind(this));
   },
 
-  changePassword: function(token, password, confirmation_password) {
+  changePassword: function (token, password, confirmation_password) {
     request
       .post(APIEndpoints.PUBLIC + '/password/reset/' + token + '.json')
       .send({_password: password, _password_confirmation: confirmation_password})
       .set('Accept', 'aplication/json')
-      .end(function(res) {
+      .end(function (res) {
         if (400 <= code) {
           console.error('Error in request password request', code);
           redirect('login');
@@ -69,13 +69,13 @@ module.exports = {
       }.bind(this));
   },
 
-  refreshToken: function() {
+  refreshToken: function () {
     console.log('refresh');
     request
       .post(APIEndpoints.PUBLIC + '/token/refresh.json')
       .set('Accept', 'aplication/json')
       .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         console.log(res);
@@ -90,13 +90,13 @@ module.exports = {
       }.bind(this));
   },
 
-  getUser: function() {
+  getUser: function () {
     var token = this.getToken();
     request
       .get(APIEndpoints.PUBLIC + '/user.json')
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         console.log('user',res);
@@ -117,7 +117,7 @@ module.exports = {
       }.bind(this));
   },
 
-  getDashboard: function(id) {
+  getDashboard: function (id) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
@@ -126,7 +126,7 @@ module.exports = {
     .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
       console.log('one dashboard', text);
@@ -142,7 +142,7 @@ module.exports = {
     }.bind(this));
   },
 
-  getDashboards: function() {
+  getDashboards: function () {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
@@ -152,7 +152,7 @@ module.exports = {
     .query({scope: 'dashboard'})
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
       console.log('res dashboard', text);
@@ -171,16 +171,16 @@ module.exports = {
     }.bind(this));
   },
 
-  getInfrastructureOverview: function(page) {
+  getInfrastructureOverview: function (page) {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
-    if (page != 0) {
+    if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
       .query({page: page})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
@@ -199,7 +199,7 @@ module.exports = {
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
@@ -215,14 +215,14 @@ module.exports = {
     }   
   },
 
-  getInfrastructurePublicCloud: function() {
+  getInfrastructurePublicCloud: function () {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
     request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
@@ -237,16 +237,16 @@ module.exports = {
       }.bind(this));
   },
 
-  getAlerts: function(page) {
+  getAlerts: function (page) {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
-    if (page != 0) {
+    if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
       .query({page: page})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
@@ -264,7 +264,7 @@ module.exports = {
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         console.log('alerts', text);
         var code = JSON.parse(res.status);
@@ -281,7 +281,7 @@ module.exports = {
     }
   },
 
-  getDashboardAlerts: function() {
+  getDashboardAlerts: function () {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
@@ -290,7 +290,7 @@ module.exports = {
     .query({limit: 5})
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
       if (401 == code && this.hasToRefresh()) {
@@ -305,7 +305,7 @@ module.exports = {
     }.bind(this));
   },
 
-  getProviders: function() {
+  getProviders: function () {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
 
@@ -313,7 +313,7 @@ module.exports = {
     .get(APIEndpoints.PUBLIC + '/provider.json')
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
       if (401 == code && this.hasToRefresh()) {
@@ -328,7 +328,7 @@ module.exports = {
     }.bind(this));
   },
 
-  createDashboard: function(widget, server, chart) {
+  createDashboard: function (widget, server, chart) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
@@ -338,7 +338,7 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .send({user_id: user, company_id: company, scope: 'dashboard'})
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
       console.log('res dashboard', res);
@@ -354,14 +354,14 @@ module.exports = {
     }.bind(this));
   },
 
-  search: function() {
+  search: function () {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
     request
     .get(APIEndpoints.PUBLIC + '/company/' + company + '/search.json')
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
       console.log('one dashboard', text);
@@ -377,16 +377,16 @@ module.exports = {
     }.bind(this));
   },
 
-  getNinja: function(page) {
+  getNinja: function (page) {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
-    if (page != 0) {
+    if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
       .query({page: page})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
@@ -404,7 +404,7 @@ module.exports = {
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
-      .end(function(res) {
+      .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
@@ -420,11 +420,11 @@ module.exports = {
     }
   },
 
-  hasToRefresh: function() {
+  hasToRefresh: function () {
     return (null != localStorage.getItem('nubity-token') && null != localStorage.getItem('nubity-refresh-token'));
   },
 
-  getToken: function() {
+  getToken: function () {
     return ('Bearer '+ localStorage.getItem('nubity-token'));
-  }
+  },
 };

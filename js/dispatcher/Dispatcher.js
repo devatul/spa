@@ -5,7 +5,7 @@ var PayloadSources = Constants.PayloadSources;
 
 var Dispatcher     = assign(new Dispatcher(), {
 
-  handleServerAction: function(action) {
+  handleServerAction: function (action) {
     var payload = {
       source: PayloadSources.SERVER_ACTION,
       action: action,
@@ -13,13 +13,13 @@ var Dispatcher     = assign(new Dispatcher(), {
     this.dispatch(payload);
   },
 
-  handleViewAction: function(action) {
+  handleViewAction: function (action) {
     var payload = {
       source: PayloadSources.VIEW_ACTION,
       action: action,
     };
     this.dispatch(payload);
-  }
+  },
 });
 
 module.exports = Dispatcher;

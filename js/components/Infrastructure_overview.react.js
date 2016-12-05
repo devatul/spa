@@ -8,7 +8,7 @@ var getInfrastructureOverview  = require('../actions/RequestActions').getInfrast
 
 module.exports = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     var overview = InfrastructureStore.getInfrastructureOverview();
     var arrayLength = overview.length;
     var rows = [];
@@ -19,15 +19,15 @@ module.exports = React.createClass({
     };
   },
   
-  componentDidMount: function() {
+  componentDidMount: function () {
     InfrastructureStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     InfrastructureStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var overview = InfrastructureStore.getInfrastructureOverview();
       this.setState({
@@ -36,11 +36,11 @@ module.exports = React.createClass({
       });
     }
   },
-  _newPage: function(page) {
+  _newPage: function (page) {
     getInfrastructureOverview(page);
   },
 
-  render: function() {
+  render: function () {
     var overview = this.state.overview;
     var totalItems = this.state.totalItems;
     var pages = Math.ceil(parseInt(totalItems)/10);
@@ -115,5 +115,5 @@ module.exports = React.createClass({
         </nav>
       </div>
     );
-  }
+  },
 });

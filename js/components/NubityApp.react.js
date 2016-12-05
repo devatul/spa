@@ -6,13 +6,13 @@ var Footer       = require('./Footer.react');
 var Auth         = require('j-toker');
 
 var NubityApp  = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return {
-      user: Auth.user
+      user: Auth.user,
     };
   },
 
-  render: function() {
+  render: function () {
     return (
       <div className="nubity-app">
         <NavBar/>
@@ -20,8 +20,8 @@ var NubityApp  = React.createClass({
         <RouteHandler/>
         <Footer/>
       </div>
-    )
-  }
+    );
+  },
 });
 
 module.exports   = NubityApp;

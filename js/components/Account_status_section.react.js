@@ -5,7 +5,7 @@ var SessionStore               = require('../stores/SessionStore');
 
 module.exports = React.createClass({
 
-  render: function() {
+  render: function () {
     return (
       <div>
         <div className="section-title">
@@ -77,5 +77,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

@@ -11,23 +11,23 @@ var InfrastructurePrivateCloud    = require('./Infrastructure_overview.react');
 var InfrastructureOnPremise       = require('./Infrastructure_overview.react');
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       overview: '',
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     getInfrastructureOverview(0);
     getInfrastructurePublicCloud();
     InfrastructureStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     InfrastructureStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var overview = InfrastructureStore.getInfrastructureOverview();
       this.setState({
@@ -36,7 +36,7 @@ module.exports = React.createClass({
     }
   },
 
-  render: function() {
+  render: function () {
     overview = this.state.overview;
     return (
       <div className="principal-section">
@@ -98,5 +98,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

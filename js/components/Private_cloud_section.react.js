@@ -6,23 +6,23 @@ var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
 
 module.exports = React.createClass({
-  _goToAlerts: function() {
+  _goToAlerts: function () {
     redirect('alerts');
   },
 
-  revealFirstStepOfPrivateCloud: function() {
-    $("#private1StepTitle").removeClass("hidden");
-    $("#private1StepContent").removeClass("hidden");
-    $("#buttonPrivateToClick").addClass("clicked");
-    $("#privateTextToClick").addClass("clicked");
+  revealFirstStepOfPrivateCloud: function () {
+    $('#private1StepTitle').removeClass('hidden');
+    $('#private1StepContent').removeClass('hidden');
+    $('#buttonPrivateToClick').addClass('clicked');
+    $('#privateTextToClick').addClass('clicked');
   },
 
-  revealSecondStepOfPrivateCloud: function() {
-    $("#private2StepTitle").removeClass("hidden");
-    $("#private2StepContent").removeClass("hidden");
+  revealSecondStepOfPrivateCloud: function () {
+    $('#private2StepTitle').removeClass('hidden');
+    $('#private2StepContent').removeClass('hidden');
   },
 
-  render: function() {
+  render: function () {
     return (
       <div>
         <button className="transparent-button" onClick={this.revealFirstStepOfPrivateCloud}>
@@ -110,5 +110,5 @@ module.exports = React.createClass({
         <hr/>
       </div> 
     );
-  }
+  },
 });

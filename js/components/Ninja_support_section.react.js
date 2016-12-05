@@ -6,15 +6,15 @@ var NinjaDefaultContent        = require('./Ninja_default_content.react');
 
 module.exports = React.createClass({
 
-  _createTicket: function() {
+  _createTicket: function () {
     redirect('create_ticket');
   },
 
-  _liveChat: function() {
+  _liveChat: function () {
     redirect('live_chat');
   },
 
-  render: function() {
+  render: function () {
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -33,5 +33,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

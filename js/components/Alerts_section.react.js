@@ -1,13 +1,13 @@
 var React                      = require('react');
 var Router                     = require('../router');
-var moment                     = require("moment");
+var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var AlertsStore                = require('../stores/AlertsStore');
 var getAlerts                  = require('../actions/RequestActions').getAlerts;
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     var alerts = AlertsStore.getAlerts();
     return {
       alerts: alerts,
@@ -15,16 +15,16 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     getAlerts(0);
     AlertsStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     AlertsStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var alerts = AlertsStore.getAlerts();
       this.setState({
@@ -34,15 +34,15 @@ module.exports = React.createClass({
     }
   },
 
-  _newPage: function(page) {
+  _newPage: function (page) {
     getAlerts(page);
   },
 
-  _createTicket: function() {
+  _createTicket: function () {
     redirect('create_ticket');
   },
 
-  render: function() {
+  render: function () {
     var alerts = this.state.alerts.member;
 
     console.log('ALERTS!!', JSON.stringify(alerts));
@@ -148,5 +148,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

@@ -5,7 +5,7 @@ var SessionStore               = require('../stores/SessionStore');
 
 module.exports = React.createClass({
 
-  render: function() {
+  render: function () {
     return (
       <div className="">
         <ul className="nav nav-tabs section-tabs">
@@ -139,5 +139,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

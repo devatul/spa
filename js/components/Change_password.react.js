@@ -5,26 +5,26 @@ var SessionStore               = require('../stores/SessionStore');
 var ChangePasswordAction       = require('../actions/RequestActions').changePassword;
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     SessionStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     SessionStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
   },
 
-  _onSubmit: function(e) {
+  _onSubmit: function (e) {
     e.preventDefault();
     var password  = this.refs.password.getDOMNode().value;
     var password2 = this.refs.password2.getDOMNode().value;
     var url       = window.location.href;
-    var start     = parseInt(url.indexOf("change_password/")) + parseInt(16);
+    var start     = parseInt(url.indexOf('change_password/')) + parseInt(16);
     var token     = url.slice(parseInt(start));
 
     if (password != password2) {
@@ -37,7 +37,7 @@ module.exports = React.createClass({
     }   
   },
 
-  render: function() {
+  render: function () {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
@@ -73,5 +73,5 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  }
+  },
 });

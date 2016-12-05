@@ -13,24 +13,24 @@ var _errorCode = '';
 
 var OnBoardingStore = assign({}, EventEmitter.prototype, {
 
-  emitChange: function() {
+  emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getProviders: function() {
+  getProviders: function () {
     return _providers;
   },
 });
 
-OnBoardingStore.dispatchToken = Dispatcher.register(function(payload) {
+OnBoardingStore.dispatchToken = Dispatcher.register(function (payload) {
   var action = payload.action;
 
   switch (action.actionType) {
@@ -40,18 +40,18 @@ OnBoardingStore.dispatchToken = Dispatcher.register(function(payload) {
       _textError = '';
       _errorCode = '';
       OnBoardingStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
-          router.transitionTo('login');
+        router.transitionTo('login');
       }
       if (SessionStore.isLoggedIn()) {
         _textError = action.res.message;
         _errorCode = action.code;
         OnBoardingStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;

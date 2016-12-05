@@ -1,59 +1,59 @@
 var NubityAPIUtils = require ('../utils/NubityAPIUtils');
 
 module.exports = {
-  login: function(user) {
+  login: function (user) {
     NubityAPIUtils.login(user);
   },
 
-  forgotPassword: function(email) {
+  forgotPassword: function (email) {
     NubityAPIUtils.forgotPassword(email);
   },
 
-  changePassword: function(token, password, confirmation_password) {
+  changePassword: function (token, password, confirmation_password) {
     NubityAPIUtils.changePassword(token, password, confirmation_password);
   },
 
-  getInfrastructureOverview: function(page) {
+  getInfrastructureOverview: function (page) {
     NubityAPIUtils.getInfrastructureOverview(page);
   },
 
-  getInfrastructurePublicCloud: function() {
+  getInfrastructurePublicCloud: function () {
     NubityAPIUtils.getInfrastructurePublicCloud();
   },
 
-  getAlerts: function(page) {
+  getAlerts: function (page) {
     NubityAPIUtils.getAlerts(page);
   },
 
-  getDashboardAlerts: function() {
+  getDashboardAlerts: function () {
     NubityAPIUtils.getDashboardAlerts();
   },
   
-  getNinja: function(page) {
+  getNinja: function (page) {
     NubityAPIUtils.getNinja(page);
   },
   
-  getProviders: function() {
+  getProviders: function () {
     NubityAPIUtils.getProviders();
   },
 
-  getDashboards: function() {
+  getDashboards: function () {
     NubityAPIUtils.getDashboards();
   },
 
-  getDashboard: function(id) {
+  getDashboard: function (id) {
     NubityAPIUtils.getDashboard(id);
   },
 
-  createDashboard: function(widget, server, chart) {
+  createDashboard: function (widget, server, chart) {
     NubityAPIUtils.createGraph(widget, server, chart);
   },
 
-  search: function() {
+  search: function () {
     NubityAPIUtils.search();
   },
 
-  getAvailableGraphTypes: function(id) {
+  getAvailableGraphTypes: function (id) {
     NubityAPIUtils.getAvailableGraphTypes(id);
   },
-}
+};

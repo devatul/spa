@@ -5,9 +5,9 @@ var SessionStore               = require('../stores/SessionStore');
 
 module.exports = React.createClass({
 
-  render: function() {
+  render: function () {
     return (
       <div>Payment Method section</div>
     );
-  }
+  },
 });

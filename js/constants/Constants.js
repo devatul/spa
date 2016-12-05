@@ -1,5 +1,5 @@
 var keyMirror = require('keymirror');
-var Root      = "http://api.pricing.nubity.com";
+var Root      = 'http://api.pricing.nubity.com';
 var APIRoot   = Root;
 
 module.exports = {
@@ -26,5 +26,5 @@ module.exports = {
 
   APIEndpoints: {
     PUBLIC: Root,
-  }
+  },
 };

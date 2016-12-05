@@ -13,24 +13,24 @@ var _errorCode = '';
 
 var NinjaStore = assign({}, EventEmitter.prototype, {
 
-  emitChange: function() {
+  emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getNinja: function() {
+  getNinja: function () {
     return _ninja;
   },
 });
 
-NinjaStore.dispatchToken = Dispatcher.register(function(payload) {
+NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
   var action = payload.action;
 
   switch (action.actionType) {
@@ -40,18 +40,18 @@ NinjaStore.dispatchToken = Dispatcher.register(function(payload) {
       _textError = '';
       _errorCode = '';
       NinjaStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
-          router.transitionTo('login');
+        router.transitionTo('login');
       }
       if (SessionStore.isLoggedIn()) {
         _textError = action.res.message;
         _errorCode = action.code;
         NinjaStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;

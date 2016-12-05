@@ -1,0 +1,10 @@
+dependencies:
+  override:
+    - npm install
+    - npm run build
+    - node_modules/eslint/bin/eslint.js --fix .
+  cache_directories:
+    - node_modules
+test:
+  post:
+    - if [[ -n $(git diff) ]]; then git diff > $CIRCLE_ARTIFACTS/cs-issues.patch && exit 1; fi;

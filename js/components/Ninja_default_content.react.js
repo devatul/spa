@@ -1,13 +1,13 @@
 var React                      = require('react');
 var Router                     = require('../router');
-var moment                     = require("moment");
+var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaStore                 = require('../stores/NinjaStore');
 var getNinja                   = require('../actions/RequestActions').getNinja;
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     var ninja = NinjaStore.getNinja();
     return {
       ninja: ninja.member,
@@ -15,16 +15,16 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     getNinja(0);
     NinjaStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     NinjaStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var ninja = NinjaStore.getNinja();
       this.setState({
@@ -34,11 +34,11 @@ module.exports = React.createClass({
     }
   },
 
-  _newPage: function(page) {
+  _newPage: function (page) {
     getNinja(page);
   },
 
-  render: function() {
+  render: function () {
     var ticket = this.state.ninja;
     var totalItems = this.state.totalItems;
     var pages = Math.ceil(parseInt(totalItems)/10);
@@ -139,5 +139,5 @@ module.exports = React.createClass({
         </nav>
       </div>
     );
-  }
+  },
 });

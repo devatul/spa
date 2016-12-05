@@ -2,85 +2,85 @@ var Dispatcher    = require ('../dispatcher/Dispatcher');
 var ActionTypes   = require ('../constants/Constants').ActionTypes;
 
 module.exports = {
-  isLogin: function() {
+  isLogin: function () {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.LOGIN_RESPONSE,
     });
   },
 
-  logOut: function() {
+  logOut: function () {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.LOGOUT,
     });
   },
 
-  showInfrastructureOverview: function(overview) {
+  showInfrastructureOverview: function (overview) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_OVERVIEW,
       res: overview,
     });
   },
 
-  showInfrastructurePublicCloud: function(publicCloud) {
+  showInfrastructurePublicCloud: function (publicCloud) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_PUBLIC_CLOUD,
       res: publicCloud,
     });
   },
   
-  showAlerts: function(alerts) {
+  showAlerts: function (alerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_ALERTS,
       res: alerts,
     });
   },
 
-  showDashboardAlerts: function(dashboardAlerts) {
+  showDashboardAlerts: function (dashboardAlerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_DASHBOARD_ALERTS,
       res: dashboardAlerts,
     });
   },
 
-  showProviders: function(providers) {
+  showProviders: function (providers) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_PROVIDERS,
       res: providers,
     });
   },
 
-  showDashboards: function(dashboards) {
+  showDashboards: function (dashboards) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_DASHBOARDS,
       res: dashboards,
     });
   },
 
-  showNinja: function(ninja) {
+  showNinja: function (ninja) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_NINJA,
       res: ninja,
     });
   },
 
-  showDashboard: function(dashboard) {
+  showDashboard: function (dashboard) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_DASHBOARD,
       res: dashboard,
     });
   },
 
-  search: function(search) {
+  search: function (search) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SEARCH,
       res: search,
     });
   },
 
-  showAvailableGraphTypes: function(graphTypes) {
+  showAvailableGraphTypes: function (graphTypes) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES,
       res: graphTypes,
     });
-  }
-}
+  },
+};

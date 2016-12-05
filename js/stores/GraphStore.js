@@ -14,28 +14,28 @@ var _errorCode   = '';
 
 var GraphStore = assign({}, EventEmitter.prototype, {
 
-  emitChange: function() {
+  emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getDashboards: function() {
+  getDashboards: function () {
     return _dashboards.member;
   },
 
-  getDashboard: function() {
+  getDashboard: function () {
     return _dashboard.member;
   },
 });
 
-GraphStore.dispatchToken = Dispatcher.register(function(payload) {
+GraphStore.dispatchToken = Dispatcher.register(function (payload) {
   var action = payload.action;
 
   switch (action.actionType) {
@@ -45,25 +45,25 @@ GraphStore.dispatchToken = Dispatcher.register(function(payload) {
       _textError  = '';
       _errorCode  = '';
       GraphStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_DASHBOARD:
       _dashboard = action.res;
       _textError  = '';
       _errorCode  = '';
       GraphStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
-          router.transitionTo('login');
+        router.transitionTo('login');
       }
       if (SessionStore.isLoggedIn()) {
         _textError = action.res.message;
         _errorCode = action.code;
         GraphStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;

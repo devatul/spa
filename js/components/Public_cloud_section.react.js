@@ -6,32 +6,32 @@ var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
 
 module.exports = React.createClass({
-  _goToAlerts: function() {
+  _goToAlerts: function () {
     redirect('alerts');
   },
 
-  revealFirstStep: function() {
-    $("#onBoarding1StepTitle").removeClass("hidden");
-    $("#onBoarding1StepContent").removeClass("hidden");
-    $("#cancelButton").removeClass("hidden");
-    $("#addButton").addClass("hidden");
+  revealFirstStep: function () {
+    $('#onBoarding1StepTitle').removeClass('hidden');
+    $('#onBoarding1StepContent').removeClass('hidden');
+    $('#cancelButton').removeClass('hidden');
+    $('#addButton').addClass('hidden');
   },
 
-  revealSecondStep: function() {
-    $("#onBoarding2StepTitle").removeClass("hidden");
-    $("#onBoarding2StepContent").removeClass("hidden");
+  revealSecondStep: function () {
+    $('#onBoarding2StepTitle').removeClass('hidden');
+    $('#onBoarding2StepContent').removeClass('hidden');
   },
 
-  revertPublicSteps: function() {
-    $("#onBoarding1StepTitle").addClass("hidden");
-    $("#onBoarding1StepContent").addClass("hidden");
-    $("#onBoarding2StepTitle").addClass("hidden");
-    $("#onBoarding2StepContent").addClass("hidden");
-    $("#cancelButton").addClass("hidden");
-    $("#addButton").removeClass("hidden");
+  revertPublicSteps: function () {
+    $('#onBoarding1StepTitle').addClass('hidden');
+    $('#onBoarding1StepContent').addClass('hidden');
+    $('#onBoarding2StepTitle').addClass('hidden');
+    $('#onBoarding2StepContent').addClass('hidden');
+    $('#cancelButton').addClass('hidden');
+    $('#addButton').removeClass('hidden');
   },
 
-  render: function() {
+  render: function () {
     var providers = this.props.providers;
     console.log(providers);
     var rows = [];
@@ -44,7 +44,7 @@ module.exports = React.createClass({
             <p className="aws-text">{providers[key].name}</p>
           </div>
         );
-      }else {
+      } else {
         rows.push(
           <div className="col-md-2 clouds-icons-button">
             <div className="clouds-icons aws"></div>
@@ -52,7 +52,7 @@ module.exports = React.createClass({
           </div>
         );
       }
-    };
+    }
 
     return (
       <div>
@@ -95,5 +95,5 @@ module.exports = React.createClass({
         </div>
       </div>  
     );
-  }
+  },
 });

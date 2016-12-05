@@ -7,7 +7,7 @@ var search                     = require('../actions/RequestActions').search;
 
 module.exports = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     var search = SessionStore.search();
     return {
       search: search,
@@ -16,16 +16,16 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     search();
     SessionStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     SessionStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var search = SessionStore.search();
       this.setState({
@@ -36,15 +36,15 @@ module.exports = React.createClass({
     }
   },
 
-  _createTicket: function() {
+  _createTicket: function () {
     redirect('create_ticket');
   },
 
-  _liveChat: function() {
+  _liveChat: function () {
     redirect('live_chat');
   },
 
-  render: function() {
+  render: function () {
     var search = this.state.search;
     var instances = this.state.instances;
 
@@ -59,7 +59,7 @@ module.exports = React.createClass({
         <option value="billing">Billing</option>
         <option value="sales">Sales</option>
         <option value="support">Ninja Support</option>
-      </select>
+      </select>,
     ];
 
     var priority = [
@@ -68,7 +68,7 @@ module.exports = React.createClass({
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
-      </select>
+      </select>,
     ];
 
     var status = [
@@ -76,7 +76,7 @@ module.exports = React.createClass({
         <option value="" disabled selected>Select Status</option>
         <option value="open">Open</option>
         <option value="close">Close</option>
-      </select>
+      </select>,
     ];
 
     return (
@@ -116,5 +116,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

@@ -5,31 +5,31 @@ var SessionStore          = require('../stores/SessionStore');
 
 module.exports = React.createClass({
 
-  _onClickInfrastructure: function() {
+  _onClickInfrastructure: function () {
     redirect('infrastructure');
   },
 
-  _onClickDashboard: function() {
+  _onClickDashboard: function () {
     redirect('dashboard');
   },
 
-  _onClickAlerts: function() {
+  _onClickAlerts: function () {
     redirect('alerts');
   },
 
-  _onClickPerformance: function() {
+  _onClickPerformance: function () {
     redirect('performance');
   },
 
-  _onClickNinja: function() {
+  _onClickNinja: function () {
     redirect('ninja');
   },
 
-  render: function() {
+  render: function () {
     var url    = window.location.href;
-    var login  = url.search("login");
-    var signup = url.search("signup");
-    var forgot = url.search("forgot");
+    var login  = url.search('login');
+    var signup = url.search('signup');
+    var forgot = url.search('forgot');
 
     if (0 < login || 0 < signup || 0 < forgot) {
       return (<div></div>);
@@ -116,5 +116,5 @@ module.exports = React.createClass({
         </div>
       );
     }   
-  }
+  },
 });
