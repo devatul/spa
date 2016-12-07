@@ -42,35 +42,30 @@ module.exports = React.createClass({
               <a onClick={this._onClickDashboard}>
                 <div className="icon nb-dashboard medium"></div>
                 <p className="menu-text">Dashboard</p>
-                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickInfrastructure}>
                 <div className="icon nb-infrastructure medium"></div>
                 <p className="menu-text">Infrastructure</p>
-                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickAlerts}>
                 <div className="icon nb-alert medium"></div>
                 <p className="menu-text">Alerts</p>
-                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickPerformance}>
                 <div className="icon nb-performance medium"></div>
                 <p className="menu-text">Performance</p>
-                <div className="arrow-left"></div>
               </a>
             </div>
             <div className="menu-button">
               <a onClick={this._onClickNinja}>
                 <div className="icon nb-ninja-support medium"></div>
                 <p className="menu-text">Ninja Support</p>
-                <div className="arrow-left"></div>
               </a>
             </div>
           </div>
