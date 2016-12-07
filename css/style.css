@@ -28,7 +28,6 @@ a:hover, a:active {
   margin-top: 20px;
   width: 80%!important;
   height: auto;
-  overflow: scroll;
 }
 .modal-title {
   overflow: hidden;
@@ -39,17 +38,16 @@ a:hover, a:active {
   margin-top: 20px;
   width: 80%!important;
   height: auto;
-  overflow: scroll;
 }
 .modal-body {
   margin: auto;
   width: 100%!important;
   height: 100%!important;
-  overflow: scroll;
+  overflow: auto;
 }
 .menu-tab-content {
   height: calc(100% - 50px);
-  overflow: scroll;
+  overflow: auto;
 }
 .footer {
   width: 100%;
@@ -742,6 +740,38 @@ body {
 .icon-margin {
   margin: 3px;
 }
+/*Element helpers*/
+.hide {
+  display: none;
+  visibility: hidden;
+}
+.min {
+  width: 100%;
+  height: 20px;
+  content: "";
+  display: block;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
+.med {
+  width: 100%;
+  height: 50px;
+  content: "";
+  display: block;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
+.gra {
+  width: 100%;
+  height: 100px;
+  content: "";
+  display: block;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
 /*Icon helpers*/
 .tiny {
   font-size: 1rem !important;
@@ -838,4 +868,90 @@ th {
 }
 tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+/*Media Queries*/
+@media screen and (max-width: 768px) {
+  .principal-section {
+    width: 100%;
+    margin-left: 0;
+  }
+  #sidebar {
+    width: 100% !important;
+    height: 80px !important;
+    padding-top: 10px;
+    position: fixed;
+    top: initial;
+    bottom: 0;
+    z-index: 3;
+  }
+  .menu-buttons {
+    width: 100%;
+    position: relative;
+    left: 25%;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .menu-button {
+    width: 75px;
+    display: inline-block;
+  }
+  .menu-button.last {
+    right: 0;
+  }
+  .menu-button.nb-active::before {
+  content: "";
+  width:0;
+  height:0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #fff;
+  position: absolute;
+  right: 40%;
+  top:-20px;
+}
+  .menu-text {
+    line-height: 1;
+    font-size: 8pt;
+  }
+  .social-links {
+    display: none;
+  }
+}
+@media screen and (max-width: 425px) {
+  .principal-section {
+    height: calc(100% - 130px);
+  }
+  .menu-buttons {
+    left: 5%;
+    /*margin-top: 0;*/
+  }
+  .menu-button {
+    width: 75px;
+  }
+}
+@media screen and (max-width: 375px){
+  .menu-buttons {
+    left: 0;
+  }
+  .menu-button {
+    width: 70px;
+  }
+}
+@media screen and (max-width: 320px){
+  .principal-section {
+    height: calc(100% - 118px);
+  }
+  #sidebar {
+    height: 68px !important;
+  }
+  .menu-buttons {
+    margin-top: 10px;
+  }
+  .menu-button {
+    width: 64px;
+  }
+  .menu-text {
+    display: none;
+  }
 }
