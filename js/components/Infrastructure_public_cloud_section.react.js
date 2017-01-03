@@ -38,7 +38,7 @@ module.exports = React.createClass({
     publicCloud = this.state.publicCloud;
     var rows = [];
     for (var key in publicCloud) {
-      rows.push(
+      rows[rows.length] =
         <tr>
           <td>
             <div className="status-container">
@@ -63,8 +63,7 @@ module.exports = React.createClass({
           <td>
             <span className="label label-danger">Stop</span>
           </td>
-        </tr>
-      );
+        </tr>;
     }
     return (
       <div id="infrastructureTable">

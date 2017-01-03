@@ -1,5 +1,6 @@
 var React                      = require('react');
 var Router                     = require('../router');
+var moment                     = require("moment");
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaStore                 = require('../stores/NinjaStore');
@@ -9,7 +10,7 @@ module.exports = React.createClass({
   getInitialState: function() {
     var ninja = NinjaStore.getNinja();
     return {
-      ninja: ninja,
+      ninja: ninja.member,
       totalItems: ninja.totalItems,
     };
   },
@@ -27,7 +28,7 @@ module.exports = React.createClass({
     if (this.isMounted()) {
       var ninja = NinjaStore.getNinja();
       this.setState({
-        ninja: ninja,
+        ninja: ninja.member,
         totalItems: ninja.totalItems,
       });
     }
@@ -38,6 +39,73 @@ module.exports = React.createClass({
   },
 
   render: function() {
+    var ticket = this.state.ninja;
+    var totalItems = this.state.totalItems;
+    var pages = Math.ceil(parseInt(totalItems)/10);
+
+    if (ticket !== undefined) {
+      var navpages = [];
+      for (var key = 0 ; key < pages ; key++) {
+        var page = key + 1;
+        var send = page.toString();
+        navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
+      }
+
+      var from = moment(ticket[key].created_at).format('DD/MM/YYYY hh:mm:ss');
+
+      var rows = [];
+      for (var key in ticket) {
+        var status = '';
+        var department_icon = '';
+        var department_name = '';
+        var priority = '';
+        
+        if ('open' == ticket[key].status) {
+          status = 'sprites ticket-min-blue';
+        } else {
+          status = 'sprites ticket-min-green';
+        }
+
+        if ('billing' == ticket[key].department) {
+          department_icon = 'fa fa-credit-card-alt billing';
+          department_name = 'Billing';
+        } else if ('sales' == ticket[key].department) {
+          department_icon = 'sprites sales';
+          department_name = 'Sales';
+        } else {
+          department_icon = 'sprites ninja-icon';
+          department_name = 'Ninja Support';
+        }
+
+        if ('low' == ticket[key].priority) {
+          priority = 'sprites priority-1';
+        } else if ('medium' == ticket[key].priority) {
+          priority = 'sprites priority-2';
+        } else {
+          priority = 'sprites priority-3';
+        }
+
+        rows[rows.length] =
+          <tr>
+            <td><span className={status}></span></td>
+              <td>
+                <i className={department_icon} aria-hidden="true"></i>  {department_name}
+              </td>
+              <td>
+                <span className={priority}></span>
+              </td>
+              <td>{ticket[key].hostname}</td>
+              <td>
+                <time datetime="">{from}</time>
+              </td>
+              <td>{ticket[key].ticket}</td>
+              <td>
+                <span className="label label-primary">View Ticket</span>
+              </td>
+          </tr>;
+      }
+    }
+
     return (
       <div>
         <table className="table table-striped table-condensed">
@@ -50,160 +118,25 @@ module.exports = React.createClass({
             <th>Ticket Id</th>
             <th>View Ticket</th>
           </tr>
-          <tr>
-            <td><span className="sprites ticket-min-blue"></span></td>
-            <td>
-              <i className="fa fa-credit-card-alt billing" aria-hidden="true"></i>  Billing
-            </td>
-            <td>
-              <span className="sprites priority-1"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-grey"></span></td>
-            <td>
-              <span className="sprites ninja-icon"></span>  Ninja Support
-            </td>
-            <td>
-              <span className="sprites priority-2"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-red"></span></td>
-            <td>
-              <span className="sprites sales"></span>  Sales
-            </td>
-            <td>
-              <span className="sprites priority-3"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-black"></span></td>
-            <td>
-              <i className="fa fa-credit-card-alt billing" aria-hidden="true"></i>  Billing
-            </td>
-            <td>
-              <span className="sprites priority-1"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-green"></span></td>
-            <td>
-              <span className="sprites ninja-icon"></span>  Ninja Support
-            </td>
-            <td>
-              <span className="sprites priority-2"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-red"></span></td>
-            <td>
-              <span className="sprites sales"></span>  Sales
-            </td>
-            <td>
-              <span className="sprites priority-3"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-red"></span></td>
-            <td>
-              <i className="fa fa-credit-card-alt billing" aria-hidden="true"></i>  Billing
-            </td>
-            <td>
-              <span className="sprites priority-2"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-red"></span></td>
-            <td>
-              <span className="sprites ninja-icon"></span>  Ninja Support
-            </td>
-            <td>
-              <span className="sprites priority-2"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
-          <tr>
-            <td><span className="sprites ticket-min-red"></span></td>
-            <td>
-              <span className="sprites sales"></span>  Sales
-            </td>
-            <td>
-              <span className="sprites priority-2"></span>
-            </td>
-            <td>Servername - front 123</td>
-            <td>
-              <time datetime="">YYYY/MM/DD 00:00:00 am</time>
-            </td>
-            <td>LFS-753-67510</td>
-            <td>
-              <span className="label label-primary">View Ticket</span>
-            </td>
-          </tr>
+          <tbody>
+            {rows}
+          </tbody>
         </table>
+        <nav aria-label="Page navigation">
+          <ul className="pagination">
+            <li>
+              <a aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {navpages}
+            <li>
+              <a aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     );
   }

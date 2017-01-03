@@ -42,20 +42,19 @@ module.exports = React.createClass({
 
   render: function() {
     var overview = this.state.overview;
-    
     var totalItems = this.state.totalItems;
-    var pages = Math.trunc(parseInt(totalItems)/10);
+    var pages = Math.ceil(parseInt(totalItems)/10);
 
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
       var send = page.toString();
-      navpages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
+      navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
     }
 
     var rows = [];
     for (var key in overview) {
-      rows.push(
+      rows[rows.length] =
         <tr>
           <td>
             <div className="status-container">
@@ -80,8 +79,7 @@ module.exports = React.createClass({
           <td>
             <span className="label label-danger">Stop</span>
           </td>
-        </tr>
-      );
+        </tr>;
     }
     return (
       <div id="infrastructureTable">
