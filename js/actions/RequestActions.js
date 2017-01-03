@@ -24,12 +24,36 @@ module.exports = {
   getAlerts: function(page) {
     NubityAPIUtils.getAlerts(page);
   },
+
+  getDashboardAlerts: function() {
+    NubityAPIUtils.getDashboardAlerts();
+  },
   
   getNinja: function(page) {
-    NubityAPIUtils.getAlerts(page);
+    NubityAPIUtils.getNinja(page);
   },
   
   getProviders: function() {
     NubityAPIUtils.getProviders();
+  },
+
+  getDashboards: function() {
+    NubityAPIUtils.getDashboards();
+  },
+
+  getDashboard: function(id) {
+    NubityAPIUtils.getDashboard(id);
+  },
+
+  createDashboard: function(widget, server, chart) {
+    NubityAPIUtils.createGraph(widget, server, chart);
+  },
+
+  search: function() {
+    NubityAPIUtils.search();
+  },
+
+  getAvailableGraphTypes: function(id) {
+    NubityAPIUtils.getAvailableGraphTypes(id);
   },
 }

@@ -62,14 +62,14 @@ module.exports = React.createClass({
         state = 'fa fa-exclamation-circle red-icon';
       }
 
-      var totalItems = this.state.totalItems;
-      var pages = Math.trunc(parseInt(totalItems)/10);
+      var totalItems = this.state.alerts.totalItems;
+      var pages = Math.ceil(parseInt(totalItems)/10);
 
       var navpages = [];
       for (var key = 0 ; key < pages ; key++) {
         var page = key + 1;
         var send = page.toString();
-        navpages.push(<li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>);
+        navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
       }
 
       var from = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -78,7 +78,7 @@ module.exports = React.createClass({
         to = moment(alerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
       }
       
-      rows.push(
+      rows[rows.length] =
         <tr>
           <td>
             <i className={state} aria-hidden="true"></i>
@@ -101,8 +101,7 @@ module.exports = React.createClass({
           <td>
             <span className="label label-success" onClick={this._createTicket}>Create Ticket</span>
           </td>
-        </tr>
-      );
+        </tr>;
     }
     return (
       <div className="principal-section">

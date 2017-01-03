@@ -13,6 +13,8 @@ var _threads      = {};
 var _errorMessage = '';
 var _errorCode    = '';
 var _textError    = '';
+var _search       = '';
+var _graphTypes   = '';
 
 var SessionStore  = assign({}, EventEmitter.prototype, {
   
@@ -53,7 +55,14 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
   },
 
   logOut: function (argument) {
-  }
+  },
+
+  search: function() {
+    return _search;
+  },
+  getAvailableGraphTypes: function() {
+    return _graphTypes;
+  },
 
 });
 
@@ -79,6 +88,20 @@ SessionStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionTypes.LOGOUT:
       localStorage.removeItem('nubity-token');
       localStorage.removeItem('nubity-refresh-token');
+      SessionStore.emitChange();
+    break;
+
+    case ActionTypes.SEARCH:
+      _search = action.res;
+      _textError = '';
+      _errorCode = '';
+      SessionStore.emitChange();
+    break;
+
+    case ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES:
+      _graphTypes = action.res;
+      _textError = '';
+      _errorCode = '';
       SessionStore.emitChange();
     break;
     

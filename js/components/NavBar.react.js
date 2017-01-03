@@ -52,13 +52,12 @@ var NavBar = React.createClass({
   },
 
   _redirectOnboarding: function() {
-    console.log("click");
     redirect('onboarding');
   },
 
   _openBilling: function() {
     $('#myModal').modal('show');
-    $('#myModal').on('shown.bs.modal', function (e) {
+    $('#myModal').on('shown.bs.modal', function(e) {
     });
   },
 

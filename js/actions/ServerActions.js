@@ -35,10 +35,52 @@ module.exports = {
     });
   },
 
+  showDashboardAlerts: function(dashboardAlerts) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_DASHBOARD_ALERTS,
+      res: dashboardAlerts,
+    });
+  },
+
   showProviders: function(providers) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_PROVIDERS,
       res: providers,
     });
   },
+
+  showDashboards: function(dashboards) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_DASHBOARDS,
+      res: dashboards,
+    });
+  },
+
+  showNinja: function(ninja) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_NINJA,
+      res: ninja,
+    });
+  },
+
+  showDashboard: function(dashboard) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_DASHBOARD,
+      res: dashboard,
+    });
+  },
+
+  search: function(search) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SEARCH,
+      res: search,
+    });
+  },
+
+  showAvailableGraphTypes: function(graphTypes) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES,
+      res: graphTypes,
+    });
+  }
 }

@@ -7,12 +7,12 @@ var assign       = require('object-assign');
 var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _alerts = '';
-var _dashboardAlerts = '';
-var _textError = '';
-var _errorCode = '';
+var _dashboards  = '';
+var _dashboard   = '';
+var _textError   = '';
+var _errorCode   = '';
 
-var AlertsStore = assign({}, EventEmitter.prototype, {
+var GraphStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -26,32 +26,33 @@ var AlertsStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getAlerts: function() {
-    return _alerts;
+  getDashboards: function() {
+    return _dashboards.member;
   },
 
-  getDashboardAlerts: function() {
-    return _dashboardAlerts;
-  }
+  getDashboard: function() {
+    return _dashboard.member;
+  },
 });
 
-AlertsStore.dispatchToken = Dispatcher.register(function(payload) {
+GraphStore.dispatchToken = Dispatcher.register(function(payload) {
   var action = payload.action;
 
   switch (action.actionType) {
 
-    case ActionTypes.SHOW_ALERTS:
-      _alerts = action.res;
-      _textError = '';
-      _errorCode = '';
-      AlertsStore.emitChange();
+    case ActionTypes.SHOW_DASHBOARDS:
+      _dashboards = action.res;
+      _textError  = '';
+      _errorCode  = '';
+      GraphStore.emitChange();
     break;
 
-    case ActionTypes.SHOW_DASHBOARD_ALERTS:
-      _dashboardAlerts = action.res;
-      _textError = '';
-      _errorCode = '';
-      AlertsStore.emitChange();
+    case ActionTypes.SHOW_DASHBOARD:
+      _dashboard = action.res;
+      _textError  = '';
+      _errorCode  = '';
+      GraphStore.emitChange();
+    break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
@@ -60,7 +61,7 @@ AlertsStore.dispatchToken = Dispatcher.register(function(payload) {
       if (SessionStore.isLoggedIn()) {
         _textError = action.res.message;
         _errorCode = action.code;
-        AlertsStore.emitChange();
+        GraphStore.emitChange();
       }
     break;
   }
@@ -68,4 +69,4 @@ AlertsStore.dispatchToken = Dispatcher.register(function(payload) {
   return true;
 });
 
-module.exports = AlertsStore;
+module.exports = GraphStore;
