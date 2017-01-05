@@ -799,8 +799,9 @@ body {
 }
 .icon-state {
   font-size: 2.5rem !important;
-  line-height: 1;
   vertical-align: middle;
+  position: relative;
+  bottom: -6px;
 }
 .medium {
   font-size: 4rem !important;

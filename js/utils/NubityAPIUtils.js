@@ -111,6 +111,7 @@ module.exports = {
           localStorage.setItem('nubity-firstname', text.firstname);
           localStorage.setItem('nubity-lastname', text.lastname);
           localStorage.setItem('nubity-user-id', text.user);
+          localStorage.setItem('nubity-user-email', text.username);
           redirect('infrastructure');
         }
       }.bind(this));

@@ -44,6 +44,9 @@ module.exports = React.createClass({
 
   render: function() {
     var alerts = this.state.alerts.member;
+
+    console.log('ALERTS!!', JSON.stringify(alerts));
+
     var rows = [];
     for (var key in alerts) {
       var level = '';
@@ -76,6 +79,8 @@ module.exports = React.createClass({
       var to = '';
       if (null != alerts[key].resolved_on) {
         to = moment(alerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
+      } else {
+        to = '-';
       }
       
       rows[rows.length] =
