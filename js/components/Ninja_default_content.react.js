@@ -61,19 +61,19 @@ module.exports = React.createClass({
         var priority = '';
         
         if ('open' == ticket[key].status) {
-          status = 'sprites ticket-min-blue';
+          status = 'icon nb-ticket icon-state blue-text';
         } else {
-          status = 'sprites ticket-min-green';
+          status = 'icon nb-ticket icon-state green-text';
         }
 
         if ('billing' == ticket[key].department) {
-          department_icon = 'fa fa-credit-card-alt billing';
+          department_icon = 'icon nb-billing icon-state';
           department_name = 'Billing';
         } else if ('sales' == ticket[key].department) {
-          department_icon = 'sprites sales';
+          department_icon = 'icon nb-sales icon-state';
           department_name = 'Sales';
         } else {
-          department_icon = 'sprites ninja-icon';
+          department_icon = 'icon nb-ninja-support icon-state';
           department_name = 'Ninja Support';
         }
 

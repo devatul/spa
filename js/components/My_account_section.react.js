@@ -6,6 +6,9 @@ var SessionStore               = require('../stores/SessionStore');
 module.exports = React.createClass({
 
   render: function() {
+    var firstname = localStorage.getItem('nubity-firstname');
+    var lastname  = localStorage.getItem('nubity-lastname');
+    var email     = localStorage.getItem('nubity-user-email');
     return (
       <div>
         <div className="section-title">
@@ -16,8 +19,8 @@ module.exports = React.createClass({
             <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="65" alt="..." className="img-circle"/>
           </div>
           <div className="col-xs-8">
-            <p className="my-account-title">Stephanie Flores </p>
-            <p>steph@nubity.com</p>
+            <p className="my-account-title">{firstname} {lastname} </p>
+            <p>{email}</p>
           </div>
         </div>
         <hr/>

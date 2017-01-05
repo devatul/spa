@@ -14,6 +14,8 @@ section {
   background-image: url('../images/background-login.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
+  z-index: 10006;
 }
 .login-form {
   margin-top: 20px;
