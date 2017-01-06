@@ -6,15 +6,15 @@ var NinjaDefaultContent        = require('./Ninja_default_content.react');
 
 module.exports = React.createClass({
 
-  _createTicket: function() {
+  _createTicket: function () {
     redirect('create_ticket');
   },
 
-  _liveChat: function() {
+  _liveChat: function () {
     redirect('live_chat');
   },
 
-  render: function() {
+  render: function () {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 signup-box">
@@ -73,5 +73,5 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  }
+  },
 });

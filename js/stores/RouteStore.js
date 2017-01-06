@@ -10,25 +10,25 @@ var router = require('../router');
 
 var RouteStore = assign({}, EventEmitter.prototype, {
 
-  emitChange: function() {
+  emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getRouter: function() {
+  getRouter: function () {
     return router;
-  }
+  },
 });
 
 
-RouteStore.dispatchToken = Dispatcher.register(function(payload) {
+RouteStore.dispatchToken = Dispatcher.register(function (payload) {
   Dispatcher.waitFor([
     SessionStore.dispatchToken,
   ]);
@@ -39,18 +39,18 @@ RouteStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionTypes.REDIRECT:
       router.transitionTo(action.route);
       RouteStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.REDIRECT_WITH_PARAMS:
       if (SessionStore.isLoggedIn()) {
         router.transitionTo('');
       }
       RouteStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.LOGOUT:
       router.transitionTo('login');
-    break;
+      break;
   }
   return true;
 });

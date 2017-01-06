@@ -6,7 +6,7 @@ var CustomPerformance          = require('./Custom_performance.react');
 
 module.exports = React.createClass({
 
-  render: function() {
+  render: function () {
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -29,5 +29,5 @@ module.exports = React.createClass({
         <div className="col-xs-6"></div>
       </div>
     );
-  }
+  },
 });

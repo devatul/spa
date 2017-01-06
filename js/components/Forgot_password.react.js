@@ -6,17 +6,17 @@ var ForgotPasswordAction       = require('../actions/RequestActions').forgotPass
 
 module.exports = React.createClass({
 
-  _onSubmit: function(e) {
+  _onSubmit: function (e) {
     e.preventDefault();
     var email = this.refs.email.getDOMNode().value;
     ForgotPasswordAction(email); 
   },
 
-  _redirectLogin: function() {
+  _redirectLogin: function () {
     redirect('login');
   },
 
-  render: function() {
+  render: function () {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
@@ -40,5 +40,5 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  }
+  },
 });

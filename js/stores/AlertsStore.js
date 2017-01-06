@@ -14,28 +14,28 @@ var _errorCode = '';
 
 var AlertsStore = assign({}, EventEmitter.prototype, {
 
-  emitChange: function() {
+  emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getAlerts: function() {
+  getAlerts: function () {
     return _alerts;
   },
 
-  getDashboardAlerts: function() {
+  getDashboardAlerts: function () {
     return _dashboardAlerts;
-  }
+  },
 });
 
-AlertsStore.dispatchToken = Dispatcher.register(function(payload) {
+AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
   var action = payload.action;
 
   switch (action.actionType) {
@@ -45,7 +45,7 @@ AlertsStore.dispatchToken = Dispatcher.register(function(payload) {
       _textError = '';
       _errorCode = '';
       AlertsStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_DASHBOARD_ALERTS:
       _dashboardAlerts = action.res;
@@ -55,14 +55,14 @@ AlertsStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
-          router.transitionTo('login');
+        router.transitionTo('login');
       }
       if (SessionStore.isLoggedIn()) {
         _textError = action.res.message;
         _errorCode = action.code;
         AlertsStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;

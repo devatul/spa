@@ -1,6 +1,6 @@
 var React                      = require('react');
 var Router                     = require('../router');
-var moment                     = require("moment");
+var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
 var GraphStore                 = require('../stores/GraphStore');
 var SessionStore               = require('../stores/SessionStore');
@@ -13,7 +13,7 @@ var CreateGraph                = require('./Create_graph.react');
 var Graph                      = require('./Graph.react');
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     var alerts = AlertsStore.getAlerts();
     var mainAlerts = AlertsStore.getDashboardAlerts();
     var dashboards = GraphStore.getDashboards();
@@ -26,18 +26,18 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     getAlerts();
     getDashboardAlerts();
     getDashboards();
     GraphStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     GraphStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var alerts = AlertsStore.getAlerts();
       var mainAlerts = AlertsStore.getDashboardAlerts();
@@ -52,17 +52,17 @@ module.exports = React.createClass({
     }
   },
 
-  _goToAlerts: function() {
+  _goToAlerts: function () {
     redirect('alerts');
   },
 
-  render: function() {
+  render: function () {
     var alerts = this.state.alerts;
     var dashboard = this.state.dashboard;
     var firstname = localStorage.getItem('nubity-firstname');
     var mainAlerts = this.state.mainAlerts;
     if (undefined !== alerts) {
-      console.log("alerts ", JSON.stringify(alerts.length));
+      console.log('alerts ', JSON.stringify(alerts.length));
     }
 
     var rows = [];
@@ -170,5 +170,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

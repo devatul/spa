@@ -10,22 +10,22 @@ var addFunnel                  = require('highcharts/modules/funnel');
 
 module.exports = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     var dashboard = GraphStore.getDashboard();
     return {
       dashboard: dashboard,
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     GraphStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     GraphStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var dashboard = GraphStore.getDashboard();
       this.setState({
@@ -34,38 +34,38 @@ module.exports = React.createClass({
     }
   },
 
-  render: function() {
+  render: function () {
     var dashboard = this.state.dashboard;
 
     if (undefined != dashboard) {
 
       var name = JSON.stringify(dashboard[2].content.name);
-      name = name.replace(/\"/g, "");
+      name = name.replace(/\"/g, '');
       var interval = dashboard[2].custom_interval;
       var interval_name;
 
-      switch(interval) {
+      switch (interval) {
         case 'TODAY':
           interval_name = 'Today\'s';
-        break;
+          break;
         case 'THIS_WEEK':
           interval_name = 'this week';
-        break;
+          break;
         case 'THIS_MONTH':
           interval_name = 'this month';
-        break;
+          break;
         case 'YESTERDAY':
           interval_name = 'Yesterday\'s';
-        break;
+          break;
         case 'LAST_WEEK':
           interval_name = 'last week';
-        break;
+          break;
         case 'LAST_TWO_WEEKS':
           interval_name = 'last two weeks';
-        break;
+          break;
         case 'LAST_MONTH':
           interval_name = 'last month';
-        break;
+          break;
         default:
           interval_name = '';
       }
@@ -110,38 +110,38 @@ module.exports = React.createClass({
 
       Highcharts.chart('container', {
         chart: {
-          zoomType: 'x'
+          zoomType: 'x',
         },
         title: {
           text: slot_name,
-          x: -20
+          x: -20,
         },
         xAxis: {
-          categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat',]
+          categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
         },
         yAxis: {
           plotLines: [{
             value: 0,
             width: 1,
-            color: '#808080'
-          }]
+            color: '#808080',
+          }],
         },
         legend: {
           layout:'vertical',
           align: 'right',
           verticalAlign: 'middle',
-          borderWidth: 0
+          borderWidth: 0,
         },
         series: [{
           name: legend1,
-          data: coords1
+          data: coords1,
         }, {
           name: legend2,
-          data: coords2
+          data: coords2,
         }, {
           name: legend3,
-          data: coords3
-        }]
+          data: coords3,
+        }],
       });
     }
 
@@ -149,6 +149,6 @@ module.exports = React.createClass({
       <div id="container">
       </div> 
     );
-  }
+  },
     
 });

@@ -13,28 +13,28 @@ var AccountStatusSection  = require('./Account_status_section.react');
 
 var NavBar = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       isLoggedIn: '',
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     SessionStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
-    $('.nav a').on('click', function() {
-      $(".btn-navbar").click(); 
-      $(".navbar-toggle").click(); 
-      $(".dropdown-toggle").click();
+    $('.nav a').on('click', function () {
+      $('.btn-navbar').click(); 
+      $('.navbar-toggle').click(); 
+      $('.dropdown-toggle').click();
     });
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     SessionStore.removeChangeListener(this._onChange);
     RouteStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       this.setState({
         isLoggedIn: SessionStore.isLoggedIn(),
@@ -42,7 +42,7 @@ var NavBar = React.createClass({
     }
   },
 
-  _onClickLogOut: function() {
+  _onClickLogOut: function () {
     this.setState({
       mail: '',
       isLoggedIn: '',
@@ -51,31 +51,31 @@ var NavBar = React.createClass({
     logOutAction();
   },
 
-  _redirectOnboarding: function() {
+  _redirectOnboarding: function () {
     redirect('onboarding');
   },
 
-  _openBilling: function() {
+  _openBilling: function () {
     $('#myModal').modal('show');
-    $('#myModal').on('shown.bs.modal', function(e) {
+    $('#myModal').on('shown.bs.modal', function (e) {
     });
   },
 
-  _profileButton: function() {
-    localStorage.setItem("landing", true);
+  _profileButton: function () {
+    localStorage.setItem('landing', true);
     redirect('landing');
   },
-  onSelected: function(e) {
+  onSelected: function (e) {
     // doesn't need to have functionality
   },
 
-  render: function() {
+  render: function () {
     var url       = window.location.href;
     var firstname = localStorage.getItem('nubity-firstname');
     var lastname  = localStorage.getItem('nubity-lastname');
-    var login     = url.search("login");
-    var signup    = url.search("signup");
-    var forgot    = url.search("forgot");
+    var login     = url.search('login');
+    var signup    = url.search('signup');
+    var forgot    = url.search('forgot');
 
     if (0 < login || 0 < signup || 0 < forgot) {
       return (
@@ -202,7 +202,7 @@ var NavBar = React.createClass({
         </nav>
       );
     }
-  }
+  },
 });
 
 module.exports = NavBar;

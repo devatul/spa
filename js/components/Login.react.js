@@ -7,21 +7,21 @@ var loginAction                = require('../actions/RequestActions').login;
 
 module.exports = React.createClass({
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     SessionStore.addChangeListener(this._onChange);
     if (SessionStore.isLoggedIn()) {
       redirect('dashboard');
     }
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     SessionStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
   },
 
-  _onSubmit: function(e) {
+  _onSubmit: function (e) {
     e.preventDefault();
     var user      = {};
     user.email    = this.refs.email.getDOMNode().value;
@@ -30,11 +30,11 @@ module.exports = React.createClass({
     loginAction(user); 
   },
 
-  _redirectForgotPassword: function() {
+  _redirectForgotPassword: function () {
     redirect('forgot_password');
   },
 
-  render: function() {
+  render: function () {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
@@ -80,5 +80,5 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  }
+  },
 });

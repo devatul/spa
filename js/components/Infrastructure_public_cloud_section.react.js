@@ -7,7 +7,7 @@ var InfrastructureStore        = require('../stores/InfrastructureStore');
 
 module.exports = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     var publicCloud = InfrastructureStore.getInfrastructurePublicCloud();
     var arrayLength = publicCloud.length;
     var rows = [];
@@ -17,15 +17,15 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     InfrastructureStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     InfrastructureStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var publicCloud = InfrastructureStore.getInfrastructurePublicCloud();
       this.setState({
@@ -34,7 +34,7 @@ module.exports = React.createClass({
     }
   },
 
-  render: function() {
+  render: function () {
     publicCloud = this.state.publicCloud;
     var rows = [];
     for (var key in publicCloud) {
@@ -84,5 +84,5 @@ module.exports = React.createClass({
         </table>
       </div>
     );
-  }
+  },
 });

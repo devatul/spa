@@ -7,7 +7,7 @@ var search                     = require('../actions/RequestActions').search;
 var getAvailableGraphTypes     = require('../actions/RequestActions').getAvailableGraphTypes;
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     var search = SessionStore.search();
     var searchState = this.props.searchState;
     return {
@@ -17,16 +17,16 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     search();
     SessionStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     SessionStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var search = SessionStore.search();
       this.setState({
@@ -37,7 +37,7 @@ module.exports = React.createClass({
     }
   },
 
-  _onSubmit: function(e) {
+  _onSubmit: function (e) {
     e.preventDefault();
     var widgetType   = this.refs.widgetType.getDOMNode().value;
     var server       = this.refs.server.getDOMNode().value;
@@ -45,7 +45,7 @@ module.exports = React.createClass({
     CreateDashboardAction('graph', server, chartType);
   },
 
-  render: function() {
+  render: function () {
     var search = this.state.search;
     var instances = this.state.instances;
 
@@ -75,5 +75,5 @@ module.exports = React.createClass({
         </div>
       </form> 
     );
-  }
+  },
 });

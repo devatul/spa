@@ -8,23 +8,23 @@ var PrivateCloudSection        = require('./Private_cloud_section.react');
 var getProviders               = require('../actions/RequestActions').getProviders;
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     var providers = OnBoardingStore.getProviders();
     return {
       providers: providers,
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     getProviders();
     OnBoardingStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     OnBoardingStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var providers = OnBoardingStore.getProviders();
       this.setState({
@@ -33,17 +33,17 @@ module.exports = React.createClass({
     }
   },
 
-  publicCloud: function() {
-    $("#public-cloud-content").removeClass("hidden");
-    $("#private-cloud-content").addClass("hidden");
+  publicCloud: function () {
+    $('#public-cloud-content').removeClass('hidden');
+    $('#private-cloud-content').addClass('hidden');
   },
 
-  privateCloud: function() {
-    $("#private-cloud-content").removeClass("hidden");
-    $("#public-cloud-content").addClass("hidden");
+  privateCloud: function () {
+    $('#private-cloud-content').removeClass('hidden');
+    $('#public-cloud-content').addClass('hidden');
   },
 
-  render: function() {
+  render: function () {
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -97,5 +97,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

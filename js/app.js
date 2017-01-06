@@ -13,7 +13,7 @@ Auth.configure({
   passwordResetPath:     '/auth/password',
   passwordUpdatePath:    '/auth/password',
   tokenValidationPath:   '/auth/validate_token',
-  proxyIf:               function() { return false; },
+  proxyIf:               function () { return false; },
   proxyUrl:              '/proxy',
   validateOnPageLoad:    false,
   forceHardRedirect:     false,
@@ -21,32 +21,32 @@ Auth.configure({
   cookieExpiry:          14,
   cookiePath:            '/',
 
-  passwordResetSuccessUrl: function() {
+  passwordResetSuccessUrl: function () {
     return window.location.href;
   },
 
-  confirmationSuccessUrl:  function() {
+  confirmationSuccessUrl:  function () {
     return window.location.href;
   },
 
   tokenFormat: {
-    "Authorization": "{{ nubity-token }}",
-    "token-type":   "Bearer",
+    'Authorization': '{{ nubity-token }}',
+    'token-type':   'Bearer',
   },
 
-  parseExpiry: function(headers) {
+  parseExpiry: function (headers) {
     return (parseInt(headers['expiry'], 10) * 1000) || null;
   },
 
-  handleLoginResponse: function(resp) {
+  handleLoginResponse: function (resp) {
     return resp.data;
   },
 
-  handleAccountUpdateResponse: function(resp) {
+  handleAccountUpdateResponse: function (resp) {
     return resp.data;
   },
 
-  handleTokenValidationResponse: function(resp) {
+  handleTokenValidationResponse: function (resp) {
     return resp.data;
   },
 
@@ -54,7 +54,7 @@ Auth.configure({
     github:    '/auth/github',
     facebook:  '/auth/facebook',
     google:    '/auth/google_oauth2',
-  }
+  },
 });
 
 router.run(function (Handler, state) {

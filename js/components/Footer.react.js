@@ -5,7 +5,7 @@ var SessionStore          = require('../stores/SessionStore');
 
 var Footer = React.createClass({
 
-  render: function() {
+  render: function () {
     return (
       <footer className="footer">
         <div className="footer-text">
@@ -13,7 +13,7 @@ var Footer = React.createClass({
         </div>
       </footer>
     );
-  }
+  },
 });
 
 module.exports = Footer;

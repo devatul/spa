@@ -18,55 +18,55 @@ var _graphTypes   = '';
 
 var SessionStore  = assign({}, EventEmitter.prototype, {
   
-  emitChange: function() {
+  emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener: function (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener: function (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  isLoggedIn: function() {
-    return (!(localStorage.getItem('nubity-token') == '' || !localStorage.getItem('nubity-token') || typeof(localStorage.getItem('nubity-token')) === 'undefined'));
+  isLoggedIn: function () {
+    return (!('' == localStorage.getItem('nubity-token') || !localStorage.getItem('nubity-token') || 'undefined' === typeof(localStorage.getItem('nubity-token'))));
   },
 
-  getErrors: function() {
+  getErrors: function () {
     return _errorMessage; 
   },
 
-  getCodeError: function() {
+  getCodeError: function () {
     return _errorCode;
   },
 
-  getTextError: function() {
+  getTextError: function () {
     return _textError;
   },
 
-  getAuthToken: function() {
+  getAuthToken: function () {
     return localStorage.getItem('nubity-token');
   },
 
-  setAuthToken: function(token) {
+  setAuthToken: function (token) {
     localStorage.setItem('nubity-token', token);
   },
 
   logOut: function (argument) {
   },
 
-  search: function() {
+  search: function () {
     return _search;
   },
-  getAvailableGraphTypes: function() {
+  getAvailableGraphTypes: function () {
     return _graphTypes;
   },
 
 });
 
-SessionStore.dispatchToken = Dispatcher.register(function(payload) {
+SessionStore.dispatchToken = Dispatcher.register(function (payload) {
 
   var action = payload.action;
 
@@ -74,7 +74,7 @@ SessionStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionTypes.LOGIN_RESPONSE:
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {     
@@ -83,38 +83,38 @@ SessionStore.dispatchToken = Dispatcher.register(function(payload) {
       _textError = action.res;
       _errorCode = action.code;
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.LOGOUT:
       localStorage.removeItem('nubity-token');
       localStorage.removeItem('nubity-refresh-token');
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SEARCH:
       _search = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES:
       _graphTypes = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-    break;
+      break;
     
     case ActionTypes.REDIRECT:
       router.transitionTo(action.route);
-    break;
+      break;
 
     default:
       if (null != action.res && null!= action.code && (401 == action.code)) {       
         router.transitionTo('login');
       }
       SessionStore.emitChange();
-    break;
+      break;
   }
   return true;
 });

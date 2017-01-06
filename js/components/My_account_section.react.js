@@ -5,7 +5,7 @@ var SessionStore               = require('../stores/SessionStore');
 
 module.exports = React.createClass({
 
-  render: function() {
+  render: function () {
     var firstname = localStorage.getItem('nubity-firstname');
     var lastname  = localStorage.getItem('nubity-lastname');
     var email     = localStorage.getItem('nubity-user-email');
@@ -134,5 +134,5 @@ module.exports = React.createClass({
         </form>
       </div>
     );
-  }
+  },
 });

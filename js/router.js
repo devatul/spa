@@ -1,21 +1,21 @@
 var router;
 
- module.exports = {
-  transitionTo: function(to) {
+module.exports = {
+  transitionTo: function (to) {
     router.transitionTo(to);
   },
 
-  getRouter: function() {
+  getRouter: function () {
     return router;
   },
 
-  run: function(render) {
+  run: function (render) {
     router.run(render);
-  }
+  },
 };
 
 var routes = require('./routes'),
-    Router = require('react-router');
+  Router = require('react-router');
 
 router = Router.create({
   routes: routes,
