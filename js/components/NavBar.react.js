@@ -57,7 +57,7 @@ var NavBar = React.createClass({
 
   _openBilling: function () {
     $('#myModal').modal('show');
-    $('#myModal').on('shown.bs.modal', function (e) {
+    $('#myModal').on('shown.bs.modal', function(e) {
     });
   },
 

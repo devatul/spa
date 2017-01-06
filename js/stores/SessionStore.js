@@ -89,21 +89,21 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       localStorage.removeItem('nubity-token');
       localStorage.removeItem('nubity-refresh-token');
       SessionStore.emitChange();
-      break;
+    break;
 
     case ActionTypes.SEARCH:
       _search = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-      break;
+    break;
 
     case ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES:
       _graphTypes = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-      break;
+    break;
     
     case ActionTypes.REDIRECT:
       router.transitionTo(action.route);

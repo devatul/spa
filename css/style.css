@@ -344,8 +344,9 @@ body {
   height: auto;
   width: 20%!important;
   margin: 5%;
+  font-family: 'neosansregular', sans-serif;
   text-align: center;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px #ededed;
   border-radius: 5px;
   padding: 15px 0;
 }
@@ -363,9 +364,9 @@ body {
 }
 .dashboard-minus {
   position: absolute;
-  top: -10px;
-  right: -5px;
-  font-size: 16px!important;
+  top: -15px;
+  right: -14px;
+  font-size: 30px!important;
 }
 .yellow-color {
   color: #ffc524;

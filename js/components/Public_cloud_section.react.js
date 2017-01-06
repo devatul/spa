@@ -33,11 +33,9 @@ module.exports = React.createClass({
 
   render: function () {
     var providers = this.props.providers;
-    console.log(providers);
     var rows = [];
     for (var key in providers) {
       if (null != providers[key].logo){
-        console.log(providers[key].logo.public_path);
         rows.push(
           <div className="col-md-2 clouds-icons-button">
             <img src={providers[key].logo.public_path} ></img>

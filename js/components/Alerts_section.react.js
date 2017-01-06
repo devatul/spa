@@ -44,9 +44,6 @@ module.exports = React.createClass({
 
   render: function () {
     var alerts = this.state.alerts.member;
-
-    console.log('ALERTS!!', JSON.stringify(alerts));
-
     var rows = [];
     for (var key in alerts) {
       var level = '';

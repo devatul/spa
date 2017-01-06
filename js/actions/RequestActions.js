@@ -56,4 +56,8 @@ module.exports = {
   getAvailableGraphTypes: function (id) {
     NubityAPIUtils.getAvailableGraphTypes(id);
   },
-};
+
+  createTicket: function(ticket) {
+    NubityAPIUtils.createTicket(ticket);
+  },
+}

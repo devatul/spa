@@ -53,6 +53,12 @@ AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
       _errorCode = '';
       AlertsStore.emitChange();
 
+    case ActionTypes.SHOW_DASHBOARD_ALERTS:
+      _dashboardAlerts = action.res;
+      _textError = '';
+      _errorCode = '';
+      AlertsStore.emitChange();
+
     case ActionTypes.ERROR:
       if (401 == action.code) {
         router.transitionTo('login');
