@@ -29,7 +29,6 @@ module.exports = {
           this.refreshToken();
           this.login(user);
         } else if (400 <= code) {
-          console.error('Error in login request', code);
           redirect('login');
         } else {
           localStorage.setItem('nubity-token', text.token);
@@ -48,7 +47,6 @@ module.exports = {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
         if (400 <= code) {
-          console.error('Error in request password request', code);
           redirect('login');
         } 
       }.bind(this));
@@ -61,7 +59,6 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .end(function (res) {
         if (400 <= code) {
-          console.error('Error in request password request', code);
           redirect('login');
         } else {
           redirect('login');
@@ -70,7 +67,6 @@ module.exports = {
   },
 
   refreshToken: function () {
-    console.log('refresh');
     request
       .post(APIEndpoints.PUBLIC + '/token/refresh.json')
       .set('Accept', 'aplication/json')
@@ -78,7 +74,6 @@ module.exports = {
       .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        console.log(res);
         if (401 == code) {
           localStorage.removeItem('nubity-token');
           localStorage.removeItem('nubity-refresh-token');
@@ -99,12 +94,10 @@ module.exports = {
       .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
-        console.log('user',res);
         if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getUser();
         } else if (400 <= code) {
-          console.error('Error in user request', code);
           redirect('login');
         } else {
           localStorage.setItem('nubity-company', text.company);
@@ -112,7 +105,7 @@ module.exports = {
           localStorage.setItem('nubity-lastname', text.lastname);
           localStorage.setItem('nubity-user-id', text.user);
           localStorage.setItem('nubity-user-email', text.username);
-          redirect('infrastructure');
+          redirect('dashboard');
         }
       }.bind(this));
   },
@@ -129,12 +122,10 @@ module.exports = {
     .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
-      console.log('one dashboard', text);
       if (401 == code && this.hasToRefresh()) {
         this.refreshToken();
         this.getDashboard();
       } else if (400 <= code) {
-        console.error('Error in dashboard request', code);
         redirect('login');
       } else {
         showDashboard(text);
@@ -155,12 +146,10 @@ module.exports = {
     .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
-      console.log('res dashboard', text);
       if (401 == code && this.hasToRefresh()) {
         this.refreshToken();
         this.getDashboards();
       } else if (400 <= code) {
-        console.error('Error in dashboards request', code);
         redirect('login');
       } else {
         showDashboards(text);
@@ -187,7 +176,6 @@ module.exports = {
           this.refreshToken();
           this.getInfrastructureOverview(page);
         } else if (400 <= code) {
-          console.error('Error in instances request', code);
           redirect('login');
         } else {
           showInfrastructureOverview(text);
@@ -206,7 +194,6 @@ module.exports = {
           this.refreshToken();
           this.getInfrastructureOverview(page);
         } else if (400 <= code) {
-          console.error('Error in instances request', code);
           redirect('login');
         } else {
           showInfrastructureOverview(text);
@@ -229,7 +216,6 @@ module.exports = {
           this.refreshToken();
           this.getInfrastructurePublicCloud();
         } else if (400 <= code) {
-          console.error('Error in instances request', code);
           redirect('login');
         } else {
           showInfrastructurePublicCloud(text);
@@ -253,7 +239,6 @@ module.exports = {
           this.refreshToken();
           this.getAlerts(page);
         } else if (400 <= code) {
-          console.error('Error in alerts request', code);
           redirect('login');
         } else {
           showAlerts(text);
@@ -266,13 +251,11 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        console.log('alerts', text);
         var code = JSON.parse(res.status);
         if (401 == code && this.hasToRefresh()) {
           this.refreshToken();
           this.getAlerts(page);
         } else if (400 <= code) {
-          console.error('Error in alerts request', code);
           redirect('login');
         } else {
           showAlerts(text);
@@ -297,7 +280,6 @@ module.exports = {
         this.refreshToken();
         this.getDashboardAlerts();
       } else if (400 <= code) {
-        console.error('Error in dashboard alerts request', code);
         redirect('login');
       } else {
         showDashboardAlerts(text);
@@ -320,7 +302,6 @@ module.exports = {
         this.refreshToken();
         this.getProviders();
       } else if (400 <= code) {
-        console.error('Error in providers request', code);
         redirect('login');
       } else {
         showProviders(text);
@@ -341,12 +322,10 @@ module.exports = {
     .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
-      console.log('res dashboard', res);
       if (401 == code && this.hasToRefresh()) {
         this.refreshToken();
         this.getDashboards();
       } else if (400 <= code) {
-        console.error('Error in dashboard request', code);
         redirect('login');
       } else {
         showDashboards(text);
@@ -364,12 +343,10 @@ module.exports = {
     .end(function (res) {
       var text = JSON.parse(res.text);
       var code = JSON.parse(res.status);
-      console.log('one dashboard', text);
       if (401 == code && this.hasToRefresh()) {
         this.refreshToken();
         this.getUser();
       } else if (400 <= code) {
-        console.error('Error in search request', code);
         redirect('login');
       } else {
         search(text);
@@ -393,7 +370,6 @@ module.exports = {
           this.refreshToken();
           this.getNinja(page);
         } else if (400 <= code) {
-          console.error('Error in ninja request', code);
           redirect('login');
         } else {
           showNinja(text);
@@ -411,13 +387,35 @@ module.exports = {
           this.refreshToken();
           this.getNinja(page);
         } else if (400 <= code) {
-          console.error('Error in ninja request', code);
           redirect('login');
         } else {
           showNinja(text);
         }
       }.bind(this));
     }
+  },
+
+  createTicket: function(ticket) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+
+    request
+    .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket.json')
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
+    .end(function(res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.createTicket(ticket);
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        showNinja(text);
+      }
+    }.bind(this));
   },
 
   hasToRefresh: function () {

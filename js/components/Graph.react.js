@@ -110,38 +110,38 @@ module.exports = React.createClass({
 
       Highcharts.chart('container', {
         chart: {
-          zoomType: 'x',
+          zoomType: 'x'
         },
         title: {
           text: slot_name,
-          x: -20,
+          x: -20
         },
         xAxis: {
-          categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+          categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat',]
         },
         yAxis: {
           plotLines: [{
             value: 0,
             width: 1,
-            color: '#808080',
-          }],
+            color: '#808080'
+          }]
         },
         legend: {
           layout:'vertical',
           align: 'right',
           verticalAlign: 'middle',
-          borderWidth: 0,
+          borderWidth: 0
         },
         series: [{
           name: legend1,
-          data: coords1,
+          data: coords1
         }, {
           name: legend2,
-          data: coords2,
+          data: coords2
         }, {
           name: legend3,
-          data: coords3,
-        }],
+          data: coords3
+        }]
       });
     }
 
@@ -149,6 +149,6 @@ module.exports = React.createClass({
       <div id="container">
       </div> 
     );
-  },
+  }
     
 });

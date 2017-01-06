@@ -82,5 +82,5 @@ module.exports = {
       actionType: ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES,
       res: graphTypes,
     });
-  },
-};
+  }
+}
