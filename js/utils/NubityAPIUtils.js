@@ -202,11 +202,14 @@ module.exports = {
     }   
   },
 
-  getInfrastructurePublicCloud: function () {
+  getInfrastructurePublicCloud: function (page) {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
-    request
+    if (0 != page) {
+      request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({provider_classification: 'public'})
+      .query({page: page})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -221,6 +224,26 @@ module.exports = {
           showInfrastructurePublicCloud(text);
         }
       }.bind(this));
+
+    } else {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({provider_classification: 'public'})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getInfrastructurePublicCloud();
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showInfrastructurePublicCloud(text);
+        }
+      }.bind(this));
+    }   
   },
 
   getAlerts: function (page) {

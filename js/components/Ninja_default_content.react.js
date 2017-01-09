@@ -84,9 +84,8 @@ module.exports = React.createClass({
         } else {
           priority = 'sprites priority-3';
         }
-
-        rows[rows.length] =
-          <tr>
+        rows.push(
+          <tr key={key}>
             <td><span className={status}></span></td>
               <td>
                 <i className={department_icon} aria-hidden="true"></i>  {department_name}
@@ -94,15 +93,17 @@ module.exports = React.createClass({
               <td>
                 <span className={priority}></span>
               </td>
+              <td>{ticket[key].subject}</td>
               <td>{ticket[key].hostname}</td>
               <td>
-                <time datetime="">{from}</time>
+                <time dateTime="">{from}</time>
               </td>
               <td>{ticket[key].ticket}</td>
               <td>
                 <span className="label label-primary">View Ticket</span>
               </td>
-          </tr>;
+          </tr>
+        );
       }
     }
 
@@ -113,6 +114,7 @@ module.exports = React.createClass({
             <th>Status</th>
             <th>Department</th>
             <th>Priority</th>
+            <th>Subject</th>
             <th>Server</th>
             <th>Date</th>
             <th>Ticket Id</th>

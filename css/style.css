@@ -146,6 +146,9 @@ a:hover, a:active {
   margin-top: 6px;
   margin-right: 7px;
 }
+.button-pointer {
+  cursor: pointer;
+}
 #sidebar {
   width: 100px!important;
   height: calc(100% - 20px)!important;

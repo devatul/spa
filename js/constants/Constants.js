@@ -9,6 +9,8 @@ module.exports = {
     REDIRECT: null,
     ERROR: null,
     SHOW_INFRASTRUCTURE_OVERVIEW: null,
+    SHOW_INFRASTRUCTURE_PUBLIC_CLOUD: null,
+    SHOW_INFRASTRUCTURE_PRIVATE_CLOUD: null,
     SHOW_ALERTS: null,
     SHOW_DASHBOARD_ALERTS: null,
     SHOW_PROVIDERS: null,

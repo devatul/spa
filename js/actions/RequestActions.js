@@ -17,8 +17,8 @@ module.exports = {
     NubityAPIUtils.getInfrastructureOverview(page);
   },
 
-  getInfrastructurePublicCloud: function () {
-    NubityAPIUtils.getInfrastructurePublicCloud();
+  getInfrastructurePublicCloud: function (page) {
+    NubityAPIUtils.getInfrastructurePublicCloud(page);
   },
 
   getAlerts: function (page) {

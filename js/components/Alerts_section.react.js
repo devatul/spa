@@ -101,7 +101,7 @@ module.exports = React.createClass({
             <span className="label label-danger">Stop Alerting</span>
           </td>
           <td>
-            <span className="label label-success" onClick={this._createTicket}>Create Ticket</span>
+            <span className="label label-success button-pointer" onClick={this._createTicket}>Create Ticket</span>
           </td>
         </tr>;
     }
