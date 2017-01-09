@@ -50,6 +50,10 @@ module.exports = React.createClass({
     redirect('alerts');
   },
 
+  _createTicket: function () {
+    redirect('create_ticket');
+  },
+
   render: function() {
     var dashboard = this.state.dashboard;
     var firstname = localStorage.getItem('nubity-firstname');
@@ -115,7 +119,7 @@ module.exports = React.createClass({
             <span className="label label-danger">Stop Alerting</span>
           </td>
           <td>
-            <span className="label label-success" onClick={this._createTicket}>Create Ticket</span>
+            <span className="label label-success button-pointer" onClick={this._createTicket}>Create Ticket</span>
           </td>
         </tr>;
     }

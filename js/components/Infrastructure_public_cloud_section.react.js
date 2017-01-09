@@ -14,6 +14,7 @@ module.exports = React.createClass({
     return {
       publicCloud: publicCloud,
       rows: rows,
+      totalItems: publicCloud.totalItems,
     };
   },
 

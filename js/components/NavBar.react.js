@@ -137,7 +137,7 @@ var NavBar = React.createClass({
               </ul>
             </div>
           </div>
-          <div className="modal fade" tabindex="-1" id="myModal" role="dialog">
+          <div className="modal fade" tabIndex="-1" id="myModal" role="dialog">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-body">

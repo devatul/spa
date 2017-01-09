@@ -19,7 +19,7 @@ module.exports = React.createClass({
 
   componentDidMount: function () {
     getInfrastructureOverview(0);
-    getInfrastructurePublicCloud();
+    getInfrastructurePublicCloud(0);
     InfrastructureStore.addChangeListener(this._onChange);
   },
 
@@ -27,17 +27,7 @@ module.exports = React.createClass({
     InfrastructureStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var overview = InfrastructureStore.getInfrastructureOverview();
-      this.setState({
-        overview: overview.member,
-      });
-    }
-  },
-
   render: function () {
-    overview = this.state.overview;
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -84,7 +74,7 @@ module.exports = React.createClass({
         </div>
         <div className="tab-content section-content">
           <div id="infrastructureOverview" className="tab-pane fade in active ">
-            <InfrastructureOverview overview={overview}/>
+            <InfrastructureOverview/>
           </div>
           <div id="infrastructurePublic" className="tab-pane fade">
             <InfrastructurePublicCloud/>
