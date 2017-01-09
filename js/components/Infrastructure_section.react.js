@@ -1,32 +1,15 @@
 var React                         = require('react');
 var Router                        = require('../router');
 var redirect                      = require('../actions/RouteActions').redirect;
-var getInfrastructureOverview     = require('../actions/RequestActions').getInfrastructureOverview;
-var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
 var SessionStore                  = require('../stores/SessionStore');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var InfrastructureOverview        = require('./Infrastructure_overview.react');
 var InfrastructurePublicCloud     = require('./Infrastructure_public_cloud_section.react');
-var InfrastructurePrivateCloud    = require('./Infrastructure_overview.react');
-var InfrastructureOnPremise       = require('./Infrastructure_overview.react');
+var InfrastructurePrivateCloud    = require('./Infrastructure_private_cloud_section.react');
+var InfrastructureOnPremise       = require('./Infrastructure_on_premise_section.react');
 
 module.exports = React.createClass({
-  getInitialState: function () {
-    return {
-      overview: '',
-    };
-  },
-
-  componentDidMount: function () {
-    getInfrastructureOverview(0);
-    getInfrastructurePublicCloud(0);
-    InfrastructureStore.addChangeListener(this._onChange);
-  },
-
-  componentWillUnmount: function () {
-    InfrastructureStore.removeChangeListener(this._onChange);
-  },
-
+  
   render: function () {
     return (
       <div className="principal-section">

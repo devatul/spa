@@ -5,6 +5,8 @@ var redirect                       = require('../actions/RouteActions').redirect
 var error                          = require('../actions/ServerActions').error;
 var showInfrastructureOverview     = require('../actions/ServerActions').showInfrastructureOverview;
 var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInfrastructurePublicCloud;
+var showInfrastructurePrivateCloud = require('../actions/ServerActions').showInfrastructurePrivateCloud;
+var showInfrastructureOnPremise    = require('../actions/ServerActions').showInfrastructureOnPremise;
 var showAlerts                     = require('../actions/ServerActions').showAlerts;
 var showDashboardAlerts            = require('../actions/ServerActions').showDashboardAlerts;
 var showDashboards                 = require('../actions/ServerActions').showDashboards;
@@ -208,8 +210,7 @@ module.exports = {
     if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public'})
-      .query({page: page})
+      .query({provider_classification: 'public', page: page})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -241,6 +242,92 @@ module.exports = {
           redirect('login');
         } else {
           showInfrastructurePublicCloud(text);
+        }
+      }.bind(this));
+    }   
+  },
+
+  getInfrastructurePrivateCloud: function (page) {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+    if (0 != page) {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({provider_classification: 'private', page: page})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getInfrastructurePrivateCloud();
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showInfrastructurePrivateCloud(text);
+        }
+      }.bind(this));
+
+    } else {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({provider_classification: 'private'})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getInfrastructurePrivateCloud();
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showInfrastructurePrivateCloud(text);
+        }
+      }.bind(this));
+    }   
+  },
+
+  getInfrastructureOnPremise: function (page) {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+    if (0 != page) {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({provider_classification: 'on-premise', page: page})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getInfrastructureOnPremise(page);
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showInfrastructureOnPremise(text);
+        }
+      }.bind(this));
+
+    } else {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({provider_classification: 'on-premise'})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getInfrastructureOnPremise(page);
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showInfrastructureOnPremise(text);
         }
       }.bind(this));
     }   
