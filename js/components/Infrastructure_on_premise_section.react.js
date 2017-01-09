@@ -1,27 +1,27 @@
-var React                      = require('react');
-var ReactPropTypes             = React.PropTypes;
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
-var SessionStore               = require('../stores/SessionStore');
-var InfrastructureStore        = require('../stores/InfrastructureStore');
-var getInfrastructureOverview  = require('../actions/RequestActions').getInfrastructureOverview;
+var React                         = require('react');
+var ReactPropTypes                = React.PropTypes;
+var Router                        = require('../router');
+var redirect                      = require('../actions/RouteActions').redirect;
+var SessionStore                  = require('../stores/SessionStore');
+var InfrastructureStore           = require('../stores/InfrastructureStore');
+var getInfrastructureOnPremise    = require('../actions/RequestActions').getInfrastructureOnPremise;
 
 module.exports = React.createClass({
 
   getInitialState: function () {
-    var overview = InfrastructureStore.getInfrastructureOverview();
-    var arrayLength = overview.length;
+    var onPremise = InfrastructureStore.getInfrastructureOnPremise();
+    var arrayLength = onPremise.length;
     var rows = [];
     return {
-      overview: overview,
+      onPremise: onPremise,
       rows: rows,
-      totalItems: overview.totalItems,
+      totalItems: onPremise.totalItems,
     };
   },
-  
+
   componentDidMount: function () {
     InfrastructureStore.addChangeListener(this._onChange);
-    getInfrastructureOverview(0);
+    getInfrastructureOnPremise(0);
   },
 
   componentWillUnmount: function () {
@@ -30,19 +30,20 @@ module.exports = React.createClass({
 
   _onChange: function () {
     if (this.isMounted()) {
-      var overview = InfrastructureStore.getInfrastructureOverview();
+      var onPremise = InfrastructureStore.getInfrastructureOnPremise();
       this.setState({
-        overview: overview.member,
-        totalItems: overview.totalItems,
+        onPremise: onPremise.member,
+        totalItems: onPremise.totalItems,
       });
     }
   },
-  _newPage: function (page) {
-    getInfrastructureOverview(page);
-  },
 
+  _newPage: function (page) {
+    getInfrastructureOnPremise(page);
+  },
+  
   render: function () {
-    var overview = this.state.overview;
+    var onPremise = this.state.onPremise;
     var totalItems = this.state.totalItems;
     var pages = Math.ceil(parseInt(totalItems)/10);
 
@@ -54,9 +55,9 @@ module.exports = React.createClass({
     }
 
     var rows = [];
-    for (var key in overview) {
-      rows.push(
-        <tr key={key}>
+    for (var key in onPremise) {
+      rows[rows.length] =
+        <tr>
           <td>
             <div className="status-container">
               <i className="fa fa-server text-success" data-toggle="tooltip" data-original-title="Running"></i> 
@@ -65,27 +66,26 @@ module.exports = React.createClass({
               </div> 
             </div>
           </td>
-          <td>{overview[key].hostname}</td>
-          <td>{overview[key].external_identifier}</td>
+          <td>{onPremise[key].hostname}</td>
+          <td>{onPremise[key].external_identifier}</td>
           <td>
             <i className="fa fa-play icon-margin" aria-hidden="true"></i> 
             <i className="fa fa-stop icon-margin" aria-hidden="true"></i> 
             <i className="fa fa-retweet icon-margin" aria-hidden="true"></i>
           </td>
-          <td>{overview[key].memory/1024} GB</td>
-          <td><i className="fa fa-minus-square red-color" aria-hidden="true"/></td>
+          <td>{onPremise[key].memory/1024} GB</td>
+          <td>Ok</td>
           <td>
             <span className="label label-primary">Configure</span>
           </td>
           <td>
             <span className="label label-danger">Stop</span>
           </td>
-        </tr>
-      );
+        </tr>;
     }
     return (
       <div id="infrastructureTable">
-        <table className="overview-table table table-striped table-condensed">
+        <table className="publicCloud-table table table-striped table-condensed">
           <thead>
           <tr>
             <th>State</th>
@@ -97,7 +97,7 @@ module.exports = React.createClass({
           </tr>
           </thead>
           <tbody>
-            {rows}
+          {rows}
           </tbody>
         </table>
         <nav aria-label="Page navigation">

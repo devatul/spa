@@ -27,6 +27,20 @@ module.exports = {
       res: publicCloud,
     });
   },
+
+  showInfrastructurePrivateCloud: function (privateCloud) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_INFRASTRUCTURE_PRIVATE_CLOUD,
+      res: privateCloud,
+    });
+  },
+
+  showInfrastructureOnPremise: function (onPremise) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_INFRASTRUCTURE_ON_PREMISE,
+      res: onPremise,
+    });
+  },
   
   showAlerts: function (alerts) {
     Dispatcher.handleServerAction({

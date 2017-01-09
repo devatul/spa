@@ -1,9 +1,10 @@
-var React                      = require('react');
-var ReactPropTypes             = React.PropTypes;
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
-var SessionStore               = require('../stores/SessionStore');
-var InfrastructureStore        = require('../stores/InfrastructureStore');
+var React                         = require('react');
+var ReactPropTypes                = React.PropTypes;
+var Router                        = require('../router');
+var redirect                      = require('../actions/RouteActions').redirect;
+var SessionStore                  = require('../stores/SessionStore');
+var InfrastructureStore           = require('../stores/InfrastructureStore');
+var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
 
 module.exports = React.createClass({
 
@@ -20,6 +21,7 @@ module.exports = React.createClass({
 
   componentDidMount: function () {
     InfrastructureStore.addChangeListener(this._onChange);
+    getInfrastructurePublicCloud(0);
   },
 
   componentWillUnmount: function () {
@@ -31,16 +33,31 @@ module.exports = React.createClass({
       var publicCloud = InfrastructureStore.getInfrastructurePublicCloud();
       this.setState({
         publicCloud: publicCloud.member,
+        totalItems: publicCloud.totalItems,
       });
     }
   },
 
+  _newPage: function (page) {
+    getInfrastructurePublicCloud(page);
+  },
+
   render: function () {
-    publicCloud = this.state.publicCloud;
+    var publicCloud = this.state.publicCloud;
+    var totalItems = this.state.totalItems;
+    var pages = Math.ceil(parseInt(totalItems)/10);
+
+    var navpages = [];
+    for (var key = 0 ; key < pages ; key++) {
+      var page = key + 1;
+      var send = page.toString();
+      navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
+    }
+
     var rows = [];
     for (var key in publicCloud) {
-      rows[rows.length] =
-        <tr>
+      rows.push(
+        <tr key={key}>
           <td>
             <div className="status-container">
               <i className="fa fa-server text-success" data-toggle="tooltip" data-original-title="Running"></i> 
@@ -56,7 +73,7 @@ module.exports = React.createClass({
             <i className="fa fa-stop icon-margin" aria-hidden="true"></i> 
             <i className="fa fa-retweet icon-margin" aria-hidden="true"></i>
           </td>
-          <td>{publicCloud[key].memory} GB</td>
+          <td>{publicCloud[key].memory/1024} GB</td>
           <td>Ok</td>
           <td>
             <span className="label label-primary">Configure</span>
@@ -64,7 +81,8 @@ module.exports = React.createClass({
           <td>
             <span className="label label-danger">Stop</span>
           </td>
-        </tr>;
+        </tr>
+      );
     }
     return (
       <div id="infrastructureTable">
@@ -83,6 +101,21 @@ module.exports = React.createClass({
           {rows}
           </tbody>
         </table>
+        <nav aria-label="Page navigation">
+          <ul className="pagination">
+            <li>
+              <a aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {navpages}
+            <li>
+              <a aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     );
   },
