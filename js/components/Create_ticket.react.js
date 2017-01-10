@@ -2,6 +2,7 @@ var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
+var AlertsStore                = require('../stores/AlertsStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var search                     = require('../actions/RequestActions').search;
 var CreateTicketAction         = require('../actions/RequestActions').createTicket;
@@ -58,37 +59,87 @@ module.exports = React.createClass({
   },
 
   render: function () {
+
     var search = this.state.search;
     var instances = this.state.instances;
-
     var servers = [];
-    for (var key in instances) {
-      servers[servers.length] = <option value={instances[key].hostname} >{instances[key].hostname}</option>;
+    
+
+    var department = [];
+    var type = [];
+    var subject = '';
+    var serverCheck = '';
+    var priorityCheck = ''; 
+
+    if (AlertsStore.isAlertTicket()) {
+      var alert = AlertsStore.getAlertTicket();
+      department = [
+        <select className="form-control" ref="department" defaultValue="support" onChange={this._onChange}>
+          <option value="billing">Billing</option>
+          <option value="sales">Sales</option>
+          <option value="support">Ninja Support</option>
+        </select>,
+      ];
+      type = [
+        <select className="form-control" ref="type" defaultValue="incident">
+          <option value="" disabled ref="type">Select Type</option>
+          <option value="incident">Incident</option>
+          <option value="service-request">Service Request</option>
+        </select>
+      ];
+
+      for (var key in instances) {
+        if (instances[key].instance == alert.instance.id) {
+          serverCheck = instances[key].hostname;
+        }
+      }
+
+      switch (alert.level) {
+        case 'critical':
+          priorityCheck = 'high';
+        break; 
+        case 'warning':
+          priorityCheck = 'medium';
+        break; 
+        case 'info':
+          priorityCheck = 'low';
+        break; 
+      } 
+
+      subject = alert.description;
+      AlertsStore.resetAlertTicket();
+    }else {
+      
+      department = [
+        <select className="form-control" ref="department" onChange={this._onChange}>
+          <option value="billing">Billing</option>
+          <option value="sales">Sales</option>
+          <option value="support">Ninja Support</option>
+        </select>,
+      ];
+
+      type = [
+        <select className="form-control" ref="type" defaultValue="">
+          <option value="" disabled ref="type">Select Type</option>
+          <option value="incident">Incident</option>
+          <option value="service-request">Service Request</option>
+        </select>
+      ];
     }
 
-    var department = [
-      <select className="form-control" ref="department" onChange={this._onChange}>
-        <option value="billing">Billing</option>
-        <option value="sales">Sales</option>
-        <option value="support">Ninja Support</option>
-      </select>,
-    ];
+    servers.push(<option value="" disabled>Select Server</option>);
+    for (var key in instances) {
+      servers.push(<option value={instances[key].hostname}>{instances[key].hostname}</option>);
+    }
+    
 
     var priority = [
-      <select className="form-control" ref="priority">
-        <option value="" disabled selected>Select Priority</option>
+      <select className="form-control" ref="priority" defaultValue={priorityCheck}>
+        <option value="" disabled>Select Priority</option>
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>,
-    ];
-
-    var type = [
-      <select className="form-control" ref="type">
-        <option value="" disabled selected ref="type">Select Type</option>
-        <option value="incident">incident</option>
-        <option value="service-request">service-request</option>
-      </select>
     ];
 
     return (
@@ -97,7 +148,6 @@ module.exports = React.createClass({
           <h2 className="align-center">Create your ticket</h2>
         </div>
         <div className="centered">
-          <button className="button-shadow large-green-button">Create Ticket</button>
           <a onClick={this._liveChat}>
             <button className="large-green-button">Start Live Chat</button>
           </a>
@@ -113,13 +163,12 @@ module.exports = React.createClass({
             {priority}
           </div>
           <div className="col-xs-3 centered">
-            <select className="form-control" ref="hostname">
-              <option value="" disabled selected>Select Server</option>
+            <select className="form-control" ref="hostname" defaultValue={serverCheck}>
               {servers}
             </select>
           </div>
           <div className="col-xs-6 margin-tops">
-            <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject"/>
+            <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject" defaultValue={subject}/>
           </div>
           <div className="col-xs-12">
             <textarea className="form-control" rows="8" placeholder="Message" ref="content"></textarea>

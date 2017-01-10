@@ -67,4 +67,8 @@ module.exports = {
   createTicket: function(ticket) {
     NubityAPIUtils.createTicket(ticket);
   },
+
+  createAlertTicket: function (alert) {
+    NubityAPIUtils.createAlertTicket(alert);
+  },
 }

@@ -96,5 +96,12 @@ module.exports = {
       actionType: ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES,
       res: graphTypes,
     });
-  }
+  },
+
+  createAlertTicket: function (alert) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.CREATE_ALERT_TICKET,
+      res: alert,
+    });
+  },
 }

@@ -24,7 +24,6 @@ module.exports = React.createClass({
           <a onClick={this._createTicket}>
             <button className="large-green-button">Create Ticket</button>
           </a>
-          <button className="button-shadow large-green-button">Start Live Chat</button>
         </div>
         <div className="margin-sides min-height-subsection">
           <div className="col-xs-3 centered">

@@ -129,7 +129,7 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2 className="align-center">Hi {firstname}! Check your infrastructure and apps status</h2>
         </div>
-        <div className="col-md-6 col-md-offset-3">
+        <div className="col-md-6 col-md-offset-3 hidden">
           <div className="col-xs-4 dashboard-icons blue">
             <i className="icon nb-information blue-text dashboard-minus" aria-hidden="true"></i>
             Information
@@ -165,12 +165,12 @@ module.exports = React.createClass({
           </table>
         </div>
         {notice}
-        <div className="margin-sides row">
+        <div className="margin-sides row hidden">
           <div className="col-xs-12 col-md-6">
-            <Graph/>
+            
           </div>
           <div className="col-xs-6 right-div" id="container">
-            <CreateGraph/>
+            
           </div>
         </div>
       </div>

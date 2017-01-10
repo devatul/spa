@@ -20,6 +20,7 @@ module.exports = {
     SHOW_DASHBOARD: null,
     SHOW_AVAILABLE_GRAPH_TYPES: null,
     SEARCH: null,
+    CREATE_ALERT_TICKET: null,
   }),
 
   PayloadSources: keyMirror({

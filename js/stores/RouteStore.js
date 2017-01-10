@@ -1,6 +1,7 @@
 var Dispatcher        = require('../dispatcher/Dispatcher');
 var Constants         = require('../constants/Constants');
-var SessionStore      = require('../stores/SessionStore');
+var SessionStore      = require('./SessionStore');
+var AlertsStore       = require('./AlertsStore');
 var EventEmitter      = require('events').EventEmitter;
 var assign            = require('object-assign');
 
@@ -31,6 +32,7 @@ var RouteStore = assign({}, EventEmitter.prototype, {
 RouteStore.dispatchToken = Dispatcher.register(function (payload) {
   Dispatcher.waitFor([
     SessionStore.dispatchToken,
+    AlertsStore.dispatchToken,
   ]);
 
   var action = payload.action;
@@ -39,18 +41,14 @@ RouteStore.dispatchToken = Dispatcher.register(function (payload) {
     case ActionTypes.REDIRECT:
       router.transitionTo(action.route);
       RouteStore.emitChange();
-      break;
+    break;
 
-    case ActionTypes.REDIRECT_WITH_PARAMS:
-      if (SessionStore.isLoggedIn()) {
-        router.transitionTo('');
-      }
-      RouteStore.emitChange();
-      break;
-
+    case ActionTypes.CREATE_ALERT_TICKET:
+      router.transitionTo('create_ticket');
+    break;
     case ActionTypes.LOGOUT:
       router.transitionTo('login');
-      break;
+    break;
   }
   return true;
 });
