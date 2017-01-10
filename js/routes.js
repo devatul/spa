@@ -15,6 +15,8 @@ var Performance             = require ('./components/Performance_section.react')
 var Ninja                   = require ('./components/Ninja_support_section.react');
 var CreateTicket            = require ('./components/Create_ticket.react');
 var LiveChat                = require ('./components/Live_chat.react');
+var TermsAndConditions      = require ('./components/Terms_and_conditions.react');
+var PrivacyPolicies         = require ('./components/Privacy_policies.react');
 
 var routes = (
   <Route handler={NubityApp}           path='/'>
@@ -30,6 +32,8 @@ var routes = (
     <Route name="ninja"                path='/ninja-support'           handler={Ninja} />
     <Route name="create_ticket"        path='/create-ticket'           handler={CreateTicket} />
     <Route name="live_chat"            path='/live-chat'               handler={LiveChat} />
+    <route name="terms_and_conditions" path='/terms-and-conditions'    handler={TermsAndConditions} />
+    <route name="privacy_policies"     path='/privacy-policies'        handler={PrivacyPolicies} />
     <DefaultRoute                                                      handler={Login}/>
   </Route>
 );

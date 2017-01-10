@@ -213,6 +213,10 @@ a:hover, a:active {
   overflow-y: auto;
   position: fixed;
 }
+.principal-section-loggedout {
+  margin-top: 100px;
+  margin-left: 30px;
+}
 .section-title {
   height: 60px;
   font-family: 'Open Sans', sans-serif;
@@ -890,6 +894,9 @@ tr:nth-child(even) {
 @media screen and (max-width: 768px) {
   .principal-section {
     width: 100%;
+    margin-left: 0;
+  }
+  .principal-section-loggedout {
     margin-left: 0;
   }
   #sidebar {

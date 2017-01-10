@@ -34,13 +34,25 @@ module.exports = React.createClass({
     redirect('forgot_password');
   },
 
+  _redirectSignUp: function () {
+    redirect('signup');
+  },
+
+  _redirectTerms: function () {
+    redirect('terms_and_conditions');
+  },
+
+  _redirectPolicy: function () {
+    redirect('privacy_policies');
+  },
+
   render: function () {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
           <div className="top-div">
             <p className="login-p">Dont have an account yet?</p>
-            <button className="go-to-signup">Start Now!</button>
+            <button className="go-to-signup" onClick={this._redirectSignUp}>Start Now!</button>
           </div>
           <div className="login-logo"></div>
           <p className="login-title">Your cloud.</p>
@@ -77,6 +89,14 @@ module.exports = React.createClass({
             </div>
             <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Log in</button>
           </form>
+          <div className="row">
+            <div className="col-xs-6">
+              <a onClick={this._redirectTerms}>Terms and conditions</a>
+            </div>
+            <div className="col-xs-6">
+              <a onClick={this._redirectPolicy}>Privacy policies</a>
+            </div>
+          </div>
         </div>
       </section>
     );

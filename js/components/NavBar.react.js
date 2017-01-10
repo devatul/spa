@@ -15,7 +15,7 @@ var NavBar = React.createClass({
 
   getInitialState: function () {
     return {
-      isLoggedIn: '',
+      isLoggedIn: SessionStore.isLoggedIn(),
     };
   },
 
@@ -65,6 +65,15 @@ var NavBar = React.createClass({
     localStorage.setItem('landing', true);
     redirect('landing');
   },
+
+  _redirectLogin: function () {
+    redirect('login');
+  },
+
+  _redirectSignUp: function () {
+    redirect('signup');
+  },
+
   onSelected: function (e) {
     // doesn't need to have functionality
   },
@@ -80,6 +89,32 @@ var NavBar = React.createClass({
     if (0 < login || 0 < signup || 0 < forgot) {
       return (
         <div></div>
+      );
+    } else if (false == this.state.isLoggedIn) {
+      return (
+        <nav className="navbar navbar-default nav navbar-fixed-top">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <img src="./images/nubity-logo-hd.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+            </div>
+            <div>
+              <ul className="nav navbar-nav navbar-right">
+                <li className="up-li">
+                  <div className="top-div-navbar">
+                    <button className="go-to-signup" onClick={this._redirectLogin}>Log in</button>
+                    <button className="go-to-signup" onClick={this._redirectSignUp}>Sign Up</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
       );
     } else {
       return (
