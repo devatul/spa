@@ -4,21 +4,56 @@ var NavBar       = require('./NavBar.react');
 var SideBar      = require('./SideBar.react');
 var Footer       = require('./Footer.react');
 var Auth         = require('j-toker');
+var SessionStore = require('../stores/SessionStore');
 
 var NubityApp  = React.createClass({
   getInitialState: function () {
     return {
       user: Auth.user,
+      isLoggedIn: SessionStore.isLoggedIn(),
     };
   },
 
+  componentDidMount: function () {
+    SessionStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    SessionStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function () {
+    if (this.isMounted()) {
+      this.setState({
+        isLoggedIn: SessionStore.isLoggedIn(),
+      });
+    }
+  },
+
   render: function () {
+    var loggedIn = this.state.isLoggedIn;
+    var dashboard;
+    if (true == loggedIn) {
+      dashboard = 
+        <span>
+          <NavBar/>
+          <SideBar/>
+          <RouteHandler/>
+          <Footer/>
+        </span>
+      ;
+    } else {
+      dashboard = 
+        <span>
+          <NavBar/>
+          <RouteHandler/>
+          <Footer/>
+        </span>
+      ;
+    }
     return (
       <div className="nubity-app">
-        <NavBar/>
-        <SideBar/>
-        <RouteHandler/>
-        <Footer/>
+        {dashboard}
       </div>
     );
   },

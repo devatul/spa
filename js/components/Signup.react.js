@@ -14,13 +14,17 @@ module.exports = React.createClass({
     redirect('live_chat');
   },
 
+  _redirectLogin: function () {
+    redirect('login');
+  },
+
   render: function () {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 signup-box">
           <div className="top-div">
             <p className="login-p">Have an account?</p>
-            <button className="go-to-signup">Log in</button>
+            <button className="go-to-signup" onClick={this._redirectLogin}>Log in</button>
           </div>
           <div className="login-logo"></div>
           <p className="login-title">Create an Account.</p>

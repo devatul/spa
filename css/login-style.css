@@ -80,9 +80,17 @@ section {
   display: inline;
   color: grey;
 }
+.login-p-navbar {
+  display: inline;
+  color: white;
+}
 .top-div {
   text-align: right;
   margin-top: 20px;
+}
+.top-div-navbar {
+  text-align: right;
+  margin-right: 20px;
 }
 .go-to-signup {
   background-color: #2d8ccf;
@@ -90,6 +98,7 @@ section {
   border: solid 0px transparent;
   border-radius: 3px;
   padding: 10px;
+  margin-left: 10px;
 }
 .signup-subtitle {
   text-align: left;
