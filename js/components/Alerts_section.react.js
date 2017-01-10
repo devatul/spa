@@ -5,6 +5,7 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var AlertsStore                = require('../stores/AlertsStore');
 var getAlerts                  = require('../actions/RequestActions').getAlerts;
+var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -31,6 +32,9 @@ module.exports = React.createClass({
         alerts: alerts,
         totalItems: alerts.totalItems,
       });
+      if (AlertsStore.isAlertTicket()) {
+        redirect('create_ticket');
+      }
     }
   },
 
@@ -38,16 +42,17 @@ module.exports = React.createClass({
     getAlerts(page);
   },
 
-  _createTicket: function () {
-    redirect('create_ticket');
+  _createTicket: function (alert) {
+    createAlertTicket(alert);
   },
 
   render: function () {
     var alerts = this.state.alerts.member;
+
     var rows = [];
     for (var key in alerts) {
+
       var level = '';
-      var state = '';
       if ('critical' == alerts[key].level) {
         level = 'fa fa-minus-square red-color';
       } else if ('warning' == alerts[key].level) {
@@ -56,20 +61,11 @@ module.exports = React.createClass({
         level = 'fa fa-info-circle blue-color';
       }
 
+      var state = '';
       if (alerts[key].is_acknowledge) {
         state = 'fa fa-check-circle green-icon';
       } else {
         state = 'fa fa-exclamation-circle red-icon';
-      }
-
-      var totalItems = this.state.alerts.totalItems;
-      var pages = Math.ceil(parseInt(totalItems)/10);
-
-      var navpages = [];
-      for (var key = 0 ; key < pages ; key++) {
-        var page = key + 1;
-        var send = page.toString();
-        navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
       }
 
       var from = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -80,8 +76,8 @@ module.exports = React.createClass({
         to = '-';
       }
       
-      rows[rows.length] =
-        <tr>
+      rows.push(
+        <tr key={key}>
           <td>
             <i className={state} aria-hidden="true"></i>
           </td>
@@ -92,19 +88,31 @@ module.exports = React.createClass({
             <i className={level} aria-hidden="true"></i>
           </td>
           <td>
-            <time datetime="">{from}</time>
+            <time dateTime="">{from}</time>
           </td>
           <td>
-            <time datetime="">{to}</time>
+            <time dateTime="">{to}</time>
           </td>
           <td>
             <span className="label label-danger">Stop Alerting</span>
           </td>
           <td>
-            <span className="label label-success button-pointer" onClick={this._createTicket}>Create Ticket</span>
+            <span className="label label-success button-pointer" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>
           </td>
-        </tr>;
+        </tr>
+      );
     }
+
+    var totalItems = this.state.alerts.totalItems;
+    var pages = Math.ceil(parseInt(totalItems)/10);
+
+    var navpages = [];
+    for (var key = 0; key < pages; key++) {
+      var page = key + 1;
+      var send = page.toString();
+      navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
+    }
+
     return (
       <div className="principal-section">
         <div className="section-title">

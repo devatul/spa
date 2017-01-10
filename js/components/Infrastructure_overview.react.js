@@ -75,7 +75,7 @@ module.exports = React.createClass({
           <td>{overview[key].memory/1024} GB</td>
           <td><i className="fa fa-minus-square red-color" aria-hidden="true"/></td>
           <td>
-            <span className="label label-primary">Configure</span>
+            <span className="label label-success">Start</span>
           </td>
           <td>
             <span className="label label-danger">Stop</span>

@@ -56,7 +56,7 @@ module.exports = React.createClass({
                 <p className="menu-text">Alerts</p>
               </a>
             </div>
-            <div className="menu-button">
+            <div className="menu-button hidden">
               <a onClick={this._onClickPerformance}>
                 <div className="icon nb-performance medium"></div>
                 <p className="menu-text">Performance</p>
@@ -70,7 +70,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="social-links">
-            <div className="menu-button">
+            <div className="menu-button hidden">
               <div className="icon nb-feedback medium"></div>
               <p className="menu-text">FeedBack</p>
             </div>

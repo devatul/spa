@@ -10,6 +10,7 @@ var showInfrastructureOnPremise    = require('../actions/ServerActions').showInf
 var showAlerts                     = require('../actions/ServerActions').showAlerts;
 var showDashboardAlerts            = require('../actions/ServerActions').showDashboardAlerts;
 var showDashboards                 = require('../actions/ServerActions').showDashboards;
+var createAlertTicket              = require('../actions/ServerActions').createAlertTicket;
 var showDashboard                  = require('../actions/ServerActions').showDashboard;
 var showProviders                  = require('../actions/ServerActions').showProviders;
 var showNinja                      = require('../actions/ServerActions').showNinja;
@@ -534,5 +535,9 @@ module.exports = {
 
   getToken: function () {
     return ('Bearer '+ localStorage.getItem('nubity-token'));
+  },
+
+  createAlertTicket: function (alert) {
+    createAlertTicket(alert);
   },
 };
