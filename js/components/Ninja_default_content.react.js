@@ -5,6 +5,7 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaStore                 = require('../stores/NinjaStore');
 var getNinja                   = require('../actions/RequestActions').getNinja;
+var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -87,37 +88,42 @@ module.exports = React.createClass({
         rows.push(
           <tr key={key}>
             <td><span className={status}></span></td>
-              <td>
-                <i className={department_icon} aria-hidden="true"></i>  {department_name}
-              </td>
-              <td>
-                <span className={priority}></span>
-              </td>
-              <td>{ticket[key].subject}</td>
-              <td>{ticket[key].hostname}</td>
-              <td>
-                <time dateTime="">{from}</time>
-              </td>
-              <td>{ticket[key].ticket}</td>
-              <td>
-                <span className="label label-primary">View Ticket</span>
-              </td>
+            <td>{ticket[key].ticket}</td>
+            <td>{ticket[key].subject}</td>
+            <td>
+              <span className={priority}></span>
+            </td>
+            <td>
+              <i className={department_icon} aria-hidden="true"></i>  {department_name}
+            </td>
+            <td>{ticket[key].hostname}</td>
+            <td>
+              <time dateTime={ticket[key].created_at}>{from}</time>
+            </td>
+            <td>
+              <span className="label label-primary">View Ticket</span>
+            </td>
           </tr>
         );
       }
     }
 
+    if (!ticket) {
+      return (
+        <Preloader />
+      );
+    }
     return (
       <div>
         <table className="table table-striped table-condensed">
           <tr>
             <th>Status</th>
-            <th>Department</th>
-            <th>Priority</th>
+            <th>Ticket Id</th>
             <th>Subject</th>
+            <th>Priority</th>
+            <th>Department</th>
             <th>Server</th>
             <th>Date</th>
-            <th>Ticket Id</th>
             <th>View Ticket</th>
           </tr>
           <tbody>

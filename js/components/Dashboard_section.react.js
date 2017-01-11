@@ -10,6 +10,7 @@ var getDashboards              = require('../actions/RequestActions').getDashboa
 var getDashboard               = require('../actions/RequestActions').getDashboard;
 var CreateGraph                = require('./Create_graph.react');
 var Graph                      = require('./Graph.react');
+var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -124,6 +125,35 @@ module.exports = React.createClass({
         </tr>;
     }
 
+    var alertTable;
+
+    if (!mainAlerts) {
+      alertTable = <Preloader />;
+    } else {
+      alertTable = 
+        <div className="alert-table">
+          <div className="margin-sides">
+            <table>
+              <tr>
+                <th>State</th>
+                <th>Server</th>
+                <th>Connection name</th>
+                <th>Alert description</th>
+                <th>Priority</th>
+                <th>Started on</th>
+                <th>Resolved on</th>
+                <th>Action</th>
+                <th>Report an issue</th>
+              </tr>
+              <tbody>
+                {rows}
+              </tbody>
+            </table>
+          </div>
+          {notice}
+        </div>;
+    }
+
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -146,25 +176,7 @@ module.exports = React.createClass({
             <div className="dashboard-icons-counter third">1</div>
           </div>
         </div>
-        <div className="margin-sides">
-          <table>
-            <tr>
-              <th>State</th>
-              <th>Server</th>
-              <th>Connection name</th>
-              <th>Alert description</th>
-              <th>Priority</th>
-              <th>Started on</th>
-              <th>Resolved on</th>
-              <th>Action</th>
-              <th>Report an issue</th>
-            </tr>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-        </div>
-        {notice}
+        {alertTable}
         <div className="margin-sides row hidden">
           <div className="col-xs-12 col-md-6">
             
