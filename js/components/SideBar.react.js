@@ -77,18 +77,18 @@ module.exports = React.createClass({
             <div className="">
               <p>
                 <span>
-                  <a href="http://github.com" target="_blank">
+                  <a href="https://github.com/nubity" target="_blank">
                     <i className="fa fa-github social-icon icon-margin" aria-hidden="true"></i>
                   </a>
                 </span>
                 <span>
-                  <a href="" target="_blank">
+                  <a href="https://www.linkedin.com/company/nubity" target="_blank">
                     <i className="fa fa-linkedin-square social-icon icon-margin" aria-hidden="true">
                     </i>
                   </a>
                 </span>
                 <span>
-                  <a href="" target="_blank">
+                  <a href="https://plus.google.com/+Nubitycloud" target="_blank">
                     <i className="fa fa-google-plus social-icon icon-margin" aria-hidden="true">
                     </i>
                   </a>
@@ -96,17 +96,17 @@ module.exports = React.createClass({
               </p>
               <p>
                 <span>
-                  <a href="" target="_blank">
+                  <a href="https://www.facebook.com/Nubity" target="_blank">
                     <i className="fa fa-facebook-square social-icon icon-margin" aria-hidden="true"></i>
                   </a>
                 </span>
                 <span>
-                  <a href="" target="_blank">
+                  <a href="https://twitter.com/nubity" target="_blank">
                     <i className="fa fa-twitter social-icon icon-margin" aria-hidden="true"></i>
                   </a>
                 </span>
                 <span>
-                  <a href="" target="_blank">
+                  <a href="https://www.youtube.com/user/NubityCloud" target="_blank">
                     <i className="fa fa-youtube-play social-icon icon-margin" aria-hidden="true"></i>
                   </a>
                 </span>

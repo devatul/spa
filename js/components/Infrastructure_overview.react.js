@@ -5,6 +5,7 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var InfrastructureStore        = require('../stores/InfrastructureStore');
 var getInfrastructureOverview  = require('../actions/RequestActions').getInfrastructureOverview;
+var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
 
@@ -81,6 +82,12 @@ module.exports = React.createClass({
             <span className="label label-danger">Stop</span>
           </td>
         </tr>
+      );
+    }
+
+    if (!overview) {
+      return (
+        <Preloader />
       );
     }
     return (

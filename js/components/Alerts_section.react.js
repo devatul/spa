@@ -6,6 +6,7 @@ var SessionStore               = require('../stores/SessionStore');
 var AlertsStore                = require('../stores/AlertsStore');
 var getAlerts                  = require('../actions/RequestActions').getAlerts;
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
+var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -113,11 +114,12 @@ module.exports = React.createClass({
       navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
     }
 
-    return (
-      <div className="principal-section">
-        <div className="section-title">
-          <h2 className="align-center">Alerts</h2>
-        </div>
+    var alertTable;
+
+    if (!alerts) {
+      alertTable = <Preloader />;
+    } else {
+      alertTable = 
         <div className="col-xs-12">
           <table className="table table-striped table-condensed">
             <tr>
@@ -150,7 +152,14 @@ module.exports = React.createClass({
             </li>
           </ul>
         </nav>
+      </div>;
+    }
+    return (
+      <div className="principal-section">
+        <div className="section-title">
+          <h2 className="align-center">Alerts</h2>
         </div>
+        {alertTable}
       </div>
     );
   },

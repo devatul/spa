@@ -524,7 +524,7 @@ module.exports = {
       } else if (400 <= code) {
         redirect('login');
       } else {
-        showNinja(text);
+        redirect('ninja');
       }
     }.bind(this));
   },

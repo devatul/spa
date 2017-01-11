@@ -63,8 +63,6 @@ module.exports = React.createClass({
     var search = this.state.search;
     var instances = this.state.instances;
     var servers = [];
-    
-
     var department = [];
     var type = [];
     var subject = '';
@@ -132,7 +130,6 @@ module.exports = React.createClass({
       servers.push(<option value={instances[key].hostname}>{instances[key].hostname}</option>);
     }
     
-
     var priority = [
       <select className="form-control" ref="priority" defaultValue={priorityCheck}>
         <option value="" disabled>Select Priority</option>
