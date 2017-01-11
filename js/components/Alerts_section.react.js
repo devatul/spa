@@ -55,11 +55,11 @@ module.exports = React.createClass({
 
       var level = '';
       if ('critical' == alerts[key].level) {
-        level = 'fa fa-minus-square red-color';
+        level = 'icon nb-critical icon-state red-text';
       } else if ('warning' == alerts[key].level) {
-        level = 'fa fa-exclamation-triangle yellow-color';
+        level = 'icon nb-warning icon-state yellow-text';
       } else if ('info' == alerts[key].level) {
-        level = 'fa fa-info-circle blue-color';
+        level = 'icon nb-information icon-state blue-text';
       }
 
       var state = '';

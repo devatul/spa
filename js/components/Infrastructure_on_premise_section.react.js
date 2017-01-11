@@ -55,12 +55,29 @@ module.exports = React.createClass({
     }
 
     var rows = [];
+    var state = '';
     for (var key in onPremise) {
+      state = '';
+      if ('running' == onPremise[key].status) {
+        state = 'fa fa-server text-success';
+      } else {
+        state = 'fa fa-server light-grey-color';
+      } 
+
+      if ('critical' == onPremise[key].level) {
+        level = 'icon nb-critical icon-state red-text';
+      } else if ('warning' == onPremise[key].level) {
+        level = 'icon nb-warning icon-state yellow-text';
+      } else if ('info' == onPremise[key].level) {
+        level = 'icon nb-information icon-state blue-text';
+      } else {
+        level = 'fa fa-question-circle light-grey-color';
+      }
       rows[rows.length] =
         <tr>
           <td>
             <div className="status-container">
-              <i className="fa fa-server text-success" data-toggle="tooltip" data-original-title="Running"></i> 
+              <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
               <div id="os" className="os">
                 <i id="linux" className="sprites small os-ubuntu"></i>
               </div> 
@@ -74,7 +91,7 @@ module.exports = React.createClass({
             <i className="fa fa-retweet icon-margin" aria-hidden="true"></i>
           </td>
           <td>{onPremise[key].memory/1024} GB</td>
-          <td>Ok</td>
+          <td><i className={level} aria-hidden="true"></i></td>
           <td>
             <span className="label label-success">Start</span>
           </td>

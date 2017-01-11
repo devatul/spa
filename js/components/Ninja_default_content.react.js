@@ -88,7 +88,7 @@ module.exports = React.createClass({
         rows.push(
           <tr key={key}>
             <td><span className={status}></span></td>
-            <td>{ticket[key].ticket}</td>
+            <td>{ticket[key].name}</td>
             <td>{ticket[key].subject}</td>
             <td>
               <span className={priority}></span>

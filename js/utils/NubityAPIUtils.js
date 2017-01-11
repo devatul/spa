@@ -169,7 +169,7 @@ module.exports = {
     if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({page: page})
+      .query({page: page, include_health: true})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -188,6 +188,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
+      .query({include_health: true})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -211,7 +212,7 @@ module.exports = {
     if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public', page: page})
+      .query({provider_classification: 'public', page: page, include_health: true})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -230,7 +231,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public'})
+      .query({provider_classification: 'public', include_health: true})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {

@@ -11,6 +11,7 @@ var getDashboard               = require('../actions/RequestActions').getDashboa
 var CreateGraph                = require('./Create_graph.react');
 var Graph                      = require('./Graph.react');
 var Preloader                  = require('./Preloader.react');
+var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -44,6 +45,10 @@ module.exports = React.createClass({
         dashboards: dashboards,
         dashboard: dashboard,
       });
+
+      if (AlertsStore.isAlertTicket()) {
+        redirect('create_ticket');
+      }
     }
   },
 
@@ -51,8 +56,8 @@ module.exports = React.createClass({
     redirect('alerts');
   },
 
-  _createTicket: function () {
-    redirect('create_ticket');
+  _createTicket: function (alert) {
+    createAlertTicket(alert);
   },
 
   render: function() {
@@ -120,7 +125,7 @@ module.exports = React.createClass({
             <span className="label label-danger">Stop Alerting</span>
           </td>
           <td>
-            <span className="label label-success button-pointer" onClick={this._createTicket}>Create Ticket</span>
+            <span className="label label-success button-pointer" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
           </td>
         </tr>;
     }
