@@ -384,6 +384,12 @@ body {
 .blue-color {
   color: #2d8ccf;
 }
+.grey-color {
+  color: #9E9E9E;
+}
+.light-grey-color {
+  color: #888585;
+}
 .margin-sides {
   margin-left: 30px!important;
   margin-right: 30px!important;
