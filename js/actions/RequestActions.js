@@ -31,6 +31,10 @@ module.exports = {
   getAlerts: function (page) {
     NubityAPIUtils.getAlerts(page);
   },
+  
+  getHistoryAlerts: function (page) {
+    NubityAPIUtils.getHistoryAlerts(page);
+  },
 
   getDashboardAlerts: function () {
     NubityAPIUtils.getDashboardAlerts();
@@ -70,5 +74,9 @@ module.exports = {
 
   createAlertTicket: function (alert) {
     NubityAPIUtils.createAlertTicket(alert);
+  },
+
+  acknowledge: function (alertId) {
+    NubityAPIUtils.acknowledge(alertId);
   },
 }

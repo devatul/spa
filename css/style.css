@@ -375,6 +375,9 @@ body {
   right: -14px;
   font-size: 30px!important;
 }
+.invisible {
+  color:transparent;
+}
 .yellow-color {
   color: #ffc524;
 }

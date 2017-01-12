@@ -49,6 +49,13 @@ module.exports = {
     });
   },
 
+  showHistoryAlerts: function (alerts) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_HISTORY_ALERTS,
+      res: alerts,
+    });
+  },
+
   showDashboardAlerts: function (dashboardAlerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_DASHBOARD_ALERTS,
