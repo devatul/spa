@@ -8,6 +8,7 @@ var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _alerts          = '';
+var _history         = '';
 var _isAlertTicket   = false;
 var _alertTicket     = '';
 var _dashboardAlerts = '';
@@ -30,6 +31,10 @@ var AlertsStore = assign({}, EventEmitter.prototype, {
 
   getAlerts: function () {
     return _alerts;
+  },
+
+  getHistoryAlerts: function () {
+    return _history;
   },
 
   getDashboardAlerts: function () {
@@ -64,6 +69,13 @@ AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.SHOW_ALERTS:
       _alerts = action.res;
+      _textError = '';
+      _errorCode = '';
+      AlertsStore.emitChange();
+    break;
+
+    case ActionTypes.SHOW_HISTORY_ALERTS:
+      _history   = action.res;
       _textError = '';
       _errorCode = '';
       AlertsStore.emitChange();

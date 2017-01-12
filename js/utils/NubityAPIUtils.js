@@ -8,6 +8,7 @@ var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInf
 var showInfrastructurePrivateCloud = require('../actions/ServerActions').showInfrastructurePrivateCloud;
 var showInfrastructureOnPremise    = require('../actions/ServerActions').showInfrastructureOnPremise;
 var showAlerts                     = require('../actions/ServerActions').showAlerts;
+var showHistoryAlerts              = require('../actions/ServerActions').showHistoryAlerts;
 var showDashboardAlerts            = require('../actions/ServerActions').showDashboardAlerts;
 var showDashboards                 = require('../actions/ServerActions').showDashboards;
 var createAlertTicket              = require('../actions/ServerActions').createAlertTicket;
@@ -374,6 +375,71 @@ module.exports = {
         }
       }.bind(this));
     }
+  },
+
+  getHistoryAlerts: function (page) {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+    if (0 != page) {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .query({page: page, include_history: true})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getHistoryAlerts(page);
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showHistoryAlerts(text);
+        }
+      }.bind(this));
+    } else {
+      request
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .query({include_history: true})
+      .set('Accept', 'aplication/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getHistoryAlerts(page);
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showHistoryAlerts(text);
+        }
+      }.bind(this));
+    }
+  },
+
+  acknowledge: function (alertId) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+    var user    = localStorage.getItem('nubity-user-id');
+
+    request
+    .put(APIEndpoints.PUBLIC + '/company/' + company + '/alerts/' + alertId + '/acknowledge.json') 
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .end(function (err, res) {
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.acknowledge();
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        this.getAlerts();
+      }
+    }.bind(this));
+
   },
 
   getDashboardAlerts: function () {
