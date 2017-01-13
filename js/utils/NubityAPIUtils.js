@@ -17,6 +17,7 @@ var showProviders                  = require('../actions/ServerActions').showPro
 var showNinja                      = require('../actions/ServerActions').showNinja;
 var search                         = require('../actions/ServerActions').search;
 var showAvailableGraphTypes        = require('../actions/ServerActions').showAvailableGraphTypes;
+var showTicket                     = require('../actions/ServerActions').showTicket;
 var APIEndpoints                   = Constants.APIEndpoints;
 
 module.exports = {
@@ -592,6 +593,50 @@ module.exports = {
         redirect('login');
       } else {
         redirect('ninja');
+      }
+    }.bind(this));
+  },
+
+  replyTicket: function(id, content) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+
+    request
+    .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + id + '/reply.json')
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .send({content: content})
+    .end(function(res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.replyTicket(ticket);
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        redirect('ninja');
+      }
+    }.bind(this));
+  },
+
+  getTicket: function (viewTicket) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+    request
+    .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + viewTicket)
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.getDashboardAlerts();
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        showTicket(text);
       }
     }.bind(this));
   },

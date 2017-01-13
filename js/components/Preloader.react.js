@@ -9,4 +9,4 @@ var Preloader = React.createClass({
   },
 });
 
-module.exports = Preloader; //There's already a new line after this line
+module.exports = Preloader;

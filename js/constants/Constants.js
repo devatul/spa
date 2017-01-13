@@ -22,6 +22,8 @@ module.exports = {
     SHOW_AVAILABLE_GRAPH_TYPES: null,
     SEARCH: null,
     CREATE_ALERT_TICKET: null,
+    SHOW_TICKET: null,
+    VIEW_TICKET: null,
   }),
 
   PayloadSources: keyMirror({

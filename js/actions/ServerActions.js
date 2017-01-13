@@ -111,4 +111,18 @@ module.exports = {
       res: alert,
     });
   },
+
+  viewTicket: function (ticket) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.VIEW_TICKET,
+      res: ticket,
+    });
+  },
+
+  showTicket: function (viewTicket) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_TICKET,
+      res: viewTicket,
+    });
+  },
 }

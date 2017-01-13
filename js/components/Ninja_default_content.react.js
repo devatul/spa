@@ -6,6 +6,8 @@ var SessionStore               = require('../stores/SessionStore');
 var NinjaStore                 = require('../stores/NinjaStore');
 var getNinja                   = require('../actions/RequestActions').getNinja;
 var Preloader                  = require('./Preloader.react');
+var getTicket                  = require('../actions/RequestActions').getTicket;
+var viewTicket                 = require('../actions/ServerActions').viewTicket;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -33,6 +35,13 @@ module.exports = React.createClass({
         totalItems: ninja.totalItems,
       });
     }
+    if (NinjaStore.isViewingTicket()) {
+        redirect('view_ticket');
+    }
+  },
+
+  _viewTicket: function (ticket) {
+    viewTicket(ticket);
   },
 
   _newPage: function (page) {
@@ -101,7 +110,7 @@ module.exports = React.createClass({
               <time dateTime={ticket[key].created_at}>{from}</time>
             </td>
             <td>
-              <span className="label label-primary">View Ticket</span>
+              <span className="label label-primary button-pointer" onClick={this._viewTicket.bind(this, ticket[key])}>View ticket</span>
             </td>
           </tr>
         );

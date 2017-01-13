@@ -17,6 +17,7 @@ var CreateTicket            = require ('./components/Create_ticket.react');
 var LiveChat                = require ('./components/Live_chat.react');
 var TermsAndConditions      = require ('./components/Terms_and_conditions.react');
 var PrivacyPolicies         = require ('./components/Privacy_policies.react');
+var ViewTicket              = require ('./components/View_ticket.react');
 
 var routes = (
   <Route handler={NubityApp}           path='/'>
@@ -34,6 +35,7 @@ var routes = (
     <Route name="live_chat"            path='/live-chat'               handler={LiveChat} />
     <route name="terms_and_conditions" path='/terms-and-conditions'    handler={TermsAndConditions} />
     <route name="privacy_policies"     path='/privacy-policies'        handler={PrivacyPolicies} />
+    <Route name="view_ticket"          path='/view-ticket/'            handler={ViewTicket} />
     <DefaultRoute                                                      handler={Login}/>
   </Route>
 );
