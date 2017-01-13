@@ -7,9 +7,12 @@ var assign       = require('object-assign');
 var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _ninja = '';
-var _textError = '';
-var _errorCode = '';
+var _ninja           = '';
+var _textError       = '';
+var _errorCode       = '';
+var _showticket      = '';
+var _ticket          = '';
+var _isViewingTicket = false;
 
 var NinjaStore = assign({}, EventEmitter.prototype, {
 
@@ -28,6 +31,27 @@ var NinjaStore = assign({}, EventEmitter.prototype, {
   getNinja: function () {
     return _ninja;
   },
+
+  getTicket: function () {
+    return _showticket;
+  },
+
+  getViewTicket: function () {
+    return _ticket;
+  },
+
+  setIsViewingTicket: function () {
+    _isViewingTicket = true;
+  },
+
+  resetViewingTicket: function () {
+    _isViewingTicket = false;
+  },
+
+  isViewingTicket: function () {
+    return _isViewingTicket;
+  },
+  
 });
 
 NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -40,7 +64,21 @@ NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError = '';
       _errorCode = '';
       NinjaStore.emitChange();
-      break;
+    break;
+
+    case ActionTypes.SHOW_TICKET:
+      _showticket = action.res;
+      _textError = '';
+      _errorCode = '';
+      NinjaStore.emitChange();
+    break;
+
+    case ActionTypes.VIEW_TICKET:
+      _ticket = action.res;
+      _isViewingTicket = true;
+      _textError = '';
+      _errorCode = '';
+    break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
@@ -51,7 +89,7 @@ NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
         _errorCode = action.code;
         NinjaStore.emitChange();
       }
-      break;
+    break;
   }
 
   return true;

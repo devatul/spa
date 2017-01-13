@@ -46,6 +46,11 @@ RouteStore.dispatchToken = Dispatcher.register(function (payload) {
     case ActionTypes.CREATE_ALERT_TICKET:
       router.transitionTo('create_ticket');
     break;
+
+    case ActionTypes.VIEW_TICKET:
+      router.transitionTo('view_ticket');
+    break;
+
     case ActionTypes.LOGOUT:
       router.transitionTo('login');
     break;

@@ -72,11 +72,19 @@ module.exports = {
     NubityAPIUtils.createTicket(ticket);
   },
 
+  replyTicket: function(id, content) {
+    NubityAPIUtils.replyTicket(id, content);
+  },
+
   createAlertTicket: function (alert) {
     NubityAPIUtils.createAlertTicket(alert);
   },
 
   acknowledge: function (alertId) {
     NubityAPIUtils.acknowledge(alertId);
+  },
+
+  getTicket: function (ticket) {
+    NubityAPIUtils.getTicket(ticket);
   },
 }
