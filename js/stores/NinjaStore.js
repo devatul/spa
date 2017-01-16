@@ -10,7 +10,7 @@ var CHANGE_EVENT = 'change';
 var _ninja           = '';
 var _textError       = '';
 var _errorCode       = '';
-var _showticket      = '';
+var _singleticket    = '';
 var _ticket          = '';
 var _isViewingTicket = false;
 
@@ -32,11 +32,10 @@ var NinjaStore = assign({}, EventEmitter.prototype, {
     return _ninja;
   },
 
-  getTicket: function () {
-    return _showticket;
-  },
-
   getViewTicket: function () {
+    if ('' != _singleticket) {
+      return _singleticket;
+    } 
     return _ticket;
   },
 
@@ -51,6 +50,10 @@ var NinjaStore = assign({}, EventEmitter.prototype, {
   isViewingTicket: function () {
     return _isViewingTicket;
   },
+
+  resetStore: function () {
+    _singleticket = '';
+  }
   
 });
 
@@ -67,7 +70,8 @@ NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
     break;
 
     case ActionTypes.SHOW_TICKET:
-      _showticket = action.res;
+      _singleticket = action.res;
+      _ticket = action.res;
       _textError = '';
       _errorCode = '';
       NinjaStore.emitChange();
