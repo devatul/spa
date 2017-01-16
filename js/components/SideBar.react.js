@@ -1,29 +1,9 @@
 var React                 = require('react');
 var Router                = require('../router');
-var redirect              = require('../actions/RouteActions').redirect;
 var SessionStore          = require('../stores/SessionStore');
+var Link                  = require('react-router').Link;
 
 module.exports = React.createClass({
-
-  _onClickInfrastructure: function () {
-    redirect('infrastructure');
-  },
-
-  _onClickDashboard: function () {
-    redirect('dashboard');
-  },
-
-  _onClickAlerts: function () {
-    redirect('alerts');
-  },
-
-  _onClickPerformance: function () {
-    redirect('performance');
-  },
-
-  _onClickNinja: function () {
-    redirect('ninja');
-  },
 
   render: function () {
     var url    = window.location.href;
@@ -38,36 +18,36 @@ module.exports = React.createClass({
 
         <div className="side-bar-container" id="sidebar">
           <div className="menu-buttons">
-            <div className="menu-button nb-active">
-              <a onClick={this._onClickDashboard}>
+            <Link to="/dashboard" activeClassName="nb-active">
+              <div className="menu-button">
                 <div className="icon nb-dashboard medium"></div>
                 <p className="menu-text">Dashboard</p>
-              </a>
-            </div>
-            <div className="menu-button">
-              <a onClick={this._onClickInfrastructure}>
+              </div>
+            </Link>
+            <Link to="/infrastructure" activeClassName="nb-active">
+              <div className="menu-button">
                 <div className="icon nb-infrastructure medium"></div>
                 <p className="menu-text">Infrastructure</p>
-              </a>
-            </div>
-            <div className="menu-button">
-              <a onClick={this._onClickAlerts}>
+              </div>
+            </Link>
+            <Link to="/alerts" activeClassName="nb-active">
+              <div className="menu-button">
                 <div className="icon nb-alert medium"></div>
                 <p className="menu-text">Alerts</p>
-              </a>
-            </div>
-            <div className="menu-button hidden">
-              <a onClick={this._onClickPerformance}>
+              </div>
+            </Link>
+            <Link to="/performance" activeClassName="nb-active">
+              <div className="menu-button hidden">
                 <div className="icon nb-performance medium"></div>
                 <p className="menu-text">Performance</p>
-              </a>
-            </div>
-            <div className="menu-button">
-              <a onClick={this._onClickNinja}>
+              </div>
+            </Link>
+            <Link to="/ninja-support" activeClassName="nb-active">
+              <div className="menu-button">
                 <div className="icon nb-ninja-support medium"></div>
                 <p className="menu-text">Ninja Support</p>
-              </a>
-            </div>
+              </div>
+            </Link>
           </div>
           <div className="social-links">
             <div className="menu-button hidden">

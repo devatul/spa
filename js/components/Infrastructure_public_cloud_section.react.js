@@ -54,14 +54,19 @@ module.exports = React.createClass({
       navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
     }
 
+    var paginatorClass;
+    if (pages <= 1) {
+      paginatorClass = 'hidden';
+    }
+
     var rows = [];
     var state = '';
     for (var key in publicCloud) {
       state = '';
       if ('running' == publicCloud[key].status) {
-        state = 'fa fa-cloud text-success';
+        state = 'icon nb-cloud icon-state green-text';
       } else {
-        state = 'fa fa-cloud light-grey-color';
+        state = 'icon nb-cloud icon-state grey-text';
       } 
 
       if ('critical' == publicCloud[key].level) {
@@ -85,18 +90,18 @@ module.exports = React.createClass({
           </td>
           <td>{publicCloud[key].hostname}</td>
           <td>{publicCloud[key].external_identifier}</td>
-          <td>
-            <i className="fa fa-play icon-margin" aria-hidden="true"></i> 
-            <i className="fa fa-stop icon-margin" aria-hidden="true"></i> 
-            <i className="fa fa-retweet icon-margin" aria-hidden="true"></i>
+          <td className="icons">
+            <i className="icon nb-start icon-margin" aria-hidden="true"></i> 
+            <i className="icon nb-stop icon-margin" aria-hidden="true"></i> 
+            <i className="icon nb-restart icon-margin" aria-hidden="true"></i>
           </td>
           <td>{publicCloud[key].memory/1024} GB</td>
-          <td><i className={level} aria-hidden="true"></i></td>
-          <td>
-            <span className="label label-success">Start</span>
+          <td className="icons"><i className={level} aria-hidden="true"></i></td>
+          <td className="icons">
+            <span className="action-button nubity-green">Start</span>
           </td>
-          <td>
-            <span className="label label-danger">Stop</span>
+          <td className="icons">
+            <span className="action-button nubity-red">Stop</span>
           </td>
         </tr>
       );
@@ -118,7 +123,7 @@ module.exports = React.createClass({
           {rows}
           </tbody>
         </table>
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
               <a aria-label="Previous">

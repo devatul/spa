@@ -68,3 +68,13 @@
     font-weight: normal;
     font-style: normal;
 }
+/*Font Helpers*/
+.neosansregular {
+    font-family: 'neosansregular' !important;
+}
+.neosansbold {
+    font-family: 'neosansbold' !important;
+}
+.neosanslight {
+    font-family: 'neosanslight' !important;
+}

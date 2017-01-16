@@ -88,7 +88,7 @@ module.exports = React.createClass({
         level = 'icon nb-information icon-state blue-text';
       }
 
-      if (mainAlerts[key].is_acknowledge) {
+      if (mainAlerts[key].is_acknowledged) {
         state = 'icon nb-thick-circle icon-state green-text';
       } else {
         state = 'icon nb-alert icon-state red-text';
@@ -106,13 +106,13 @@ module.exports = React.createClass({
       
       rows[rows.length] =
         <tr>
-          <td>
+          <td className="icons">
             <i className={state} aria-hidden="true"></i>
           </td>
           <td>{mainAlerts[key].instance.hostname}</td>
           <td>{mainAlerts[key].instance.provider_credential.name}</td>
           <td>{mainAlerts[key].description}</td>
-          <td>
+          <td className="icons">
             <i className={level} aria-hidden="true"></i>
           </td>
           <td>
@@ -122,10 +122,10 @@ module.exports = React.createClass({
             <time dateTime={mainAlerts[key].resolved_on}>{to}</time>
           </td>
           <td>
-            <span className="label label-danger">Stop Alerting</span>
+            <span className="action-button action-button-stop button-pointer">Stop Alerting</span>
           </td>
           <td>
-            <span className="label label-success button-pointer" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
+            <span className="action-button nubity-green button-pointer" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
           </td>
         </tr>;
     }

@@ -20,37 +20,37 @@ module.exports = React.createClass({
           <ul className="nav nav-tabs section-tabs">
             <li role="presentation" className="active">
               <a className="grey-color" data-toggle="tab" href="#infrastructureOverview">
-                <i className="fa fa-eye" aria-hidden="true"></i> Overview
+                <i className="icon nb-eye small" aria-hidden="true"></i> Overview
               </a>
             </li>
             <li role="presentation">
               <a className="grey-color" data-toggle="tab" href="#infrastructurePublic">
-                <i className="fa fa-cloud" aria-hidden="true"></i> Public Cloud
+                <i className="icon nb-cloud-public small" aria-hidden="true"></i> Public Cloud
               </a>
             </li>
             <li role="presentation">
               <a className="grey-color" data-toggle="tab" href="#infrastructurePrivate">
-                <i className="fa fa-cloud" aria-hidden="true"></i> Private Cloud
+                <i className="icon nb-cloud-private small" aria-hidden="true"></i> Private Cloud
               </a>
             </li>
             <li role="presentation">
               <a className="grey-color"data-toggle="tab" href="#infrastructureOnPremise">
-                <i className="fa fa-server" aria-hidden="true"></i> On-premise servers
+                <i className="icon nb-servers small" aria-hidden="true"></i> On-premise servers
               </a>
             </li>
             <li role="presentation" className="disabled">
               <a className="grey-color">
-                <i className="fa fa-sitemap" aria-hidden="true"></i> Network devices
+                <i className="icon nb-network small" aria-hidden="true"></i> Network devices
               </a>
             </li>
             <li role="presentation" className="disabled">
               <a className="grey-color">
-                <i className="fa fa-th" aria-hidden="true"></i> Business App
+                <i className="icon nb-apps small" aria-hidden="true"></i> Business App
               </a>
             </li>
             <li role="presentation" className="disabled">
               <a className="grey-color">
-                <i className="fa fa-cube" aria-hidden="true"></i> Containers
+                <i className="icon nb-container small" aria-hidden="true"></i> Containers
               </a>
             </li>
           </ul>

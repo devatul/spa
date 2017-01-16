@@ -54,6 +54,11 @@ module.exports = React.createClass({
       navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
     }
 
+    var paginatorClass;
+    if (pages <= 1) {
+      paginatorClass = 'hidden';
+    }
+
     var rows = [];
     var state = '';
     for (var key in privateCloud) {
@@ -117,7 +122,7 @@ module.exports = React.createClass({
           {rows}
           </tbody>
         </table>
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
               <a aria-label="Previous">

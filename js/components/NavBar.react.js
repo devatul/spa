@@ -176,36 +176,37 @@ var NavBar = React.createClass({
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-body">
+                  <button type="button" className="modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <div role="navigation" className="modal-title">
                     <ul className="nav nav-tabs section-tabs">
-                      <li role="presentation" className="active" >
+                      <li role="presentation" className="active tab-link" >
                         <a className="grey-color" data-toggle="tab" href="#myAccount">
-                          <i className="icon nb-config"></i> My Account
+                          <i className="icon nb-config small"></i> My Account
                         </a>
                       </li>
-                      <li role="presentation">
+                      <li role="presentation" className="tab-link">
                         <a className="grey-color" data-toggle="tab" href="#company">
-                          <i className="fa fa-suitcase"></i> Comany
+                          <i className="icon nb-company small"></i> Comany
                         </a>
                       </li>
-                      <li role="presentation">
+                      <li role="presentation" className="tab-link">
                         <a className="grey-color" data-toggle="tab" href="#myTeam">
-                          <i className="fa fa-group"></i> My Team
+                          <i className="icon nb-team small"></i> My Team
                         </a>
                       </li>
-                      <li role="presentation">
+                      <li role="presentation" className="tab-link">
                         <a className="grey-color" data-toggle="tab" href="#accountStatus">
-                          <i className="fa fa-credit-card-alt" aria-hidden="true"></i> Account Status
+                          <i className="icon nb-billing small" aria-hidden="true"></i> Account Status
                         </a>
                       </li>
-                      <li role="presentation">
+                      <li role="presentation" className="tab-link">
                         <a className="grey-color" data-toggle="tab" href="#billingHistory">
-                          <i className="fa fa-credit-card-alt" aria-hidden="true"></i> Billing History
+                          <i className="icon nb-billing small" aria-hidden="true"></i> Billing History
                         </a>
                       </li>
-                      <li role="presentation">
+                      <li role="presentation" className="tab-link">
                         <a className="grey-color" data-toggle="tab" href="#paymentMethod">
-                          <i className="fa fa-credit-card-alt" aria-hidden="true"></i> Payment Method
+                          <i className="icon nb-billing small" aria-hidden="true"></i> Payment Method
                         </a>
                       </li>
                     </ul>
