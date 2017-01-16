@@ -69,9 +69,11 @@ module.exports = React.createClass({
     var historyAlerts = this.state.historyAlerts.member;
 
     var rows = [];
+    var level;
+    var state;
     for (var key in alerts) {
 
-      var level = '';
+      level = '';
       if ('critical' == alerts[key].level) {
         level = 'icon nb-critical icon-state red-text';
       } else if ('warning' == alerts[key].level) {
@@ -80,11 +82,11 @@ module.exports = React.createClass({
         level = 'icon nb-information icon-state blue-text';
       }
 
-      var state = '';
-      if (alerts[key].is_acknowledge) {
-        state = 'fa fa-check-circle green-icon';
+      state = '';
+      if (alerts[key].is_acknowledged) {
+        state = 'icon nb-thick-circle icon-state green-text';
       } else {
-        state = 'fa fa-exclamation-circle red-icon';
+        state = 'icon nb-alert icon-state red-text';
       }
 
       var from = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -97,13 +99,13 @@ module.exports = React.createClass({
       
       rows.push(
         <tr key={key}>
-          <td>
+          <td className="icons">
             <i className={state} aria-hidden="true"></i>
           </td>
           <td>{alerts[key].instance.hostname}</td>
           <td>{alerts[key].instance.provider_credential.name}</td>
           <td>{alerts[key].description}</td>
-          <td>
+          <td className="icons">
             <i className={level} aria-hidden="true"></i>
           </td>
           <td>
@@ -112,33 +114,35 @@ module.exports = React.createClass({
           <td>
             <time dateTime="">{to}</time>
           </td>
-          <td>
-            <span className="label label-danger button-pointer" onClick={this._acknowledge.bind(this, alerts[key].id)}>Stop Alerting</span>
+          <td className="icons">
+            <span className="action-button action-button-stop">Stop Alerting</span>
           </td>
-          <td>
-            <span className="label label-success button-pointer" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>
+          <td className="icons">
+            <span className="action-button nubity-green" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>
           </td>
         </tr>
       );
     }
 
     var historyRows = [];
+    var hlevel;
+    var hstate;
     for (var key in historyAlerts) {
 
-      var level = '';
+      hlevel = '';
       if ('critical' == historyAlerts[key].level) {
-        level = 'icon nb-critical icon-state red-text';
+        hlevel = 'icon nb-critical icon-state red-text';
       } else if ('warning' == historyAlerts[key].level) {
-        level = 'icon nb-warning icon-state yellow-text';
+        hlevel = 'icon nb-warning icon-state yellow-text';
       } else if ('info' == historyAlerts[key].level) {
-        level = 'icon nb-information icon-state blue-text';
+        hlevel = 'icon nb-information icon-state blue-text';
       }
 
-      var state = '';
-      if (historyAlerts[key].is_acknowledge) {
-        state = 'fa fa-check-circle green-icon';
+      hstate = '';
+      if (historyAlerts[key].is_acknowledged) {
+        hstate = 'icon nb-thick-circle icon-state green-text';
       } else {
-        state = 'fa fa-exclamation-circle red-icon';
+        hstate = 'icon nb-alert icon-state red-text';
       }
 
       var from = moment(historyAlerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -151,14 +155,14 @@ module.exports = React.createClass({
       
       historyRows.push(
         <tr key={key}>
-          <td>
-            <i className={state} aria-hidden="true"></i>
+          <td className="icons">
+            <i className={hstate} aria-hidden="true"></i>
           </td>
           <td>{historyAlerts[key].instance.hostname}</td>
           <td>{historyAlerts[key].instance.provider_credential.name}</td>
           <td>{historyAlerts[key].description}</td>
-          <td>
-            <i className={level} aria-hidden="true"></i>
+          <td className="icons">
+            <i className={hlevel} aria-hidden="true"></i>
           </td>
           <td>
             <time dateTime="">{from}</time>
@@ -166,11 +170,11 @@ module.exports = React.createClass({
           <td>
             <time dateTime="">{to}</time>
           </td>
-          <td>
-            <span className="label label-danger button-pointer" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Stop Alerting</span>
+          <td className="icons">
+            <span className="action-button action-button-stop" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Stop Alerting</span>
           </td>
-          <td>
-            <span className="label label-success button-pointer" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
+          <td className="icons">
+            <span className="action-button nubity-green" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
           </td>
         </tr>
       );
@@ -178,6 +182,11 @@ module.exports = React.createClass({
 
     var totalItems = this.state.alerts.totalItems;
     var pages = Math.ceil(parseInt(totalItems)/10);
+
+    var paginatorClass;
+    if (pages <= 1) {
+      paginatorClass = 'hidden';
+    }
 
     var navpages = [];
     var page = '';
@@ -190,6 +199,11 @@ module.exports = React.createClass({
 
     var totalHistoryItems = this.state.totalHistoryItems;
     var historyPages = Math.ceil(parseInt(totalHistoryItems)/10);
+
+    var hpaginatorClass;
+    if (historyPages <= 1) {
+      hpaginatorClass = 'hidden';
+    }
 
     var historynavpages = [];
     var hpage = '';
@@ -206,24 +220,24 @@ module.exports = React.createClass({
       alertTable = <Preloader />;
     } else {
       alertTable = 
-        <div className="col-xs-12">
-          <table className="table table-striped table-condensed">
-            <tr>
-              <th>State</th>
-              <th>Server</th>
-              <th>Integration name</th>
-              <th>Alert description</th>
-              <th>Priority</th>
-              <th>Started on</th>
-              <th>Resolved on</th>
-              <th>Acknowledge</th>
-              <th>Report a problem</th>
-            </tr>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-          <nav aria-label="Page navigation">
+      <div className="col-xs-12">
+        <table className="table table-striped table-condensed">
+          <tr>
+            <th>State</th>
+            <th>Server</th>
+            <th>Integration name</th>
+            <th>Alert description</th>
+            <th>Priority</th>
+            <th>Started on</th>
+            <th>Resolved on</th>
+            <th>Action</th>
+            <th>Report a problem</th>
+          </tr>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
               <a aria-label="Previous">
@@ -247,24 +261,24 @@ module.exports = React.createClass({
       historyTable = <Preloader />;
     } else {
       historyTable = 
-        <div className="col-xs-12">
-          <table className="table table-striped table-condensed">
-            <tr>
-              <th>State</th>
-              <th>Server</th>
-              <th>Integration name</th>
-              <th>Alert description</th>
-              <th>Priority</th>
-              <th>Started on</th>
-              <th>Resolved on</th>
-              <th>Acknowledge</th>
-              <th>Report a problem</th>
-            </tr>
-            <tbody>
-              {historyRows}
-            </tbody>
-          </table>
-          <nav aria-label="Page navigation">
+      <div className="col-xs-12">
+        <table className="table table-striped table-condensed">
+          <tr>
+            <th>State</th>
+            <th>Server</th>
+            <th>Integration name</th>
+            <th>Alert description</th>
+            <th>Priority</th>
+            <th>Started on</th>
+            <th>Resolved on</th>
+            <th>Action</th>
+            <th>Report a problem</th>
+          </tr>
+          <tbody>
+            {historyRows}
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation" className={hpaginatorClass}>
           <ul className="pagination">
             <li>
               <a aria-label="Previous">

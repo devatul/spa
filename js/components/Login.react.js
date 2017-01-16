@@ -91,10 +91,10 @@ module.exports = React.createClass({
           </form>
           <div className="row">
             <div className="col-xs-6">
-              <a onClick={this._redirectTerms}>Terms and conditions</a>
+              <a className="link-login" onClick={this._redirectTerms}>Terms and conditions</a>
             </div>
             <div className="col-xs-6">
-              <a onClick={this._redirectPolicy}>Privacy policies</a>
+              <a className="link-login" onClick={this._redirectPolicy}>Privacy policies</a>
             </div>
           </div>
         </div>

@@ -61,6 +61,11 @@ module.exports = React.createClass({
         navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
       }
 
+      var paginatorClass;
+      if (pages <= 1) {
+        paginatorClass = 'hidden';
+      }
+
       var from = moment(ticket[key].created_at).format('DD/MM/YYYY hh:mm:ss');
 
       var rows = [];
@@ -96,7 +101,7 @@ module.exports = React.createClass({
         }
         rows.push(
           <tr key={key}>
-            <td><span className={status}></span></td>
+            <td className="icons"><span className={status}></span></td>
             <td>{ticket[key].name}</td>
             <td>{ticket[key].subject}</td>
             <td>
@@ -109,8 +114,8 @@ module.exports = React.createClass({
             <td>
               <time dateTime={ticket[key].created_at}>{from}</time>
             </td>
-            <td>
-              <span className="label label-primary button-pointer" onClick={this._viewTicket.bind(this, ticket[key])}>View ticket</span>
+            <td className="icons">
+              <span className="action-button nubity-blue" onClick={this._viewTicket.bind(this, ticket[key])}>View ticket</span>
             </td>
           </tr>
         );
@@ -139,7 +144,7 @@ module.exports = React.createClass({
             {rows}
           </tbody>
         </table>
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
               <a aria-label="Previous">
