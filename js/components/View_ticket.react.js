@@ -8,10 +8,13 @@ var getTicket                  = require('../actions/RequestActions').getTicket;
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var search                     = require('../actions/RequestActions').search;
 var ReplyTicketAction          = require('../actions/RequestActions').replyTicket;
+var Preloader                  = require('./Preloader.react');
+var Reply                      = require('./Ticket_reply.react');
 
 module.exports = React.createClass({
 
   getInitialState: function () {
+    NinjaStore.resetStore();
     var search = SessionStore.search();
     return {
       search: search,
@@ -23,11 +26,14 @@ module.exports = React.createClass({
 
   componentDidMount: function () {
     search();
+    getTicket(NinjaStore.getViewTicket().ticket);
     SessionStore.addChangeListener(this._onChange);
+    NinjaStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
     SessionStore.removeChangeListener(this._onChange);
+    NinjaStore.addChangeListener(this._onChange);
   },
 
   _onChange: function () {
@@ -37,6 +43,7 @@ module.exports = React.createClass({
         search: search,
         instances: search.instances,
         clouds: search.clouds,
+        ticket: NinjaStore.getViewTicket()
       });
     }
   },
@@ -58,28 +65,33 @@ module.exports = React.createClass({
   },
 
   render: function () {
-
     var search     = this.state.search;
     var instances  = this.state.instances;
-
     var servers    = [];
-   
     var subject       = '';
     var serverCheck   = '';
     
     if (NinjaStore.isViewingTicket()) {
-      var ticket = NinjaStore.getViewTicket();
+      var ticket = this.state.ticket;
       for (var key in instances) {
         if (instances[key].hostname == ticket.hostname) {
           serverCheck = instances[key].hostname;
         }
       }
-
       subject = ticket.subject;
       NinjaStore.resetViewingTicket();
-    }else {
+    } else {
       
       var ticket = '';
+    }
+
+    if (undefined === this.state.ticket.replies) {
+      var replies = (<Preloader/>);
+    } else {
+      var replies = [];
+      for (var key in this.state.ticket.replies) {
+        replies.push(<Reply reply={this.state.ticket.replies[key]}/>);
+      }
     }
 
     servers.push(<option value="" disabled>Select Server</option>);
@@ -128,6 +140,9 @@ module.exports = React.createClass({
             </div>
             <div className="col-xs-6 margin-tops">
               <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject" defaultValue={subject} disabled/>
+            </div>
+            <div className="col-xs-12">
+              {replies}
             </div>
             <div className="col-xs-12">
               <textarea className="form-control" rows="8" placeholder={"Reply"} ref="content" required></textarea>

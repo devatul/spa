@@ -119,10 +119,10 @@ module.exports = {
     });
   },
 
-  showTicket: function (viewTicket) {
+  showTicket: function (ticket) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_TICKET,
-      res: viewTicket,
+      res: ticket,
     });
   },
 }

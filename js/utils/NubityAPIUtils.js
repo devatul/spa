@@ -620,11 +620,11 @@ module.exports = {
     }.bind(this));
   },
 
-  getTicket: function (viewTicket) {
+  getTicket: function (ticketId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + viewTicket)
+    .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + ticketId)
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
@@ -632,7 +632,7 @@ module.exports = {
       var code = JSON.parse(res.status);
       if (401 == code && this.hasToRefresh()) {
         this.refreshToken();
-        this.getDashboardAlerts();
+        this.getTicket();
       } else if (400 <= code) {
         redirect('login');
       } else {
