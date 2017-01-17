@@ -144,7 +144,7 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2 className="align-center">Create your ticket</h2>
         </div>
-        <div className="centered">
+        <div className="centered hidden">
           <a onClick={this._liveChat}>
             <button className="large-green-button">Start Live Chat</button>
           </a>

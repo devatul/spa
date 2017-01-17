@@ -6,43 +6,58 @@ var AlertsStore                = require('../stores/AlertsStore');
 var NinjaStore                 = require('../stores/NinjaStore');
 var getTicket                  = require('../actions/RequestActions').getTicket;
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
-var search                     = require('../actions/RequestActions').search;
 var ReplyTicketAction          = require('../actions/RequestActions').replyTicket;
 var Preloader                  = require('./Preloader.react');
 var Reply                      = require('./Ticket_reply.react');
+var FormHeader                 = require('./View_ticket_form_header.react');
 
 module.exports = React.createClass({
 
   getInitialState: function () {
     NinjaStore.resetStore();
-    var search = SessionStore.search();
+
+    var url = window.location.href;
+    var position = url.indexOf("view-ticket") + 12;
+    var id = url.slice(position);
+
+    if ('' != id ) {
+      getTicket(id);
+      return {
+        ticket: '',
+      };
+    } 
+
     return {
-      search: search,
-      instances: search.instances,
-      clouds: search.clouds,
       ticket: NinjaStore.getViewTicket()
     };
+   
   },
 
   componentDidMount: function () {
-    search();
-    getTicket(NinjaStore.getViewTicket().ticket);
+
+    var url = window.location.href;
+    var position = url.indexOf("view-ticket") + 12;
+    var id = url.slice(position);
+
+    if ('' != id ) {
+      getTicket(id);
+    } else {
+      getTicket(NinjaStore.getViewTicket().ticket);
+    }
+    
     SessionStore.addChangeListener(this._onChange);
     NinjaStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
+    NinjaStore.resetViewingTicket();
     SessionStore.removeChangeListener(this._onChange);
     NinjaStore.addChangeListener(this._onChange);
   },
 
   _onChange: function () {
     if (this.isMounted()) {
-      var search = SessionStore.search();
       this.setState({
-        search: search,
-        instances: search.instances,
-        clouds: search.clouds,
         ticket: NinjaStore.getViewTicket()
       });
     }
@@ -52,6 +67,8 @@ module.exports = React.createClass({
     e.preventDefault();
     var id = this.state.ticket.ticket;
     var ticketReply = this.refs.content.getDOMNode().value;
+
+    this.refs.content.getDOMNode().value = '';    
     
     ReplyTicketAction(id, ticketReply);
   },
@@ -65,26 +82,25 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var search     = this.state.search;
-    var instances  = this.state.instances;
-    var servers    = [];
-    var subject       = '';
-    var serverCheck   = '';
-    
+    var formHeader    = {};
+    var url      = window.location.href;
+    var position = url.indexOf("view-ticket") + 12;
+    var urlid    = url.slice(position);
+
+    //Form
     if (NinjaStore.isViewingTicket()) {
-      var ticket = this.state.ticket;
-      for (var key in instances) {
-        if (instances[key].hostname == ticket.hostname) {
-          serverCheck = instances[key].hostname;
-        }
-      }
-      subject = ticket.subject;
-      NinjaStore.resetViewingTicket();
-    } else {
+      var ticket        = this.state.ticket;
+      formHeader = (<FormHeader priority={ticket.priority} department={ticket.department} server={ticket.hostname} subject={ticket.subject}/>);
       
+    } else if ('' != urlid) {
+      if (!(undefined === this.state.ticket.priority || undefined === this.state.ticket.department || undefined === this.state.ticket.hostname || undefined === this.state.ticket.subject)) {
+        formHeader = (<FormHeader priority={this.state.ticket.priority} department={this.state.ticket.department} server={this.state.ticket.hostname} subject={this.state.ticket.subject}/>);
+      }
+    } else {
       var ticket = '';
     }
 
+    //Replies
     if (undefined === this.state.ticket.replies) {
       var replies = (<Preloader/>);
     } else {
@@ -92,11 +108,7 @@ module.exports = React.createClass({
       for (var key in this.state.ticket.replies) {
         replies.push(<Reply reply={this.state.ticket.replies[key]}/>);
       }
-    }
-
-    servers.push(<option value="" disabled>Select Server</option>);
-    for (var key in instances) {
-      servers.push(<option value={instances[key].hostname}>{instances[key].hostname}</option>);
+      
     }
 
     return (
@@ -104,43 +116,14 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2 className="align-center">Ninja Support</h2>
         </div>
-        <div className="centered">
+        <div className="centered hidden">
           <a onClick={this._liveChat}>
-            <button className="large-green-button">Start Live Chat</button>
+            <button className="large-green-button hidden">Start Live Chat</button>
           </a>
         </div>
         <form onSubmit={this._onSubmit}>
           <div className="margin-sides min-height-subsection">
-            <div className="col-xs-3 centered">
-              <select className="form-control" ref="type" defaultValue="">
-                <option value="" disabled ref="type">Select Type</option>
-                <option value="incident">Incident</option>
-                <option value="service-request">Service Request</option>
-              </select>
-            </div>
-            <div className="col-xs-3 centered">
-              <select className="form-control" ref="department" defaultValue={ticket.department} onChange={this._onChange}>
-                <option value="billing">Billing</option>
-                <option value="sales">Sales</option>
-                <option value="support">Ninja Support</option>
-              </select>
-            </div>
-            <div className="col-xs-3 centered">
-              <select className="form-control" ref="priority" defaultValue={ticket.priority} disabled>
-                <option value="" disabled>Select Priority</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-            <div className="col-xs-3 centered">
-              <select className="form-control" ref="hostname" defaultValue={serverCheck} disabled>
-                {servers}
-              </select>
-            </div>
-            <div className="col-xs-6 margin-tops">
-              <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject" defaultValue={subject} disabled/>
-            </div>
+            {formHeader}
             <div className="col-xs-12">
               {replies}
             </div>

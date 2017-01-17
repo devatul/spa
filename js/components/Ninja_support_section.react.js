@@ -25,7 +25,7 @@ module.exports = React.createClass({
             <button className="large-green-button">Create Ticket</button>
           </a>
           <a onClick={this._liveChat}>
-            <button className="large-green-button">Start Live Chat</button>
+            <button className="large-green-button hidden">Start Live Chat</button>
           </a>
         </div>
         <div className="margin-sides min-height-subsection">
