@@ -71,8 +71,9 @@ module.exports = React.createClass({
     var rows = [];
     var level;
     var state;
-    for (var key in alerts) {
+    var action;
 
+    for (var key in alerts) {
       level = '';
       if ('critical' == alerts[key].level) {
         level = 'icon nb-critical icon-state red-text';
@@ -83,10 +84,14 @@ module.exports = React.createClass({
       }
 
       state = '';
+      action = '';
+      
       if (alerts[key].is_acknowledged) {
         state = 'icon nb-thick-circle icon-state green-text';
+        action = (<span className='action-button action-button-stop'>Stop Alerting</span>);
       } else {
         state = 'icon nb-alert icon-state red-text';
+        action = (<span className='action-button action-button-start' onClick={this._acknowledge.bind(this, alerts[key].id)}>Stop Alerting</span>);
       }
 
       var from = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -115,7 +120,7 @@ module.exports = React.createClass({
             <time dateTime="">{to}</time>
           </td>
           <td className="icons">
-            <span className="action-button action-button-stop">Stop Alerting</span>
+            {action}
           </td>
           <td className="icons">
             <span className="action-button nubity-green" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>

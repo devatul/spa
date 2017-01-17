@@ -12,6 +12,7 @@ var CreateGraph                = require('./Create_graph.react');
 var Graph                      = require('./Graph.react');
 var Preloader                  = require('./Preloader.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
+var acknowledge                = require('../actions/RequestActions').acknowledge;
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -28,10 +29,12 @@ module.exports = React.createClass({
   componentDidMount: function() {
     getDashboardAlerts();
     getDashboards();
+    AlertsStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
+    AlertsStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
   },
 
@@ -58,6 +61,10 @@ module.exports = React.createClass({
 
   _createTicket: function (alert) {
     createAlertTicket(alert);
+  },
+
+  _acknowledge: function (alertId) {
+    acknowledge(alertId);
   },
 
   render: function() {
@@ -88,11 +95,15 @@ module.exports = React.createClass({
         level = 'icon nb-information icon-state blue-text';
       }
 
+
       if (mainAlerts[key].is_acknowledged) {
         state = 'icon nb-thick-circle icon-state green-text';
+        action = (<span className='action-button action-button-stop'>Stop Alerting</span>);
       } else {
         state = 'icon nb-alert icon-state red-text';
+        action = (<span className='action-button action-button-start' onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>Stop Alerting</span>); 
       }
+    
 
       var totalItems = this.state.mainAlerts.legth;
 
@@ -122,7 +133,7 @@ module.exports = React.createClass({
             <time dateTime={mainAlerts[key].resolved_on}>{to}</time>
           </td>
           <td>
-            <span className="action-button action-button-stop button-pointer">Stop Alerting</span>
+            {action}
           </td>
           <td>
             <span className="action-button nubity-green button-pointer" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>

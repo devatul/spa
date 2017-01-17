@@ -423,7 +423,6 @@ module.exports = {
   acknowledge: function (alertId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
 
     request
     .put(APIEndpoints.PUBLIC + '/company/' + company + '/alerts/' + alertId + '/acknowledge.json') 
@@ -438,6 +437,7 @@ module.exports = {
         redirect('login');
       } else {
         this.getAlerts();
+        this.getDashboardAlerts();
       }
     }.bind(this));
 
