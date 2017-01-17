@@ -524,7 +524,7 @@ module.exports = {
       var code = JSON.parse(res.status);
       if (401 == code && this.hasToRefresh()) {
         this.refreshToken();
-        this.getUser();
+        this.search();
       } else if (400 <= code) {
         redirect('login');
       } else {
@@ -615,7 +615,7 @@ module.exports = {
       } else if (400 <= code) {
         redirect('login');
       } else {
-        redirect('ninja');
+        this.getTicket(id);
       }
     }.bind(this));
   },

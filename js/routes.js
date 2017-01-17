@@ -36,6 +36,7 @@ var routes = (
     <route name="terms_and_conditions" path='/terms-and-conditions'    handler={TermsAndConditions} />
     <route name="privacy_policies"     path='/privacy-policies'        handler={PrivacyPolicies} />
     <Route name="view_ticket"          path='/view-ticket/'            handler={ViewTicket} />
+    <Route name="view_ticket_params"   path='/view-ticket/:id'         handler={ViewTicket} />
     <DefaultRoute                                                      handler={Login}/>
   </Route>
 );
