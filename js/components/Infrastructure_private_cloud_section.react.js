@@ -64,9 +64,9 @@ module.exports = React.createClass({
     for (var key in privateCloud) {
       state = '';
       if ('running' == privateCloud[key].status) {
-        state = 'fa fa-cloud text-success';
+        state = 'icon nb-cloud-private icon-state green-text';
       } else {
-        state = 'fa fa-cloud light-grey-color';
+        state = 'icon nb-cloud-private icon-state grey-text';
       } 
 
       if ('critical' == privateCloud[key].level) {
@@ -90,18 +90,18 @@ module.exports = React.createClass({
           </td>
           <td>{privateCloud[key].hostname}</td>
           <td>{privateCloud[key].external_identifier}</td>
-          <td>
-            <i className="fa fa-play icon-margin" aria-hidden="true"></i> 
-            <i className="fa fa-stop icon-margin" aria-hidden="true"></i> 
-            <i className="fa fa-retweet icon-margin" aria-hidden="true"></i>
+          <td className="icons">
+            <i className="icon nb-start icon-margin" aria-hidden="true"></i> 
+            <i className="icon nb-stop icon-margin" aria-hidden="true"></i> 
+            <i className="icon nb-restart icon-margin" aria-hidden="true"></i>
           </td>
           <td>{privateCloud[key].memory/1024} GB</td>
-          <td><i className={level} aria-hidden="true"></i></td>
-          <td>
-            <span className="label label-success">Start</span>
+          <td className="icons"><i className={level} aria-hidden="true"></i></td>
+          <td className="icons">
+            <span className="action-button nubity-green">Start</span>
           </td>
-          <td>
-            <span className="label label-danger">Stop</span>
+          <td className="icons">
+            <span className="action-button nubity-red">Stop</span>
           </td>
         </tr>;
     }

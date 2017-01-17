@@ -64,9 +64,9 @@ module.exports = React.createClass({
     for (var key in publicCloud) {
       state = '';
       if ('running' == publicCloud[key].status) {
-        state = 'icon nb-cloud icon-state green-text';
+        state = 'icon nb-cloud-public icon-state green-text';
       } else {
-        state = 'icon nb-cloud icon-state grey-text';
+        state = 'icon nb-cloud-public icon-state grey-text';
       } 
 
       if ('critical' == publicCloud[key].level) {
