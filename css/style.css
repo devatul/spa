@@ -119,6 +119,13 @@ a:hover, a:active, a:focus {
   border-top-color: white!important;
   border-bottom-color: white!important;
 }
+.dropdown-menu-nb {
+  background-color:transparent !important;
+  border:none !important;
+  color:white !important;
+  padding:0 10px !important;
+  font-family:'neosansregular' !important;
+}
 .navbar .nav li.dropdown.open > .dropdown-toggle, .navbar .nav li.dropdown.active > .dropdown-toggle, .navbar .nav li.dropdown.open.active > .dropdown-toggle {
   background-color: transparent!important;
 }
@@ -126,6 +133,7 @@ a:hover, a:active, a:focus {
   background: red;
   height: 30px;
   width: 30px;
+  margin: 0 10px;
 }
 .navbar-right {
   padding-top: 7px!important;

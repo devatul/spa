@@ -10,6 +10,9 @@ var PaymentMethodSection  = require('./Payment_method_section.react');
 var MyTeamSection         = require('./My_team_section.react');
 var CompanySection        = require('./Company_section.react');
 var AccountStatusSection  = require('./Account_status_section.react');
+var Dropdown              = require('react-bootstrap').Dropdown;
+var MenuItem              = require('react-bootstrap').MenuItem;
+var Glyphicon             = require('react-bootstrap').Glyphicon;
 
 var NavBar = React.createClass({
 
@@ -136,38 +139,40 @@ var NavBar = React.createClass({
                     <span className="notification-badge">+</span>
                   </button>
                 </li>
-                <li className="profile-picture-li">
-                  <img src="./images/nubity-logo-hd.png" alt="add photo" title="add photo" className="user-photo img-circle"/>
-                </li>
-                <li className="dropdown">
-                  <a className="dropdown-toggle white-color" data-toggle="dropdown" id="dropdown-nav" role="button" aria-haspopup="true" aria-expanded="false"><span>{firstname}, {lastname}! <b className="caret"></b></span></a>
-                  <ul className="dropdown-menu" aria-labelledby="dropdown-nav">
-                    <li>
-                      <a onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
-                        <i className="icon nb-config small"></i> My Account
-                      </a>
-                    </li>
-                    <li>
-                      <a onClick={this._openAccount}>
-                        <i className="icon nb-company small"></i> Company
-                      </a>
-                    </li>
-                    <li>
-                      <a onClick={this._openAccount}>
-                        <i className="icon nb-team small"></i> My Team
-                      </a>
-                    </li>
-                    <li>
-                      <a onClick={this._openBilling} >
-                        <i className="icon nb-billing small"></i> Billing
-                      </a>
-                    </li>
-                    <li>
-                      <a onClick={this._onClickLogOut}>
-                        <i className="icon nb-logout small"></i> Log Out
-                      </a>
-                    </li>
-                  </ul>
+                <li>
+                  <Dropdown className="dropdown" id="dropdown-custom-1">
+                    <Dropdown.Toggle className="dropdown-menu-nb">
+                      <img src="./images/nubity-logo-hd.png" alt="add photo" title="add photo" className="user-photo img-circle"/>
+                       {firstname}, {lastname}!
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="super-colors">
+                      <MenuItem eventKey="1">
+                        <a onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
+                          <i className="icon nb-config small"></i> My Account
+                        </a>
+                      </MenuItem>
+                      <MenuItem eventKey="2">
+                        <a onClick={this._openAccount}>
+                          <i className="icon nb-company small"></i> Company
+                        </a>
+                      </MenuItem>
+                      <MenuItem eventKey="3">
+                        <a onClick={this._openAccount}>
+                          <i className="icon nb-team small"></i> My Team
+                        </a>
+                      </MenuItem>
+                      <MenuItem eventKey="4">
+                        <a onClick={this._openBilling} >
+                          <i className="icon nb-billing small"></i> Billing
+                        </a>
+                      </MenuItem>
+                      <MenuItem eventKey="5">
+                        <a onClick={this._onClickLogOut}>
+                          <i className="icon nb-logout small"></i> Log Out
+                        </a>
+                      </MenuItem>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </li>
               </ul>
             </div>

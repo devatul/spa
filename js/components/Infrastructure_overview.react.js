@@ -62,13 +62,32 @@ module.exports = React.createClass({
     var rows = [];
     var state = '';
     for (var key in overview) {
-
       state = '';
-      if ('running' == overview[key].status) {
-        state = 'icon nb-eye green-text icon-state';
+      if ('public' == overview[key].classification) {
+        if ('running' == overview[key].status) {
+          state = 'icon nb-cloud-public green-text icon-state';
+        } else {
+          state = 'icon nb-cloud-public grey-text icon-state';
+        } 
+      } else if ('private' == overview[key].classification) {
+        if ('running' == overview[key].status) {
+          state = 'icon nb-cloud-private green-text icon-state';
+        } else {
+          state = 'icon nb-cloud-private grey-text icon-state';
+        }
+      } else if ('on-premise' == overview[key].classification) {
+        if ('running' == overview[key].status) {
+          state = 'icon nb-servers green-text icon-state';
+        } else {
+          state = 'icon nb-servers grey-text icon-state';
+        }
       } else {
-        state = 'icon nb-eye grey-text icon-state';
-      } 
+        if ('running' == overview[key].status) {
+          state = 'icon nb-eye green-text icon-state';
+        } else {
+          state = 'icon nb-eye grey-text icon-state';
+        } 
+      }
 
       if ('critical' == overview[key].level) {
         level = 'icon nb-critical icon-state red-text';
