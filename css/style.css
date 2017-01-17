@@ -227,11 +227,18 @@ a.nb-active > .menu-button::before {
   border-radius: .30em;
   cursor: pointer;
 }
+.action-button-start {
+  color: white;
+  background-color: red;
+  border: solid 1px red;
+  padding: .35em 1.3em;
+}
 .action-button-stop {
   color: black;
   background-color: white;
   border: solid 1px black;
   padding: .35em 1.3em;
+  cursor: no-drop;
 }
 .social-links {
   height: 30%;

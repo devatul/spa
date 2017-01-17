@@ -81,25 +81,18 @@ AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
       AlertsStore.emitChange();
     break;
 
+    case ActionTypes.SHOW_DASHBOARD_ALERTS:
+      _dashboardAlerts = action.res;
+      _textError = '';
+      _errorCode = '';
+      AlertsStore.emitChange();
+    break;
+
     case ActionTypes.CREATE_ALERT_TICKET:
       _alertTicket = action.res;
       _isAlertTicket = true; 
       _textError = '';
       _errorCode = '';
-    break;
-
-    case ActionTypes.SHOW_DASHBOARD_ALERTS:
-      _dashboardAlerts = action.res;
-      _textError = '';
-      _errorCode = '';
-      AlertsStore.emitChange();
-    break;
-
-    case ActionTypes.SHOW_DASHBOARD_ALERTS:
-      _dashboardAlerts = action.res;
-      _textError = '';
-      _errorCode = '';
-      AlertsStore.emitChange();
     break;
 
     case ActionTypes.ERROR:
