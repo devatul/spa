@@ -288,6 +288,67 @@ a.nb-active > .menu-button::before {
   margin-bottom: 30px;
   background-color: white!important;
 }
+.ticket-container {
+  width: 80%;
+  height: auto !important;
+  height: 100%;
+  border: 1px solid #cecece;
+  position: relative;
+  margin: auto;
+  padding: 15px 0;
+  font-family: 'neosansregular', sans-serif;
+}
+.ticket-header {
+  width: 100%;
+  height: 35px;
+  border-bottom: 1px solid #cecece;
+}
+.ticket-title {
+  font-family: 'neosansbold', sans-serif;
+  font-size: 12pt;
+  text-transform: capitalize;
+}
+.ticket-body {
+  padding: 15px;
+}
+.ticket-body .ticket-attachment {
+  width: auto;
+  padding: 10px 0;
+  color: #2d8ccf;
+  cursor: pointer;
+}
+.ticket-footer {
+  width: 100%;
+  height: 50px;
+  padding: 15px 0;
+  border-top: 1px solid #cecece;
+  border-bottom: 1px solid #cecece;
+}
+.ticket-date, .ticket-user-info {
+  display: inline-block;
+}
+.ticket-replies-container {
+  width: calc(100% - 15px);
+  height: 100%;
+  margin-left: 15px;
+}
+.ticket-replies-container .ticket-reply {
+  border-top: 1px solid #cecece;
+  border-bottom: 1px solid #cecece;
+  border-left: 1px solid #cecece;
+  margin-top: 15px;
+}
+.ticket-replies-container .ticket-reply.add-reply {
+  height: 235px;
+}
+.ticket-replies-container .ticket-reply.add-reply textarea {
+  border: none !important;
+}
+.ticket-reply-header {
+  height: 50px;
+  padding: 15px 0;
+  border-bottom: 1px solid #cecece;
+}
 .big-green-circle {
   color: #00cc00;
   font-size: 30px!important;
@@ -497,10 +558,8 @@ body {
 .min-height-subsection {
   min-height: 360px;
 }
-html {
-  height: 100%;
-}
-body {
+html, body {
+  height: auto !important;
   height: 100%;
 }
 .section-height {
