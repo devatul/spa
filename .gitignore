@@ -1,4 +1,4 @@
-node_modules/
-npm-debug.log
-js/bundle.js
-js/bundle.min.js
+web/node_modules/
+web/npm-debug.log
+web/js/bundle.js
+web/js/bundle.min.js
