@@ -30,13 +30,13 @@ module.exports = {
   validateToken: function (res, callback) {
     var code = JSON.parse(res.status);
     if (401 == code && this.hasToRefresh()) {
-      if(this.isTokenValidating){
+      if (!this.isTokenValidating) {
         this.isTokenValidating = true;
         this.refreshToken(function(){
           this.isTokenValidating = false;
           callback(false);
         }.bind(this));
-      }else{
+      } else {
         setTimeout(function() { callback(false);}, 2000);
       }
     } else if (400 <= code) {
@@ -53,9 +53,9 @@ module.exports = {
       .end(function (res) {
         var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
-          if(!status){
+          if (!status) {
             this.login(user);
-          }else{
+          } else {
             localStorage.setItem('nubity-token', text.token);
             localStorage.setItem('nubity-refresh-token', text.refresh_token);
             this.getUser();
@@ -115,7 +115,7 @@ module.exports = {
       .send({_password: password, _password_confirmation: confirmation_password})
       .set('Accept', 'aplication/json')
       .end(function (res) {
-        this.validateToken(res,function(){
+        this.validateToken(res,function() {
           redirect('login');
         }.bind(this));
       }.bind(this));
@@ -150,10 +150,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getUser();
-          }else{
+          } else {
             localStorage.setItem('nubity-company', text.company);
             localStorage.setItem('nubity-firstname', text.firstname);
             localStorage.setItem('nubity-lastname', text.lastname);
@@ -198,10 +198,10 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.getDashboard();
-        }else{
+        } else {
           showDashboard(text);
         }
       }.bind(this));
@@ -220,10 +220,10 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.getDashboards();
-        }else{
+        } else {
           showDashboards(text);
           for (var key in text.member) {
             this.getDashboard(text.member[key].dashboard);
@@ -244,10 +244,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getInfrastructureOverview(page);
-          }else{
+          } else {
             showInfrastructureOverview(text);
           }
         }.bind(this));
@@ -261,10 +261,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getInfrastructureOverview(page);
-          }else{
+          } else {
             showInfrastructureOverview(text);
           }
         }.bind(this));
@@ -283,10 +283,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getInfrastructurePublicCloud();
-          }else{
+          } else {
             showInfrastructurePublicCloud(text);
           }
         }.bind(this));
@@ -300,10 +300,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getInfrastructurePublicCloud();
-          }else{
+          } else {
             showInfrastructurePublicCloud(text);
           }
         }.bind(this));
@@ -322,10 +322,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getInfrastructurePrivateCloud();
-          }else{
+          } else {
             showInfrastructurePrivateCloud(text);
           }
         }.bind(this));
@@ -339,10 +339,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getInfrastructurePrivateCloud();
-          }else{
+          } else {
             showInfrastructurePrivateCloud(text);
           }
         }.bind(this));
@@ -361,10 +361,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getInfrastructureOnPremise(page);
-          }else{
+          } else {
             showInfrastructureOnPremise(text);
           }
         }.bind(this));
@@ -378,10 +378,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if(!status) {
             this.getInfrastructureOnPremise(page);
-          }else{
+          } else {
             showInfrastructureOnPremise(text);
           }
         }.bind(this));
@@ -400,10 +400,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if(!status) {
             this.getAlerts(page);
-          }else{
+          } else {
             showAlerts(text);
           }
         }.bind(this));
@@ -415,10 +415,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getAlerts(page);
-          }else{
+          } else {
             showAlerts(text);
           }
         }.bind(this));
@@ -459,10 +459,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getHistoryAlerts(page);
-          }else{
+          } else {
             showHistoryAlerts(text);
           }
         }.bind(this));
@@ -475,10 +475,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getHistoryAlerts(page);
-          }else{
+          } else {
             showHistoryAlerts(text);
           }
         }.bind(this));
@@ -495,10 +495,10 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (err, res) {
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.acknowledge();
-        }else{
+        } else {
           this.getAlerts();
           this.getDashboardAlerts();
         }
@@ -518,10 +518,10 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.getDashboardAlerts();
-        }else{
+        } else {
           showDashboardAlerts(text);
         }
       }.bind(this));
@@ -539,9 +539,9 @@ module.exports = {
     .end(function (res) {
       var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
-        if(!status){
+        if(!status) {
           this.getProviders();
-        }else{
+        } else {
           showProviders(text);
         }
       }.bind(this));
@@ -560,10 +560,10 @@ module.exports = {
     .send({user_id: user, company_id: company, scope: 'dashboard'})
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.getDashboards();
-        }else{
+        } else {
           showDashboards(text);
         }
       }.bind(this));
@@ -579,10 +579,10 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.search();
-        }else{
+        } else {
           search(text);
         }
       }.bind(this));
@@ -600,10 +600,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getNinja(page);
-          }else{
+          } else {
             showNinja(text);
           }
         }.bind(this));
@@ -615,10 +615,10 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
-          if(!status){
+        this.validateToken(res,function(status) {
+          if (!status) {
             this.getNinja(page);
-          }else{
+          } else {
             showNinja(text);
           }
         }.bind(this));
@@ -636,10 +636,10 @@ module.exports = {
     .set('Authorization', token)
     .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
     .end(function(res) {
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.createTicket(ticket);
-        }else{
+        } else {
           redirect('ninja');
         }
       }.bind(this));
@@ -656,10 +656,10 @@ module.exports = {
     .set('Authorization', token)
     .send({content: content})
     .end(function(res) {
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.replyTicket(ticket);
-        }else{
+        } else {
           this.getTicket(id);
         }
       }.bind(this));
@@ -675,10 +675,10 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
-        if(!status){
+      this.validateToken(res,function(status) {
+        if (!status) {
           this.getTicket();
-        }else{
+        } else {
           showTicket(text);
         }
       }.bind(this));
