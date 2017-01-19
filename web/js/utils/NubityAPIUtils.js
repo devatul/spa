@@ -26,13 +26,13 @@ var APIEndpoints                   = Constants.APIEndpoints;
 
 module.exports = {
   isTokenValidating: false,
+  tokenApiStatus: true,
   validateToken: function (res, callback) {
     var code = JSON.parse(res.status);
     if (401 == code && this.hasToRefresh()) {
-      if(!this.isTokenValidating){
-        this.isTokenValidating = true;
+      if(this.tokenApiStatus){
         this.refreshToken(function(){
-          this.isTokenValidating = false;
+          this.tokenApiStatus = true;
           callback(false);
         }.bind(this));
       }else{
@@ -120,6 +120,7 @@ module.exports = {
   },
 
   refreshToken: function (callback) {
+    this.tokenApiStatus = false;
     request
       .post(APIEndpoints.PUBLIC + '/token/refresh.json')
       .set('Accept', 'aplication/json')
