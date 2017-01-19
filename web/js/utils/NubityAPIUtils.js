@@ -25,25 +25,33 @@ var showCompany                    = require('../actions/ServerActions').showCom
 var APIEndpoints                   = Constants.APIEndpoints;
 
 module.exports = {
-
+  validateToken: function (res, callback) {
+    var code = JSON.parse(res.status);
+    if (401 == code && this.hasToRefresh()) {
+      this.refreshToken(function(){
+        callback(false);
+      });
+    } else if (400 <= code) {
+      redirect('login');
+    } else {
+      callback(true);
+    }
+  },
   login: function (user) {
     request
       .post(APIEndpoints.PUBLIC + '/login.json')
       .send({_username: user.email, _password: user.password})
       .set('Accept', 'aplication/json')
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.login(user);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          localStorage.setItem('nubity-token', text.token);
-          localStorage.setItem('nubity-refresh-token', text.refresh_token);
-          this.getUser();
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.login(user);
+          }else{
+            localStorage.setItem('nubity-token', text.token);
+            localStorage.setItem('nubity-refresh-token', text.refresh_token);
+            this.getUser();
+          }
+        }.bind(this));
       }.bind(this));
   },
 
@@ -88,11 +96,7 @@ module.exports = {
       .send({_username: email})
       .set('Accept', 'aplication/json')
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (400 <= code) {
-          redirect('login');
-        } 
+        this.validateToken(res);
       }.bind(this));
   },
 
@@ -102,15 +106,13 @@ module.exports = {
       .send({_password: password, _password_confirmation: confirmation_password})
       .set('Accept', 'aplication/json')
       .end(function (res) {
-        if (400 <= code) {
+        this.validateToken(res,function(){
           redirect('login');
-        } else {
-          redirect('login');
-        }
+        }.bind(this));
       }.bind(this));
   },
 
-  refreshToken: function () {
+  refreshToken: function (callback) {
     request
       .post(APIEndpoints.PUBLIC + '/token/refresh.json')
       .set('Accept', 'aplication/json')
@@ -122,9 +124,11 @@ module.exports = {
           localStorage.removeItem('nubity-token');
           localStorage.removeItem('nubity-refresh-token');
           redirect('login');
+          callback();
         } else {
           localStorage.setItem('nubity-token', text.token);
           localStorage.setItem('nubity-refresh-token', text.refresh_token);
+          callback();
         }
       }.bind(this));
   },
@@ -137,22 +141,20 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getUser();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          localStorage.setItem('nubity-company', text.company);
-          localStorage.setItem('nubity-firstname', text.firstname);
-          localStorage.setItem('nubity-lastname', text.lastname);
-          localStorage.setItem('nubity-user-id', text.user);
-          localStorage.setItem('nubity-user-email', text.username);
-          localStorage.setItem('nubity-user-avatar', text.public_path);
-          localStorage.setItem('nubity-user-language', text.locale_display_name);
-          redirect('dashboard');
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getUser();
+          }else{
+            localStorage.setItem('nubity-company', text.company);
+            localStorage.setItem('nubity-firstname', text.firstname);
+            localStorage.setItem('nubity-lastname', text.lastname);
+            localStorage.setItem('nubity-user-id', text.user);
+            localStorage.setItem('nubity-user-email', text.username);
+            localStorage.setItem('nubity-user-avatar', text.public_path);
+            localStorage.setItem('nubity-user-language', text.locale_display_name);
+            redirect('dashboard');
+          }
+        }.bind(this));
       }.bind(this));
   },
 
@@ -187,16 +189,13 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboard();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboard(text);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.getDashboard();
+        }else{
+          showDashboard(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -211,19 +210,16 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboards();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboards(text);
-        for (var key in text.member) {
-          this.getDashboard(text.member[key].dashboard);
+      this.validateToken(res,function(status){
+        if(!status){
+          this.getDashboards();
+        }else{
+          showDashboards(text);
+          for (var key in text.member) {
+            this.getDashboard(text.member[key].dashboard);
+          }
         }
-      }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -237,16 +233,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOverview(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOverview(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructureOverview(page);
+          }else{
+            showInfrastructureOverview(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
@@ -256,18 +249,15 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOverview(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOverview(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructureOverview(page);
+          }else{
+            showInfrastructureOverview(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }   
+    }
   },
 
   getInfrastructurePublicCloud: function (page) {
@@ -280,16 +270,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePublicCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePublicCloud(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructurePublicCloud();
+          }else{
+            showInfrastructurePublicCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
@@ -299,18 +286,15 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePublicCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePublicCloud(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructurePublicCloud();
+          }else{
+            showInfrastructurePublicCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }   
+    }
   },
 
   getInfrastructurePrivateCloud: function (page) {
@@ -323,16 +307,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePrivateCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePrivateCloud(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructurePrivateCloud();
+          }else{
+            showInfrastructurePrivateCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
@@ -342,18 +323,15 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePrivateCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePrivateCloud(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructurePrivateCloud();
+          }else{
+            showInfrastructurePrivateCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }   
+    }
   },
 
   getInfrastructureOnPremise: function (page) {
@@ -366,16 +344,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOnPremise(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOnPremise(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructureOnPremise(page);
+          }else{
+            showInfrastructureOnPremise(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
@@ -385,18 +360,15 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOnPremise(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOnPremise(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getInfrastructureOnPremise(page);
+          }else{
+            showInfrastructureOnPremise(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }   
+    }
   },
 
   getAlerts: function (page) {
@@ -409,16 +381,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showAlerts(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getAlerts(page);
+          }else{
+            showAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     } else {
       request
@@ -426,16 +395,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showAlerts(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getAlerts(page);
+          }else{
+            showAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -472,16 +438,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getHistoryAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showHistoryAlerts(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getHistoryAlerts(page);
+          }else{
+            showHistoryAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     } else {
       request
@@ -490,16 +453,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getHistoryAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showHistoryAlerts(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getHistoryAlerts(page);
+          }else{
+            showHistoryAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -509,20 +469,18 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put(APIEndpoints.PUBLIC + '/company/' + company + '/alerts/' + alertId + '/acknowledge.json') 
+    .put(APIEndpoints.PUBLIC + '/company/' + company + '/alerts/' + alertId + '/acknowledge.json')
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (err, res) {
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.acknowledge();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getAlerts();
-        this.getDashboardAlerts();
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.acknowledge();
+        }else{
+          this.getAlerts();
+          this.getDashboardAlerts();
+        }
+      }.bind(this));
     }.bind(this));
 
   },
@@ -537,16 +495,13 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboardAlerts();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboardAlerts(text);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.getDashboardAlerts();
+        }else{
+          showDashboardAlerts(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -559,16 +514,13 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getProviders();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showProviders(text);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.getProviders();
+        }else{
+          showProviders(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -583,16 +535,13 @@ module.exports = {
     .set('Authorization', token)
     .send({user_id: user, company_id: company, scope: 'dashboard'})
     .end(function (res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboards();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboards(text);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.getDashboards();
+        }else{
+          showDashboards(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -604,16 +553,13 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.search();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        search(text);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.search();
+        }else{
+          search(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -627,16 +573,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getNinja(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showNinja(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getNinja(page);
+          }else{
+            showNinja(text);
+          }
+        }.bind(this));
       }.bind(this));
     } else {
       request
@@ -644,16 +587,13 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getNinja(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showNinja(text);
-        }
+        this.validateToken(res,function(status){
+          if(!status){
+            this.getNinja(page);
+          }else{
+            showNinja(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -668,16 +608,13 @@ module.exports = {
     .set('Authorization', token)
     .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
     .end(function(res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.createTicket(ticket);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        redirect('ninja');
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.createTicket(ticket);
+        }else{
+          redirect('ninja');
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -691,16 +628,13 @@ module.exports = {
     .set('Authorization', token)
     .send({content: content})
     .end(function(res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.replyTicket(ticket);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getTicket(id);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.replyTicket(ticket);
+        }else{
+          this.getTicket(id);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -712,16 +646,13 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getTicket();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showTicket(text);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.getTicket();
+        }else{
+          showTicket(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
