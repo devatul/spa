@@ -125,4 +125,11 @@ module.exports = {
       res: ticket,
     });
   },
+
+  showCompany: function (companyInfo) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_COMPANY,
+      res: companyInfo,
+    });
+  },
 }

@@ -18,6 +18,7 @@ var showNinja                      = require('../actions/ServerActions').showNin
 var search                         = require('../actions/ServerActions').search;
 var showAvailableGraphTypes        = require('../actions/ServerActions').showAvailableGraphTypes;
 var showTicket                     = require('../actions/ServerActions').showTicket;
+var showCompany                    = require('../actions/ServerActions').showCompany;
 var APIEndpoints                   = Constants.APIEndpoints;
 
 module.exports = {
@@ -110,9 +111,32 @@ module.exports = {
           localStorage.setItem('nubity-lastname', text.lastname);
           localStorage.setItem('nubity-user-id', text.user);
           localStorage.setItem('nubity-user-email', text.username);
+          localStorage.setItem('nubity-user-avatar', text.public_path);
+          localStorage.setItem('nubity-user-language', text.locale_display_name);
           redirect('dashboard');
         }
       }.bind(this));
+  },
+
+  getCompanyInfo: function () {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+    request
+    .get(APIEndpoints.PUBLIC + '/company/' + company)
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.getCompanyInfo();
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        showCompany(text);
+      }
+    }.bind(this));
   },
 
   getDashboard: function (id) {

@@ -87,4 +87,8 @@ module.exports = {
   getTicket: function (ticket) {
     NubityAPIUtils.getTicket(ticket);
   },
+
+  getCompanyInfo: function (company) {
+    NubityAPIUtils.getCompanyInfo(company);
+  },
 }

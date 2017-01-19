@@ -88,6 +88,13 @@ var NavBar = React.createClass({
     var login     = url.search('login');
     var signup    = url.search('signup');
     var forgot    = url.search('forgot');
+    var avatar    = '';
+
+    if (null === localStorage.getItem('nubity-user-avatar')) {
+      avatar = './images/userpic.jpg';
+    } else {
+      avatar = localStorage.getItem('nubity-user-avatar');
+    }
 
     if (0 < login || 0 < signup || 0 < forgot) {
       return (
@@ -142,7 +149,7 @@ var NavBar = React.createClass({
                 <li>
                   <Dropdown className="dropdown" id="dropdown-custom-1">
                     <Dropdown.Toggle className="dropdown-menu-nb">
-                      <img src="./images/nubity-logo-hd.png" alt="add photo" title="add photo" className="user-photo img-circle"/>
+                      <img src={avatar} alt="add photo" title="add photo" className="user-photo img-circle"/>
                        {firstname}, {lastname}!
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="super-colors">

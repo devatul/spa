@@ -9,6 +9,15 @@ module.exports = React.createClass({
     var firstname = localStorage.getItem('nubity-firstname');
     var lastname  = localStorage.getItem('nubity-lastname');
     var email     = localStorage.getItem('nubity-user-email');
+    var language  = localStorage.getItem('nubity-user-language');
+    var avatar    = '';
+
+    if (null === localStorage.getItem('nubity-user-avatar')) {
+      avatar = './images/userpic.jpg';
+    } else {
+      avatar = localStorage.getItem('nubity-user-avatar');
+    }
+
     return (
       <div>
         <div className="section-title">
@@ -16,7 +25,7 @@ module.exports = React.createClass({
         </div>
         <div className="row">
           <div className="col-xs-1">
-            <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="65" alt="..." className="img-circle"/>
+            <img src={avatar} height="65" alt={firstname} title={firstname} className="img-circle"/>
           </div>
           <div className="col-xs-8">
             <p className="my-account-title">{firstname} {lastname} </p>
@@ -31,7 +40,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="input-icon fa fa-user" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="privateUser" placeholder="First Name"/>
+                <input type="text" className="form-control no-shadow" id="privateUser" placeholder="First Name" value={firstname}/>
               </div>
             </div>
             <div className="form-group">
@@ -39,7 +48,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="input-icon fa fa-user" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="privatePassword" placeholder="Last Name"/>
+                <input type="text" className="form-control no-shadow" id="privatePassword" placeholder="Last Name" value={lastname}/>
               </div>
             </div>
             <div className="form-group">
@@ -47,7 +56,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="input-icon fa fa-server" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="integrationName" placeholder="Email"/>
+                <input type="text" className="form-control no-shadow" id="integrationName" placeholder="Email" value={email}/>
               </div>
             </div>
             <div className="form-group">
@@ -55,7 +64,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="input-icon fa fa-lock" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="privateNubityName" placeholder="Password"/>
+                <input type="password" className="form-control no-shadow" id="privateNubityName" placeholder="Password"/>
               </div>
             </div>
           </div>
@@ -74,11 +83,7 @@ module.exports = React.createClass({
                   <i className="input-icon fa fa-language" aria-hidden="true"></i>
                 </div>
                 <select className="form-control no-shadow" id="language">
-                  <option>Select Language</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
+                  <option>{language}</option>
                 </select>
               </div>
             </div>

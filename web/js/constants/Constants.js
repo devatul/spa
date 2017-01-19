@@ -24,6 +24,7 @@ module.exports = {
     CREATE_ALERT_TICKET: null,
     SHOW_TICKET: null,
     VIEW_TICKET: null,
+    SHOW_COMPANY: null,
   }),
 
   PayloadSources: keyMirror({

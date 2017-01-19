@@ -15,6 +15,7 @@ var _errorCode    = '';
 var _textError    = '';
 var _search       = '';
 var _graphTypes   = '';
+var _companyInfo  = '';
 
 var SessionStore  = assign({}, EventEmitter.prototype, {
   
@@ -64,6 +65,10 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
     return _graphTypes;
   },
 
+  getCompanyInfo: function () {
+    return _companyInfo;
+  },
+
 });
 
 SessionStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -100,6 +105,13 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES:
       _graphTypes = action.res;
+      _textError = '';
+      _errorCode = '';
+      SessionStore.emitChange();
+    break;
+
+    case ActionTypes.SHOW_COMPANY:
+      _companyInfo = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
