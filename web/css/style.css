@@ -130,7 +130,7 @@ a:hover, a:active, a:focus {
   background-color: transparent!important;
 }
 .user-photo {
-  background: red;
+  background: #e8faff;
   height: 30px;
   width: 30px;
   margin: 0 10px;
