@@ -30,9 +30,10 @@ module.exports = {
   validateToken: function (res, callback) {
     var code = JSON.parse(res.status);
     if (401 == code && this.hasToRefresh()) {
-      if(this.tokenApiStatus){
+      if(!this.tokenApiStatus){
+        this.tokenApiStatus = true;
         this.refreshToken(function(){
-          this.tokenApiStatus = true;
+          this.tokenApiStatus = false;
           callback(false);
         }.bind(this));
       }else{
@@ -120,7 +121,6 @@ module.exports = {
   },
 
   refreshToken: function (callback) {
-    this.tokenApiStatus = false;
     request
       .post(APIEndpoints.PUBLIC + '/token/refresh.json')
       .set('Accept', 'aplication/json')
