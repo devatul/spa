@@ -29,10 +29,10 @@ module.exports = {
   validateToken: function (res, callback) {
     var code = JSON.parse(res.status);
     if (401 == code && this.hasToRefresh()) {
-      if(!this.tokenApiStatus){
-        this.tokenApiStatus = true;
+      if(!this.isTokenValidating){
+        this.isTokenValidating = true;
         this.refreshToken(function(){
-          this.tokenApiStatus = false;
+          this.isTokenValidating = false;
           callback(false);
         }.bind(this));
       }else{
