@@ -25,12 +25,18 @@ var showCompany                    = require('../actions/ServerActions').showCom
 var APIEndpoints                   = Constants.APIEndpoints;
 
 module.exports = {
+  tokenApiStatus: true,
   validateToken: function (res, callback) {
     var code = JSON.parse(res.status);
     if (401 == code && this.hasToRefresh()) {
-      this.refreshToken(function(){
+      if(this.tokenApiStatus){
+        this.refreshToken(function(){
+          this.tokenApiStatus = true;
+          callback(false);
+        }.bind(this));
+      }else{
         callback(false);
-      });
+      }
     } else if (400 <= code) {
       redirect('login');
     } else {
@@ -113,6 +119,7 @@ module.exports = {
   },
 
   refreshToken: function (callback) {
+    this.tokenApiStatus = false;
     request
       .post(APIEndpoints.PUBLIC + '/token/refresh.json')
       .set('Accept', 'aplication/json')
