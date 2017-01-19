@@ -159,6 +159,7 @@ module.exports = {
             localStorage.setItem('nubity-user-email', text.username);
             localStorage.setItem('nubity-user-avatar', text.public_path);
             localStorage.setItem('nubity-user-language', text.locale_display_name);
+
             redirect('dashboard');
           }
         }.bind(this));
@@ -174,15 +175,13 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getCompanyInfo();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showCompany(text);
-      }
+      this.validateToken(res,function(status){
+        if(!status){
+          this.getCompanyInfo();
+        }else{
+          showCompany(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
