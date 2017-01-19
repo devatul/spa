@@ -30,14 +30,14 @@ module.exports = {
   validateToken: function (res, callback) {
     var code = JSON.parse(res.status);
     if (401 == code && this.hasToRefresh()) {
-      if(!this.isTokenValidating){
+      if(this.isTokenValidating){
         this.isTokenValidating = true;
         this.refreshToken(function(){
           this.isTokenValidating = false;
           callback(false);
         }.bind(this));
       }else{
-        callback(false);
+        setTimeout(function() { callback(false);}, 2000);
       }
     } else if (400 <= code) {
       redirect('login');
@@ -51,6 +51,7 @@ module.exports = {
       .send({_username: user.email, _password: user.password})
       .set('Accept', 'aplication/json')
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.login(user);
@@ -196,6 +197,7 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
         if(!status){
           this.getDashboard();
@@ -217,6 +219,7 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
         if(!status){
           this.getDashboards();
@@ -240,6 +243,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructureOverview(page);
@@ -256,6 +260,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructureOverview(page);
@@ -277,6 +282,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructurePublicCloud();
@@ -293,6 +299,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructurePublicCloud();
@@ -314,6 +321,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructurePrivateCloud();
@@ -330,6 +338,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructurePrivateCloud();
@@ -351,6 +360,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructureOnPremise(page);
@@ -367,6 +377,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getInfrastructureOnPremise(page);
@@ -388,6 +399,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getAlerts(page);
@@ -402,6 +414,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getAlerts(page);
@@ -445,6 +458,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getHistoryAlerts(page);
@@ -460,6 +474,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getHistoryAlerts(page);
@@ -502,6 +517,7 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
         if(!status){
           this.getDashboardAlerts();
@@ -521,6 +537,7 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
         if(!status){
           this.getProviders();
@@ -542,6 +559,7 @@ module.exports = {
     .set('Authorization', token)
     .send({user_id: user, company_id: company, scope: 'dashboard'})
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
         if(!status){
           this.getDashboards();
@@ -560,6 +578,7 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
         if(!status){
           this.search();
@@ -580,6 +599,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getNinja(page);
@@ -594,6 +614,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res,function(status){
           if(!status){
             this.getNinja(page);
@@ -653,6 +674,7 @@ module.exports = {
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
         if(!status){
           this.getTicket();
