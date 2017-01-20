@@ -35,7 +35,7 @@ module.exports = {
       if (code >= 400 && this.hasToRefresh()) {
         if (!this.isTokenValidating) {
           this.isTokenValidating = true;
-          this.refreshToken().then(function(msg) {
+          this.refreshToken().then(function (msg) {
             this.isTokenValidating = false;
             resolve(false);
           }.bind(_SELF));
@@ -61,7 +61,7 @@ module.exports = {
       .set('Accept', 'application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.login(user);
           } else {
@@ -124,7 +124,7 @@ module.exports = {
       .send({_password: password, _password_confirmation: confirmation_password})
       .set('Accept', 'application/json')
       .end(function (res) {
-        this.validateToken(res).then(function() {
+        this.validateToken(res).then(function () {
           redirect('login');
         }.bind(this));
       }.bind(this));
@@ -137,7 +137,7 @@ module.exports = {
         .post(APIEndpoints.PUBLIC + '/token/refresh.json')
         .set('Accept', 'application/json')
         .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
-        .end(function(res) {
+        .end(function (res) {
           var text = JSON.parse(res.text);
           var code = JSON.parse(res.status);
           if (401 == code) {
@@ -162,7 +162,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getUser();
           } else {
@@ -189,7 +189,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
+      this.validateToken(res,function (status){
         if (!status) {
           this.getCompanyInfo();
         } else {
@@ -210,7 +210,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.getDashboard();
         } else {
@@ -232,7 +232,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.getDashboards();
         } else {
@@ -256,7 +256,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getInfrastructureOverview(page);
           } else {
@@ -273,7 +273,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getInfrastructureOverview(page);
           } else {
@@ -295,7 +295,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getInfrastructurePublicCloud();
           } else {
@@ -312,7 +312,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getInfrastructurePublicCloud();
           } else {
@@ -334,7 +334,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getInfrastructurePrivateCloud();
           } else {
@@ -351,7 +351,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getInfrastructurePrivateCloud();
           } else {
@@ -373,7 +373,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getInfrastructureOnPremise(page);
           } else {
@@ -390,7 +390,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if(!status) {
             this.getInfrastructureOnPremise(page);
           } else {
@@ -412,7 +412,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if(!status) {
             this.getAlerts(page);
           } else {
@@ -427,7 +427,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getAlerts(page);
           } else {
@@ -471,7 +471,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getHistoryAlerts(page);
           } else {
@@ -487,7 +487,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getHistoryAlerts(page);
           } else {
@@ -507,7 +507,7 @@ module.exports = {
     .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (err, res) {
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.acknowledge();
         } else {
@@ -530,7 +530,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.getDashboardAlerts();
         } else {
@@ -550,7 +550,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if(!status) {
           this.getProviders();
         } else {
@@ -572,7 +572,7 @@ module.exports = {
     .send({user_id: user, company_id: company, scope: 'dashboard'})
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.getDashboards();
         } else {
@@ -591,7 +591,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.search();
         } else {
@@ -612,7 +612,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getNinja(page);
           } else {
@@ -627,7 +627,7 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function(status) {
+        this.validateToken(res).then(function (status) {
           if (!status) {
             this.getNinja(page);
           } else {
@@ -647,8 +647,8 @@ module.exports = {
     .set('Accept', 'application/json')
     .set('Authorization', token)
     .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
-    .end(function(res) {
-      this.validateToken(res).then(function(status) {
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.createTicket(ticket);
         } else {
@@ -668,7 +668,7 @@ module.exports = {
     .set('Authorization', token)
     .send({content: content})
     .end(function(res) {
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.replyTicket(ticket);
         } else {
@@ -687,7 +687,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res).then(function(status) {
+      this.validateToken(res).then(function (status) {
         if (!status) {
           this.getTicket();
         } else {
