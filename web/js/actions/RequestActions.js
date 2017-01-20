@@ -5,6 +5,14 @@ module.exports = {
     NubityAPIUtils.login(user);
   },
 
+  signup: function (user) {
+    NubityAPIUtils.signup(user);
+  },
+
+  confirmAccount: function (token) {
+    NubityAPIUtils.confirmAccount(token);
+  },
+
   forgotPassword: function (email) {
     NubityAPIUtils.forgotPassword(email);
   },
@@ -91,4 +99,8 @@ module.exports = {
   getCompanyInfo: function (company) {
     NubityAPIUtils.getCompanyInfo(company);
   },
+
+  getMonitored: function (instanceId) {
+    NubityAPIUtils.getMonitored(instanceId);
+  }
 }

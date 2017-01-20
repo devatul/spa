@@ -15,6 +15,8 @@ var createAlertTicket              = require('../actions/ServerActions').createA
 var showDashboard                  = require('../actions/ServerActions').showDashboard;
 var showProviders                  = require('../actions/ServerActions').showProviders;
 var showNinja                      = require('../actions/ServerActions').showNinja;
+var showSignupMessage              = require('../actions/ServerActions').showSignupMessage;
+var showConfirmMessage             = require('../actions/ServerActions').showConfirmMessage;
 var search                         = require('../actions/ServerActions').search;
 var showAvailableGraphTypes        = require('../actions/ServerActions').showAvailableGraphTypes;
 var showTicket                     = require('../actions/ServerActions').showTicket;
@@ -41,6 +43,41 @@ module.exports = {
           localStorage.setItem('nubity-refresh-token', text.refresh_token);
           this.getUser();
         }
+      }.bind(this));
+  },
+
+  signup: function (user) {
+    request
+      .post(APIEndpoints.PUBLIC + '/signup.json')
+      .send({firstname: user.firstname, lastname: user.lastname, email: user.email,  password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
+      .set('Accept', 'aplication/json')
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.signup(user);
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showSignupMessage(text.message);
+        }
+      }.bind(this));
+  },
+
+  confirmAccount: function (token) {
+    request
+      .get(APIEndpoints.PUBLIC + '/signup/email-confirm/' + token + '.json')
+      .set('Accept', 'aplication/json')
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        var code = JSON.parse(res.status);
+        if (400 <= code) {
+          showConfirmMessage(text.code, text.message);
+        } else {
+          showConfirmMessage(200, "Salio todo bien");
+        }
+
       }.bind(this));
   },
 
@@ -195,7 +232,7 @@ module.exports = {
     if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({page: page, include_health: true})
+      .query({page: page, include_health: true, include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -214,7 +251,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({include_health: true})
+      .query({include_health: true, include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -238,7 +275,7 @@ module.exports = {
     if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public', page: page, include_health: true})
+      .query({provider_classification: 'public', page: page, include_health: true, include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -257,7 +294,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public', include_health: true})
+      .query({provider_classification: 'public', include_health: true, include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -281,7 +318,7 @@ module.exports = {
     if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'private', page: page})
+      .query({provider_classification: 'private', page: page, include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -300,7 +337,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'private'})
+      .query({provider_classification: 'private', include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -324,7 +361,7 @@ module.exports = {
     if (0 != page) {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', page: page})
+      .query({provider_classification: 'on-premise', page: page, include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -343,7 +380,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise'})
+      .query({provider_classification: 'on-premise', include_products: 1})
       .set('Accept', 'aplication/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -661,6 +698,59 @@ module.exports = {
         redirect('login');
       } else {
         showTicket(text);
+      }
+    }.bind(this));
+  },
+
+  getMonitored: function(instanceId) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+
+    request
+    .post(APIEndpoints.PUBLIC + '/order.json')
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .send({instance_id: instanceId, product_type_id: 2})
+    .end(function(res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.getMonitored(instanceId);
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        this.getInfrastructureOverview();
+        this.getInfrastructureOnPremise();
+        this.getInfrastructurePrivateCloud();
+        this.getInfrastructurePublicCloud();
+      }
+    }.bind(this));
+  },
+
+  getManaged: function(instanceId) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+
+    request
+    .post(APIEndpoints.PUBLIC + '/order.json')
+    .set('Accept', 'aplication/json')
+    .set('Authorization', token)
+    .send({instance_id: instanceId, product_type_id: 1})
+    .end(function(res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.getMonitored(instanceId);
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        this.getInfrastructureOverview();
+        this.getInfrastructureOnPremise();
+        this.getInfrastructurePrivateCloud();
+        this.getInfrastructurePublicCloud();
       }
     }.bind(this));
   },

@@ -8,8 +8,11 @@ var redirect      = require('../actions/RouteActions').redirect;
 var ActionTypes   = Constants.ActionTypes;
 var CHANGE_EVENT  = 'change';
 
-var _currentID    = null;
-var _threads      = {};
+var _currentID      = null;
+var _confirmMessage = '';
+var _confirmCode    = '';
+var _threads        = {};
+var _signupMessage  = '';
 var _errorMessage = '';
 var _errorCode    = '';
 var _textError    = '';
@@ -47,6 +50,14 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
     return _textError;
   },
 
+  getConfirmMessage: function () {
+    return _confirmMessage;
+  },
+
+  getConfirmCode: function () {
+    return _confirmCode;
+  },
+
   getAuthToken: function () {
     return localStorage.getItem('nubity-token');
   },
@@ -55,7 +66,8 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
     localStorage.setItem('nubity-token', token);
   },
 
-  logOut: function (argument) {
+  signupMessage: function () {
+    return _signupMessage;
   },
 
   search: function () {
@@ -79,7 +91,20 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.LOGIN_RESPONSE:
       SessionStore.emitChange();
-      break;
+    break;
+
+    case ActionTypes.SHOW_SIGNUP_MESSAGE:
+      _signupMessage = action.res;
+      _textError = '';
+      _errorCode = '';
+      SessionStore.emitChange();
+    break;
+
+    case ActionTypes.SHOW_CONFIRM_MESSAGE:
+      _confirmMessage = action.res;
+      _confirmCode = action.code;
+      SessionStore.emitChange();
+    break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {     
@@ -88,7 +113,7 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError = action.res;
       _errorCode = action.code;
       SessionStore.emitChange();
-      break;
+    break;
 
     case ActionTypes.LOGOUT:
       localStorage.removeItem('nubity-token');
@@ -119,7 +144,7 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
     
     case ActionTypes.REDIRECT:
       router.transitionTo(action.route);
-      break;
+    break;
 
     default:
       if (null != action.res && null!= action.code && (401 == action.code)) {       

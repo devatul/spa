@@ -240,6 +240,9 @@ a.nb-active > .menu-button::before {
   padding: .35em 1.3em;
   cursor: no-drop;
 }
+.no-button {
+  cursor: no-drop;
+}
 .social-links {
   height: 30%;
   width: 100px;
