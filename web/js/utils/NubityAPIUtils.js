@@ -58,7 +58,7 @@ module.exports = {
     request
       .post(APIEndpoints.PUBLIC + '/login.json')
       .send({_username: user.email, _password: user.password})
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function(status) {
@@ -112,7 +112,7 @@ module.exports = {
     request
       .post(APIEndpoints.PUBLIC + '/password/request-reset.json')
       .send({_username: email})
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .end(function (res) {
         this.validateToken(res);
       }.bind(this));
@@ -122,7 +122,7 @@ module.exports = {
     request
       .post(APIEndpoints.PUBLIC + '/password/reset/' + token + '.json')
       .send({_password: password, _password_confirmation: confirmation_password})
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .end(function (res) {
         this.validateToken(res).then(function() {
           redirect('login');
@@ -135,7 +135,7 @@ module.exports = {
     return new Promise(( resolve, reject ) => {
       request
         .post(APIEndpoints.PUBLIC + '/token/refresh.json')
-        .set('Accept', 'aplication/json')
+        .set('Accept', 'application/json')
         .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
         .end(function(res) {
           var text = JSON.parse(res.text);
@@ -158,7 +158,7 @@ module.exports = {
     var token = this.getToken();
     request
       .get(APIEndpoints.PUBLIC + '/user.json')
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -185,14 +185,14 @@ module.exports = {
     var token = this.getToken();
     request
     .get(APIEndpoints.PUBLIC + '/company/' + company)
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
       this.validateToken(res,function(status){
-        if(!status){
+        if (!status) {
           this.getCompanyInfo();
-        }else{
+        } else {
           showCompany(text);
         }
       }.bind(this));
@@ -206,7 +206,7 @@ module.exports = {
     request
     .get(APIEndpoints.PUBLIC + '/slot' )
     .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -228,7 +228,7 @@ module.exports = {
     request
     .get(APIEndpoints.PUBLIC + '/company/' + company + '/user/' + user + '/dashboard')
     .query({scope: 'dashboard'})
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -408,7 +408,7 @@ module.exports = {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
       .query({page: page})
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -423,7 +423,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -467,7 +467,7 @@ module.exports = {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
       .query({page: page, include_history: true})
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -483,7 +483,7 @@ module.exports = {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
       .query({include_history: true})
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -504,7 +504,7 @@ module.exports = {
 
     request
     .put(APIEndpoints.PUBLIC + '/company/' + company + '/alerts/' + alertId + '/acknowledge.json')
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (err, res) {
       this.validateToken(res).then(function(status) {
@@ -526,7 +526,7 @@ module.exports = {
     request
     .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
     .query({limit: 5})
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -546,7 +546,7 @@ module.exports = {
 
     request
     .get(APIEndpoints.PUBLIC + '/provider.json')
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -567,7 +567,7 @@ module.exports = {
 
     request
     .post(APIEndpoints.PUBLIC + '/dashboard') //Changed to createDasboard
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .send({user_id: user, company_id: company, scope: 'dashboard'})
     .end(function (res) {
@@ -587,7 +587,7 @@ module.exports = {
     var token = this.getToken();
     request
     .get(APIEndpoints.PUBLIC + '/company/' + company + '/search.json')
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -608,7 +608,7 @@ module.exports = {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
       .query({page: page})
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -623,7 +623,7 @@ module.exports = {
     } else {
       request
       .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
-      .set('Accept', 'aplication/json')
+      .set('Accept', 'application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -644,7 +644,7 @@ module.exports = {
 
     request
     .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket.json')
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
     .end(function(res) {
@@ -664,7 +664,7 @@ module.exports = {
 
     request
     .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + id + '/reply.json')
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .send({content: content})
     .end(function(res) {
@@ -683,7 +683,7 @@ module.exports = {
     var token   = this.getToken();
     request
     .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + ticketId)
-    .set('Accept', 'aplication/json')
+    .set('Accept', 'application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
