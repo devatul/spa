@@ -14,6 +14,21 @@ module.exports = {
     });
   },
 
+  showSignupMessage: function (message) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_SIGNUP_MESSAGE,
+      res: message,
+    });
+  },
+
+  showConfirmMessage: function (code, message) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_CONFIRM_MESSAGE,
+      res: message,
+      code: code,
+    });
+  },
+
   showInfrastructureOverview: function (overview) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_OVERVIEW,

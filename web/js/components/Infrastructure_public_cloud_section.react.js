@@ -5,6 +5,8 @@ var redirect                      = require('../actions/RouteActions').redirect;
 var SessionStore                  = require('../stores/SessionStore');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
+var getMonitored                  = require('../actions/RequestActions').getMonitored;
+var getManaged                    = require('../actions/RequestActions').getManaged;
 
 module.exports = React.createClass({
 
@@ -40,6 +42,14 @@ module.exports = React.createClass({
 
   _newPage: function (page) {
     getInfrastructurePublicCloud(page);
+  },
+
+  _monitoring: function (instance) {
+    getMonitored(instance.instance);
+  },
+
+  _managed: function (instance) {
+    getManaged(instance.instance);
   },
 
   render: function () {
@@ -78,6 +88,23 @@ module.exports = React.createClass({
       } else {
         level = 'fa fa-question-circle light-grey-color';
       }
+
+      var monitoringStatus = '';
+      var monitoring = '';
+      for (var count in publicCloud[key].product_orders) {
+        if ('Monitoring' == publicCloud[key].product_orders[count].product_type) {
+          monitoringStatus = publicCloud[key].product_orders[count].status;
+        }
+      }
+
+      if ('pending-acceptation' == monitoringStatus) {
+        monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
+      } else if ('' == monitoringStatus) {
+        monitoring = (<span className="action-button nubity-green" onClick={this._monitoring.bind(this, publicCloud[key])}>Start</span>);
+      } else {
+        monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
+      }
+
       rows.push(
         <tr key={key}>
           <td>
@@ -98,10 +125,10 @@ module.exports = React.createClass({
           <td>{publicCloud[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>
           <td className="icons">
-            <span className="action-button nubity-green">Start</span>
+            {monitoring}
           </td>
           <td className="icons">
-            <span className="action-button nubity-red">Stop</span>
+            <span className="action-button nubity-red" onClick={this._managed.bind(this, publicCloud[key])}>Stop</span>
           </td>
         </tr>
       );

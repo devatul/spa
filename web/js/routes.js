@@ -6,6 +6,7 @@ var NubityApp               = require ('./components/NubityApp.react');
 var Login                   = require ('./components/Login.react');
 var ForgotPassword          = require ('./components/Forgot_password.react');
 var ChangePassword          = require ('./components/Change_password.react');
+var ResetPassword           = require ('./components/Reset_password.react');
 var Signup                  = require ('./components/Signup.react');
 var OnBoarding              = require ('./components/Onboarding_section.react');
 var Infrastructure          = require ('./components/Infrastructure_section.react');
@@ -18,6 +19,7 @@ var LiveChat                = require ('./components/Live_chat.react');
 var TermsAndConditions      = require ('./components/Terms_and_conditions.react');
 var PrivacyPolicies         = require ('./components/Privacy_policies.react');
 var ViewTicket              = require ('./components/View_ticket.react');
+var ConfirmAccount          = require ('./components/Confirm_account.react');
 
 var routes = (
   <Route handler={NubityApp}           path='/'>
@@ -25,6 +27,7 @@ var routes = (
     <Route name="forgot_password"      path='/forgot-password'         handler={ForgotPassword} />
     <Route name="change_password"      path='/change-password/:token'  handler={ChangePassword} />
     <Route name="signup"               path='/signup'                  handler={Signup} />
+    <Route name="confirm_account"      path='/confirm-account/:token'  handler={ConfirmAccount} />
     <Route name="onboarding"           path='/onboarding'              handler={OnBoarding} />
     <Route name="infrastructure"       path='/infrastructure'          handler={Infrastructure} />
     <Route name="dashboard"            path='/dashboard'               handler={Dashboard} />
@@ -37,6 +40,7 @@ var routes = (
     <route name="privacy_policies"     path='/privacy-policies'        handler={PrivacyPolicies} />
     <Route name="view_ticket"          path='/view-ticket/'            handler={ViewTicket} />
     <Route name="view_ticket_params"   path='/view-ticket/:id'         handler={ViewTicket} />
+    <Route name="reset_password"      path='/reset-password/:token'    handler={ResetPassword} />
     <DefaultRoute                                                      handler={Login}/>
   </Route>
 );
