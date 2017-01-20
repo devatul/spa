@@ -189,7 +189,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function (status){
+      this.validateToken(res,function (status) {
         if (!status) {
           this.getCompanyInfo();
         } else {
