@@ -29,6 +29,7 @@ module.exports = {
   tokenApiStatus: true,
   validateToken: function (res) {
     var _SELF = this;
+    var interval;
     var code = JSON.parse(res.status);
     return new Promise(( resolve, reject ) => {
       if (code >= 400 && this.hasToRefresh()) {
@@ -39,9 +40,12 @@ module.exports = {
             resolve(false);
           }.bind(_SELF));
         } else {
-          setTimeout(function() {
-            resolve(false);
-          }, 2000);
+          interval = setInterval(function() {
+            if (!this.isTokenValidating) {
+              clearInterval(interval);
+              resolve(false);
+            }
+          }, 100);
         }
       } else if (code >= 300 && code < 400) {
         redirect('login');
