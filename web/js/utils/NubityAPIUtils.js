@@ -37,7 +37,9 @@ module.exports = {
           callback(false);
         }.bind(this));
       } else {
-        setTimeout(function() { callback(false);}, 2000);
+        setTimeout(function() {
+          callback(false);
+        }, 2000);
       }
     } else if (400 <= code) {
       redirect('login');
@@ -52,7 +54,7 @@ module.exports = {
       .set('Accept', 'aplication/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res,function(status){
+        this.validateToken(res,function(status) {
           if (!status) {
             this.login(user);
           } else {
@@ -538,7 +540,7 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      this.validateToken(res,function(status){
+      this.validateToken(res,function(status) {
         if(!status) {
           this.getProviders();
         } else {
