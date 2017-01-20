@@ -29,7 +29,7 @@ module.exports = {
   tokenApiStatus: true,
   validateToken: function (res) {
     var _SELF = this;
-    var interval;
+    var interval = false;
     var code = JSON.parse(res.status);
     return new Promise(( resolve, reject ) => {
       if (code >= 400 && this.hasToRefresh()) {
