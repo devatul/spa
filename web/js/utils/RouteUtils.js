@@ -1,6 +1,5 @@
 var redirect        = require ('../actions/RouteActions').redirect;
 
-
 module.exports = {
   redirectLogin: function () {
     redirect ('login');
