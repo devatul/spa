@@ -7,6 +7,8 @@ var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructureOnPremise    = require('../actions/RequestActions').getInfrastructureOnPremise;
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
+var Tooltip                       = require('react-bootstrap').Tooltip;
+var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
 
@@ -71,6 +73,8 @@ module.exports = React.createClass({
 
     var rows = [];
     var state = '';
+    var os = '';
+    var tooltip = '';
     for (var key in onPremise) {
       state = '';
       if ('running' == onPremise[key].status) {
@@ -79,11 +83,37 @@ module.exports = React.createClass({
         state = 'icon nb-servers icon-state grey-text';
       } 
 
-      if ('critical' == onPremise[key].level) {
+      tooltip = '';
+      os = '';
+      if ('windows' == onPremise[key].os) {
+        os = 'icon nb-azure blue-text';
+        if ('running' == onPremise[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Windows</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Windows</Tooltip>);
+        }
+      } else if ('linux' == onPremise[key].os) {
+        os = 'fa fa-linux';
+        if ('running' == onPremise[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Linux</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Linux</Tooltip>);
+        }
+      } else {
+        os = 'fa fa-question-circle light-grey-color'
+        if ('running' == onPremise[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Unknown</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Unknown</Tooltip>);
+        }
+      }
+
+      var level = '';
+      if ('critical' == onPremise[key].health) {
         level = 'icon nb-critical icon-state red-text';
-      } else if ('warning' == onPremise[key].level) {
+      } else if ('warning' == onPremise[key].health) {
         level = 'icon nb-warning icon-state yellow-text';
-      } else if ('info' == onPremise[key].level) {
+      } else if ('info' == onPremise[key].health) {
         level = 'icon nb-information icon-state blue-text';
       } else {
         level = 'fa fa-question-circle light-grey-color';
@@ -109,12 +139,14 @@ module.exports = React.createClass({
       rows.push(
         <tr>
           <td>
-            <div className="status-container">
-              <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
-              <div id="os" className="os">
-                <i id="linux" className="sprites small os-ubuntu"></i>
-              </div> 
-            </div>
+            <OverlayTrigger placement="top" overlay={tooltip}>
+              <div className="status-container">
+                <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
+                <div className="os">
+                  <i className={os}></i>
+                </div> 
+              </div>
+            </OverlayTrigger>
           </td>
           <td>{onPremise[key].hostname}</td>
           <td>{onPremise[key].external_identifier}</td>
@@ -136,7 +168,7 @@ module.exports = React.createClass({
     }
     return (
       <div id="infrastructureTable">
-        <table className="publicCloud-table table table-striped table-condensed">
+        <table className="onPremise-table table table-striped table-condensed">
           <thead>
           <tr>
             <th>State</th>

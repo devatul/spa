@@ -8,6 +8,8 @@ var getInfrastructureOverview  = require('../actions/RequestActions').getInfrast
 var getMonitored               = require('../actions/RequestActions').getMonitored;
 var getManaged                 = require('../actions/RequestActions').getManaged;
 var Preloader                  = require('./Preloader.react');
+var Tooltip                    = require('react-bootstrap').Tooltip;
+var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
 
@@ -71,6 +73,8 @@ module.exports = React.createClass({
 
     var rows = [];
     var state = '';
+    var os = '';
+    var tooltip = '';
     for (var key in overview) {
       state = '';
       if ('public' == overview[key].classification) {
@@ -99,6 +103,31 @@ module.exports = React.createClass({
         } 
       }
 
+      tooltip = '';
+      os = '';
+      if ('windows' == overview[key].os) {
+        os = 'icon nb-azure blue-text';
+        if ('running' == overview[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Windows</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Windows</Tooltip>);
+        }
+      } else if ('linux' == overview[key].os) {
+        os = 'fa fa-linux';
+        if ('running' == overview[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Linux</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Linux</Tooltip>);
+        }
+      } else {
+        os = 'fa fa-question-circle light-grey-color'
+        if ('running' == overview[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Unknown</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Unknown</Tooltip>);
+        }
+      }
+
       var monitoringStatus = '';
       var monitoring = '';
       for (var count in overview[key].product_orders) {
@@ -115,11 +144,12 @@ module.exports = React.createClass({
         monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
       }
 
-      if ('critical' == overview[key].level) {
+      var level = '';
+      if ('critical' == overview[key].health) {
         level = 'icon nb-critical icon-state red-text';
-      } else if ('warning' == overview[key].level) {
+      } else if ('warning' == overview[key].health) {
         level = 'icon nb-warning icon-state yellow-text';
-      } else if ('info' == overview[key].level) {
+      } else if ('info' == overview[key].health) {
         level = 'icon nb-information icon-state blue-text';
       } else {
         level = 'fa fa-question-circle light-grey-color';
@@ -127,12 +157,14 @@ module.exports = React.createClass({
       rows.push(
         <tr key={key}>
           <td>
-            <div className="status-container">
-              <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
-              <div id="os" className="os">
-                <i id="linux" className="sprites small os-ubuntu"></i>
-              </div> 
-            </div>
+            <OverlayTrigger placement="top" overlay={tooltip}>
+              <div className="status-container">
+                <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
+                <div className="os">
+                  <i className={os}></i>
+                </div> 
+              </div>
+            </OverlayTrigger>
           </td>
           <td>{overview[key].hostname}</td>
           <td>{overview[key].external_identifier}</td>
