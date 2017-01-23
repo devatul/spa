@@ -444,18 +444,21 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
       request
-      .get('/company/' + company + '/alerts-stats.json')
+      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts-stats.json')
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getStats();
-          } else {
-            showStats(text);
-          }
-        }.bind(this));
+        var code = JSON.parse(res.status);
+        if (401 == code && this.hasToRefresh()) {
+          this.refreshToken();
+          this.getStats();
+        } else if (400 <= code) {
+          redirect('login');
+        } else {
+          showStats(text);
+        }
+        
       }.bind(this));
   },
 
