@@ -7,9 +7,8 @@ var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
-    var preloader = (<Preloader/>);
     return{
-      message: preloader,
+      message: '',
       code: ''
     }
   },
@@ -32,6 +31,7 @@ module.exports = React.createClass({
         this.setState({
           message: SessionStore.getConfirmMessage(),
           code: SessionStore.getConfirmCode(),
+          icon: '',
         });
       }
     }
@@ -47,17 +47,41 @@ module.exports = React.createClass({
 
   render: function () {
     var icon = '';
+    var legend = '';
+    var message = '';
+
+    if (null == this.state.message.key) {
+      icon = (<Preloader/>);
+    }
+
     if (400 <= this.state.code) {
-      icon = (<i className="fa fa-times-circle" aria-hidden="true"></i>);
+      icon = (<i className="icon nb-close-circle x-large red-text" aria-hidden="true"></i>);
+      legend = 'There was an error on your account verification';
     } else if ('' != this.state.code) {
-      icon = (<i className="fa fa-check-circle" aria-hidden="true"></i>);
+      icon = (<i className="icon nb-thick-circle x-large green-text" aria-hidden="true"></i>);
+      legend = 'Your account has been successfully verified';
     }
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
-          {this.state.message}
-          <br/>
-          {icon}
+          <div className="verification-logo">
+            <img src="./images/logo-nubity_380.png"/>
+          </div>
+          <div className="verification-legend">
+            {legend}
+          </div>
+          <div className="verification-icon">
+            {icon}
+          </div>
+          <div>
+              <div className="col-sm-12 light-grey-background">
+                <div className="pull-left">
+                  <i className="input-icon icon nb-information icon-state" aria-hidden="true"></i>
+                  {this.state.message}
+                </div>
+              </div>
+              <div className="min"></div>
+          </div>
         </div>
       </section>
     );
