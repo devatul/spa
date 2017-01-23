@@ -36,7 +36,7 @@ module.exports = {
     var code = JSON.parse(res.status);
     return new Promise(( resolve, reject ) => {
       if (code >= 400 && _SELF.hasToRefresh()) {
-        setTimeout( function() {
+        setTimeout( function () {
         if (!_SELF.isTokenValidating) {
           _SELF.isTokenValidating = true;
           _SELF.refreshToken().then(function (msg) {
