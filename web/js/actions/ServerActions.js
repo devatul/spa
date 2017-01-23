@@ -64,6 +64,13 @@ module.exports = {
     });
   },
 
+  showStats: function (stats) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_STATS,
+      res: stats,
+    });
+  },
+
   showHistoryAlerts: function (alerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_HISTORY_ALERTS,

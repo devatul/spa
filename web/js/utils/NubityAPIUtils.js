@@ -8,6 +8,7 @@ var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInf
 var showInfrastructurePrivateCloud = require('../actions/ServerActions').showInfrastructurePrivateCloud;
 var showInfrastructureOnPremise    = require('../actions/ServerActions').showInfrastructureOnPremise;
 var showAlerts                     = require('../actions/ServerActions').showAlerts;
+var showStats                      = require('../actions/ServerActions').showStats;
 var showHistoryAlerts              = require('../actions/ServerActions').showHistoryAlerts;
 var showDashboardAlerts            = require('../actions/ServerActions').showDashboardAlerts;
 var showDashboards                 = require('../actions/ServerActions').showDashboards;
@@ -437,6 +438,25 @@ module.exports = {
         }.bind(this));
       }.bind(this));
     }
+  },
+
+  getStats: function () {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+      request
+      .get('/company/' + company + '/alerts-stats.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getStats();
+          } else {
+            showStats(text);
+          }
+        }.bind(this));
+      }.bind(this));
   },
 
   getHistoryAlerts: function (page) {
