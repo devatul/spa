@@ -1,7 +1,7 @@
-var request                        = require('superagent');
+var request                        = require('superagent-use')(require('superagent'));
+var prefix                         = require('superagent-prefix');
 var Constants                      = require('../constants/Constants');
 var SessionStore                   = require('../stores/SessionStore');
-var redirect                       = require('../actions/RouteActions').redirect;
 var error                          = require('../actions/ServerActions').error;
 var showInfrastructureOverview     = require('../actions/ServerActions').showInfrastructureOverview;
 var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInfrastructurePublicCloud;
@@ -23,42 +23,47 @@ var showAvailableGraphTypes        = require('../actions/ServerActions').showAva
 var showTicket                     = require('../actions/ServerActions').showTicket;
 var showCompany                    = require('../actions/ServerActions').showCompany;
 var APIEndpoints                   = Constants.APIEndpoints;
+var routes                         = require('./RouteUtils');
+
+
+request.use(prefix(APIEndpoints.PUBLIC));
 
 module.exports = {
   isTokenValidating: false,
-  tokenApiStatus: true,
   validateToken: function (res) {
     var _SELF = this;
     var interval = false;
     var code = JSON.parse(res.status);
     return new Promise(( resolve, reject ) => {
-      if (code >= 400 && this.hasToRefresh()) {
-        if (!this.isTokenValidating) {
-          this.isTokenValidating = true;
-          this.refreshToken().then(function (msg) {
-            this.isTokenValidating = false;
+      if (code >= 400 && _SELF.hasToRefresh()) {
+        setTimeout( function() {
+        if (!_SELF.isTokenValidating) {
+          _SELF.isTokenValidating = true;
+          _SELF.refreshToken().then(function (msg) {
+            _SELF.isTokenValidating = false;
             resolve(false);
           }.bind(_SELF));
         } else {
-          interval = setInterval(function() {
-            if (!this.isTokenValidating) {
+          interval = setInterval(function () {
+            if (!_SELF.isTokenValidating) {
               clearInterval(interval);
               resolve(false);
             }
           }, 100);
         }
+      },0);
       } else if (code >= 300 && code < 400) {
-        redirect('login');
-      } else if(code >= 200 && code < 300) {
+        routes.redirectLogin();
+      } else if (code >= 200 && code < 300) {
         resolve(true);
       }
     });
   },
   login: function (user) {
     request
-      .post(APIEndpoints.PUBLIC + '/login.json')
+      .post('/login.json')
       .send({_username: user.email, _password: user.password})
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
@@ -75,27 +80,25 @@ module.exports = {
 
   signup: function (user) {
     request
-      .post(APIEndpoints.PUBLIC + '/signup.json')
+      .post('/signup.json')
       .send({firstname: user.firstname, lastname: user.lastname, email: user.email,  password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.signup(user);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showSignupMessage(text.message);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.signup(user);
+          } else {
+            showSignupMessage(text.message);
+          }
+        }.bind(this));
       }.bind(this));
   },
 
   confirmAccount: function (token) {
     request
-      .get(APIEndpoints.PUBLIC + '/signup/email-confirm/' + token + '.json')
-      .set('Accept', 'aplication/json')
+      .get('/signup/email-confirm/' + token + '.json')
+      .accept('application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
@@ -107,12 +110,11 @@ module.exports = {
 
       }.bind(this));
   },
-
   forgotPassword: function (email) {
     request
-      .post(APIEndpoints.PUBLIC + '/password/request-reset.json')
+      .post('/password/request-reset.json')
       .send({_username: email})
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .end(function (res) {
         this.validateToken(res);
       }.bind(this));
@@ -120,12 +122,12 @@ module.exports = {
 
   changePassword: function (token, password, confirmation_password) {
     request
-      .post(APIEndpoints.PUBLIC + '/password/reset/' + token + '.json')
+      .post('/password/reset/' + token + '.json')
       .send({_password: password, _password_confirmation: confirmation_password})
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .end(function (res) {
         this.validateToken(res).then(function () {
-          redirect('login');
+          routes.redirectLogin();
         }.bind(this));
       }.bind(this));
   },
@@ -134,8 +136,8 @@ module.exports = {
     var _SELF = this;
     return new Promise(( resolve, reject ) => {
       request
-        .post(APIEndpoints.PUBLIC + '/token/refresh.json')
-        .set('Accept', 'application/json')
+        .post('/token/refresh.json')
+        .accept('application/json')
         .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
         .end(function (res) {
           var text = JSON.parse(res.text);
@@ -143,7 +145,7 @@ module.exports = {
           if (401 == code) {
             localStorage.removeItem('nubity-token');
             localStorage.removeItem('nubity-refresh-token');
-            redirect('login');
+            routes.redirectLogin();
             resolve();
           } else {
             localStorage.setItem('nubity-token', text.token);
@@ -157,8 +159,8 @@ module.exports = {
   getUser: function () {
     var token = this.getToken();
     request
-      .get(APIEndpoints.PUBLIC + '/user.json')
-      .set('Accept', 'application/json')
+      .get('/user.json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -174,7 +176,7 @@ module.exports = {
             localStorage.setItem('nubity-user-avatar', text.public_path);
             localStorage.setItem('nubity-user-language', text.locale_display_name);
 
-            redirect('dashboard');
+            routes.redirectDashboard();
           }
         }.bind(this));
       }.bind(this));
@@ -184,8 +186,8 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company)
-    .set('Accept', 'application/json')
+    .get('/company/' + company)
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -204,9 +206,9 @@ module.exports = {
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
     request
-    .get(APIEndpoints.PUBLIC + '/slot' )
+    .get('/slot' )
     .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
-    .set('Accept', 'application/json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -226,9 +228,9 @@ module.exports = {
     var user    = localStorage.getItem('nubity-user-id');
 
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/user/' + user + '/dashboard')
+    .get('/company/' + company + '/user/' + user + '/dashboard')
     .query({scope: 'dashboard'})
-    .set('Accept', 'application/json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -250,9 +252,9 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({page: page, include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({page: page, include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -267,9 +269,9 @@ module.exports = {
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -289,9 +291,9 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public', page: page, include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'public', page: page, include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -306,9 +308,9 @@ module.exports = {
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public', include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'public', include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -328,9 +330,9 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'private', page: page, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'private', page: page})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -345,9 +347,9 @@ module.exports = {
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'private', include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'private'})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -367,9 +369,9 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', page: page, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'on-premise', page: page})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -384,14 +386,14 @@ module.exports = {
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'on-premise'})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
-          if(!status) {
+          if (!status) {
             this.getInfrastructureOnPremise(page);
           } else {
             showInfrastructureOnPremise(text);
@@ -406,14 +408,14 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .get('/company/' + company + '/alerts')
       .query({page: page})
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
-          if(!status) {
+          if (!status) {
             this.getAlerts(page);
           } else {
             showAlerts(text);
@@ -422,8 +424,8 @@ module.exports = {
       }.bind(this));
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
-      .set('Accept', 'application/json')
+      .get('/company/' + company + '/alerts')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -465,9 +467,9 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .get('/company/' + company + '/alerts')
       .query({page: page, include_history: true})
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -481,9 +483,9 @@ module.exports = {
       }.bind(this));
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .get('/company/' + company + '/alerts')
       .query({include_history: true})
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -503,8 +505,8 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put(APIEndpoints.PUBLIC + '/company/' + company + '/alerts/' + alertId + '/acknowledge.json')
-    .set('Accept', 'application/json')
+    .put('/company/' + company + '/alerts/' + alertId + '/acknowledge.json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (err, res) {
       this.validateToken(res).then(function (status) {
@@ -524,9 +526,9 @@ module.exports = {
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+    .get('/company/' + company + '/alerts')
     .query({limit: 5})
-    .set('Accept', 'application/json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -545,13 +547,13 @@ module.exports = {
     var token = this.getToken();
 
     request
-    .get(APIEndpoints.PUBLIC + '/provider.json')
-    .set('Accept', 'application/json')
+    .get('/provider.json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
-        if(!status) {
+        if (!status) {
           this.getProviders();
         } else {
           showProviders(text);
@@ -566,8 +568,8 @@ module.exports = {
     var user    = localStorage.getItem('nubity-user-id');
 
     request
-    .post(APIEndpoints.PUBLIC + '/dashboard') //Changed to createDasboard
-    .set('Accept', 'application/json')
+    .post('/dashboard') //Changed to createDasboard
+    .accept('application/json')
     .set('Authorization', token)
     .send({user_id: user, company_id: company, scope: 'dashboard'})
     .end(function (res) {
@@ -586,8 +588,8 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/search.json')
-    .set('Accept', 'application/json')
+    .get('/company/' + company + '/search.json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -606,9 +608,9 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
+      .get('/company/' + company + '/ticket')
       .query({page: page})
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -622,8 +624,8 @@ module.exports = {
       }.bind(this));
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
-      .set('Accept', 'application/json')
+      .get('/company/' + company + '/ticket')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
@@ -638,13 +640,13 @@ module.exports = {
     }
   },
 
-  createTicket: function(ticket) {
+  createTicket: function (ticket) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket.json')
-    .set('Accept', 'application/json')
+    .post('/company/' + company + '/ticket.json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
     .end(function (res) {
@@ -652,22 +654,22 @@ module.exports = {
         if (!status) {
           this.createTicket(ticket);
         } else {
-          redirect('ninja');
+          routes.redirectNinja();
         }
       }.bind(this));
     }.bind(this));
   },
 
-  replyTicket: function(id, content) {
+  replyTicket: function (id, content) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + id + '/reply.json')
-    .set('Accept', 'application/json')
+    .post('/company/' + company + '/ticket/' + id + '/reply.json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({content: content})
-    .end(function(res) {
+    .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
           this.replyTicket(ticket);
@@ -682,8 +684,8 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + ticketId)
-    .set('Accept', 'application/json')
+    .get('/company/' + company + '/ticket/' + ticketId)
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
@@ -697,56 +699,51 @@ module.exports = {
     }.bind(this));
   },
 
-  getMonitored: function(instanceId) {
+  getMonitored: function (instanceId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/order.json')
+    .post('/order.json')
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 2})
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getMonitored(instanceId);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getInfrastructureOverview();
-        this.getInfrastructureOnPremise();
-        this.getInfrastructurePrivateCloud();
-        this.getInfrastructurePublicCloud();
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getMonitored(instanceId);
+        } else {
+          this.getInfrastructureOverview();
+          this.getInfrastructureOnPremise();
+          this.getInfrastructurePrivateCloud();
+          this.getInfrastructurePublicCloud();
+        }
+      }.bind(this));
     }.bind(this));
   },
 
-  getManaged: function(instanceId) {
+  getManaged: function (instanceId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/order.json')
+    .post('/order.json')
     .set('Accept', 'aplication/json')
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 1})
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getMonitored(instanceId);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getInfrastructureOverview();
-        this.getInfrastructureOnPremise();
-        this.getInfrastructurePrivateCloud();
-        this.getInfrastructurePublicCloud();
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getMonitored(instanceId);
+        } else {
+          this.getInfrastructureOverview();
+          this.getInfrastructureOnPremise();
+          this.getInfrastructurePrivateCloud();
+          this.getInfrastructurePublicCloud();
+        }
+      }.bind(this));
     }.bind(this));
   },
 
