@@ -14,6 +14,7 @@ module.exports = {
     SHOW_INFRASTRUCTURE_PRIVATE_CLOUD: null,
     SHOW_INFRASTRUCTURE_ON_PREMISE: null,
     SHOW_ALERTS: null,
+    SHOW_STATS: null,
     SHOW_HISTORY_ALERTS: null,
     SHOW_DASHBOARD_ALERTS: null,
     SHOW_CONFIRM_MESSAGE: null,

@@ -8,6 +8,7 @@ var AlertsStore                = require('../stores/AlertsStore');
 var getDashboardAlerts         = require('../actions/RequestActions').getDashboardAlerts;
 var getDashboards              = require('../actions/RequestActions').getDashboards;
 var getDashboard               = require('../actions/RequestActions').getDashboard;
+var getStats                   = require('../actions/RequestActions').getStats;
 var CreateGraph                = require('./Create_graph.react');
 var Graph                      = require('./Graph.react');
 var Preloader                  = require('./Preloader.react');
@@ -15,20 +16,24 @@ var createAlertTicket          = require('../actions/ServerActions').createAlert
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 
 module.exports = React.createClass({
+
   getInitialState: function() {
     var mainAlerts = AlertsStore.getDashboardAlerts();
     var dashboards = GraphStore.getDashboards();
-    var dashboard = GraphStore.getDashboard();
+    var dashboard  = GraphStore.getDashboard();
+    var stats      = AlertsStore.getDashboardStats();
     return {
       mainAlerts: mainAlerts.member,
       dashboards: '',
       dashboard: '',
+      stats: stats,
     };
   },
 
   componentDidMount: function() {
     getDashboardAlerts();
     getDashboards();
+    getStats();
     AlertsStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
   },
@@ -42,11 +47,13 @@ module.exports = React.createClass({
     if (this.isMounted()) {
       var mainAlerts = AlertsStore.getDashboardAlerts();
       var dashboards = GraphStore.getDashboards();
-      var dashboard = GraphStore.getDashboard();
+      var dashboard  = GraphStore.getDashboard();
+      var stats      = AlertsStore.getDashboardStats();
       this.setState({
         mainAlerts: mainAlerts.member,
         dashboards: dashboards,
         dashboard: dashboard,
+        stats: stats,
       });
 
       if (AlertsStore.isAlertTicket()) {
@@ -82,6 +89,28 @@ module.exports = React.createClass({
         notice = <p className="margin-sides right-aligned">There are no alerts that needs your attention right now.</p>;
       }
     }
+
+    var stats = '';
+    if (undefined !== this.state.stats && mainAlerts) {
+      var stats = 
+        <div className="col-md-6 col-md-offset-3">
+          <div className="col-xs-4 dashboard-icons blue">
+            <i className="icon nb-information blue-text dashboard-minus" aria-hidden="true"></i>
+            Information
+            <div className="dashboard-icons-counter first">{this.state.stats.info}</div>
+          </div>
+          <div className="col-xs-4 dashboard-icons">
+            <i className="icon nb-warning yellow-text dashboard-minus" aria-hidden="true"></i>
+            Warning
+            <div className="dashboard-icons-counter second">{this.state.stats.warning}</div>
+          </div>
+          <div className="col-xs-4 dashboard-icons">
+            <i className="icon nb-critical red-text dashboard-minus" aria-hidden="true"></i>
+            Critical
+            <div className="dashboard-icons-counter third">{this.state.stats.critical}</div>
+          </div>
+        </div>;
+    } 
 
     var rows = [];
     for (var key in mainAlerts) {
@@ -175,23 +204,7 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2 className="align-center">Hi {firstname}! Check your infrastructure and apps status</h2>
         </div>
-        <div className="col-md-6 col-md-offset-3 hidden">
-          <div className="col-xs-4 dashboard-icons blue">
-            <i className="icon nb-information blue-text dashboard-minus" aria-hidden="true"></i>
-            Information
-            <div className="dashboard-icons-counter first">1</div>
-          </div>
-          <div className="col-xs-4 dashboard-icons">
-            <i className="icon nb-warning yellow-text dashboard-minus" aria-hidden="true"></i>
-            Warning
-            <div className="dashboard-icons-counter second">1</div>
-          </div>
-          <div className="col-xs-4 dashboard-icons">
-            <i className="icon nb-critical red-text dashboard-minus" aria-hidden="true"></i>
-            Critical
-            <div className="dashboard-icons-counter third">1</div>
-          </div>
-        </div>
+        {stats}
         {alertTable}
         <div className="margin-sides row hidden">
           <div className="col-xs-12 col-md-6">

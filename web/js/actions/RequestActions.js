@@ -39,6 +39,10 @@ module.exports = {
   getAlerts: function (page) {
     NubityAPIUtils.getAlerts(page);
   },
+
+  getStats: function () {
+    NubityAPIUtils.getStats();
+  },
   
   getHistoryAlerts: function (page) {
     NubityAPIUtils.getHistoryAlerts(page);
