@@ -106,6 +106,21 @@ section {
   font-size: 15px;
   font-family: 'neosansregular';
 }
+.verification-logo {
+  padding: 40px 0;
+}
+.verification-logo img {
+  width: 250px;
+}
+.verification-legend {
+  font-family: 'neosanslight', sans-serif;
+  font-size: 16pt;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 10px;
+}
+.verification-icon {
+  padding: 50px;
+}
 
 @media (max-width: 1200px) { 
   .modal-content {

@@ -866,9 +866,16 @@ html, body {
   font-weight: bold;
   font-size: 24px;
 }
+.my-account-data {
+  font-family: 'neosansregular', sans-serif;
+  margin: 8px 20px 0;
+}
 .my-account-title {
   font-size: 20px;
   margin-bottom: 0px;
+}
+.my-account-email {
+  font-family: 'neosanslight', sans-serif;
 }
 .padding-left{
   padding-left: 15px!important;
@@ -948,6 +955,12 @@ html, body {
   line-height: 1;
   vertical-align: middle;
   text-align: center;
+}
+.x-large {
+  font-size: 12rem !important;
+  line-height: 1;
+  vertical-align: middle;
+  text-align: center;  
 }
 /*Text color Helpers*/
 .white-text {

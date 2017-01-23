@@ -20,6 +20,7 @@ var TermsAndConditions      = require ('./components/Terms_and_conditions.react'
 var PrivacyPolicies         = require ('./components/Privacy_policies.react');
 var ViewTicket              = require ('./components/View_ticket.react');
 var ConfirmAccount          = require ('./components/Confirm_account.react');
+var Home                    = require ('./components/Dashboard_section.react');
 
 var routes = (
   <Route handler={NubityApp}           path='/'>
@@ -40,7 +41,8 @@ var routes = (
     <route name="privacy_policies"     path='/privacy-policies'        handler={PrivacyPolicies} />
     <Route name="view_ticket"          path='/view-ticket/'            handler={ViewTicket} />
     <Route name="view_ticket_params"   path='/view-ticket/:id'         handler={ViewTicket} />
-    <Route name="reset_password"      path='/reset-password/:token'    handler={ResetPassword} />
+    <Route name="reset_password"       path='/reset-password/:token'   handler={ResetPassword} />
+    <Route name="home"                 path='/'                        handler={Home} /> 
     <DefaultRoute                                                      handler={Login}/>
   </Route>
 );

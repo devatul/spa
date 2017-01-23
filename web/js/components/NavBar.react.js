@@ -77,6 +77,10 @@ var NavBar = React.createClass({
     redirect('signup');
   },
 
+  _redirectHome: function () {
+    redirect('home');
+  },
+
   onSelected: function (e) {
     // doesn't need to have functionality
   },
@@ -137,7 +141,9 @@ var NavBar = React.createClass({
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <img src="./images/nubity-logo-hd.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+              <a onClick={this._redirectHome}>
+                <img src="./images/nubity-logo-hd.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+              </a>
             </div>
             <div className="collapse navbar-collapse" >
               <ul className="nav navbar-nav navbar-right">
