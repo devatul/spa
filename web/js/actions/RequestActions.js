@@ -106,5 +106,17 @@ module.exports = {
 
   getMonitored: function (instanceId) {
     NubityAPIUtils.getMonitored(instanceId);
+  },
+
+  getManaged: function (instanceId) {
+    NubityAPIUtils.getManaged(instanceId);
+  },
+
+  stopOrder: function (orderCode) {
+    NubityAPIUtils.stopOrder(orderCode);
+  },
+
+  deleteOrderCancelation: function (orderCode) {
+    NubityAPIUtils.deleteOrderCancelation(orderCode);
   }
 }
