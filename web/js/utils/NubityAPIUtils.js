@@ -34,7 +34,7 @@ module.exports = {
     var _SELF = this;
     var interval = false;
     var code = JSON.parse(res.status);
-    return new Promise(( resolve, reject ) => {
+    return new Promise( function ( resolve, reject ) {
       if (code >= 400 && _SELF.hasToRefresh()) {
         setTimeout( function () {
         if (!_SELF.isTokenValidating) {
@@ -134,7 +134,7 @@ module.exports = {
 
   refreshToken: function () {
     var _SELF = this;
-    return new Promise(( resolve, reject ) => {
+    return new Promise( function ( resolve, reject ) {
       request
         .post('/token/refresh.json')
         .accept('application/json')
