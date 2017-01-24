@@ -444,21 +444,18 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts-stats.json')
+      .get('/company/' + company + '/alerts-stats.json')
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getStats();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showStats(text);
-        }
-        
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getStats();
+          } else {
+            showStats(text);
+          }
+        }.bind(this));
       }.bind(this));
   },
 
@@ -705,7 +702,7 @@ module.exports = {
 
     request
     .post('/order.json')
-    .set('Accept', 'aplication/json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 2})
     .end(function (res) {
@@ -729,7 +726,7 @@ module.exports = {
 
     request
     .post('/order.json')
-    .set('Accept', 'aplication/json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 1})
     .end(function (res) {
