@@ -346,6 +346,7 @@ a.nb-active > .menu-button::before {
 }
 .ticket-replies-container .ticket-reply.add-reply textarea {
   border: none !important;
+  resize: none;
 }
 .ticket-reply-header {
   height: 50px;
@@ -738,8 +739,9 @@ html, body {
 }
 .os i {
   position: absolute;
-  right: 6px;
-  top: 11px;
+  right: 2px;
+  top: 1px;
+  font-size: 11px;
 }
 .sprites {
   background-image: url('../images/sprites.png');
@@ -754,9 +756,10 @@ html, body {
   height: 15px;
   border-radius: 50%;
   position: absolute;
-  bottom: 55%;
-  left: 68%;
-  background-color: transparent;
+  bottom: 0%;
+  left: 65%;
+  background-color: white;
+  border: 1px solid #f2f2f2;
 }
 .sprites.os-ubuntu.small {
   width: 11px;

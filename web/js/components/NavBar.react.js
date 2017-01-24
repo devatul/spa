@@ -156,7 +156,7 @@ var NavBar = React.createClass({
                   <Dropdown className="dropdown" id="dropdown-custom-1">
                     <Dropdown.Toggle className="dropdown-menu-nb">
                       <img src={avatar} alt="add photo" title="add photo" className="user-photo img-circle"/>
-                       {firstname}, {lastname}!
+                       {lastname}, {firstname}!
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="super-colors">
                       <MenuItem eventKey="1">

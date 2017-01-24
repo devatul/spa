@@ -7,6 +7,8 @@ var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
+var Tooltip                       = require('react-bootstrap').Tooltip;
+var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
 
@@ -71,19 +73,47 @@ module.exports = React.createClass({
 
     var rows = [];
     var state = '';
+    var os = '';
+    var tooltip = '';
     for (var key in publicCloud) {
       state = '';
       if ('running' == publicCloud[key].status) {
         state = 'icon nb-cloud-public icon-state green-text';
       } else {
         state = 'icon nb-cloud-public icon-state grey-text';
-      } 
+      }
 
-      if ('critical' == publicCloud[key].level) {
+      tooltip = '';
+      os = '';
+      if ('windows' == publicCloud[key].os) {
+        os = 'icon nb-azure blue-text';
+        if ('running' == publicCloud[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Windows</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Windows</Tooltip>);
+        }
+      } else if ('linux' == publicCloud[key].os) {
+        os = 'fa fa-linux';
+        if ('running' == publicCloud[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Linux</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Linux</Tooltip>);
+        }
+      } else {
+        os = 'fa fa-question-circle light-grey-color'
+        if ('running' == publicCloud[key].status) {
+          tooltip = (<Tooltip id="tooltip">Running, Unknown</Tooltip>);
+        } else {
+          tooltip = (<Tooltip id="tooltip">Stopped, Unknown</Tooltip>);
+        }
+      }
+
+      var level = '';
+      if ('critical' == publicCloud[key].health) {
         level = 'icon nb-critical icon-state red-text';
-      } else if ('warning' == publicCloud[key].level) {
+      } else if ('warning' == publicCloud[key].health) {
         level = 'icon nb-warning icon-state yellow-text';
-      } else if ('info' == publicCloud[key].level) {
+      } else if ('info' == publicCloud[key].health) {
         level = 'icon nb-information icon-state blue-text';
       } else {
         level = 'fa fa-question-circle light-grey-color';
@@ -108,12 +138,14 @@ module.exports = React.createClass({
       rows.push(
         <tr key={key}>
           <td>
-            <div className="status-container">
-              <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
-              <div id="os" className="os">
-                <i id="linux" className="sprites small os-ubuntu"></i>
-              </div> 
-            </div>
+            <OverlayTrigger placement="top" overlay={tooltip}>
+              <div className="status-container">
+                <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
+                <div className="os">
+                  <i className={os}></i>
+                </div> 
+              </div>
+            </OverlayTrigger>
           </td>
           <td>{publicCloud[key].hostname}</td>
           <td>{publicCloud[key].external_identifier}</td>
