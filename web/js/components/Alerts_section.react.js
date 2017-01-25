@@ -161,12 +161,7 @@ module.exports = React.createClass({
       modalType: '',
     });
   },
-  updateURL: function (id) {
-    return function () {
-      var hash = window.location.href.split('/alerts');
-      window.location.href = hash[0]+'/alerts'+id;
-    }
-  },
+
   render: function () {
     var alerts = this.state.alerts.member;
     var historyAlerts = this.state.historyAlerts.member;
