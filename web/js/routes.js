@@ -42,8 +42,8 @@ var routes = (
     <Route name="view_ticket"          path='/view-ticket/'            handler={ViewTicket} />
     <Route name="view_ticket_params"   path='/view-ticket/:id'         handler={ViewTicket} />
     <Route name="reset_password"       path='/reset-password/:token'   handler={ResetPassword} />
-    <Route name="home"                 path='/'                        handler={Home} />
-    <DefaultRoute                                                      handler={Login} />
+    <Route name="home"                 path='/'                        handler={Home} /> 
+    <DefaultRoute                                                      handler={Login}/>
   </Route>
 );
 module.exports = routes;

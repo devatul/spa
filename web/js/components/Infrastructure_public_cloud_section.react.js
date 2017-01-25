@@ -7,8 +7,6 @@ var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
-var stopOrder                     = require('../actions/RequestActions').stopOrder;
-var deleteOrderCancelation        = require('../actions/RequestActions').deleteOrderCancelation;
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 
@@ -52,16 +50,8 @@ module.exports = React.createClass({
     getMonitored(instance.instance);
   },
 
-  _management: function (instance) {
+  _managed: function (instance) {
     getManaged(instance.instance);
-  },
-
-  _stopOrder: function (orderCode) {
-    stopOrder(orderCode);
-  },
-
-  _deleteOrderCancelation: function (orderCode) {
-    deleteOrderCancelation(orderCode);
   },
 
   render: function () {
@@ -131,12 +121,9 @@ module.exports = React.createClass({
 
       var monitoringStatus = '';
       var monitoring = '';
-      var monitoringCode = '';
-
       for (var count in publicCloud[key].product_orders) {
         if ('Monitoring' == publicCloud[key].product_orders[count].product_type) {
           monitoringStatus = publicCloud[key].product_orders[count].status;
-          monitoringCode = publicCloud[key].product_orders[count].product_order;
         }
       }
 
@@ -144,37 +131,9 @@ module.exports = React.createClass({
         monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
       } else if ('' == monitoringStatus) {
         monitoring = (<span className="action-button nubity-green" onClick={this._monitoring.bind(this, publicCloud[key])}>Start</span>);
-      } else if ('accepted' == monitoringStatus) {
-        monitoring = (<span className="action-button nubity-red"   onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
-      } else if ('pending-cancellation' == monitoringStatus) {
-        monitoring = (<span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
       } else {
         monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
       }
-
-      var managementStatus = '';
-      var management = '';
-      var managementCode = '';
-
-      for (var count in publicCloud[key].product_orders) {
-        if ('Management' == publicCloud[key].product_orders[count].product_type) {
-          managementStatus = publicCloud[key].product_orders[count].status;
-          managementCode = publicCloud[key].product_orders[count].product_order;
-        }
-      }
-
-      if ('pending-acceptation' == managementStatus) {
-        management = (<span className="action-button nubity-grey no-button">Start</span>);
-      } else if ('' == managementStatus) {
-        management = (<span className="action-button nubity-green" onClick={this._management.bind(this, publicCloud[key])}>Start</span>);
-      } else if ('accepted' == managementStatus) {
-        management = (<span className="action-button nubity-red"   onClick={this._stopOrder.bind(this, managementCode)}>Stop</span>);
-      } else if ('pending-cancellation' == managementStatus) {
-        management = (<span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
-      } else {
-        management = (<span className="action-button nubity-blue no-button">management</span>);
-      }
-
 
       rows.push(
         <tr key={key}>
@@ -201,7 +160,7 @@ module.exports = React.createClass({
             {monitoring}
           </td>
           <td className="icons">
-            {management}
+            <span className="action-button nubity-red" onClick={this._managed.bind(this, publicCloud[key])}>Stop</span>
           </td>
         </tr>
       );

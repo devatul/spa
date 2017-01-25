@@ -7,8 +7,6 @@ var InfrastructureStore        = require('../stores/InfrastructureStore');
 var getInfrastructureOverview  = require('../actions/RequestActions').getInfrastructureOverview;
 var getMonitored               = require('../actions/RequestActions').getMonitored;
 var getManaged                 = require('../actions/RequestActions').getManaged;
-var stopOrder                  = require('../actions/RequestActions').stopOrder;
-var deleteOrderCancelation     = require('../actions/RequestActions').deleteOrderCancelation;
 var Preloader                  = require('./Preloader.react');
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
@@ -52,18 +50,9 @@ module.exports = React.createClass({
     getMonitored(instance.instance);
   },
 
-  _management: function (instance) {
+  _managed: function (instance) {
     getManaged(instance.instance);
   },
-
-  _stopOrder: function (orderCode) {
-    stopOrder(orderCode);
-  },
-
-  _deleteOrderCancelation: function (orderCode) {
-    deleteOrderCancelation(orderCode);
-  },
-
 
   render: function () {
     var overview = this.state.overview;
@@ -141,12 +130,9 @@ module.exports = React.createClass({
 
       var monitoringStatus = '';
       var monitoring = '';
-      var monitoringCode = '';
-
       for (var count in overview[key].product_orders) {
         if ('Monitoring' == overview[key].product_orders[count].product_type) {
           monitoringStatus = overview[key].product_orders[count].status;
-          monitoringCode = overview[key].product_orders[count].product_order;
         }
       }
 
@@ -154,35 +140,8 @@ module.exports = React.createClass({
         monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
       } else if ('' == monitoringStatus) {
         monitoring = (<span className="action-button nubity-green" onClick={this._monitoring.bind(this, overview[key])}>Start</span>);
-      } else if ('accepted' == monitoringStatus) {
-        monitoring = (<span className="action-button nubity-red"   onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
-      } else if ('pending-cancellation' == monitoringStatus) {
-        monitoring = (<span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
       } else {
         monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
-      }
-
-      var managementStatus = '';
-      var management = '';
-      var managementCode = '';
-
-      for (var count in overview[key].product_orders) {
-        if ('Management' == overview[key].product_orders[count].product_type) {
-          managementStatus = overview[key].product_orders[count].status;
-          managementCode = overview[key].product_orders[count].product_order;
-        }
-      }
-
-      if ('pending-acceptation' == managementStatus) {
-        management = (<span className="action-button nubity-grey no-button">Start</span>);
-      } else if ('' == managementStatus) {
-        management = (<span className="action-button nubity-green" onClick={this._management.bind(this, overview[key])}>Start</span>);
-      } else if ('accepted' == managementStatus) {
-        management = (<span className="action-button nubity-red"   onClick={this._stopOrder.bind(this, managementCode)}>Stop</span>);
-      } else if ('pending-cancellation' == managementStatus) {
-        management = (<span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
-      } else {
-        management = (<span className="action-button nubity-blue no-button">management</span>);
       }
 
       var level = '';
@@ -220,7 +179,7 @@ module.exports = React.createClass({
             {monitoring}
           </td>
           <td className="icons">
-            {management}
+            <span className="action-button nubity-red" onClick={this._managed.bind(this, overview[key])}>Stop</span>
           </td>
         </tr>
       );
