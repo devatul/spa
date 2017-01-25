@@ -266,7 +266,7 @@ module.exports = {
           for (var key in text.member) {
             if ("dashboard" == text.member[key].scope) {
               localStorage.setItem("dashboardId", text.member[key].dashboard);
-              this.getDashboardSlots(text.member[key].dashboard);  
+              this.getDashboardSlots(text.member[key].dashboard);
             }
           }
         }
@@ -283,15 +283,13 @@ module.exports = {
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboards();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showAvailableGraphTypes(text);
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getDashboard();
+        } else {
+          showAvailableGraphTypes(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -305,15 +303,13 @@ module.exports = {
     .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: localStorage.getItem('dashboardId'), position: position, custom_interval: 'TODAY'})
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.createGraph(widget, instance, chart, dashboardId, position);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getDashboards();
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.createGraph(widget, instance, chart, dashboardId, position);
+        } else {
+          this.getDashboards();
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -324,15 +320,13 @@ module.exports = {
     .accept('application/json')
     .set('Authorization', token)
     .end(function (err, res) {
-      var code = res.status;
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.deleteSlot(slot);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getDashboards();
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.deleteSlot(slot);
+        } else {
+          this.getDashboards();
+        }
+      }.bind(this));
     }.bind(this));
   },
 
