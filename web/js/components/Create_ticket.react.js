@@ -30,10 +30,21 @@ module.exports = React.createClass({
   _onChange: function () {
     if (this.isMounted()) {
       var search = SessionStore.search();
+      var serverCheck = '';
+      if (search.instances && AlertsStore.isAlertTicket()) {
+        var alert = AlertsStore.getAlertTicket();
+        for (var key in search.instances) {
+          if (search.instances[key].instance == alert.instance.id) {
+            serverCheck = search.instances[key].hostname;
+          }
+        }
+      }
+
       this.setState({
         search: search,
         instances: search.instances,
         clouds: search.clouds,
+        serverCheck:serverCheck,
       });
     }
   },
@@ -59,14 +70,13 @@ module.exports = React.createClass({
   },
 
   render: function () {
-
     var search = this.state.search;
     var instances = this.state.instances;
     var servers = [];
     var department = [];
     var type = [];
     var subject = '';
-    var serverCheck = '';
+    var serverCheck = this.state.serverCheck;
     var priorityCheck = ''; 
 
     if (AlertsStore.isAlertTicket()) {
@@ -86,11 +96,6 @@ module.exports = React.createClass({
         </select>
       ];
 
-      for (var key in instances) {
-        if (instances[key].instance == alert.instance.id) {
-          serverCheck = instances[key].hostname;
-        }
-      }
 
       switch (alert.level) {
         case 'critical':
@@ -105,9 +110,10 @@ module.exports = React.createClass({
       } 
 
       subject = alert.description;
-      AlertsStore.resetAlertTicket();
+      if (instances) {
+        AlertsStore.resetAlertTicket();
+      }
     }else {
-      
       department = [
         <select className="form-control" ref="department" onChange={this._onChange}>
           <option value="billing">Billing</option>
@@ -160,7 +166,7 @@ module.exports = React.createClass({
             {priority}
           </div>
           <div className="col-xs-3 centered">
-            <select className="form-control" ref="hostname" defaultValue={serverCheck}>
+            <select className="form-control" ref="hostname" value={serverCheck}>
               {servers}
             </select>
           </div>
