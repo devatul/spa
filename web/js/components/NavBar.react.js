@@ -164,17 +164,17 @@ var NavBar = React.createClass({
                           <i className="icon nb-config small"></i> My Account
                         </a>
                       </MenuItem>
-                      <MenuItem eventKey="2">
+                      <MenuItem eventKey="2" className="hidden">
                         <a onClick={this._openAccount}>
                           <i className="icon nb-company small"></i> Company
                         </a>
                       </MenuItem>
-                      <MenuItem eventKey="3">
+                      <MenuItem eventKey="3" className="hidden">
                         <a onClick={this._openAccount}>
                           <i className="icon nb-team small"></i> My Team
                         </a>
                       </MenuItem>
-                      <MenuItem eventKey="4">
+                      <MenuItem eventKey="4" className="hidden">
                         <a onClick={this._openBilling} >
                           <i className="icon nb-billing small"></i> Billing
                         </a>
@@ -202,27 +202,27 @@ var NavBar = React.createClass({
                           <i className="icon nb-config small"></i> My Account
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link">
+                      <li role="presentation" className="tab-link hidden">
                         <a className="grey-color" data-toggle="tab" href="#company">
                           <i className="icon nb-company small"></i> Comany
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link">
+                      <li role="presentation" className="tab-link hidden">
                         <a className="grey-color" data-toggle="tab" href="#myTeam">
                           <i className="icon nb-team small"></i> My Team
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link">
+                      <li role="presentation" className="tab-link hidden">
                         <a className="grey-color" data-toggle="tab" href="#accountStatus">
                           <i className="icon nb-billing small" aria-hidden="true"></i> Account Status
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link">
+                      <li role="presentation" className="tab-link hidden">
                         <a className="grey-color" data-toggle="tab" href="#billingHistory">
                           <i className="icon nb-billing small" aria-hidden="true"></i> Billing History
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link">
+                      <li role="presentation" className="tab-link hidden">
                         <a className="grey-color" data-toggle="tab" href="#paymentMethod">
                           <i className="icon nb-billing small" aria-hidden="true"></i> Payment Method
                         </a>
