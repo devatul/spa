@@ -80,24 +80,32 @@ module.exports = React.createClass({
       if ('public' == overview[key].classification) {
         if ('running' == overview[key].status) {
           state = 'icon nb-cloud-public green-text icon-state';
+        } else if ('stopped' == overview[key].status) {
+          state = 'icon nb-cloud-public red-text icon-state';
         } else {
           state = 'icon nb-cloud-public grey-text icon-state';
         } 
       } else if ('private' == overview[key].classification) {
         if ('running' == overview[key].status) {
           state = 'icon nb-cloud-private green-text icon-state';
+        } else if ('stopped' == overview[key].status) {
+          state = 'icon nb-cloud-private red-text icon-state';
         } else {
           state = 'icon nb-cloud-private grey-text icon-state';
         }
       } else if ('on-premise' == overview[key].classification) {
         if ('running' == overview[key].status) {
           state = 'icon nb-servers green-text icon-state';
+        } else if ('stopped' == overview[key].status) {
+          state = 'icon nb-servers red-text icon-state';
         } else {
           state = 'icon nb-servers grey-text icon-state';
         }
       } else {
         if ('running' == overview[key].status) {
           state = 'icon nb-eye green-text icon-state';
+        } else if ('stopped' == overview[key].status) {
+          state = 'icon nb-eye red-text icon-state';
         } else {
           state = 'icon nb-eye grey-text icon-state';
         } 
@@ -109,6 +117,8 @@ module.exports = React.createClass({
         os = 'icon nb-azure blue-text';
         if ('running' == overview[key].status) {
           tooltip = (<Tooltip id="tooltip">Running, Windows</Tooltip>);
+        } else if ('unavailable' == overview[key].status) {
+          tooltip = (<Tooltip id="tooltip">Unavailable, Windows</Tooltip>);
         } else {
           tooltip = (<Tooltip id="tooltip">Stopped, Windows</Tooltip>);
         }
@@ -116,6 +126,8 @@ module.exports = React.createClass({
         os = 'fa fa-linux';
         if ('running' == overview[key].status) {
           tooltip = (<Tooltip id="tooltip">Running, Linux</Tooltip>);
+        } else if ('unavailable' == overview[key].status) {
+          tooltip = (<Tooltip id="tooltip">Unavailable, Linux</Tooltip>);
         } else {
           tooltip = (<Tooltip id="tooltip">Stopped, Linux</Tooltip>);
         }
@@ -123,6 +135,8 @@ module.exports = React.createClass({
         os = 'fa fa-question-circle light-grey-color'
         if ('running' == overview[key].status) {
           tooltip = (<Tooltip id="tooltip">Running, Unknown</Tooltip>);
+        } else if ('unavailable' == overview[key].status) {
+          tooltip = (<Tooltip id="tooltip">Unavailable, Unknown</Tooltip>);
         } else {
           tooltip = (<Tooltip id="tooltip">Stopped, Unknown</Tooltip>);
         }

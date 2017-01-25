@@ -21,6 +21,7 @@ var PrivacyPolicies         = require ('./components/Privacy_policies.react');
 var ViewTicket              = require ('./components/View_ticket.react');
 var ConfirmAccount          = require ('./components/Confirm_account.react');
 var Home                    = require ('./components/Dashboard_section.react');
+var StartMonitoring         = require ('./components/Start_monitoring.react');
 
 var routes = (
   <Route handler={NubityApp}           path='/'>
@@ -43,6 +44,7 @@ var routes = (
     <Route name="view_ticket_params"   path='/view-ticket/:id'         handler={ViewTicket} />
     <Route name="reset_password"       path='/reset-password/:token'   handler={ResetPassword} />
     <Route name="home"                 path='/'                        handler={Home} /> 
+    <Route name="start_monitoring"     path='/start-monitoring'        handler={StartMonitoring} /> 
     <DefaultRoute                                                      handler={Login}/>
   </Route>
 );
