@@ -36,6 +36,7 @@ module.exports = React.createClass({
         for (var key in search.instances) {
           if (search.instances[key].instance == alert.instance.id) {
             serverCheck = search.instances[key].hostname;
+            break;            
           }
         }
       }
@@ -111,6 +112,12 @@ module.exports = React.createClass({
 
       subject = alert.description;
       if (instances) {
+        for (var key in instances) {
+          if (instances[key].instance == alert.instance.id) {
+            serverCheck = search.instances[key].hostname;
+            break;
+          }
+        }
         AlertsStore.resetAlertTicket();
       }
     }else {
