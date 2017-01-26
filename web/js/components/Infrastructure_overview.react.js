@@ -215,7 +215,7 @@ module.exports = React.createClass({
     }
     return (
       <div id="infrastructureTable">
-        <table className="overview-table table table-striped table-condensed">
+        <table className="overview-table">
           <thead>
           <tr>
             <th>State</th>

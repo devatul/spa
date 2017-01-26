@@ -4,7 +4,6 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 
 module.exports = React.createClass({
-
   render: function () {
     var firstname = localStorage.getItem('nubity-firstname');
     var lastname  = localStorage.getItem('nubity-lastname');

@@ -129,7 +129,7 @@ module.exports = React.createClass({
     }
     return (
       <div>
-        <table className="table table-striped table-condensed">
+        <table>
           <tr>
             <th>Status</th>
             <th>Ticket Id</th>
