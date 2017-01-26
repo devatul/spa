@@ -118,7 +118,6 @@ module.exports = React.createClass({
             break;
           }
         }
-        AlertsStore.resetAlertTicket();
       }
     }else {
       department = [
