@@ -175,7 +175,7 @@ module.exports = React.createClass({
     }
     return (
       <div id="infrastructureTable">
-        <table className="privateCloud-table table table-striped table-condensed">
+        <table className="privateCloud-table">
           <thead>
           <tr>
             <th>State</th>

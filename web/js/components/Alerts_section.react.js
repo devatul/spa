@@ -226,7 +226,7 @@ module.exports = React.createClass({
     } else {
       alertTable = 
       <div className="col-xs-12">
-        <table className="table table-striped table-condensed">
+        <table>
           <tr>
             <th>State</th>
             <th>Server</th>
@@ -267,7 +267,7 @@ module.exports = React.createClass({
     } else {
       historyTable = 
       <div className="col-xs-12">
-        <table className="table table-striped table-condensed">
+        <table>
           <tr>
             <th>State</th>
             <th>Server</th>

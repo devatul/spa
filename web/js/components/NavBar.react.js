@@ -12,7 +12,8 @@ var CompanySection        = require('./Company_section.react');
 var AccountStatusSection  = require('./Account_status_section.react');
 var Dropdown              = require('react-bootstrap').Dropdown;
 var MenuItem              = require('react-bootstrap').MenuItem;
-var Glyphicon             = require('react-bootstrap').Glyphicon;
+var Tooltip               = require('react-bootstrap').Tooltip;
+var OverlayTrigger        = require('react-bootstrap').OverlayTrigger;
 
 var NavBar = React.createClass({
 
@@ -94,6 +95,8 @@ var NavBar = React.createClass({
     var forgot    = url.search('forgot');
     var avatar    = '';
 
+    var tooltip = (<Tooltip id="tooltip">Add a connection</Tooltip>);
+
     if (null === localStorage.getItem('nubity-user-avatar')) {
       avatar = './images/userpic.jpg';
     } else {
@@ -148,9 +151,12 @@ var NavBar = React.createClass({
             <div className="collapse navbar-collapse" >
               <ul className="nav navbar-nav navbar-right">
                 <li className="up-li">
-                  <button className="btn btn-primary notification-button" type="button" onClick={this._redirectOnboarding}>
-                    <span className="notification-badge">+</span>
-                  </button>
+                  <OverlayTrigger placement="bottom" overlay={tooltip}>
+                    <button className="onboarding-button" type="button" onClick={this._redirectOnboarding}>
+                      <i className="icon nb-connection"></i>
+                      <span className="notification-badge">+</span>
+                    </button>
+                  </OverlayTrigger>
                 </li>
                 <li>
                   <Dropdown className="dropdown" id="dropdown-custom-1">

@@ -50,7 +50,7 @@ module.exports = React.createClass({
             </Link>
           </div>
           <div className="social-links">
-            <div className="menu-button hidden">
+            <div className="menu-button hide-it">
               <div className="icon nb-feedback medium"></div>
               <p className="menu-text">FeedBack</p>
             </div>

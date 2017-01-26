@@ -161,10 +161,10 @@ module.exports = React.createClass({
           <td>
             <time dateTime={mainAlerts[key].resolved_on}>{to}</time>
           </td>
-          <td>
+          <td className="icons">
             {action}
           </td>
-          <td>
+          <td className="icons">
             <span className="action-button nubity-green button-pointer" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
           </td>
         </tr>;
@@ -201,7 +201,7 @@ module.exports = React.createClass({
 
     return (
       <div className="principal-section">
-        <div className="section-title">
+        <div className="section-title ">
           <h2 className="align-center">Hi {firstname}! Check your infrastructure and apps status</h2>
         </div>
         {stats}
