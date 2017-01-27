@@ -1,7 +1,7 @@
-var request                        = require('superagent');
+var request                        = require('superagent-use')(require('superagent'));
+var prefix                         = require('superagent-prefix');
 var Constants                      = require('../constants/Constants');
 var SessionStore                   = require('../stores/SessionStore');
-var redirect                       = require('../actions/RouteActions').redirect;
 var error                          = require('../actions/ServerActions').error;
 var showInfrastructureOverview     = require('../actions/ServerActions').showInfrastructureOverview;
 var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInfrastructurePublicCloud;
@@ -23,53 +23,97 @@ var showAvailableGraphTypes        = require('../actions/ServerActions').showAva
 var showTicket                     = require('../actions/ServerActions').showTicket;
 var showCompany                    = require('../actions/ServerActions').showCompany;
 var APIEndpoints                   = Constants.APIEndpoints;
+var routes                         = require('./RouteUtils');
+
+request.use(prefix(APIEndpoints.PUBLIC));
 
 module.exports = {
+  isTokenValidating: false,
+  validateToken: function (res) {
+    var _SELF = this;
+    var interval = false;
+    var code = JSON.parse(res.status);
+    return new Promise( function ( resolve, reject ) {
+      if (code >= 400 && _SELF.hasToRefresh()) {
+        setTimeout( function () {
+          if (!_SELF.isTokenValidating) {
+            _SELF.isTokenValidating = true;
+            _SELF.refreshToken().then(function (msg) {
+              _SELF.isTokenValidating = false;
+              resolve(false);
+            }.bind(_SELF));
+          } else {
+            interval = setInterval(function () {
+              if (!_SELF.isTokenValidating) {
+                clearInterval(interval);
+                resolve(false);
+              }
+            }, 100);
+          }
+        },0);
+      } else if (code >= 300 && code <= 401) {
+        _SELF.saveURI();
+        routes.redirectLogin();
+      } else if (code >= 200 && code < 300) {
+        resolve(true);
+      }
+    });
+  },
+
+  saveURI: function () {
+    var uri = localStorage.getItem('nubity-uri');
+    var path = window.location.href;
+    var route = path.split('/#/')[1];
+    if (null == uri
+      && 'login' !== route
+      && 'signup' !== route
+      && 'forgot-password' !== route
+      && 'terms-and-conditions' !== route
+      && 'privacy-policies' !== route) {
+      localStorage.setItem('nubity-uri', path);
+    }
+  },
 
   login: function (user) {
     request
-      .post(APIEndpoints.PUBLIC + '/login.json')
+      .post('/login.json')
       .send({_username: user.email, _password: user.password})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.login(user);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          localStorage.setItem('nubity-token', text.token);
-          localStorage.setItem('nubity-refresh-token', text.refresh_token);
-          this.getUser();
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.login(user);
+          } else {
+            localStorage.setItem('nubity-token', text.token);
+            localStorage.setItem('nubity-refresh-token', text.refresh_token);
+            this.getUser();
+          }
+        }.bind(this));
       }.bind(this));
   },
 
   signup: function (user) {
     request
-      .post(APIEndpoints.PUBLIC + '/signup.json')
+      .post('/signup.json')
       .send({firstname: user.firstname, lastname: user.lastname, email: user.email,  password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.signup(user);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showSignupMessage(text.message);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.signup(user);
+          } else {
+            showSignupMessage(text.message);
+          }
+        }.bind(this));
       }.bind(this));
   },
 
   confirmAccount: function (token) {
     request
-      .get(APIEndpoints.PUBLIC + '/signup/email-confirm/' + token + '.json')
-      .set('Accept', 'aplication/json')
+      .get('/signup/email-confirm/' + token + '.json')
+      .accept('application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
         var code = JSON.parse(res.status);
@@ -81,79 +125,84 @@ module.exports = {
 
       }.bind(this));
   },
-
   forgotPassword: function (email) {
     request
-      .post(APIEndpoints.PUBLIC + '/password/request-reset.json')
+      .post('/password/request-reset.json')
       .send({_username: email})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (400 <= code) {
-          redirect('login');
-        }
+        this.validateToken(res);
       }.bind(this));
   },
 
   changePassword: function (token, password, confirmation_password) {
     request
-      .post(APIEndpoints.PUBLIC + '/password/reset/' + token + '.json')
+      .post('/password/reset/' + token + '.json')
       .send({_password: password, _password_confirmation: confirmation_password})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .end(function (res) {
-        if (400 <= code) {
-          redirect('login');
-        } else {
-          redirect('login');
-        }
+        this.validateToken(res).then(function () {
+          routes.redirectLogin();
+        }.bind(this));
       }.bind(this));
   },
 
   refreshToken: function () {
-    request
-      .post(APIEndpoints.PUBLIC + '/token/refresh.json')
-      .set('Accept', 'aplication/json')
-      .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code) {
-          localStorage.removeItem('nubity-token');
-          localStorage.removeItem('nubity-refresh-token');
-          redirect('login');
-        } else {
-          localStorage.setItem('nubity-token', text.token);
-          localStorage.setItem('nubity-refresh-token', text.refresh_token);
-        }
-      }.bind(this));
+    var _SELF = this;
+    return new Promise( function ( resolve, reject ) {
+      request
+        .post('/token/refresh.json')
+        .accept('application/json')
+        .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          var code = JSON.parse(res.status);
+          if (401 == code) {
+            localStorage.removeItem('nubity-token');
+            localStorage.removeItem('nubity-refresh-token');
+            routes.redirectLogin();
+            resolve();
+          } else {
+            localStorage.setItem('nubity-token', text.token);
+            localStorage.setItem('nubity-refresh-token', text.refresh_token);
+            resolve();
+          }
+        }.bind(_SELF));
+    });
   },
 
   getUser: function () {
     var token = this.getToken();
     request
-      .get(APIEndpoints.PUBLIC + '/user.json')
-      .set('Accept', 'aplication/json')
+      .get('/user.json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getUser();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          localStorage.setItem('nubity-company', text.company);
-          localStorage.setItem('nubity-firstname', text.firstname);
-          localStorage.setItem('nubity-lastname', text.lastname);
-          localStorage.setItem('nubity-user-id', text.user);
-          localStorage.setItem('nubity-user-email', text.username);
-          localStorage.setItem('nubity-user-avatar', text.public_path);
-          localStorage.setItem('nubity-user-language', text.locale_display_name);
-          localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
-          redirect('dashboard');
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getUser();
+          } else {
+            localStorage.setItem('nubity-company', text.company);
+            localStorage.setItem('nubity-firstname', text.firstname);
+            localStorage.setItem('nubity-lastname', text.lastname);
+            localStorage.setItem('nubity-user-id', text.user);
+            localStorage.setItem('nubity-user-email', text.username);
+            localStorage.setItem('nubity-user-avatar', text.public_path);
+            localStorage.setItem('nubity-user-language', text.locale_display_name);
+
+            var uri = localStorage.getItem('nubity-uri');
+            if(uri !== null){
+              localStorage.removeItem('nubity-uri');
+              var to = uri.split('/#/')[1];
+              to = to.split('#')[0];
+              routes.redirectTo(to);
+              window.location.href = uri;
+            }else{
+              routes.redirectDashboard();
+            }
+          }
+        }.bind(this));
       }.bind(this));
   },
 
@@ -161,20 +210,18 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company)
-    .set('Accept', 'aplication/json')
+    .get('/company/' + company)
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getCompanyInfo();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showCompany(text);
-      }
+      this.validateToken(res,function (status) {
+        if (!status) {
+          this.getCompanyInfo();
+        } else {
+          showCompany(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -183,21 +230,19 @@ module.exports = {
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
     request
-    .get(APIEndpoints.PUBLIC + '/slot' )
+    .get('/slot' )
     .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
-    .set('Accept', 'aplication/json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboard();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboard(text);
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getDashboard();
+        } else {
+          showDashboard(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -207,24 +252,22 @@ module.exports = {
     var user    = localStorage.getItem('nubity-user-id');
 
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/user/' + user + '/dashboard')
+    .get('/company/' + company + '/user/' + user + '/dashboard')
     .query({scope: 'dashboard'})
-    .set('Accept', 'aplication/json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboards();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboards(text);
-        for (var key in text.member) {
-          this.getDashboard(text.member[key].dashboard);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getDashboards();
+        } else {
+          showDashboards(text);
+          for (var key in text.member) {
+            this.getDashboard(text.member[key].dashboard);
+          }
         }
-      }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -233,40 +276,36 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({page: page, include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({page: page, include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOverview(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOverview(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructureOverview(page);
+          } else {
+            showInfrastructureOverview(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOverview(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOverview(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructureOverview(page);
+          } else {
+            showInfrastructureOverview(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -276,40 +315,36 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public', page: page, include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'public', page: page, include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePublicCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePublicCloud(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructurePublicCloud();
+          } else {
+            showInfrastructurePublicCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'public', include_health: true, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'public', include_health: true})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePublicCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePublicCloud(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructurePublicCloud();
+          } else {
+            showInfrastructurePublicCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -319,40 +354,36 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'private', page: page, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'private', page: page})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePrivateCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePrivateCloud(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructurePrivateCloud();
+          } else {
+            showInfrastructurePrivateCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'private', include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'private'})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructurePrivateCloud();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructurePrivateCloud(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructurePrivateCloud();
+          } else {
+            showInfrastructurePrivateCloud(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -362,40 +393,36 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', page: page, include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'on-premise', page: page})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOnPremise(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOnPremise(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructureOnPremise(page);
+          } else {
+            showInfrastructureOnPremise(text);
+          }
+        }.bind(this));
       }.bind(this));
 
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', include_products: 1})
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/instances')
+      .query({provider_classification: 'on-premise'})
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getInfrastructureOnPremise(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showInfrastructureOnPremise(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInfrastructureOnPremise(page);
+          } else {
+            showInfrastructureOnPremise(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -405,38 +432,34 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .get('/company/' + company + '/alerts')
       .query({page: page})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showAlerts(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getAlerts(page);
+          } else {
+            showAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/alerts')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showAlerts(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getAlerts(page);
+          } else {
+            showAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -445,20 +468,18 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts-stats.json')
+      .get('/company/' + company + '/alerts-stats.json')
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getStats();
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showStats(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getStats();
+          } else {
+            showStats(text);
+          }
+        }.bind(this));
       }.bind(this));
   },
 
@@ -467,39 +488,35 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .get('/company/' + company + '/alerts')
       .query({page: page, include_history: true})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getHistoryAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showHistoryAlerts(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getHistoryAlerts(page);
+          } else {
+            showHistoryAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+      .get('/company/' + company + '/alerts')
       .query({include_history: true})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getHistoryAlerts(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showHistoryAlerts(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getHistoryAlerts(page);
+          } else {
+            showHistoryAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
@@ -509,20 +526,18 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put(APIEndpoints.PUBLIC + '/company/' + company + '/alerts/' + alertId + '/acknowledge.json') 
-    .set('Accept', 'aplication/json')
+    .put('/company/' + company + '/alerts/' + alertId + '/acknowledge.json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (err, res) {
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.acknowledge();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getAlerts();
-        this.getDashboardAlerts();
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.acknowledge();
+        } else {
+          this.getAlerts();
+          this.getDashboardAlerts();
+        }
+      }.bind(this));
     }.bind(this));
 
   },
@@ -532,21 +547,19 @@ module.exports = {
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/alerts')
+    .get('/company/' + company + '/alerts')
     .query({limit: 5})
-    .set('Accept', 'aplication/json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboardAlerts();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboardAlerts(text);
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getDashboardAlerts();
+        } else {
+          showDashboardAlerts(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -555,20 +568,18 @@ module.exports = {
     var token = this.getToken();
 
     request
-    .get(APIEndpoints.PUBLIC + '/provider.json')
-    .set('Accept', 'aplication/json')
+    .get('/provider.json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getProviders();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showProviders(text);
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getProviders();
+        } else {
+          showProviders(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -578,21 +589,19 @@ module.exports = {
     var user    = localStorage.getItem('nubity-user-id');
 
     request
-    .post(APIEndpoints.PUBLIC + '/dashboard') //Changed to createDasboard
-    .set('Accept', 'aplication/json')
+    .post('/dashboard') //Changed to createDasboard
+    .accept('application/json')
     .set('Authorization', token)
     .send({user_id: user, company_id: company, scope: 'dashboard'})
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getDashboards();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showDashboards(text);
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getDashboards();
+        } else {
+          showDashboards(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -600,20 +609,18 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/search.json')
-    .set('Accept', 'aplication/json')
+    .get('/company/' + company + '/search.json')
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.search();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        search(text);
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.search();
+        } else {
+          search(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -622,85 +629,75 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
+      .get('/company/' + company + '/ticket')
       .query({page: page})
-      .set('Accept', 'aplication/json')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getNinja(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showNinja(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getNinja(page);
+          } else {
+            showNinja(text);
+          }
+        }.bind(this));
       }.bind(this));
     } else {
       request
-      .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket')
-      .set('Accept', 'aplication/json')
+      .get('/company/' + company + '/ticket')
+      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
-        if (401 == code && this.hasToRefresh()) {
-          this.refreshToken();
-          this.getNinja(page);
-        } else if (400 <= code) {
-          redirect('login');
-        } else {
-          showNinja(text);
-        }
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getNinja(page);
+          } else {
+            showNinja(text);
+          }
+        }.bind(this));
       }.bind(this));
     }
   },
 
-  createTicket: function(ticket) {
+  createTicket: function (ticket) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket.json')
-    .set('Accept', 'aplication/json')
+    .post('/company/' + company + '/ticket.json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
-    .end(function(res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.createTicket(ticket);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        redirect('ninja');
-      }
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.createTicket(ticket);
+        } else {
+          routes.redirectNinja();
+        }
+      }.bind(this));
     }.bind(this));
   },
 
-  replyTicket: function(id, content) {
+  replyTicket: function (id, content) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + id + '/reply.json')
-    .set('Accept', 'aplication/json')
+    .post('/company/' + company + '/ticket/' + id + '/reply.json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({content: content})
-    .end(function(res) {
-      var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.replyTicket(ticket);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getTicket(id);
-      }
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.replyTicket(ticket);
+        } else {
+          this.getTicket(id);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
@@ -708,73 +705,66 @@ module.exports = {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     request
-    .get(APIEndpoints.PUBLIC + '/company/' + company + '/ticket/' + ticketId)
-    .set('Accept', 'aplication/json')
+    .get('/company/' + company + '/ticket/' + ticketId)
+    .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getTicket();
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        showTicket(text);
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getTicket();
+        } else {
+          showTicket(text);
+        }
+      }.bind(this));
     }.bind(this));
   },
 
-  getMonitored: function(instanceId) {
+  getMonitored: function (instanceId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/order.json')
-    .set('Accept', 'aplication/json')
+    .post('/order.json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 2})
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getMonitored(instanceId);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getInfrastructureOverview();
-        this.getInfrastructureOnPremise();
-        this.getInfrastructurePrivateCloud();
-        this.getInfrastructurePublicCloud();
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getMonitored(instanceId);
+        } else {
+          this.getInfrastructureOverview();
+          this.getInfrastructureOnPremise();
+          this.getInfrastructurePrivateCloud();
+          this.getInfrastructurePublicCloud();
+        }
+      }.bind(this));
     }.bind(this));
   },
 
-  getManaged: function(instanceId) {
+  getManaged: function (instanceId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
-    .post(APIEndpoints.PUBLIC + '/order.json')
-    .set('Accept', 'aplication/json')
+    .post('/order.json')
+    .accept('application/json')
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 1})
-    .end(function(res) {
+    .end(function (res) {
       var text = JSON.parse(res.text);
-      var code = JSON.parse(res.status);
-
-      if (401 == code && this.hasToRefresh()) {
-        this.refreshToken();
-        this.getMonitored(instanceId);
-      } else if (400 <= code) {
-        redirect('login');
-      } else {
-        this.getInfrastructureOverview();
-        this.getInfrastructureOnPremise();
-        this.getInfrastructurePrivateCloud();
-        this.getInfrastructurePublicCloud();
-      }
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getMonitored(instanceId);
+        } else {
+          this.getInfrastructureOverview();
+          this.getInfrastructureOnPremise();
+          this.getInfrastructurePrivateCloud();
+          this.getInfrastructurePublicCloud();
+        }
+      }.bind(this));
     }.bind(this));
   },
 
