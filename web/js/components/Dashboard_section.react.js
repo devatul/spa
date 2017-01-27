@@ -9,8 +9,7 @@ var getDashboardAlerts         = require('../actions/RequestActions').getDashboa
 var getDashboards              = require('../actions/RequestActions').getDashboards;
 var getDashboard               = require('../actions/RequestActions').getDashboard;
 var getStats                   = require('../actions/RequestActions').getStats;
-var CreateGraph                = require('./Create_graph.react');
-var Graph                      = require('./Graph.react');
+var Graphs                     = require('./Graphs.react');
 var Preloader                  = require('./Preloader.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
@@ -206,13 +205,8 @@ module.exports = React.createClass({
         </div>
         {stats}
         {alertTable}
-        <div className="margin-sides row hidden">
-          <div className="col-xs-12 col-md-6">
-            
-          </div>
-          <div className="col-xs-6 right-div" id="container">
-            
-          </div>
+        <div className="margin-sides row">
+          <Graphs/>
         </div>
       </div>
     );

@@ -2,46 +2,17 @@ var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
-var getDashboard               = require('../actions/RequestActions').getDashboard;
-var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
 var Highcharts                 = require('highcharts');
 var addFunnel                  = require('highcharts/modules/funnel');
 
 module.exports = React.createClass({
 
-  getInitialState: function () {
-    var dashboard = GraphStore.getDashboard();
-    return {
-      dashboard: dashboard,
-    };
-  },
-
   componentDidMount: function () {
     GraphStore.addChangeListener(this._onChange);
-  },
-
-  componentWillUnmount: function () {
-    GraphStore.removeChangeListener(this._onChange);
-  },
-
-  _onChange: function () {
-    if (this.isMounted()) {
-      var dashboard = GraphStore.getDashboard();
-      this.setState({
-        dashboard: dashboard,
-      });
-    }
-  },
-
-  render: function () {
-    var dashboard = this.state.dashboard;
-
-    if (undefined != dashboard) {
-
-      var name = JSON.stringify(dashboard[2].content.name);
+      var name = JSON.stringify(this.props.graph.content.name);
       name = name.replace(/\"/g, '');
-      var interval = dashboard[2].custom_interval;
+      var interval = this.props.graph.custom_interval;
       var interval_name;
 
       switch (interval) {
@@ -80,35 +51,20 @@ module.exports = React.createClass({
       addFunnel(Highcharts);
 
       var series = [];
-      for (var i = 0; i < dashboard[2].content.series.length; i++) {
-        series[i] = dashboard[2].content.series[i];
+      for (var i = 0; i < this.props.graph.content.series.length; i++) {
+        series[i] = this.props.graph.content.series[i];
       }
 
       var legend1 = series[0].legend;
-      var data1 = series[0].data;
-      var legend2 = series[1].legend;
-      var data2 = series[1].data;
-      var legend3 = series[2].legend;
-      var data3 = series[2].data;
-
+      var data1   = series[0].data;
       var coords1 = [];
       for (var i = 0; i < data1.length; i++) {
         coords1[i] = data1[i][1];
       }
 
-      var coords2 = [];
-      for (var i = 0; i < data2.length; i++) {
-        coords2[i] = data2[i][1];
-      }
-
-      var coords3 = [];
-      for (var i = 0; i < data3.length; i++) {
-        coords3[i] = data3[i][1];
-      }
-
       var chart = Highcharts.chart;
 
-      Highcharts.chart('container', {
+      Highcharts.chart(this.props.name, {
         chart: {
           zoomType: 'x'
         },
@@ -135,18 +91,22 @@ module.exports = React.createClass({
         series: [{
           name: legend1,
           data: coords1
-        }, {
-          name: legend2,
-          data: coords2
-        }, {
-          name: legend3,
-          data: coords3
         }]
       });
-    }
+  },
+
+  componentWillUnmount: function () {
+    GraphStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function () {
+
+  },
+
+  render: function () {
 
     return (
-      <div id="container">
+      <div id={this.props.name}>
       </div> 
     );
   }
