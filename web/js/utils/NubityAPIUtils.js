@@ -225,7 +225,7 @@ module.exports = {
     }.bind(this));
   },
 
-  getDashboard: function (id) {
+  getDashboardSlots: function (id) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');
@@ -264,10 +264,75 @@ module.exports = {
         } else {
           showDashboards(text);
           for (var key in text.member) {
-            this.getDashboard(text.member[key].dashboard);
+            if ("dashboard" == text.member[key].scope) {
+              localStorage.setItem("dashboardId", text.member[key].dashboard);
+              this.getDashboardSlots(text.member[key].dashboard);  
+            }
           }
         }
       }.bind(this));
+    }.bind(this));
+  },
+
+  getAvailableGraphTypes: function (id) {
+    var token   = this.getToken();
+
+    request
+    .get('/instance/' + id + '/graph.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.getDashboards();
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        showAvailableGraphTypes(text);
+      }
+    }.bind(this));
+  },
+
+  createGraph: function (widget, instance, chart, dashboardId, position) {
+    var token   = this.getToken();
+
+    request
+    .post('/slot.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: localStorage.getItem('dashboardId'), position: position, custom_interval: 'TODAY'})
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      var code = JSON.parse(res.status);
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.createGraph(widget, instance, chart, dashboardId, position);
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        this.getDashboards();
+      }
+    }.bind(this));
+  },
+
+  deleteSlot: function (slot) {
+    var token   = this.getToken();
+    request
+    .del('/slot/' + slot + '.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (err, res) {
+      var code = res.status;
+      if (401 == code && this.hasToRefresh()) {
+        this.refreshToken();
+        this.deleteSlot(slot);
+      } else if (400 <= code) {
+        redirect('login');
+      } else {
+        this.getDashboards();
+      }
     }.bind(this));
   },
 
@@ -583,7 +648,7 @@ module.exports = {
     }.bind(this));
   },
 
-  createDashboard: function (widget, server, chart) {
+  createDasboard: function (widget, server, chart) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var user    = localStorage.getItem('nubity-user-id');

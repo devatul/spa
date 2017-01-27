@@ -11,6 +11,7 @@ var _dashboards  = '';
 var _dashboard   = '';
 var _textError   = '';
 var _errorCode   = '';
+var _graphTypes  = '';
 
 var GraphStore = assign({}, EventEmitter.prototype, {
 
@@ -33,6 +34,10 @@ var GraphStore = assign({}, EventEmitter.prototype, {
   getDashboard: function () {
     return _dashboard.member;
   },
+
+  getGraphTypes: function () {
+    return _graphTypes;
+  }
 });
 
 GraphStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -51,6 +56,11 @@ GraphStore.dispatchToken = Dispatcher.register(function (payload) {
       _dashboard = action.res;
       _textError  = '';
       _errorCode  = '';
+      GraphStore.emitChange();
+    break;
+
+    case ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES:
+      _graphTypes = action.res;
       GraphStore.emitChange();
     break;
 

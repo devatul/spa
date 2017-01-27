@@ -68,8 +68,16 @@ module.exports = {
     NubityAPIUtils.getDashboard(id);
   },
 
-  createDashboard: function (widget, server, chart) {
-    NubityAPIUtils.createGraph(widget, server, chart);
+  createDashboard: function (widget, server, chart, dashboardId, position) {
+    NubityAPIUtils.createGraph(widget, server, chart, dashboardId, position);
+  },
+
+  createGraph: function (widget, server, chart, dashboardId, position) {
+    NubityAPIUtils.createGraph(widget, server, chart, dashboardId, position);
+  },
+
+  deleteSlot: function (slot) {
+    NubityAPIUtils.deleteSlot(slot);
   },
 
   search: function () {
