@@ -27,8 +27,8 @@ var NavBar = React.createClass({
     SessionStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
     $('.nav a').on('click', function () {
-      $('.btn-navbar').click(); 
-      $('.navbar-toggle').click(); 
+      $('.btn-navbar').click();
+      $('.navbar-toggle').click();
       $('.dropdown-toggle').click();
     });
   },
@@ -95,9 +95,9 @@ var NavBar = React.createClass({
     var forgot    = url.search('forgot');
     var avatar    = '';
 
-    var tooltip = (<Tooltip id="tooltip">Add a connection</Tooltip>);
+    var tooltip = (<Tooltip id="tooltip">Integrations</Tooltip>);
 
-    if (null === localStorage.getItem('nubity-user-avatar')) {
+    if (null === localStorage.getItem('nubity-user-avatar') || 'undefined' === localStorage.getItem('nubity-user-avatar')) {
       avatar = './images/userpic.jpg';
     } else {
       avatar = localStorage.getItem('nubity-user-avatar');
@@ -136,7 +136,7 @@ var NavBar = React.createClass({
     } else {
       return (
         <nav className="navbar navbar-default nav navbar-fixed-top">
-          <div className="container-fluid">         
+          <div className="container-fluid">
             <div className="navbar-header">
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span className="sr-only">Toggle navigation</span>
@@ -208,7 +208,7 @@ var NavBar = React.createClass({
                           <i className="icon nb-config small"></i> My Account
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link hidden">
+                      <li role="presentation" className="tab-link">
                         <a className="grey-color" data-toggle="tab" href="#company">
                           <i className="icon nb-company small"></i> Comany
                         </a>

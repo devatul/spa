@@ -60,7 +60,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-suitcase" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="companyName" placeholder="Company Name" value={name}/>
+                  <input type="text" className="form-control no-shadow" id="companyName" placeholder="Company Name" value={name} readOnly/>
                 </div>
               </div>
               <div className="form-group">
@@ -68,7 +68,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-area-chart" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="nameComercial" placeholder="Name Comercial" value={tradeName}/>
+                  <input type="text" className="form-control no-shadow" id="nameComercial" placeholder="Name Comercial" value={tradeName} readOnly/>
                 </div>
               </div>
               <div className="form-group">
@@ -76,7 +76,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-suitcase" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="rfc" placeholder="RFC"/>
+                  <input type="text" className="form-control no-shadow" id="rfc" placeholder="RFC" readOnly/>
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-flag" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="country" placeholder="Country" value={country}/>
+                  <input type="text" className="form-control no-shadow" id="country" placeholder="Country" value={country} readOnly/>
                 </div>
               </div>
               <div className="form-group">
@@ -94,7 +94,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-flag" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="state" placeholder="State" value={state}/>
+                  <input type="text" className="form-control no-shadow" id="state" placeholder="State" value={state} readOnly/>
                 </div>
               </div>
               <div className="form-group">
@@ -102,7 +102,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-flag" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="city" placeholder="City" value={city}/>
+                  <input type="text" className="form-control no-shadow" id="city" placeholder="City" value={city} readOnly/>
                 </div>
               </div>
             </div>
@@ -112,7 +112,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-map-marker" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="skype" placeholder="Address" value={address}/>
+                  <input type="text" className="form-control no-shadow" id="skype" placeholder="Address" value={address} readOnly/>
                 </div>
               </div>
               <div className="form-group">
@@ -120,7 +120,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-map-marker" aria-hidden="true"></i>
                   </div>
-                  <select className="form-control no-shadow" id="language">
+                  <select className="form-control no-shadow" id="language" readOnly>
                     <option>{language}</option>
                   </select>
                 </div>
@@ -130,12 +130,12 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-envelope" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="timeZone" placeholder="Postal Code"/>
+                  <input type="text" className="form-control no-shadow" id="timeZone" placeholder="Postal Code" readOnly/>
                 </div>
               </div>
             </div>
             <div className="col-sm-12">
-              <button type="button" className="btn btn-success pull-right public-cloud-button">Save</button>
+              <button type="button" className="btn btn-success pull-right public-cloud-button disabled">Save</button>
             </div>
           </form>
         </div>

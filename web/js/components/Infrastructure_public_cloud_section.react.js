@@ -148,18 +148,18 @@ module.exports = React.createClass({
           <td>
             <OverlayTrigger placement="top" overlay={tooltip}>
               <div className="status-container">
-                <i className={state} data-toggle="tooltip" data-original-title="Running"></i> 
+                <i className={state} data-toggle="tooltip" data-original-title="Running"></i>
                 <div className="os">
                   <i className={os}></i>
-                </div> 
+                </div>
               </div>
             </OverlayTrigger>
           </td>
           <td>{publicCloud[key].hostname}</td>
           <td>{publicCloud[key].external_identifier}</td>
           <td className="icons">
-            <i className="icon nb-start icon-margin" aria-hidden="true"></i> 
-            <i className="icon nb-stop icon-margin" aria-hidden="true"></i> 
+            <i className="icon nb-start icon-margin" aria-hidden="true"></i>
+            <i className="icon nb-stop icon-margin" aria-hidden="true"></i>
             <i className="icon nb-restart icon-margin" aria-hidden="true"></i>
           </td>
           <td>{publicCloud[key].memory/1024} GB</td>
@@ -178,12 +178,14 @@ module.exports = React.createClass({
         <table className="publicCloud-table">
           <thead>
           <tr>
-            <th>State</th>
+            <th className="column-icon">State</th>
             <th>Description</th>
             <th>Connection name</th>
-            <th>Actions</th><th>Memory</th>
-            <th>Health</th><th>Monitoring</th>
-            <th>Ninja Support</th>
+            <th className="column-button">Actions</th>
+            <th>Memory</th>
+            <th className="column-icon">Health</th>
+            <th className="column-button">Monitoring</th>
+            <th className="column-button">Ninja Support</th>
           </tr>
           </thead>
           <tbody>

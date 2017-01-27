@@ -228,15 +228,15 @@ module.exports = React.createClass({
       <div className="col-xs-12">
         <table>
           <tr>
-            <th>State</th>
+            <th className="column-icon">State</th>
             <th>Server</th>
             <th>Integration name</th>
             <th>Alert description</th>
-            <th>Priority</th>
+            <th className="column-icon">Priority</th>
             <th>Started on</th>
             <th>Resolved on</th>
-            <th>Action</th>
-            <th>Report a problem</th>
+            <th className="column-button">Action</th>
+            <th className="column-button">Report a problem</th>
           </tr>
           <tbody>
             {rows}
@@ -269,15 +269,15 @@ module.exports = React.createClass({
       <div className="col-xs-12">
         <table>
           <tr>
-            <th>State</th>
+            <th className="column-icon">State</th>
             <th>Server</th>
             <th>Integration name</th>
             <th>Alert description</th>
-            <th>Priority</th>
+            <th className="column-icon">Priority</th>
             <th>Started on</th>
             <th>Resolved on</th>
-            <th>Action</th>
-            <th>Report a problem</th>
+            <th className="column-button">Action</th>
+            <th className="column-button">Report a problem</th>
           </tr>
           <tbody>
             {historyRows}
