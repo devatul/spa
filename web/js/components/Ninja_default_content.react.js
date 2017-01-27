@@ -74,7 +74,7 @@ module.exports = React.createClass({
         var department_icon = '';
         var department_name = '';
         var priority = '';
-        
+
         if ('open' == ticket[key].status) {
           status = 'icon nb-ticket icon-state blue-text';
         } else {
@@ -131,14 +131,14 @@ module.exports = React.createClass({
       <div>
         <table>
           <tr>
-            <th>Status</th>
+            <th className="column-icon">Status</th>
             <th>Ticket Id</th>
             <th>Subject</th>
-            <th>Priority</th>
-            <th>Department</th>
+            <th className="column-icon">Priority</th>
+            <th className="column-button">Department</th>
             <th>Server</th>
             <th>Date</th>
-            <th>View Ticket</th>
+            <th className="column-button">View Ticket</th>
           </tr>
           <tbody>
             {rows}

@@ -92,7 +92,7 @@ module.exports = {
         var code = JSON.parse(res.status);
         if (400 <= code) {
           redirect('login');
-        } 
+        }
       }.bind(this));
   },
 
@@ -151,6 +151,7 @@ module.exports = {
           localStorage.setItem('nubity-user-email', text.username);
           localStorage.setItem('nubity-user-avatar', text.public_path);
           localStorage.setItem('nubity-user-language', text.locale_display_name);
+          localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
           redirect('dashboard');
         }
       }.bind(this));
@@ -267,7 +268,7 @@ module.exports = {
           showInfrastructureOverview(text);
         }
       }.bind(this));
-    }   
+    }
   },
 
   getInfrastructurePublicCloud: function (page) {
@@ -310,7 +311,7 @@ module.exports = {
           showInfrastructurePublicCloud(text);
         }
       }.bind(this));
-    }   
+    }
   },
 
   getInfrastructurePrivateCloud: function (page) {
@@ -353,7 +354,7 @@ module.exports = {
           showInfrastructurePrivateCloud(text);
         }
       }.bind(this));
-    }   
+    }
   },
 
   getInfrastructureOnPremise: function (page) {
@@ -396,7 +397,7 @@ module.exports = {
           showInfrastructureOnPremise(text);
         }
       }.bind(this));
-    }   
+    }
   },
 
   getAlerts: function (page) {
@@ -458,7 +459,6 @@ module.exports = {
         } else {
           showStats(text);
         }
-        
       }.bind(this));
   },
 
