@@ -23,9 +23,20 @@ module.exports = React.createClass({
       rows: rows,
       loaded: loaded,
       totalItems: overview.totalItems,
+      totalPages:0,
+      pageNo: 1,
     };
   },
 
+  componentWillReceiveProps: function (props) {
+    if (props.page_no !== this.state.pageNo) {
+      this.setState({
+        pageNo: props.page_no,
+      });
+      this._newPage(props.page_no);
+    }
+  },
+  
   componentDidMount: function () {
     InfrastructureStore.addChangeListener(this._onChange);
     getInfrastructureOverview(0);
@@ -43,9 +54,17 @@ module.exports = React.createClass({
         overview: overview.member,
         loaded: loaded,
         totalItems: overview.totalItems,
+        totalPages: Math.ceil(parseInt(overview.totalItems)/10),
       });
     }
   },
+
+  _updatePage: function (page) {
+    if (0 < page && page <= this.state.totalPages) {
+      this.props.callUpdateURL(page);
+    }
+  },
+
   _newPage: function (page) {
     getInfrastructureOverview(page);
   },
@@ -61,14 +80,14 @@ module.exports = React.createClass({
   render: function () {
     var overview = this.state.overview;
     var totalItems = this.state.totalItems;
+    var pages = this.state.totalPages;
     var loaded = this.state.loaded;
-    var pages = Math.ceil(parseInt(totalItems)/10);
 
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
       var send = page.toString();
-      navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
+      navpages[navpages.length] = <li className={this.props.page_no == page ? "active" : ""}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
     var paginatorClass;
@@ -182,7 +201,7 @@ module.exports = React.createClass({
                   <i className={state} data-toggle="tooltip" data-original-title="Running"></i>
                   <div className="os">
                     <i className={os}></i>
-                  </div> 
+                  </div>
                 </div>
               </OverlayTrigger>
             </td>
@@ -215,17 +234,15 @@ module.exports = React.createClass({
     }
     return (
       <div id="infrastructureTable">
-        <table className="overview-table">
+        <table className="overview-table table table-striped table-condensed">
           <thead>
           <tr>
-            <th className="column-icon">State</th>
+            <th>State</th>
             <th>Description</th>
             <th>Connection name</th>
-            <th className="column-button">Actions</th>
-            <th>Memory</th>
-            <th className="column-icon">Health</th>
-            <th className="column-button">Monitoring</th>
-            <th className="column-button">Ninja Support</th>
+            <th>Actions</th><th>Memory</th>
+            <th>Health</th><th>Monitoring</th>
+            <th>Ninja Support</th>
           </tr>
           </thead>
           <tbody>
@@ -235,13 +252,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous">
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo-1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next">
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>

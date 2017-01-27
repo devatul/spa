@@ -20,7 +20,18 @@ module.exports = React.createClass({
       privateCloud: privateCloud,
       rows: rows,
       totalItems: privateCloud.totalItems,
+      totalpages:0,
+      pageNo: 1,
     };
+  },
+
+  componentWillReceiveProps: function (props) {
+    if (props.page_no !== this.state.pageNo) {
+      this.setState({
+        pageNo: props.page_no,
+      });
+      this._newPage(props.page_no);
+    }
   },
 
   componentDidMount: function () {
@@ -38,7 +49,14 @@ module.exports = React.createClass({
       this.setState({
         privateCloud: privateCloud.member,
         totalItems: privateCloud.totalItems,
+        totalPages: Math.ceil(parseInt(privateCloud.totalItems)/10),
       });
+    }
+  },
+
+  _updatePage: function (page) {
+    if (0 < page && page <= this.state.totalPages) {
+      this.props.callUpdateURL(page);
     }
   },
 
@@ -57,13 +75,13 @@ module.exports = React.createClass({
   render: function () {
     var privateCloud = this.state.privateCloud;
     var totalItems = this.state.totalItems;
-    var pages = Math.ceil(parseInt(totalItems)/10);
+    var pages = this.state.totalPages;
 
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
       var send = page.toString();
-      navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
+      navpages[navpages.length] = <li className={this.props.page_no == page ? "active" : ""}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
     var paginatorClass;
@@ -175,17 +193,15 @@ module.exports = React.createClass({
     }
     return (
       <div id="infrastructureTable">
-        <table className="privateCloud-table">
+        <table className="privateCloud-table table table-striped table-condensed">
           <thead>
           <tr>
-            <th className="column-icon">State</th>
+            <th>State</th>
             <th>Description</th>
             <th>Connection name</th>
-            <th className="column-button">Actions</th>
-            <th>Memory</th>
-            <th className="column-icon">Health</th>
-            <th className="column-button">Monitoring</th>
-            <th className="column-button">Ninja Support</th>
+            <th>Actions</th><th>Memory</th>
+            <th>Health</th><th>Monitoring</th>
+            <th>Ninja Support</th>
           </tr>
           </thead>
           <tbody>
@@ -195,13 +211,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous">
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo-1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next">
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
