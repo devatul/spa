@@ -135,7 +135,7 @@ module.exports = React.createClass({
 
       if (alerts[key].is_acknowledged) {
         state = 'icon nb-thick-circle icon-state green-text';
-        action = (<span className='action-button action-button-stop'>Stop Alerting</span>);
+        action = (<span className='action-button action-button-stop'>Alert Stopped</span>);
       } else {
         state = 'icon nb-alert icon-state red-text';
         action = (<span className='action-button action-button-start' onClick={this._acknowledge.bind(this, alerts[key].id)}>Stop Alerting</span>);
@@ -223,7 +223,7 @@ module.exports = React.createClass({
             <time dateTime="">{to}</time>
           </td>
           <td className="icons">
-            <span className="action-button action-button-stop" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Stop Alerting</span>
+            <span className="action-button action-button-stop" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Alert Stopped</span>
           </td>
           <td className="icons">
             <span className="action-button nubity-green" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
@@ -274,15 +274,15 @@ module.exports = React.createClass({
       <div className="col-xs-12">
         <table className="table table-striped table-condensed">
           <tr>
-            <th>State</th>
+            <th className="column-icon">State</th>
             <th>Server</th>
             <th>Integration name</th>
             <th>Alert description</th>
-            <th>Priority</th>
+            <th className="column-icon">Priority</th>
             <th>Started on</th>
             <th>Resolved on</th>
-            <th>Action</th>
-            <th>Report a problem</th>
+            <th className="column-button">Action</th>
+            <th className="column-button">Report a problem</th>
           </tr>
           <tbody>
             {rows}
@@ -315,15 +315,15 @@ module.exports = React.createClass({
       <div className="col-xs-12">
         <table className="table table-striped table-condensed">
           <tr>
-            <th>State</th>
+            <th className="column-icon">State</th>
             <th>Server</th>
             <th>Integration name</th>
             <th>Alert description</th>
-            <th>Priority</th>
+            <th className="column-icon">Priority</th>
             <th>Started on</th>
             <th>Resolved on</th>
-            <th>Action</th>
-            <th>Report a problem</th>
+            <th className="column-button">Action</th>
+            <th className="column-button">Report a problem</th>
           </tr>
           <tbody>
             {historyRows}

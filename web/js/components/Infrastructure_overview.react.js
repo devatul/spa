@@ -36,7 +36,7 @@ module.exports = React.createClass({
       this._newPage(props.page_no);
     }
   },
-  
+
   componentDidMount: function () {
     InfrastructureStore.addChangeListener(this._onChange);
     getInfrastructureOverview(0);
@@ -237,12 +237,14 @@ module.exports = React.createClass({
         <table className="overview-table table table-striped table-condensed">
           <thead>
           <tr>
-            <th>State</th>
+            <th className="column-icon">State</th>
             <th>Description</th>
             <th>Connection name</th>
-            <th>Actions</th><th>Memory</th>
-            <th>Health</th><th>Monitoring</th>
-            <th>Ninja Support</th>
+            <th className="column-button">Actions</th>
+            <th>Memory</th>
+            <th className="column-icon">Health</th>
+            <th className="column-button">Monitoring</th>
+            <th className="column-button">Ninja Support</th>
           </tr>
           </thead>
           <tbody>
