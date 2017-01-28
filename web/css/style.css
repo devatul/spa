@@ -578,9 +578,23 @@ body {
   font-size: 17px;
   margin: 30px;
 }
+/*Widget*/
+.widget {
+  border: 1px solid #cecece;
+  padding: 10px;
+  max-height: 450px;
+  font-family: 'neosanslight', sans-serif;
+  margin: 10px;
+}
 .widget-p {
   line-height: 70px;
   color: grey;
+  text-align: center;
+}
+.widget-create {
+  height: 370px !important;
+  background: rgba(0, 0, 0, 0.3) url('../images/widget-background.jpg') top center no-repeat;
+  background-size: cover;
 }
 .min-height-subsection {
   min-height: 360px;

@@ -76,7 +76,7 @@ module.exports = React.createClass({
         <div className="title-div">
           <p className="widget-p">Widget</p>
         </div>
-        <div className="inside-div">
+        <div className="inside-div widget-create">
           <select className="hidden form-control select-margin" id="widgetType" name="widgetType" ref="widgetType">
             <option>Select Widget Type</option>
             <option>2</option>
@@ -84,13 +84,13 @@ module.exports = React.createClass({
           <select className="form-control select-margin" id="server" name="server" ref="server" onChange={this._selectInstance}>
             {rows}
           </select>
-          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType"> 
+          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType">
             <option>Select Chart Type</option>
             {graphRows}
           </select>
-          <button type="submit" className="green-button">Save</button>
+          <button type="submit" className="green-button center-block">Save</button>
         </div>
-      </form> 
+      </form>
     );
   }
 });
