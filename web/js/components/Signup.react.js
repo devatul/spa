@@ -7,7 +7,7 @@ var signupAction               = require('../actions/RequestActions').signup;
 
 module.exports = React.createClass({
   getInitialState: function () {
-    
+
     return {
       message: '',
       messageClass: 'hidden',
@@ -55,10 +55,9 @@ module.exports = React.createClass({
     user.password2 = this.refs.password2.getDOMNode().value;
     user.phone     = this.refs.phone.getDOMNode().value;
     user.company   = this.refs.companyName.getDOMNode().value;
-    user.locale    = navigator.language || navigator.userLanguage; 
-    signupAction(user); 
+    user.locale    = navigator.language || navigator.userLanguage;
+    signupAction(user);
   },
-
 
   render: function () {
     return (
@@ -68,9 +67,13 @@ module.exports = React.createClass({
             <p className="login-p">Have an account?</p>
             <button className="go-to-signup" onClick={this._redirectLogin}>Log in</button>
           </div>
-          <div className="login-logo"></div>
-          <p className="login-title">Create an Account.</p>
-          <p className="signup-subtitle">It&#39;s free and always will be.</p>
+          <div className="row">
+            <div className="col-xs-10 col-xs-offset-1">
+              <div className="login-logo"></div>
+              <p className="login-title">Create an Account.</p>
+              <p className="signup-subtitle">It&#39;s free and always will be.</p>
+            </div>
+          </div>
           <div className={this.state.messageClass}>{this.state.message}</div>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
             <button className="col-xs-12 google-button">Sign in with Google</button>

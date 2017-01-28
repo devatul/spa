@@ -78,7 +78,7 @@ module.exports = React.createClass({
     var firstname = localStorage.getItem('nubity-firstname');
     var mainAlerts = this.state.mainAlerts;
     var notice;
-    
+
     if (undefined !== mainAlerts) {
       if (mainAlerts.length > 1) {
         notice = <p className="margin-sides right-aligned">These are only the {mainAlerts.length} alerts that needs your attention, see all <a onClick={this._goToAlerts}>here</a></p>;
@@ -91,7 +91,7 @@ module.exports = React.createClass({
 
     var stats = '';
     if (undefined !== this.state.stats && mainAlerts) {
-      var stats = 
+      var stats =
         <div className="col-md-6 col-md-offset-3">
           <div className="col-xs-4 dashboard-icons blue">
             <i className="icon nb-information blue-text dashboard-minus" aria-hidden="true"></i>
@@ -109,7 +109,7 @@ module.exports = React.createClass({
             <div className="dashboard-icons-counter third">{this.state.stats.critical}</div>
           </div>
         </div>;
-    } 
+    }
 
     var rows = [];
     for (var key in mainAlerts) {
@@ -123,15 +123,13 @@ module.exports = React.createClass({
         level = 'icon nb-information icon-state blue-text';
       }
 
-
       if (mainAlerts[key].is_acknowledged) {
         state = 'icon nb-thick-circle icon-state green-text';
-        action = (<span className='action-button action-button-stop'>Stop Alerting</span>);
+        action = (<span className='action-button action-button-stop'>Alert Stopped</span>);
       } else {
         state = 'icon nb-alert icon-state red-text';
         action = (<span className='action-button action-button-start' onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>Stop Alerting</span>); 
       }
-    
 
       var totalItems = this.state.mainAlerts.legth;
 
@@ -142,7 +140,7 @@ module.exports = React.createClass({
       } else {
         to = '-';
       }
-      
+
       rows[rows.length] =
         <tr>
           <td className="icons">
@@ -174,20 +172,20 @@ module.exports = React.createClass({
     if (!mainAlerts) {
       alertTable = <Preloader />;
     } else {
-      alertTable = 
+      alertTable =
         <div className="alert-table">
           <div className="margin-sides">
             <table>
               <tr>
-                <th>State</th>
+                <th className="column-icon">State</th>
                 <th>Server</th>
                 <th>Connection name</th>
                 <th>Alert description</th>
-                <th>Priority</th>
+                <th className="column-icon">Priority</th>
                 <th>Started on</th>
                 <th>Resolved on</th>
-                <th>Action</th>
-                <th>Report an issue</th>
+                <th className="column-button">Action</th>
+                <th className="column-button">Report a problem</th>
               </tr>
               <tbody>
                 {rows}

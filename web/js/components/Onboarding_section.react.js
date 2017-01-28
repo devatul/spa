@@ -12,6 +12,7 @@ module.exports = React.createClass({
     var providers = OnBoardingStore.getProviders();
     return {
       providers: providers,
+      title: 'Manage your Public Cloud Connection',
     };
   },
 
@@ -36,18 +37,30 @@ module.exports = React.createClass({
   publicCloud: function () {
     $('#public-cloud-content').removeClass('hidden');
     $('#private-cloud-content').addClass('hidden');
+    this.setState({
+      title: 'Manage your Public Cloud Connection',
+    });
   },
 
   privateCloud: function () {
     $('#private-cloud-content').removeClass('hidden');
     $('#public-cloud-content').addClass('hidden');
+    this.setState({
+      title: 'Manage your Private Cloud Connection',
+    });
+  },
+
+  onPremise: function () {
+    this.setState({
+      title: 'Manage your On-Premise server Connection',
+    });
   },
 
   render: function () {
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">Manage your Public Cloud Connection</h2>
+          <h2 className="align-center">{this.state.title}</h2>
         </div>
         <div role="navigation">
           <ul className="nav nav-tabs section-tabs">
@@ -61,22 +74,22 @@ module.exports = React.createClass({
                 <i className="fa fa-cloud" aria-hidden="true"></i> Private Cloud
               </a>
             </li>
-            <li role="presentation">
+            <li role="presentation" onClick={this.onPremise}>
               <a className="grey-color" data-toggle="tab" href="#menu2">
                 <i className="fa fa-server" aria-hidden="true"></i> On-premise servers
               </a>
             </li>
-            <li role="presentation">
+            <li role="presentation" className="hidden">
               <a className="grey-color" data-toggle="tab" href="#menu2">
                 <i className="fa fa-sitemap" aria-hidden="true"></i> Network devices
               </a>
             </li>
-            <li role="presentation">
+            <li role="presentation" className="hidden">
               <a className="grey-color" data-toggle="tab" href="#menu2">
                 <i className="fa fa-th" aria-hidden="true"></i> Business App
               </a>
             </li>
-            <li role="presentation">
+            <li role="presentation" className="hidden">
               <a className="grey-color" data-toggle="tab" href="#menu2">
                 <i className="fa fa-cube" aria-hidden="true"></i> Containers
               </a>

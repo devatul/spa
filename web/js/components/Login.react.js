@@ -51,13 +51,17 @@ module.exports = React.createClass({
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
           <div className="top-div">
-            <p className="login-p">Dont have an account yet?</p>
+            <p className="login-p">Don't have an account yet?</p>
             <button className="go-to-signup" onClick={this._redirectSignUp}>Start Now!</button>
           </div>
-          <div className="login-logo"></div>
-          <p className="login-title">Your cloud.</p>
-          <p className="login-title">Managed.</p>
-          <p className="login-subtitle">Sign in to check all your Clouds, Servers,Devices and Apps.</p>
+          <div className="row">
+            <div className="col-xs-10 col-xs-offset-1">
+              <div className="login-logo"></div>
+              <p className="login-title">Your cloud,</p>
+              <p className="login-title">Managed.</p>
+              <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
+            </div>
+          </div>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
             <div className="form-group row">
               <div className="input-group col-xs-10 col-xs-offset-1">

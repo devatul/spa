@@ -159,12 +159,12 @@ var NavBar = React.createClass({
                   </OverlayTrigger>
                 </li>
                 <li>
-                  <Dropdown className="dropdown" id="dropdown-custom-1">
+                  <Dropdown>
                     <Dropdown.Toggle className="dropdown-menu-nb">
                       <img src={avatar} alt="add photo" title="add photo" className="user-photo img-circle"/>
                        {lastname}, {firstname}!
                     </Dropdown.Toggle>
-                    <Dropdown.Menu className="super-colors">
+                    <Dropdown.Menu>
                       <MenuItem eventKey="1">
                         <a onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
                           <i className="icon nb-config small"></i> My Account

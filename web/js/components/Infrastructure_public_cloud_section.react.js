@@ -196,12 +196,14 @@ module.exports = React.createClass({
         <table className="publicCloud-table table table-striped table-condensed">
           <thead>
           <tr>
-            <th>State</th>
+            <th className="column-icon">State</th>
             <th>Description</th>
             <th>Connection name</th>
-            <th>Actions</th><th>Memory</th>
-            <th>Health</th><th>Monitoring</th>
-            <th>Ninja Support</th>
+            <th className="column-button">Actions</th>
+            <th>Memory</th>
+            <th className="column-icon">Health</th>
+            <th className="column-button">Monitoring</th>
+            <th className="column-button">Ninja Support</th>
           </tr>
           </thead>
           <tbody>
