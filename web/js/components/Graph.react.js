@@ -84,9 +84,8 @@ module.exports = React.createClass({
         },
         legend: {
           layout:'vertical',
-          align: 'right',
-          verticalAlign: 'middle',
-          borderWidth: 0
+          borderWidth: 0,
+          fontFamily: 'neosanslight'
         },
         series: [{
           name: legend1,
@@ -107,8 +106,7 @@ module.exports = React.createClass({
 
     return (
       <div id={this.props.name}>
-      </div> 
+      </div>
     );
   }
-    
 });

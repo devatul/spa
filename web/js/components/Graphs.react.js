@@ -49,25 +49,28 @@ module.exports = React.createClass({
       for (var key in dashboard) {
         name = 'container' + key;
         allGraphs.push(
-          <div clasName="col-xs-12 col-md-6 col-lg-6 nubity-blue">
-            <button type="button" className="close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <Graph graph={dashboard[key]} name={name} dashboardId={localStorage.getItem('dashboardId')}/>
+          <div className="col-md-6 col-sm-12 col-xs-12">
+            <div className="widget">
+              <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <Graph graph={dashboard[key]} name={name} dashboardId={localStorage.getItem('dashboardId')}/>
+            </div>
           </div>
         );
-        position = key + 2; 
+        position = key + 2;
       }
     }
 
     return (
-      <div clasName="row">
+      <div className="row">
         {allGraphs}
-        <div clasName="col-xs-12 col-md-6 col-lg-6">
-          <CreateGraph position={position}/>
+        <div className="col-md-6 col-sm-12 col-xs-12">
+          <div className="widget">
+            <CreateGraph position={position}/>
+          </div>
         </div>
-      </div> 
+      </div>
     );
   }
-    
 });
