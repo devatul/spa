@@ -30,6 +30,7 @@ module.exports = React.createClass({
       hash = arr[0];
       pageNo = parseInt(arr[1]);
     }
+    _SELF=this;
     return (
       <div className="principal-section">
         <div className="section-title">

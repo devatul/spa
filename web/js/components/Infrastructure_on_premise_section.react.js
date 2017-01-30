@@ -194,7 +194,7 @@ module.exports = React.createClass({
     }
     return (
       <div id="infrastructureTable">
-        <table className="onPremise-table table table-striped table-condensed">
+        <table className="onPremise-table">
           <thead>
           <tr>
             <th className="column-icon">State</th>
