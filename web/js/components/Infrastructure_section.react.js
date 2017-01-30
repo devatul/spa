@@ -53,8 +53,8 @@ module.exports = React.createClass({
                 <i className="icon nb-cloud-private small" aria-hidden="true"></i> Private Cloud
               </Link>
             </li>
-            <li role="presentation" className={hash == '#on-premise' ? "active" : ""}>
-              <Link to="/infrastructure#on-premise" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#on-premise', 1)}}>
+            <li role="presentation" className={hash == '#onPremise' ? "active" : ""}>
+              <Link to="/infrastructure#onPremise" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#onPremise', 1)}}>
                 <i className="icon nb-servers small" aria-hidden="true"></i> On-premise servers
               </Link>
             </li>
@@ -85,8 +85,8 @@ module.exports = React.createClass({
           <div id="private" className={"tab-pane fade " + (hash == '#private' ? "in active" : "")}>
             <InfrastructurePrivateCloud page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#private', page)}}/>
           </div>
-          <div id="on-premise" className={"tab-pane fade " + (hash == '#on-premise' ? "in active" : "")}>
-            <InfrastructureOnPremise page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#on-premise', page)}}/>
+          <div id="onPremise" className={"tab-pane fade " + (hash == '#onPremise' ? "in active" : "")}>
+            <InfrastructureOnPremise page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page)}}/>
           </div>
         </div>
       </div>
