@@ -21,31 +21,31 @@ var PrivacyPolicies         = require ('./components/Privacy_policies.react');
 var ViewTicket              = require ('./components/View_ticket.react');
 var ConfirmAccount          = require ('./components/Confirm_account.react');
 var Home                    = require ('./components/Dashboard_section.react');
-var StartMonitoring         = require ('./components/Start_monitoring.react');
+var Monitoring              = require ('./components/Monitoring.react');
 
 var routes = (
   <Route handler={NubityApp}           path='/'>
-    <Route name="login"                path='/login'                   handler={Login} />
-    <Route name="forgot_password"      path='/forgot-password'         handler={ForgotPassword} />
-    <Route name="change_password"      path='/change-password/:token'  handler={ChangePassword} />
-    <Route name="signup"               path='/signup'                  handler={Signup} />
-    <Route name="confirm_account"      path='/confirm-account/:token'  handler={ConfirmAccount} />
-    <Route name="onboarding"           path='/onboarding'              handler={OnBoarding} />
-    <Route name="infrastructure"       path='/infrastructure'          handler={Infrastructure} />
-    <Route name="dashboard"            path='/dashboard'               handler={Dashboard} />
-    <Route name="alerts"               path='/alerts'                  handler={Alerts} />
-    <Route name="performance"          path='/performance'             handler={Performance} />
-    <Route name="ninja"                path='/ninja-support'           handler={Ninja} />
-    <Route name="create_ticket"        path='/create-ticket'           handler={CreateTicket} />
-    <Route name="live_chat"            path='/live-chat'               handler={LiveChat} />
-    <route name="terms_and_conditions" path='/terms-and-conditions'    handler={TermsAndConditions} />
-    <route name="privacy_policies"     path='/privacy-policies'        handler={PrivacyPolicies} />
-    <Route name="view_ticket"          path='/view-ticket/'            handler={ViewTicket} />
-    <Route name="view_ticket_params"   path='/view-ticket/:id'         handler={ViewTicket} />
-    <Route name="reset_password"       path='/reset-password/:token'   handler={ResetPassword} />
-    <Route name="home"                 path='/'                        handler={Home} /> 
-    <Route name="start_monitoring"     path='/start-monitoring'        handler={StartMonitoring} /> 
-    <DefaultRoute                                                      handler={Login}/>
+    <Route name="login"                path='/login'                    handler={Login} />
+    <Route name="forgot_password"      path='/forgot-password'          handler={ForgotPassword} />
+    <Route name="change_password"      path='/change-password/:token'   handler={ChangePassword} />
+    <Route name="signup"               path='/signup'                   handler={Signup} />
+    <Route name="confirm_account"      path='/confirm-account/:token'   handler={ConfirmAccount} />
+    <Route name="onboarding"           path='/onboarding'               handler={OnBoarding} />
+    <Route name="infrastructure"       path='/infrastructure'           handler={Infrastructure} />
+    <Route name="dashboard"            path='/dashboard'                handler={Dashboard} />
+    <Route name="alerts"               path='/alerts'                   handler={Alerts} />
+    <Route name="performance"          path='/performance'              handler={Performance} />
+    <Route name="ninja"                path='/ninja-support'            handler={Ninja} />
+    <Route name="create_ticket"        path='/create-ticket'            handler={CreateTicket} />
+    <Route name="live_chat"            path='/live-chat'                handler={LiveChat} />
+    <route name="terms_and_conditions" path='/terms-and-conditions'     handler={TermsAndConditions} />
+    <route name="privacy_policies"     path='/privacy-policies'         handler={PrivacyPolicies} />
+    <Route name="view_ticket"          path='/view-ticket/'             handler={ViewTicket} />
+    <Route name="view_ticket_params"   path='/view-ticket/:id'          handler={ViewTicket} />
+    <Route name="reset_password"       path='/reset-password/:token'    handler={ResetPassword} />
+    <Route name="home"                 path='/'                         handler={Home} /> 
+    <Route name="monitoring"           path='infrastructure/monitoring' handler={Monitoring} /> 
+    <DefaultRoute                                                       handler={Login}/>
   </Route>
 );
 module.exports = routes;

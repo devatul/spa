@@ -114,5 +114,9 @@ module.exports = {
 
   getMonitored: function (instanceId) {
     NubityAPIUtils.getMonitored(instanceId);
+  },
+
+  getManaged: function (instanceId) {
+    NubityAPIUtils.getManaged(instanceId);
   }
 }
