@@ -102,20 +102,23 @@ module.exports = React.createClass({
         rows.push(
           <tr key={key}>
             <td className="icons"><span className={status}></span></td>
-            <td>{ticket[key].name}</td>
+            <td className="hidden-xs">{ticket[key].name}</td>
             <td>{ticket[key].subject}</td>
             <td>
               <span className={priority}></span>
             </td>
-            <td>
+            <td className="hidden-xs">
               <i className={department_icon} aria-hidden="true"></i>  {department_name}
             </td>
-            <td>{ticket[key].hostname}</td>
-            <td>
+            <td className="hidden-xs">{ticket[key].hostname}</td>
+            <td className="hidden-xs hidden-sm">
               <time dateTime={ticket[key].created_at}>{from}</time>
             </td>
             <td className="icons">
-              <span className="action-button nubity-blue" onClick={this._viewTicket.bind(this, ticket[key])}>View ticket</span>
+              <span className="action-button nubity-blue hidden-xs hidden-sm" onClick={this._viewTicket.bind(this, ticket[key])}>View ticket</span>
+              <span className="action-button nubity-blue hidden-md hidden-lg" onClick={this._viewTicket.bind(this, ticket[key])}>
+                <i className="icon nb-eye white-text small"></i>
+              </span>
             </td>
           </tr>
         );
@@ -132,12 +135,12 @@ module.exports = React.createClass({
         <table>
           <tr>
             <th className="column-icon">Status</th>
-            <th>Ticket Id</th>
+            <th className="hidden-xs">Ticket Id</th>
             <th>Subject</th>
             <th className="column-icon">Priority</th>
-            <th className="column-button">Department</th>
-            <th>Server</th>
-            <th>Date</th>
+            <th className="column-button hidden-xs">Department</th>
+            <th className="hidden-xs">Server</th>
+            <th className="hidden-xs hidden-sm">Date</th>
             <th className="column-button">View Ticket</th>
           </tr>
           <tbody>

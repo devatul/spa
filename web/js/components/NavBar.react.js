@@ -148,9 +148,9 @@ var NavBar = React.createClass({
                 <img src="./images/nubity-logo-hd.png" alt="Nubity" title="Nubity" className="nav-brand"/>
               </a>
             </div>
-            <div className="collapse navbar-collapse" >
+            <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav navbar-right">
-                <li className="up-li">
+                <li className="up-li hidden">
                   <OverlayTrigger placement="bottom" overlay={tooltip}>
                     <button className="onboarding-button" type="button" onClick={this._redirectOnboarding}>
                       <i className="icon nb-connection"></i>
