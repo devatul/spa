@@ -13,6 +13,8 @@ var Graphs                     = require('./Graphs.react');
 var Preloader                  = require('./Preloader.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
+var Tooltip                    = require('react-bootstrap').Tooltip;
+var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
 
@@ -77,6 +79,7 @@ module.exports = React.createClass({
     var dashboard = this.state.dashboard;
     var firstname = localStorage.getItem('nubity-firstname');
     var mainAlerts = this.state.mainAlerts;
+    var createTicketTooltip = (<Tooltip id="tooltip">Create ticket</Tooltip>);
     var notice;
 
     if (undefined !== mainAlerts) {
@@ -147,22 +150,25 @@ module.exports = React.createClass({
             <i className={state} aria-hidden="true"></i>
           </td>
           <td>{mainAlerts[key].instance.hostname}</td>
-          <td>{mainAlerts[key].instance.provider_credential.name}</td>
+          <td className="hidden-xs hidden-sm">{mainAlerts[key].instance.provider_credential.name}</td>
           <td>{mainAlerts[key].description}</td>
-          <td className="icons">
+          <td className="icons hidden-xs hidden-sm">
             <i className={level} aria-hidden="true"></i>
           </td>
-          <td>
+          <td className="hidden-xs hidden-sm">
             <time dateTime={mainAlerts[key].started_on}>{from}</time>
           </td>
-          <td>
+          <td className="hidden-xs hidden-sm">
             <time dateTime={mainAlerts[key].resolved_on}>{to}</time>
           </td>
-          <td className="icons">
+          <td className="icons hidden-xs hidden-sm">
             {action}
           </td>
           <td className="icons">
-            <span className="action-button nubity-green button-pointer" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
+            <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
+            <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, mainAlerts[key])}>
+              <i className="icon nb-ticket white-text small"></i>
+            </span>
           </td>
         </tr>;
     }
@@ -179,12 +185,12 @@ module.exports = React.createClass({
               <tr>
                 <th className="column-icon">State</th>
                 <th>Server</th>
-                <th>Connection name</th>
+                <th className="hidden-xs hidden-sm">Connection name</th>
                 <th>Alert description</th>
-                <th className="column-icon">Priority</th>
-                <th>Started on</th>
-                <th>Resolved on</th>
-                <th className="column-button">Action</th>
+                <th className="column-icon hidden-xs hidden-sm">Priority</th>
+                <th className="hidden-xs hidden-sm">Started on</th>
+                <th className="hidden-xs hidden-sm">Resolved on</th>
+                <th className="column-button hidden-xs hidden-sm">Action</th>
                 <th className="column-button">Report a problem</th>
               </tr>
               <tbody>

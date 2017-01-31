@@ -135,10 +135,24 @@ module.exports = React.createClass({
 
       if (alerts[key].is_acknowledged) {
         state = 'icon nb-thick-circle icon-state green-text';
-        action = (<span className='action-button action-button-stop'>Alert Stopped</span>);
+        action = (
+          <td className="icons hidden-xs">
+            <span className='action-button action-button-stop hidden-xs hidden-sm'>Alert Stopped</span>
+            <span className="action-button action-button-stop hidden-md hidden-lg" title="Alert Stopped">
+              <i className="icon nb-stop black-text small"></i>
+            </span>
+          </td>
+        );
       } else {
         state = 'icon nb-alert icon-state red-text';
-        action = (<span className='action-button action-button-start' onClick={this._acknowledge.bind(this, alerts[key].id)}>Stop Alerting</span>);
+        action = (
+          <td className="icons hidden-xs">
+            <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, alerts[key].id)}>Stop Alerting</span>
+            <span className="action-button nubity-red hidden-md hidden-lg" title="Stop Alerting" onClick={this._acknowledge.bind(this, alerts[key].id)}>
+              <i className="icon nb-stop white-text small"></i>
+            </span>
+          </td>
+        );
       }
 
       var from = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -155,22 +169,23 @@ module.exports = React.createClass({
             <i className={state} aria-hidden="true"></i>
           </td>
           <td>{alerts[key].instance.hostname}</td>
-          <td>{alerts[key].instance.provider_credential.name}</td>
+          <td className="hidden-xs hidden-sm">{alerts[key].instance.provider_credential.name}</td>
           <td>{alerts[key].description}</td>
-          <td className="icons">
+          <td className="icons hidden-xs">
             <i className={level} aria-hidden="true"></i>
           </td>
-          <td>
+          <td className="hidden-xs hidden-sm">
             <time dateTime="">{from}</time>
           </td>
-          <td>
+          <td className="hidden-xs hidden-sm">
             <time dateTime="">{to}</time>
           </td>
+          {action}
           <td className="icons">
-            {action}
-          </td>
-          <td className="icons">
-            <span className="action-button nubity-green" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>
+            <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>
+            <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, alerts[key])}>
+              <i className="icon nb-ticket white-text small"></i>
+            </span>
           </td>
         </tr>
       );
@@ -211,22 +226,28 @@ module.exports = React.createClass({
             <i className={hstate} aria-hidden="true"></i>
           </td>
           <td>{historyAlerts[key].instance.hostname}</td>
-          <td>{historyAlerts[key].instance.provider_credential.name}</td>
+          <td className="hidden-xs hidden-sm">{historyAlerts[key].instance.provider_credential.name}</td>
           <td>{historyAlerts[key].description}</td>
-          <td className="icons">
+          <td className="icons hidden-xs">
             <i className={hlevel} aria-hidden="true"></i>
           </td>
-          <td>
+          <td className="hidden-xs hidden-sm">
             <time dateTime="">{from}</time>
           </td>
-          <td>
+          <td className="hidden-xs hidden-sm">
             <time dateTime="">{to}</time>
           </td>
-          <td className="icons">
-            <span className="action-button action-button-stop" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Alert Stopped</span>
+          <td className="icons hidden-xs">
+            <span className="action-button action-button-stop hidden-xs hidden-sm" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Alert Stopped</span>
+            <span className="action-button action-button-stop hidden-md hidden-lg" title="Alert Stopped" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>
+              <i className="icon nb-stop black-text small"></i>
+            </span>
           </td>
           <td className="icons">
-            <span className="action-button nubity-green" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
+            <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
+            <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, historyAlerts[key])}>
+              <i className="icon nb-ticket white-text small"></i>
+            </span>
           </td>
         </tr>
       );
@@ -271,17 +292,17 @@ module.exports = React.createClass({
       alertTable = <Preloader />;
     } else {
       alertTable =
-      <div className="col-xs-12">
+      <div>
         <table>
           <tr>
             <th className="column-icon">State</th>
             <th>Server</th>
-            <th>Integration name</th>
+            <th className="hidden-xs hidden-sm">Integration name</th>
             <th>Alert description</th>
-            <th className="column-icon">Priority</th>
-            <th>Started on</th>
-            <th>Resolved on</th>
-            <th className="column-button">Action</th>
+            <th className="column-icon hidden-xs">Priority</th>
+            <th className="hidden-xs hidden-sm">Started on</th>
+            <th className="hidden-xs hidden-sm">Resolved on</th>
+            <th className="column-button hidden-xs">Action</th>
             <th className="column-button">Report a problem</th>
           </tr>
           <tbody>
@@ -312,17 +333,17 @@ module.exports = React.createClass({
       historyTable = <Preloader />;
     } else {
       historyTable =
-      <div className="col-xs-12">
+      <div>
         <table>
           <tr>
             <th className="column-icon">State</th>
             <th>Server</th>
-            <th>Integration name</th>
+            <th className="hidden-xs hidden-sm">Integration name</th>
             <th>Alert description</th>
-            <th className="column-icon">Priority</th>
-            <th>Started on</th>
-            <th>Resolved on</th>
-            <th className="column-button">Action</th>
+            <th className="column-icon hidden-xs">Priority</th>
+            <th className="hidden-xs hidden-sm">Started on</th>
+            <th className="hidden-xs hidden-sm">Resolved on</th>
+            <th className="column-button hidden-xs">Action</th>
             <th className="column-button">Report a problem</th>
           </tr>
           <tbody>

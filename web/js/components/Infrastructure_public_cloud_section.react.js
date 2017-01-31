@@ -142,7 +142,7 @@ module.exports = React.createClass({
       } else if ('info' == publicCloud[key].health) {
         level = 'icon nb-information icon-state blue-text';
       } else {
-        level = 'fa fa-question-circle light-grey-color';
+        level = 'icon nb-help icon-state grey-text';
       }
 
       var monitoringStatus = '';
@@ -174,18 +174,18 @@ module.exports = React.createClass({
             </OverlayTrigger>
           </td>
           <td>{publicCloud[key].hostname}</td>
-          <td>{publicCloud[key].external_identifier}</td>
-          <td className="icons">
+          <td className="hidden-xs">{publicCloud[key].external_identifier}</td>
+          <td className="icons hidden-xs hidden-sm hidden">
             <i className="icon nb-start icon-margin" aria-hidden="true"></i>
             <i className="icon nb-stop icon-margin" aria-hidden="true"></i>
             <i className="icon nb-restart icon-margin" aria-hidden="true"></i>
           </td>
-          <td>{publicCloud[key].memory/1024} GB</td>
+          <td className="hidden-xs hidden-sm">{publicCloud[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>
-          <td className="icons">
+          <td className="icons hidden-xs hidden-sm hidden">
             {monitoring}
           </td>
-          <td className="icons">
+          <td className="icons hidden-xs hidden-sm hidden">
             <span className="action-button nubity-red" onClick={this._managed.bind(this, publicCloud[key])}>Stop</span>
           </td>
         </tr>
@@ -198,12 +198,12 @@ module.exports = React.createClass({
           <tr>
             <th className="column-icon">State</th>
             <th>Description</th>
-            <th>Connection name</th>
-            <th className="column-button">Actions</th>
-            <th>Memory</th>
+            <th className="hidden-xs">Connection name</th>
+            <th className="column-button hidden-xs hidden-sm hidden">Actions</th>
+            <th className="hidden-xs hidden-sm">Memory</th>
             <th className="column-icon">Health</th>
-            <th className="column-button">Monitoring</th>
-            <th className="column-button">Ninja Support</th>
+            <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+            <th className="column-button hidden-xs hidden-sm hidden">Ninja Support</th>
           </tr>
           </thead>
           <tbody>

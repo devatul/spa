@@ -85,7 +85,6 @@ module.exports = React.createClass({
         legend: {
           layout:'vertical',
           borderWidth: 0,
-          fontFamily: 'neosanslight'
         },
         series: [{
           name: legend1,

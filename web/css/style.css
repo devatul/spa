@@ -308,7 +308,7 @@ a.nb-active > .menu-button::before {
   border-left: solid 1px #ddd;
   border-bottom: solid 1px #ddd;
   border-right: solid 1px #ddd;
-  padding:20px;
+  padding: 20px 15px;
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
   margin-bottom: 30px;
@@ -590,6 +590,8 @@ body {
   line-height: 70px;
   color: grey;
   text-align: center;
+  font-size: 14pt;
+  margin-bottom: 10px;
 }
 .widget-create {
   height: 370px !important;
@@ -1157,6 +1159,19 @@ th {
 }
 tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+/*HighCharts Fix*/
+.highcharts-title {
+  font-family: 'neosanslight', sans-serif;
+  font-size: 14pt;
+  margin-bottom: 10px;
+}
+.highcharts-legend-item {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+.highcharts-credits {
+  display: none;
 }
 /*Media Queries*/
 @media screen and (max-width: 768px) {
