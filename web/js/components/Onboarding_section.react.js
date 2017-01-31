@@ -3,14 +3,18 @@ var OnBoardingStore            = require('../stores/OnBoardingStore');
 var SessionStore               = require('../stores/SessionStore');
 var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
+var OnPremiseCloudSection      = require('./On_premise_cloud_section.react');
 var getProviders               = require('../actions/RequestActions').getProviders;
-var redirect                   = require('../actions/RouteActions').redirect;
+var _                          = require('lodash');
 
 module.exports = React.createClass({
   getInitialState: function () {
     var providers = OnBoardingStore.getProviders();
     return {
       providers: providers,
+      publicCloudProviders: [],
+      privateCloudProviders: [],
+      onPremiseProviders: [],
       title: 'Manage your Public Cloud Connection',
     };
   },
@@ -35,6 +39,9 @@ module.exports = React.createClass({
       var providers = OnBoardingStore.getProviders();
       this.setState({
         providers: providers,
+        publicCloudProviders: _.filter(providers, function (o) {return o.classification == "public"}),
+        privateCloudProviders: _.filter(providers, function (o) {return o.classification == "private"}),
+        onPremiseProviders: _.filter(providers, function (o) {return o.classification == "on-premise"}),
       });
     }
   },
@@ -65,7 +72,7 @@ module.exports = React.createClass({
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -107,12 +114,13 @@ module.exports = React.createClass({
         </div>
         <div className="tab-content section-content">
           <div id="public" className="tab-pane fade in active">
-            <PublicCloudSection providers={this.state.providers}/>
+            <PublicCloudSection providers={this.state.publicCloudProviders}/>
           </div>
           <div id="private" className="tab-pane fade">
-            <PrivateCloudSection/>
+            <PrivateCloudSection providers={this.state.privateCloudProviders}/>
           </div>
-          <div id="onPremise" className="tab-pane fade">
+          <div id="menu2" className="tab-pane fade">
+            <OnPremiseCloudSection providers={this.state.onPremiseProviders} />
           </div>
         </div>
       </div>
