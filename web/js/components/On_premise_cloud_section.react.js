@@ -1,4 +1,5 @@
 var React                      = require('react');
+var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var PublicCloudSection         = require('./Public_cloud_section.react');
@@ -17,34 +18,34 @@ module.exports = React.createClass({
     redirect('alerts');
   },
 
-  revealFirstStep: function () {
-    $('#onBoarding1StepTitle').removeClass('hidden');
-    $('#onBoarding1StepContent').removeClass('hidden');
-    $('#cancelButton').removeClass('hidden');
-    $('#addButton').addClass('hidden');
+  revealFirstStepOfPrivateCloud: function () {
+    $('#onPremise1StepTitle').removeClass('hidden');
+    $('#onPremise1StepContent').removeClass('hidden');
+    $('#onPremiseCancelButton').removeClass('hidden');
+    $('#onPremiseAddButton').addClass('hidden');
   },
 
-  revealSecondStep: function () {
-    $('#onBoarding2StepTitle').removeClass('hidden');
-    $('#onBoarding2StepContent').removeClass('hidden');
+  revealSecondStepOfPrivateCloud: function () {
+    $('#onPremise2StepTitle').removeClass('hidden');
+    $('#onPremise2StepContent').removeClass('hidden');
   },
 
-  revertPublicSteps: function () {
-    $('#onBoarding1StepTitle').addClass('hidden');
-    $('#onBoarding1StepContent').addClass('hidden');
-    $('#onBoarding2StepTitle').addClass('hidden');
-    $('#onBoarding2StepContent').addClass('hidden');
-    $('#cancelButton').addClass('hidden');
-    $('#addButton').removeClass('hidden');
+  revertPrivateSteps: function () {
+    $('#onPremise1StepTitle').addClass('hidden');
+    $('#onPremise1StepContent').addClass('hidden');
+    $('#onPremise2StepTitle').addClass('hidden');
+    $('#onPremise2StepContent').addClass('hidden');
+    $('#onPremiseCancelButton').addClass('hidden');
+    $('#onPremiseAddButton').removeClass('hidden');
     this.setState({
       credentialType: false,
     });
   },
 
-  explore2step: function (provider) {
+  exploreOnPremiseStep2: function (provider) {
     var credetials = this.state.credentialType;
     if (!credetials) {
-      this.revealSecondStep();
+      this.revealSecondStepOfPrivateCloud();
     }
     this.setState({
       credentialType: provider.requirements,
@@ -58,14 +59,14 @@ module.exports = React.createClass({
     _.map(providers, function (provider) {
       if (null != provider.logo) {
         rows.push(
-          <div className="col-md-2 clouds-icons-button" onClick={function () {_SELF.explore2step(provider)}}>
+          <div className="col-md-2 clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider)}}>
             <img src={provider.logo.public_path} ></img>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       } else {
         rows.push(
-          <div className="col-md-2 clouds-icons-button" onClick={function () {_SELF.explore2step(provider)}}>
+          <div className="col-md-2 clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider)}}>
             <div className="clouds-icons aws"></div>
             <p className="aws-text">{provider.name}</p>
           </div>
@@ -74,33 +75,33 @@ module.exports = React.createClass({
     });
     return (
       <div>
-        <button className="transparent-button" onClick={this.revealFirstStep} id="addButton">
-          <i  className="fa fa-plus-circle big-green-circle" aria-hidden="true"></i>
-          <span>  Add New Public Cloud Connection</span>
+        <button className="transparent-button" onClick={this.revealFirstStepOfPrivateCloud} id="onPremiseAddButton">
+          <i className="fa fa-plus-circle big-green-circle" aria-hidden="true"></i>
+          <span> Add New Private Cloud Connection</span>
         </button>
-        <button className="transparent-button hidden" onClick={this.revertPublicSteps} id="cancelButton">
+        <button className="transparent-button hidden" onClick={this.revertPrivateSteps} id="onPremiseCancelButton">
           <i  className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
           <span>  Cancel Public Cloud Connection</span>
         </button>
-        <div className="hidden" id="onBoarding1StepTitle">
+        <div className="hidden" id="onPremise1StepTitle">
           <div className="round-number number-1">1</div>
-          <span>Select your Public Cloud</span>
+          <span>Select your Private Cloud</span>
         </div>
-        <div className="row hidden" id="onBoarding1StepContent">
+        <div className="row hidden" id="onPremise1StepContent">
           <div className="col-lg-8 col-lg-offset-2 public-cloud-selector-div">
             {rows}
           </div>
         </div>
-        <div className="hidden" id="onBoarding2StepTitle">
+        <div className="hidden" id="onPremise2StepTitle">
           <div className="round-number number-2">2</div>
           <span>Complete your cloud information</span>
         </div>
-        <div className="row hidden" id="onBoarding2StepContent">
-          <div className="col-lg-offset-1 col-lg-4">
+        <div className="row hidden" id="onPremise2StepContent">
+          <form className="public-cloud-form col-lg-offset-1 col-lg-4">
             {getCloudInputField(this.state.credentialType)}
             <button type="button" className="btn btn-success pull-right public-cloud-button">Save</button>
             <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
-          </div>
+          </form>
           <div className="col-lg-5 centered">
             <p className="aws-text">How to integrate AWS with Nubity?</p>
             <a>
@@ -111,10 +112,6 @@ module.exports = React.createClass({
           </div>
         </div>
         <hr/>
-        <div>
-          <i className="fa fa-cloud" aria-hidden="true"></i>
-          <span>Connected Public Cloud</span>
-        </div>
       </div>
     );
   },
