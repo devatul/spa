@@ -159,6 +159,7 @@ module.exports = React.createClass({
       var to = '';
       if (null != alerts[key].resolved_on) {
         to = moment(alerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
+        state = 'icon nb-thick-circle icon-state green-text';
       } else {
         to = '-';
       }
@@ -216,6 +217,7 @@ module.exports = React.createClass({
       var to = '';
       if (null != historyAlerts[key].resolved_on) {
         to = moment(historyAlerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
+        hstate = 'icon nb-thick-circle icon-state green-text';
       } else {
         to = '-';
       }

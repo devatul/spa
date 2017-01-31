@@ -70,7 +70,7 @@ module.exports = React.createClass({
   },
 
   _monitoring: function (instance) {
-    getMonitored(instance.instance);
+    redirect('monitoring');
   },
 
   _managed: function (instance) {
@@ -217,7 +217,7 @@ module.exports = React.createClass({
             <td className="icons hidden-xs hidden-sm hidden">
               {monitoring}
             </td>
-            <td className="icons hidden-xs hidden-sm hidden">
+            <td className="icons hidden-xs hidden-sm">
               <span className="action-button nubity-red" onClick={this._managed.bind(this, overview[key])}>Stop</span>
             </td>
           </tr>
@@ -244,7 +244,7 @@ module.exports = React.createClass({
             <th className="hidden-xs hidden-sm">Memory</th>
             <th className="column-icon">Health</th>
             <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
-            <th className="column-button hidden-xs hidden-sm hidden">Ninja Support</th>
+            <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
           </tr>
           </thead>
           <tbody>

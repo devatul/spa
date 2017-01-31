@@ -58,7 +58,7 @@ module.exports = React.createClass({
             </div>
           </div>
         );
-        position = key + 2;
+        position = parseInt(key) + 2;
       }
     }
 
