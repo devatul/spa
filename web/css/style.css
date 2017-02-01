@@ -263,6 +263,18 @@ a.nb-active > .menu-button::before {
   padding: .35em 1.3em;
   cursor: no-drop;
 }
+.action-instance {
+  display: inline-block;
+  cursor: pointer;
+}
+.warn-message {
+  font-family: 'neosanslight', sans-serif;
+  font-size: 12pt;
+  padding: 50px 70px;
+}
+.warn-message .action-button {
+  margin-left: 10px;
+}
 .no-button {
   cursor: no-drop;
 }
@@ -1067,10 +1079,12 @@ ol.rounded-list {
   text-align: center;
 }
 .large {
-  font-size: 5rem !important;
+  font-size: 8rem !important;
   line-height: 1;
   vertical-align: middle;
   text-align: center;
+  position: relative;
+  bottom: -10px;
 }
 .x-large {
   font-size: 12rem !important;
@@ -1237,6 +1251,9 @@ tr:nth-child(even) {
   }
   .menu-button {
     width: 75px;
+  }
+  .dashboard-icons-info {
+    font-size: 8pt;
   }
 }
 @media screen and (max-width: 375px){

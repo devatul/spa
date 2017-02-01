@@ -13,8 +13,6 @@ var Graphs                     = require('./Graphs.react');
 var Preloader                  = require('./Preloader.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
-var Tooltip                    = require('react-bootstrap').Tooltip;
-var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
 
@@ -79,7 +77,6 @@ module.exports = React.createClass({
     var dashboard = this.state.dashboard;
     var firstname = localStorage.getItem('nubity-firstname');
     var mainAlerts = this.state.mainAlerts;
-    var createTicketTooltip = (<Tooltip id="tooltip">Create ticket</Tooltip>);
     var notice;
 
     if (undefined !== mainAlerts) {
@@ -98,17 +95,17 @@ module.exports = React.createClass({
         <div className="col-md-6 col-md-offset-3">
           <div className="col-xs-4 dashboard-icons blue">
             <i className="icon nb-information blue-text dashboard-minus" aria-hidden="true"></i>
-            Information
+            <span className="dashboard-icons-info">Information</span>
             <div className="dashboard-icons-counter first">{this.state.stats.info}</div>
           </div>
           <div className="col-xs-4 dashboard-icons">
             <i className="icon nb-warning yellow-text dashboard-minus" aria-hidden="true"></i>
-            Warning
+            <span className="dashboard-icons-info">Warning</span>
             <div className="dashboard-icons-counter second">{this.state.stats.warning}</div>
           </div>
           <div className="col-xs-4 dashboard-icons">
             <i className="icon nb-critical red-text dashboard-minus" aria-hidden="true"></i>
-            Critical
+            <span className="dashboard-icons-info">Critical</span>
             <div className="dashboard-icons-counter third">{this.state.stats.critical}</div>
           </div>
         </div>;

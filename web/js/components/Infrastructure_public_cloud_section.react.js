@@ -7,6 +7,7 @@ var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
+var Warning                       = require('./Warning_message.react');
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 
@@ -175,10 +176,10 @@ module.exports = React.createClass({
           </td>
           <td>{publicCloud[key].hostname}</td>
           <td className="hidden-xs">{publicCloud[key].external_identifier}</td>
-          <td className="icons hidden-xs hidden-sm hidden">
-            <i className="icon nb-start icon-margin" aria-hidden="true"></i>
-            <i className="icon nb-stop icon-margin" aria-hidden="true"></i>
-            <i className="icon nb-restart icon-margin" aria-hidden="true"></i>
+          <td className="icons hidden-xs hidden-sm">
+            <Warning type="start"/>
+            <Warning type="stop"/>
+            <Warning type="restart"/>
           </td>
           <td className="hidden-xs hidden-sm">{publicCloud[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>
@@ -199,7 +200,7 @@ module.exports = React.createClass({
             <th className="column-icon">State</th>
             <th>Description</th>
             <th className="hidden-xs">Connection name</th>
-            <th className="column-button hidden-xs hidden-sm hidden">Actions</th>
+            <th className="column-button hidden-xs hidden-sm">Actions</th>
             <th className="hidden-xs hidden-sm">Memory</th>
             <th className="column-icon">Health</th>
             <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
