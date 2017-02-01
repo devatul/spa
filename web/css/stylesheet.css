@@ -78,10 +78,9 @@
 .neosanslight {
     font-family: 'neosanslight' !important;
 }
+
 /*----------------------*/
-.container{
-    margin-top:20px;
-}
+
 .image-preview-input {
     position: relative;
 	overflow: hidden;
@@ -102,5 +101,35 @@
 	filter: alpha(opacity=0);
 }
 .image-preview-input-title {
-    margin-left:2px;
+    margin-left:5px;
+}
+
+.scroll-step1 {
+  display: inline-block;
+  width: 3%;
+  height: 100%;
+  padding: 40px 5px;
+  text-align: center;
+  cursor: pointer;
+}
+.scroll-step1:hover {
+  background: rgba(144, 120, 120, 0.25);
+}
+#viewContainer {
+overflow:hidden;
+margin: 0px 8px;
+}
+.list-providers {
+position:absolute;
+left:0;
+width:100%;
+}
+
+.selected-provider-step1 {
+  border: 1px solid rgba(204, 204, 204, 0.79);
+  border-radius: 7px;
+  font-weight: 600;
+}
+.non-selected-provider-step1 {
+  opacity: 0.5;
 }

@@ -583,10 +583,10 @@ button.action-button:hover {
   margin: 10px 10px 0px 30px;
 }
 .number-1 {
-  padding: 4px 5px 6px 10px;
+  padding: 2px 5px 6px 9px;
 }
 .number-2 {
-  padding: 4px 5px 6px 8px;
+  padding: 2px 5px 6px 8px;
 }
 .public-cloud-form {
   padding-left: 30px!important;
@@ -608,11 +608,13 @@ button.action-button:hover {
   color: #407fb5;
 }
 .public-cloud-selector-div {
-  height: 100px;
+  height: 150px;
 }
 .clouds-icons-button {
   text-align: center;
   cursor: pointer;
+  width: 150px;
+  float: left;
 }
 .clouds-icons {
   height: 66px;
