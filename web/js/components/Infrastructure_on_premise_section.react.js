@@ -7,6 +7,7 @@ var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructureOnPremise    = require('../actions/RequestActions').getInfrastructureOnPremise;
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
+var Warning                       = require('./Warning_message.react');
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 
@@ -134,17 +135,6 @@ module.exports = React.createClass({
         }
       }
 
-      var level = '';
-      if ('critical' == onPremise[key].health) {
-        level = 'icon nb-critical icon-state red-text';
-      } else if ('warning' == onPremise[key].health) {
-        level = 'icon nb-warning icon-state yellow-text';
-      } else if ('info' == onPremise[key].health) {
-        level = 'icon nb-information icon-state blue-text';
-      } else {
-        level = 'icon nb-help icon-state grey-text';
-      }
-
       var monitoringStatus = '';
       var monitoring = '';
       for (var count in onPremise[key].product_orders) {
@@ -161,6 +151,16 @@ module.exports = React.createClass({
         monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
       }
 
+      var level = '';
+      if ('critical' == onPremise[key].health) {
+        level = 'icon nb-critical icon-state red-text';
+      } else if ('warning' == onPremise[key].health) {
+        level = 'icon nb-warning icon-state yellow-text';
+      } else if ('info' == onPremise[key].health) {
+        level = 'icon nb-information icon-state blue-text';
+      } else {
+        level = 'icon nb-help icon-state grey-text';
+      }
 
       rows.push(
         <tr>
@@ -177,9 +177,9 @@ module.exports = React.createClass({
           <td>{onPremise[key].hostname}</td>
           <td className="hidden-xs">{onPremise[key].external_identifier}</td>
           <td className="icons hidden-xs hidden-sm">
-            <i className="icon nb-start icon-margin" aria-hidden="true"></i>
-            <i className="icon nb-stop icon-margin" aria-hidden="true"></i>
-            <i className="icon nb-restart icon-margin" aria-hidden="true"></i>
+            <Warning type="start"/>
+            <Warning type="stop"/>
+            <Warning type="restart"/>
           </td>
           <td className="hidden-xs hidden-sm">{onPremise[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>
@@ -190,7 +190,7 @@ module.exports = React.createClass({
             <span className="action-button nubity-red" onClick={this._managed.bind(this, onPremise[key])}>Stop</span>
           </td>
         </tr>
-        );
+      );
     }
     return (
       <div id="infrastructureTable">

@@ -7,6 +7,7 @@ var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructurePrivateCloud = require('../actions/RequestActions').getInfrastructurePrivateCloud;
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
+var Warning                       = require('./Warning_message.react');
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 
@@ -176,9 +177,9 @@ module.exports = React.createClass({
           <td>{privateCloud[key].hostname}</td>
           <td className="hidden-xs">{privateCloud[key].external_identifier}</td>
           <td className="icons hidden-xs hidden-sm">
-            <i className="icon nb-start icon-margin" aria-hidden="true"></i>
-            <i className="icon nb-stop icon-margin" aria-hidden="true"></i>
-            <i className="icon nb-restart icon-margin" aria-hidden="true"></i>
+            <Warning type="start"/>
+            <Warning type="stop"/>
+            <Warning type="restart"/>
           </td>
           <td className="hidden-xs hidden-sm">{privateCloud[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>

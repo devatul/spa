@@ -68,9 +68,9 @@ module.exports = React.createClass({
                 </Link>
               </OverlayTrigger>
             </li>
-            <li role="presentation" className={hash == '#on-premise' ? "active" : ""}>
+            <li role="presentation" className={hash == '#onPremise' ? "active" : ""}>
               <OverlayTrigger placement="top" overlay={onPremiseTooltip}>
-                <Link to="/infrastructure#on-premise" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#on-premise', 1)}}>
+                <Link to="/infrastructure#onPremise" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#onPremise', 1)}}>
                   <i className="icon nb-servers small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> On-premise servers</span>
                 </Link>
               </OverlayTrigger>
