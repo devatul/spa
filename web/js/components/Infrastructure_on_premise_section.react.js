@@ -219,9 +219,9 @@ module.exports = React.createClass({
           <td>{onPremise[key].hostname}</td>
           <td className="hidden-xs">{onPremise[key].external_identifier}</td>
           <td className="icons hidden-xs hidden-sm">
-            <Warning type="start"/>
-            <Warning type="stop"/>
-            <Warning type="restart"/>
+            <Warning type="start" status={onPremise[key].status}/>
+            <Warning type="stop" status={onPremise[key].status}/>
+            <Warning type="restart" status={onPremise[key].status}/>
           </td>
           <td className="hidden-xs hidden-sm">{onPremise[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>

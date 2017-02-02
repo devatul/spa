@@ -219,9 +219,9 @@ module.exports = React.createClass({
           <td>{publicCloud[key].hostname}</td>
           <td className="hidden-xs">{publicCloud[key].external_identifier}</td>
           <td className="icons hidden-xs hidden-sm">
-            <Warning type="start"/>
-            <Warning type="stop"/>
-            <Warning type="restart"/>
+            <Warning type="start" status={publicCloud[key].status}/>
+            <Warning type="stop" status={publicCloud[key].status}/>
+            <Warning type="restart" status={publicCloud[key].status}/>
           </td>
           <td className="hidden-xs hidden-sm">{publicCloud[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>

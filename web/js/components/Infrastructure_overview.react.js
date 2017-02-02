@@ -250,9 +250,9 @@ module.exports = React.createClass({
             <td>{overview[key].hostname}</td>
             <td className="hidden-xs">{overview[key].external_identifier}</td>
             <td className="icons hidden-xs hidden-sm">
-              <Warning type="start"/>
-              <Warning type="stop"/>
-              <Warning type="restart"/>
+              <Warning type="start" status={overview[key].status}/>
+              <Warning type="stop" status={overview[key].status}/>
+              <Warning type="restart" status={overview[key].status}/>
             </td>
             <td className="hidden-xs hidden-sm">{overview[key].memory/1024} GB</td>
             <td className="icons"><i className={level} aria-hidden="true"></i></td>
