@@ -8,6 +8,8 @@ var getNinja                   = require('../actions/RequestActions').getNinja;
 var Preloader                  = require('./Preloader.react');
 var getTicket                  = require('../actions/RequestActions').getTicket;
 var viewTicket                 = require('../actions/ServerActions').viewTicket;
+var Tooltip                    = require('react-bootstrap').Tooltip;
+var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -74,11 +76,14 @@ module.exports = React.createClass({
         var department_icon = '';
         var department_name = '';
         var priority = '';
+        var tooltip = '';
 
         if ('open' == ticket[key].status) {
           status = 'icon nb-ticket icon-state blue-text';
+          tooltip = (<Tooltip id="tooltip">Open</Tooltip>);
         } else {
           status = 'icon nb-ticket icon-state green-text';
+          tooltip = (<Tooltip id="tooltip">Closed</Tooltip>);
         }
 
         if ('billing' == ticket[key].department) {
@@ -101,8 +106,12 @@ module.exports = React.createClass({
         }
         rows.push(
           <tr key={key}>
-            <td className="icons"><span className={status}></span></td>
-            <td className="hidden-xs">{ticket[key].name}</td>
+            <td className="icons">
+              <OverlayTrigger placement="top" overlay={tooltip}>
+                <span className={status}></span>
+              </OverlayTrigger>
+            </td>
+            <td className="ticket-id-name" title="View ticket" onClick={this._viewTicket.bind(this, ticket[key])}>{ticket[key].name}</td>
             <td>{ticket[key].subject}</td>
             <td>
               <span className={priority}></span>
@@ -113,12 +122,6 @@ module.exports = React.createClass({
             <td className="hidden-xs">{ticket[key].hostname}</td>
             <td className="hidden-xs hidden-sm">
               <time dateTime={ticket[key].created_at}>{from}</time>
-            </td>
-            <td className="icons">
-              <span className="action-button nubity-blue hidden-xs hidden-sm" onClick={this._viewTicket.bind(this, ticket[key])}>View ticket</span>
-              <span className="action-button nubity-blue hidden-md hidden-lg" onClick={this._viewTicket.bind(this, ticket[key])}>
-                <i className="icon nb-eye white-text small"></i>
-              </span>
             </td>
           </tr>
         );
@@ -135,13 +138,12 @@ module.exports = React.createClass({
         <table>
           <tr>
             <th className="column-icon">Status</th>
-            <th className="hidden-xs">Ticket Id</th>
+            <th>Ticket Id</th>
             <th>Subject</th>
             <th className="column-icon">Priority</th>
             <th className="column-button hidden-xs">Department</th>
-            <th className="hidden-xs">Server</th>
+            <th className="hidden-xs">Device</th>
             <th className="hidden-xs hidden-sm">Date</th>
-            <th className="column-button">View Ticket</th>
           </tr>
           <tbody>
             {rows}

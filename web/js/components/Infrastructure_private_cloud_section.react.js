@@ -219,9 +219,9 @@ module.exports = React.createClass({
           <td>{privateCloud[key].hostname}</td>
           <td className="hidden-xs">{privateCloud[key].external_identifier}</td>
           <td className="icons hidden-xs hidden-sm">
-            <Warning type="start"/>
-            <Warning type="stop"/>
-            <Warning type="restart"/>
+            <Warning type="start" status={privateCloud[key].status}/>
+            <Warning type="stop" status={privateCloud[key].status}/>
+            <Warning type="restart" status={privateCloud[key].status}/>
           </td>
           <td className="hidden-xs hidden-sm">{privateCloud[key].memory/1024} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>
@@ -232,7 +232,7 @@ module.exports = React.createClass({
             {management}
           </td>
         </tr>
-        );
+      );
     }
     return (
       <div id="infrastructureTable">

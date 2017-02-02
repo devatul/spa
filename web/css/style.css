@@ -46,17 +46,20 @@ a:hover, a:active, a:focus {
   overflow: auto;
 }
 .modal-close {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 50px;
-  border: 2px solid #cecece;
-  color: #cecece;
-  background-color: #f2f2f2;
+  border: none;
+  color: #fff;
+  background-color: #d4d4d4;
+}
+.modal-close:hover {
+  background-color: #adadad;
 }
 .modal-close span {
   position: relative;
   left: -3px;
-  top: -4px;
+  top: -5px;
 }
 .menu-tab-content {
   height: calc(100% - 50px);
@@ -257,15 +260,31 @@ a.nb-active > .menu-button::before {
   padding: .35em 1.3em;
 }
 .action-button-stop {
-  color: black;
+  color: #ccc;
   background-color: white;
-  border: solid 1px black;
+  border: solid 1px #ccc;
   padding: .35em 1.3em;
   cursor: no-drop;
 }
+.action-button-disabled {
+  font-size: 10pt;
+  font-family: 'neosanslight', sans-serif;
+  line-height: 1;
+  text-align: center;
+  color: #ccc;
+  background-color: white;
+  padding: .35em 1em;
+}
 .action-instance {
   display: inline-block;
+}
+.action-icon {
+  margin: 3px;
   cursor: pointer;
+}
+.action-icon.disabled {
+  color: #ccc;
+  cursor: default;
 }
 .warn-message {
   font-family: 'neosanslight', sans-serif;
@@ -387,6 +406,10 @@ a.nb-active > .menu-button::before {
   height: 50px;
   padding: 15px 0;
   border-bottom: 1px solid #cecece;
+}
+.ticket-id-name {
+  color: #2d8ccf;
+  cursor: pointer;
 }
 .big-green-circle {
   color: #00cc00;
@@ -1140,6 +1163,7 @@ ol.rounded-list {
 table, th, td {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
+  font-size: 10pt;
 }
 table {
   border: 1px solid #CECECE;

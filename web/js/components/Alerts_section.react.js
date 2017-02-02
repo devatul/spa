@@ -9,6 +9,8 @@ var getHistoryAlerts           = require('../actions/RequestActions').getHistory
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 var Preloader                  = require('./Preloader.react');
+var Tooltip                    = require('react-bootstrap').Tooltip;
+var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -119,38 +121,51 @@ module.exports = React.createClass({
     var level;
     var state;
     var action;
+    var tooltip;
+    var severityTooltip;
 
     for (var key in alerts) {
       level = '';
+      severityTooltip = '';
       if ('critical' == alerts[key].level) {
         level = 'icon nb-critical icon-state red-text';
+        severityTooltip = (<Tooltip id="tooltip">Critical</Tooltip>);
       } else if ('warning' == alerts[key].level) {
         level = 'icon nb-warning icon-state yellow-text';
+        severityTooltip = (<Tooltip id="tooltip">Warning</Tooltip>);
       } else if ('info' == alerts[key].level) {
         level = 'icon nb-information icon-state blue-text';
+        severityTooltip = (<Tooltip id="tooltip">Information</Tooltip>);
       }
 
       state = '';
       action = '';
+      tooltip = '';
 
       if (alerts[key].is_acknowledged) {
         state = 'icon nb-thick-circle icon-state green-text';
+        tooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <span className='action-button action-button-stop hidden-xs hidden-sm'>Alert Stopped</span>
-            <span className="action-button action-button-stop hidden-md hidden-lg" title="Alert Stopped">
-              <i className="icon nb-stop black-text small"></i>
-            </span>
+            <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
+            <OverlayTrigger placement="top" overlay={tooltip}>
+              <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
+                <i className="fa fa-volume-off grey-text"></i>
+              </span>
+            </OverlayTrigger>
           </td>
         );
       } else {
         state = 'icon nb-alert icon-state red-text';
+        tooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, alerts[key].id)}>Stop Alerting</span>
-            <span className="action-button nubity-red hidden-md hidden-lg" title="Stop Alerting" onClick={this._acknowledge.bind(this, alerts[key].id)}>
-              <i className="icon nb-stop white-text small"></i>
-            </span>
+            <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, alerts[key].id)}>Mute notifications</span>
+            <OverlayTrigger placement="top" overlay={tooltip}>
+              <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._acknowledge.bind(this, alerts[key].id)}>
+                <i className="fa fa-volume-off white-text"></i>
+              </span>
+            </OverlayTrigger>
           </td>
         );
       }
@@ -167,14 +182,13 @@ module.exports = React.createClass({
       rows.push(
         <tr key={key}>
           <td className="icons">
-            <i className={state} aria-hidden="true"></i>
+            <OverlayTrigger placement="top" overlay={severityTooltip}>
+              <i className={level} aria-hidden="true"></i>
+            </OverlayTrigger>
           </td>
+          <td>{alerts[key].description}</td>
           <td>{alerts[key].instance.hostname}</td>
           <td className="hidden-xs hidden-sm">{alerts[key].instance.provider_credential.name}</td>
-          <td>{alerts[key].description}</td>
-          <td className="icons hidden-xs">
-            <i className={level} aria-hidden="true"></i>
-          </td>
           <td className="hidden-xs hidden-sm">
             <time dateTime="">{from}</time>
           </td>
@@ -195,22 +209,54 @@ module.exports = React.createClass({
     var historyRows = [];
     var hlevel;
     var hstate;
+    var haction;
+    var htooltip;
+    var hseverityTooltip;
+
     for (var key in historyAlerts) {
 
       hlevel = '';
+      hseverityTooltip = '';
       if ('critical' == historyAlerts[key].level) {
         hlevel = 'icon nb-critical icon-state red-text';
+        hseverityTooltip = (<Tooltip id="tooltip">Critical</Tooltip>);
       } else if ('warning' == historyAlerts[key].level) {
         hlevel = 'icon nb-warning icon-state yellow-text';
+        hseverityTooltip = (<Tooltip id="tooltip">Warning</Tooltip>);
       } else if ('info' == historyAlerts[key].level) {
         hlevel = 'icon nb-information icon-state blue-text';
+        hseverityTooltip = (<Tooltip id="tooltip">Information</Tooltip>);
       }
 
       hstate = '';
+      haction = '';
+      htooltip = '';
       if (historyAlerts[key].is_acknowledged) {
         hstate = 'icon nb-thick-circle icon-state green-text';
+        htooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
+        haction = (
+          <td className="icons hidden-xs">
+            <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
+            <OverlayTrigger placement="top" overlay={htooltip}>
+              <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
+                <i className="fa fa-volume-off grey-text"></i>
+              </span>
+            </OverlayTrigger>
+          </td>
+        );
       } else {
         hstate = 'icon nb-alert icon-state red-text';
+        htooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
+        haction = (
+          <td className="icons hidden-xs">
+            <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Mute notifications</span>
+            <OverlayTrigger placement="top" overlay={htooltip}>
+              <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>
+                <i className="fa fa-volume-off white-text"></i>
+              </span>
+            </OverlayTrigger>
+          </td>
+        );
       }
 
       var from = moment(historyAlerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
@@ -225,26 +271,20 @@ module.exports = React.createClass({
       historyRows.push(
         <tr key={key}>
           <td className="icons">
-            <i className={hstate} aria-hidden="true"></i>
+            <OverlayTrigger placement="top" overlay={hseverityTooltip}>
+              <i className={hlevel} aria-hidden="true"></i>
+            </OverlayTrigger>
           </td>
+          <td>{historyAlerts[key].description}</td>
           <td>{historyAlerts[key].instance.hostname}</td>
           <td className="hidden-xs hidden-sm">{historyAlerts[key].instance.provider_credential.name}</td>
-          <td>{historyAlerts[key].description}</td>
-          <td className="icons hidden-xs">
-            <i className={hlevel} aria-hidden="true"></i>
-          </td>
           <td className="hidden-xs hidden-sm">
             <time dateTime="">{from}</time>
           </td>
           <td className="hidden-xs hidden-sm">
             <time dateTime="">{to}</time>
           </td>
-          <td className="icons hidden-xs">
-            <span className="action-button action-button-stop hidden-xs hidden-sm" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Alert Stopped</span>
-            <span className="action-button action-button-stop hidden-md hidden-lg" title="Alert Stopped" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>
-              <i className="icon nb-stop black-text small"></i>
-            </span>
-          </td>
+          {haction}
           <td className="icons">
             <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
             <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, historyAlerts[key])}>
@@ -297,14 +337,13 @@ module.exports = React.createClass({
       <div>
         <table>
           <tr>
-            <th className="column-icon">State</th>
-            <th>Server</th>
-            <th className="hidden-xs hidden-sm">Integration name</th>
-            <th>Alert description</th>
-            <th className="column-icon hidden-xs">Priority</th>
+            <th className="column-icon">Severity</th>
+            <th>Description</th>
+            <th>Device</th>
+            <th className="hidden-xs hidden-sm">Integration</th>
             <th className="hidden-xs hidden-sm">Started on</th>
             <th className="hidden-xs hidden-sm">Resolved on</th>
-            <th className="column-button hidden-xs">Action</th>
+            <th className="column-button hidden-xs">Notifications</th>
             <th className="column-button">Report a problem</th>
           </tr>
           <tbody>
@@ -338,14 +377,13 @@ module.exports = React.createClass({
       <div>
         <table>
           <tr>
-            <th className="column-icon">State</th>
-            <th>Server</th>
-            <th className="hidden-xs hidden-sm">Integration name</th>
-            <th>Alert description</th>
-            <th className="column-icon hidden-xs">Priority</th>
+            <th className="column-icon">Severity</th>
+            <th>Description</th>
+            <th>Device</th>
+            <th className="hidden-xs hidden-sm">Integration</th>
             <th className="hidden-xs hidden-sm">Started on</th>
             <th className="hidden-xs hidden-sm">Resolved on</th>
-            <th className="column-button hidden-xs">Action</th>
+            <th className="column-button hidden-xs">Notifications</th>
             <th className="column-button">Report a problem</th>
           </tr>
           <tbody>
