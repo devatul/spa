@@ -7,6 +7,8 @@ var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInfrastructureOnPremise    = require('../actions/RequestActions').getInfrastructureOnPremise;
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
+var stopOrder                     = require('../actions/RequestActions').stopOrder;
+var deleteOrderCancelation        = require('../actions/RequestActions').deleteOrderCancelation;
 var Warning                       = require('./Warning_message.react');
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
@@ -73,6 +75,14 @@ module.exports = React.createClass({
     getManaged(instance.instance);
   },
 
+  _stopOrder: function (orderCode) {
+    stopOrder(orderCode);
+  },
+
+  _deleteOrderCancelation: function (orderCode) {
+    deleteOrderCancelation(orderCode);
+  },
+
   render: function () {
     var onPremise = this.state.onPremise;
     var totalItems = this.state.totalItems;
@@ -137,9 +147,13 @@ module.exports = React.createClass({
 
       var monitoringStatus = '';
       var monitoring = '';
+      var monitoringCode = '';
+
       for (var count in onPremise[key].product_orders) {
         if ('Monitoring' == onPremise[key].product_orders[count].product_type) {
           monitoringStatus = onPremise[key].product_orders[count].status;
+          monitoringCode = onPremise[key].product_orders[count].product_order;
+          break;
         }
       }
 
@@ -147,8 +161,36 @@ module.exports = React.createClass({
         monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
       } else if ('' == monitoringStatus) {
         monitoring = (<span className="action-button nubity-green" onClick={this._monitoring.bind(this, onPremise[key])}>Start</span>);
+      } else if ('accepted' == monitoringStatus) {
+        monitoring = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
+      } else if ('pending-cancellation' == monitoringStatus) {
+        monitoring = (<span className="action-button nubity-blue" onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
       } else {
         monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
+      }
+
+      var managementStatus = '';
+      var management = '';
+      var managementCode = '';
+
+      for (var count in onPremise[key].product_orders) {
+        if ('Management' == onPremise[key].product_orders[count].product_type) {
+          managementStatus = onPremise[key].product_orders[count].status;
+          managementCode = onPremise[key].product_orders[count].product_order;
+          break;
+        }
+      }
+
+      if ('pending-acceptation' == managementStatus) {
+        management = (<span className="action-button nubity-grey no-button">Start</span>);
+      } else if ('' == managementStatus) {
+        management = (<span className="action-button nubity-green" onClick={this._managed.bind(this, onPremise[key])}>Start</span>);
+      } else if ('accepted' == managementStatus) {
+        management = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, managementCode)}>Stop</span>);
+      } else if ('pending-cancellation' == managementStatus) {
+        management = (<span className="action-button nubity-blue" onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
+      } else {
+        management = (<span className="action-button nubity-blue no-button">management</span>);
       }
 
       var level = '';
@@ -187,7 +229,7 @@ module.exports = React.createClass({
             {monitoring}
           </td>
           <td className="icons hidden-xs hidden-sm">
-            <span className="action-button nubity-red" onClick={this._managed.bind(this, onPremise[key])}>Stop</span>
+            {management}
           </td>
         </tr>
       );

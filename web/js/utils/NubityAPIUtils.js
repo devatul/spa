@@ -336,7 +336,7 @@ module.exports = {
     if (0 != page) {
       request
       .get('/company/' + company + '/instances')
-      .query({page: page, include_health: true})
+      .query({page: page, include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -353,7 +353,7 @@ module.exports = {
     } else {
       request
       .get('/company/' + company + '/instances')
-      .query({include_health: true})
+      .query({include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -375,7 +375,7 @@ module.exports = {
     if (0 != page) {
       request
       .get('/company/' + company + '/instances')
-      .query({provider_classification: 'public', page: page, include_health: true})
+      .query({provider_classification: 'public', page: page, include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -392,7 +392,7 @@ module.exports = {
     } else {
       request
       .get('/company/' + company + '/instances')
-      .query({provider_classification: 'public', include_health: true})
+      .query({provider_classification: 'public', include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -414,7 +414,7 @@ module.exports = {
     if (0 != page) {
       request
       .get('/company/' + company + '/instances')
-      .query({provider_classification: 'private', page: page})
+      .query({provider_classification: 'private', page: page, include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -431,7 +431,7 @@ module.exports = {
     } else {
       request
       .get('/company/' + company + '/instances')
-      .query({provider_classification: 'private'})
+      .query({provider_classification: 'private', include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -453,7 +453,7 @@ module.exports = {
     if (0 != page) {
       request
       .get('/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', page: page})
+      .query({provider_classification: 'on-premise', page: page, include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -470,7 +470,7 @@ module.exports = {
     } else {
       request
       .get('/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise'})
+      .query({provider_classification: 'on-premise', include_health: true, include_products: true})
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -817,6 +817,52 @@ module.exports = {
       this.validateToken(res).then(function (status) {
         if (!status) {
           this.getMonitored(instanceId);
+        } else {
+          this.getInfrastructureOverview();
+          this.getInfrastructureOnPremise();
+          this.getInfrastructurePrivateCloud();
+          this.getInfrastructurePublicCloud();
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  stopOrder: function (orderId) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+ 
+    request
+    .del('/order/' + orderId + '.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.stopMonitoring(instanceId);
+        } else {
+          this.getInfrastructureOverview();
+          this.getInfrastructureOnPremise();
+          this.getInfrastructurePrivateCloud();
+          this.getInfrastructurePublicCloud();
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+ 
+  deleteOrderCancelation: function (orderId) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+
+    request
+    .del('/order/' + orderId + '/cancellation-request.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.stopManagement(instanceId);
         } else {
           this.getInfrastructureOverview();
           this.getInfrastructureOnPremise();
