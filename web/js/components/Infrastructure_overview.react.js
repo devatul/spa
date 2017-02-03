@@ -168,7 +168,7 @@ module.exports = React.createClass({
             tooltip = (<Tooltip id="tooltip">Stopped, Linux</Tooltip>);
           }
         } else {
-          os = 'fa fa-question-circle light-grey-color'
+          os = 'icon nb-help grey-text'
           if ('running' == overview[key].status) {
             tooltip = (<Tooltip id="tooltip">Running, Unknown</Tooltip>);
           } else if ('unavailable' == overview[key].status) {

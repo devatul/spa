@@ -30,12 +30,12 @@ module.exports = React.createClass({
       return {
         ticket: '',
       };
-    } 
+    }
 
     return {
       ticket: NinjaStore.getViewTicket()
     };
-   
+
   },
 
   componentDidMount: function () {
@@ -49,7 +49,7 @@ module.exports = React.createClass({
     } else {
       getTicket(NinjaStore.getViewTicket().ticket);
     }
-    
+
     SessionStore.addChangeListener(this._onChange);
     NinjaStore.addChangeListener(this._onChange);
   },
@@ -73,8 +73,8 @@ module.exports = React.createClass({
     var id = this.state.ticket.ticket;
     var ticketReply = this.refs.content.getDOMNode().value;
 
-    this.refs.content.getDOMNode().value = '';    
-    
+    this.refs.content.getDOMNode().value = '';
+
     ReplyTicketAction(id, ticketReply);
   },
 
@@ -122,10 +122,10 @@ module.exports = React.createClass({
       }
 
       var allReplies = [];
-      
+
       for (var key in replies) {
         allReplies.push(<Reply reply={replies[key]}/>);
-      } 
+      }
     }
 
     var priority = '';
@@ -133,13 +133,13 @@ module.exports = React.createClass({
 
       switch (this.state.ticket.priority) {
         case 'low' :
-          priority = (<p><span className="sprites priority-1"></span> Low</p>);
+          priority = (<p><span className="icon nb-level-low icon-state green-text"></span> Low</p>);
         break;
         case 'medium' :
-          priority = (<p><span className="sprites priority-2"></span> Medium</p>);
+          priority = (<p><span className="icon nb-level-medium icon-state yellow-text"></span> Medium</p>);
         break;
         case 'high' :
-          priority = (<p><span className="sprites priority-3"></span> High</p>);
+          priority = (<p><span className="icon nb-level-high icon-state red-text"></span> High</p>);
         break;
         default :
           priority = '';
@@ -174,7 +174,7 @@ module.exports = React.createClass({
 
       var from = Moment(this.state.ticket.created_at).format('lll');
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -207,7 +207,7 @@ module.exports = React.createClass({
           <div className="ticket-footer">
             <div className="col-md-6">
               <div className="ticket-date">
-                <i className="icon nb-calendar small"></i> {from}
+                <i className="icon nb-date-time small"></i> {from}
               </div>
               <div className="ticket-user-info">
                 <i className="icon nb-user small"></i> <strong>{username}</strong> | Service Request

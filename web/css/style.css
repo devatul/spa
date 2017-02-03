@@ -875,7 +875,7 @@ ol.rounded-list {
 .status-container {
   position: relative;
   width: 28px;
-  height: 22px;
+  height: auto;
   margin: auto;
 }
 .os i {
@@ -897,7 +897,7 @@ ol.rounded-list {
   height: 15px;
   border-radius: 50%;
   position: absolute;
-  bottom: 0%;
+  bottom: 38%;
   left: 65%;
   background-color: white;
   border: 1px solid #f2f2f2;
@@ -1100,6 +1100,8 @@ ol.rounded-list {
   line-height: 1;
   vertical-align: middle;
   text-align: center;
+  position: relative;
+  bottom: -6px;
 }
 .large {
   font-size: 8rem !important;
@@ -1188,6 +1190,7 @@ td {
 }
 td.icons {
   text-align: center;
+  padding-left: 0;
 }
 th {
   text-align: center;
