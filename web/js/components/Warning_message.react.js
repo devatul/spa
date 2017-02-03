@@ -24,8 +24,10 @@ var Warning = React.createClass({
     var buttonClass;
     var confirmButtons;
     var action;
+    var actionType;
     switch (this.props.type) {
       case 'start':
+        actionType = 'action-instance';
         if ('running' == this.props.status) {
           buttonClass = 'icon nb-start action-icon disabled';
           action = (<span className={buttonClass}></span>);
@@ -48,6 +50,7 @@ var Warning = React.createClass({
         }
       break;
       case 'stop':
+        actionType = 'action-instance';
         if ('stopped' == this.props.status) {
           buttonClass = 'icon nb-stop action-icon disabled';
           action = (<span className={buttonClass}></span>);
@@ -70,6 +73,7 @@ var Warning = React.createClass({
         }
       break;
       case 'restart':
+        actionType = 'action-instance';
         if ('unavailable' == this.props.status) {
           buttonClass = 'icon nb-restart action-icon disabled';
           action = (<span className={buttonClass}></span>);
@@ -88,10 +92,60 @@ var Warning = React.createClass({
           action = (<span className={buttonClass} onClick={this.open}></span>);
         }
       break;
+      case 'support':
+        actionType = 'action-support';
+        if ('pending-acceptation' == this.props.status) {
+          action = (<span className='action-button nubity-grey no-button'>Pending start</span>);
+        } else if ('' == this.props.status) {
+          warn = (
+            <span><i className="icon nb-ninja-support yellow-text large"></i> Start Ninja Support</span>
+          );
+          notice = (
+            <span>
+              You are activating management services for device {this.props.device}.<br/>
+              The server takeover process may take from 4 to 6 hours depending on the server complexity.<br/>
+              This action will create a charge in the user's account:<br/>
+              Setup price: USD 35.00 (unique for each activation).<br/>
+              Monthly price: USD 4.34 (billed per 31 days).<br/>
+              Hourly price: USD 0.14<br/>
+              By clicking the button "I Accept" you agree the <a>Nubity's Terms and Conditions & Privacy Policy</a>.
+            </span>
+          );
+          confirmButtons = (
+            <div className="pull-right">
+              <span className="action-button nubity-blue" onClick={this.close}>Close</span>
+              <span className="action-button nubity-green" onClick={this.props.clickAction}>I Accept</span>
+            </div>
+          );
+          action = (<span className='action-button nubity-green' onClick={this.open}>Start</span>);
+        } else if ('accepted' == this.props.status) {
+          warn = (
+            <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
+          );
+          notice = (
+            <span>
+              Stopping the management services will be effective in billing as well as technical at the end of the 
+              current billing cicle. In any moment during this period, you can dismiss the stop and the service will 
+              continue normally.
+            </span>
+          );
+          confirmButtons = (
+            <div className="pull-right">
+              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
+              <span className="action-button nubity-red" onClick={this.close}>OK</span>
+            </div>
+          );
+          action = (<span className='action-button nubity-red' onClick={this.open}>Stop</span>);
+        } else if ('pending-cancellation' == this.props.status) {
+          action = (<span className='action-button nubity-blue'>Dismiss stop</span>);
+        } else {
+          action = (<span className='action-button nubity-blue no-button'>Management</span>);
+        }
+      break;
     }
 
     return (
-      <div className="action-instance">
+      <div className={actionType}>
         {action}
         <Modal show={this.state.showModal} onHide={this.close} bsSize="small">
           <Modal.Body>

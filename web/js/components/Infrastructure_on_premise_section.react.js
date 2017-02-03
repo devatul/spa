@@ -193,6 +193,28 @@ module.exports = React.createClass({
         management = (<span className="action-button nubity-blue no-button">management</span>);
       }
 
+      if ('pending-acceptation' == managementStatus) {
+        management = (
+          <Warning type="support" status={managementStatus} />
+        );
+      } else if ('' == managementStatus) {
+        management = (
+          <Warning type="support" status={managementStatus} clickAction={this._managed.bind(this, onPremise[key])} device={onPremise[key].hostname} />
+        );
+      } else if ('accepted' == managementStatus) {
+        management = (
+          <Warning type="support" status={managementStatus} clickAction={this._stopOrder.bind(this, managementCode)} />
+        );
+      } else if ('pending-cancellation' == managementStatus) {
+        management = (
+          <Warning type="support" status={managementStatus} clickAction={this._deleteOrderCancelation.bind(this, managementCode)} />
+        );
+      } else {
+        management = (
+          <Warning type="support" />
+        );
+      }
+
       var level = '';
       if ('critical' == onPremise[key].health) {
         level = 'icon nb-critical icon-state red-text';

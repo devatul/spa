@@ -214,15 +214,25 @@ module.exports = React.createClass({
         }
 
         if ('pending-acceptation' == managementStatus) {
-          management = (<span className="action-button nubity-grey no-button">Start</span>);
+          management = (
+            <Warning type="support" status={managementStatus} />
+          );
         } else if ('' == managementStatus) {
-          management = (<span className="action-button nubity-green" onClick={this._managed.bind(this, overview[key])}>Start</span>);
+          management = (
+            <Warning type="support" status={managementStatus} clickAction={this._managed.bind(this, overview[key])} device={overview[key].hostname} />
+          );
         } else if ('accepted' == managementStatus) {
-          management = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, managementCode)}>Stop</span>);
+          management = (
+            <Warning type="support" status={managementStatus} clickAction={this._stopOrder.bind(this, managementCode)} />
+          );
         } else if ('pending-cancellation' == managementStatus) {
-          management = (<span className="action-button nubity-blue" onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
+          management = (
+            <Warning type="support" status={managementStatus} clickAction={this._deleteOrderCancelation.bind(this, managementCode)} />
+          );
         } else {
-          management = (<span className="action-button nubity-blue no-button">management</span>);
+          management = (
+            <Warning type="support" />
+          );
         }
 
         var level = '';
@@ -281,7 +291,7 @@ module.exports = React.createClass({
           <tr>
             <th className="column-icon">State</th>
             <th>Description</th>
-            <th className="hidden-xs">Connection name</th>
+            <th className="hidden-xs">Integration</th>
             <th className="column-button hidden-xs hidden-sm">Actions</th>
             <th className="hidden-xs hidden-sm">Memory</th>
             <th className="column-icon">Health</th>

@@ -43,7 +43,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">Manage and monitor your infrastructure :P</h2>
+          <h2 className="align-center">Manage and monitor your infrastructure</h2>
         </div>
         <div>
           <ul className="nav nav-tabs section-tabs">

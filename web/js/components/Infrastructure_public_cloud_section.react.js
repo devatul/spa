@@ -193,15 +193,25 @@ module.exports = React.createClass({
       }
 
       if ('pending-acceptation' == managementStatus) {
-        management = (<span className="action-button nubity-grey no-button">Start</span>);
+        management = (
+          <Warning type="support" status={managementStatus} />
+        );
       } else if ('' == managementStatus) {
-        management = (<span className="action-button nubity-green" onClick={this._managed.bind(this, publicCloud[key])}>Start</span>);
+        management = (
+          <Warning type="support" status={managementStatus} clickAction={this._managed.bind(this, publicCloud[key])} device={publicCloud[key].hostname} />
+        );
       } else if ('accepted' == managementStatus) {
-        management = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, managementCode)}>Stop</span>);
+        management = (
+          <Warning type="support" status={managementStatus} clickAction={this._stopOrder.bind(this, managementCode)} />
+        );
       } else if ('pending-cancellation' == managementStatus) {
-        management = (<span className="action-button nubity-blue" onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
+        management = (
+          <Warning type="support" status={managementStatus} clickAction={this._deleteOrderCancelation.bind(this, managementCode)} />
+        );
       } else {
-        management = (<span className="action-button nubity-blue no-button">management</span>);
+        management = (
+          <Warning type="support" />
+        );
       }
 
       rows.push(
