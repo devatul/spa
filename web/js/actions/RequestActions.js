@@ -181,6 +181,6 @@ module.exports = {
   },
 
   submitCloudData: function (cloudData) {
-    NubityAPIUtils.submitCloudData(cloudData);
+    return NubityAPIUtils.submitCloudData(cloudData);
   },
 }
