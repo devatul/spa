@@ -150,7 +150,7 @@ module.exports = React.createClass({
             <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
             <OverlayTrigger placement="top" overlay={tooltip}>
               <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
-                <i className="fa fa-volume-off grey-text"></i>
+                <i className="icon nb-mute-on grey-text small"></i>
               </span>
             </OverlayTrigger>
           </td>
@@ -163,7 +163,7 @@ module.exports = React.createClass({
             <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, alerts[key].id)}>Mute notifications</span>
             <OverlayTrigger placement="top" overlay={tooltip}>
               <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._acknowledge.bind(this, alerts[key].id)}>
-                <i className="fa fa-volume-off white-text"></i>
+                <i className="icon nb-mute-off white-text small"></i>
               </span>
             </OverlayTrigger>
           </td>
@@ -239,7 +239,7 @@ module.exports = React.createClass({
             <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
             <OverlayTrigger placement="top" overlay={htooltip}>
               <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
-                <i className="fa fa-volume-off grey-text"></i>
+                <i className="icon nb-mute-on grey-text small"></i>
               </span>
             </OverlayTrigger>
           </td>
@@ -252,7 +252,7 @@ module.exports = React.createClass({
             <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Mute notifications</span>
             <OverlayTrigger placement="top" overlay={htooltip}>
               <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>
-                <i className="fa fa-volume-off white-text"></i>
+                <i className="icon nb-mute-off small white-text"></i>
               </span>
             </OverlayTrigger>
           </td>

@@ -185,7 +185,7 @@ module.exports = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-user" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </div>
                 <input type="text" className="form-control no-shadow" id="privateUser" placeholder="First Name" value={firstname} readOnly/>
               </div>
@@ -193,7 +193,7 @@ module.exports = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-user" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </div>
                 <input type="text" className="form-control no-shadow" id="privatePassword" placeholder="Last Name" value={lastname} readOnly/>
               </div>
@@ -201,7 +201,7 @@ module.exports = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-server" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-servers small" aria-hidden="true"></i>
                 </div>
                 <input type="email" className="form-control no-shadow" id="integrationName" placeholder="Email" value={email} readOnly/>
               </div>
@@ -209,7 +209,7 @@ module.exports = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-lock" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-lock small" aria-hidden="true"></i>
                 </div>
                 <input type="password" className="form-control no-shadow" id="privateNubityName" placeholder="Password" readOnly/>
               </div>
@@ -219,7 +219,7 @@ module.exports = React.createClass({
             <div className="form-group hidden">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-skype" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-skype small" aria-hidden="true"></i>
                 </div>
                 <input type="text" className="form-control no-shadow" id="skype" placeholder="Skype"/>
               </div>
@@ -227,7 +227,7 @@ module.exports = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-language" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-language small" aria-hidden="true"></i>
                 </div>
                 <select className="form-control no-shadow" id="language" readOnly>
                   <option>{language}</option>
@@ -237,7 +237,7 @@ module.exports = React.createClass({
             <div className="form-group hidden">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-clock-o" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-time small" aria-hidden="true"></i>
                 </div>
                 <input type="text" className="form-control no-shadow" id="timeZone" placeholder="Time Zone"/>
               </div>
@@ -245,14 +245,14 @@ module.exports = React.createClass({
             <div className="form-group hidden">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="input-icon fa fa-user" aria-hidden="true"></i>
+                  <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </div>
                 <input type="text" className="form-control no-shadow" id="contactType" placeholder="Contact Type"/>
               </div>
             </div>
           </div>
           <div className="col-sm-12 light-grey-background">
-            <h3><i className="input-icon fa fa-bell" aria-hidden="true"></i><span className="padding-left">Alert level notification</span></h3>
+            <h3><i className="medium icon nb-notification" aria-hidden="true"></i><span className="padding-left">Alert level notification</span></h3>
           </div>
             {alertCheck}
           <div className="col-sm-12">

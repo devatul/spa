@@ -77,6 +77,7 @@ module.exports = React.createClass({
         var department_name = '';
         var priority = '';
         var tooltip = '';
+        var priorityTooltip = '';
 
         if ('open' == ticket[key].status) {
           status = 'icon nb-ticket icon-state blue-text';
@@ -94,15 +95,18 @@ module.exports = React.createClass({
           department_name = 'Sales';
         } else {
           department_icon = 'icon nb-ninja-support icon-state';
-          department_name = 'Ninja Support';
+          department_name = 'Support';
         }
 
         if ('low' == ticket[key].priority) {
-          priority = 'sprites priority-1';
+          priority = 'icon nb-level-low green-text icon-state';
+          priorityTooltip = (<Tooltip id="tooltip">Low</Tooltip>);
         } else if ('medium' == ticket[key].priority) {
-          priority = 'sprites priority-2';
+          priority = 'icon nb-level-medium yellow-text icon-state';
+          priorityTooltip = (<Tooltip id="tooltip">Medium</Tooltip>);
         } else {
-          priority = 'sprites priority-3';
+          priority = 'icon nb-level-high red-text icon-state';
+          priorityTooltip = (<Tooltip id="tooltip">High</Tooltip>);
         }
         rows.push(
           <tr key={key}>
@@ -113,8 +117,10 @@ module.exports = React.createClass({
             </td>
             <td className="ticket-id-name" title="View ticket" onClick={this._viewTicket.bind(this, ticket[key])}>{ticket[key].name}</td>
             <td>{ticket[key].subject}</td>
-            <td>
-              <span className={priority}></span>
+            <td className="icons">
+              <OverlayTrigger placement="top" overlay={priorityTooltip}>
+                <span className={priority}></span>
+              </OverlayTrigger>
             </td>
             <td className="hidden-xs">
               <i className={department_icon} aria-hidden="true"></i>  {department_name}
