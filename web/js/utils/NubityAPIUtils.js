@@ -1006,6 +1006,30 @@ module.exports = {
     }.bind(this));
   },
 
+  submitCloudData: function (cloudData) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+    var _SELF = this;
+
+    return new Promise( function ( resolve, reject ) {
+      request
+      .post('/company/'+company+'/cloud.json')
+      .type('form')
+      .set('Authorization', token)
+      .send(cloudData)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        _SELF.validateToken(res).then(function (status) {
+          if (!status) {
+            _SELF.submitCloudData(cloudData);
+          } else {
+            resolve();
+          }
+        }.bind(_SELF));
+      }.bind(_SELF));
+    });
+  },
+
   getInstanceForMonitoring: function (id) {
     var token   = this.getToken();
     var company = localStorage.getItem('nubity-company');

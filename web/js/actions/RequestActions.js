@@ -167,16 +167,20 @@ module.exports = {
   configureTemplate: function (id, macros, templateId) {
     NubityAPIUtils.configureTemplate(id, macros, templateId);
   },
-  
+
   getCustomDashboards: function () {
-    NubityAPIUtils.getCustomDashboards(); 
+    NubityAPIUtils.getCustomDashboards();
   },
 
   createCustomDashboard: function (title, icon) {
-    NubityAPIUtils.createCustomDashboard(title, icon); 
+    NubityAPIUtils.createCustomDashboard(title, icon);
   },
 
   getCustomSlots: function (dashboardId) {
-    NubityAPIUtils.getCustomSlots(dashboardId); 
+    NubityAPIUtils.getCustomSlots(dashboardId);
+  },
+
+  submitCloudData: function (cloudData) {
+    NubityAPIUtils.submitCloudData(cloudData);
   },
 };
