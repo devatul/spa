@@ -2,6 +2,7 @@ var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
+var submitCloudData            = require('../actions/RequestActions').submitCloudData;
 var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
 var _                          = require('lodash');
@@ -9,7 +10,7 @@ var _                          = require('lodash');
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      credentialType: false,
+      activeProvider: false,
     };
   },
 
@@ -64,18 +65,49 @@ module.exports = React.createClass({
     $('#onPremiseCancelButton').addClass('hidden');
     $('#onPremiseAddButton').removeClass('hidden');
     this.setState({
-      credentialType: false,
+      activeProvider: false,
+    });
+  },
+
+  submitData: function () {
+    var providerId = this.state.activeProvider.provider;
+    var integrationName = $("input[name='onPremiseIntegrationName']").prop("value") || null;
+    var apiKey = $("input[name='onPremiseApiKey']").prop("value") || null;
+    var endpoint = $("input[name='onPremiseEndpoint']").prop("value") || null;
+    var apiSecret = $("input[name='onPremiseApiSecret']").prop("value") || null;
+    var certificate = $("#onPremiseCertificate").prop("files");
+    var company = localStorage.getItem('nubity-company') || null;
+    certificate = certificate && certificate[0] || null;
+
+    var cloudData = new FormData();
+
+    cloudData.append('name', integrationName);
+    cloudData.append('api_key', apiKey);
+    cloudData.append('endpoint', endpoint);
+    cloudData.append('api_secret', apiSecret);
+    cloudData.append('certificate', certificate);
+    cloudData.append('provider_id', providerId);
+    cloudData.append('company_id', company);
+
+    submitCloudData(cloudData).then(function(){
+      $("input[name='onPremiseIntegrationName']").val('');
+      $("input[name='onPremiseApiKey']").val('');
+      $("input[name='onPremiseEndpoint']").val('');
+      $("input[name='onPremiseApiSecret']").val('');
+      $("#onPremiseCertificate").val('');
+      $(".image-preview-input-title").text("Upload Certificate");
+      $(".image-preview-filename").text('').addClass('hidden');
     });
   },
 
   getCloudInputField: function () {
-    var credetials = this.state.credentialType;
+    var credetials = this.state.activeProvider && this.state.activeProvider.requirements;
     var input = [];
     input.push(
       <div className="form-group">
         <div className="input-group">
           <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
-          <input type="text" className="form-control" placeholder="Integration Name"/>
+          <input type="text" className="form-control" name="onPremiseIntegrationName" placeholder="Integration Name"/>
         </div>
       </div>
     );
@@ -84,7 +116,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" placeholder="API Key"/>
+            <input type="text" className="form-control" name="onPremiseApiKey" placeholder="API Key"/>
           </div>
         </div>
       );
@@ -94,7 +126,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" placeholder="Access Key ID"/>
+            <input type="text" className="form-control" name="onPremiseEndpoint" placeholder="Access Key ID"/>
           </div>
         </div>
       );
@@ -104,7 +136,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" placeholder="Secret Access Key"/>
+            <input type="text" className="form-control" name="onPremiseApiSecret" placeholder="Secret Access Key"/>
           </div>
         </div>
       );
@@ -113,14 +145,14 @@ module.exports = React.createClass({
   },
 
   exploreOnPremiseStep2: function (provider, id) {
-    $('.clouds-icons-button').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
-    $("#"+id+'.clouds-icons-button').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
-    var credetials = this.state.credentialType;
+    $('.onPremise-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
+    $("#"+id+'.onPremise-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
+    var credetials = this.state.activeProvider;
     if (!credetials) {
       this.revealSecondStepOfPrivateCloud();
     }
     this.setState({
-      credentialType: provider.requirements,
+      activeProvider: provider,
     });
   },
 
@@ -131,21 +163,21 @@ module.exports = React.createClass({
     _.map(providers, function (provider, i) {
       if (null != provider.logo) {
         rows.push(
-          <div id={"prePro_"+i} className="col-md-2 clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider, "prePro_"+i)}}>
+          <div id={"prePro_"+i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider, "prePro_"+i)}}>
             <img src={provider.logo.public_path} ></img>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       } else {
         rows.push(
-          <div id={"prePro_"+i} className="col-md-2 clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider, "prePro_"+i)}}>
+          <div id={"prePro_"+i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider, "prePro_"+i)}}>
             <div className="clouds-icons aws"></div>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       }
     });
-    var certificate = this.state.credentialType.certificate;
+    var certificate = this.state.activeProvider && this.state.activeProvider.requirements.certificate;
     return (
       <div>
         <button className="transparent-button" onClick={this.revealFirstStepOfPrivateCloud} id="onPremiseAddButton">
@@ -189,12 +221,12 @@ module.exports = React.createClass({
                     <div className="btn btn-default image-preview-input">
                         <span className="glyphicon glyphicon-folder-open"></span>
                         <span className="image-preview-input-title">Upload Certificate</span>
-                        <input type="file" name="input-file-preview"/>
+                        <input type="file" name="certificate" id="onPremiseCertificate"/>
                     </div>
                   </span>
                   <span className="form-control image-preview-filename hidden"></span>
               </div>:""}
-              <button type="button" className="btn btn-success pull-right public-cloud-button">Save</button>
+              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF.submitData()}} >Save</button>
               <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
             </div>
           </form>

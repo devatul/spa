@@ -5,7 +5,6 @@ var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
 var submitCloudData            = require('../actions/RequestActions').submitCloudData;
 var _                          = require('lodash');
-//var FormData                   = require('form-data');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -19,7 +18,6 @@ module.exports = React.createClass({
         var file = this.files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
-          console.log('componentDidMount',reader);
             $(".image-preview-input-title").text("Change Certificate");
             $(".image-preview-filename").text(file.name).removeClass('hidden');
         }
@@ -71,22 +69,33 @@ module.exports = React.createClass({
   },
   submitData: function () {
     var providerId = this.state.activeProvider.provider;
-    var integrationName = this.refs.integrationName.value || null;
-    var apiKey = this.refs.apiKey && this.refs.apiKey.value || null;
-    var endpoint = this.refs.endpoint && this.refs.endpoint.value || null;
-    var apiSecret = this.refs.apiSecret && this.refs.apiSecret.value || null;
-    var certificate = $("#certificate").prop("files");
-    //var reader1 = new FileReader();
+    var integrationName = $("input[name='publicIntegrationName']").prop("value") || null;
+    var apiKey = $("input[name='publicApiKey']").prop("value") || null;
+    var endpoint = $("input[name='publicEndpoint']").prop("value") || null;
+    var apiSecret = $("input[name='publicApiSecret']").prop("value") || null;
+    var certificate = $("#publicCertificate").prop("files");
+    var company = localStorage.getItem('nubity-company') || null;
+    certificate = certificate && certificate[0] || null;
+
     var cloudData = new FormData();
 
     cloudData.append('name', integrationName);
     cloudData.append('api_key', apiKey);
     cloudData.append('endpoint', endpoint);
     cloudData.append('api_secret', apiSecret);
-    cloudData.append('certificate', certificate[0]);
+    cloudData.append('certificate', certificate);
     cloudData.append('provider_id', providerId);
+    cloudData.append('company_id', company);
 
-    submitCloudData(cloudData);
+    submitCloudData(cloudData).then(function(){
+      $("input[name='publicIntegrationName']").val('');
+      $("input[name='publicApiKey']").val('');
+      $("input[name='publicEndpoint']").val('');
+      $("input[name='publicApiSecret']").val('');
+      $("#certificate").val('');
+      $(".image-preview-input-title").text("Upload Certificate");
+      $(".image-preview-filename").text('').addClass('hidden');
+    });
   },
 
   getCloudInputField: function () {
@@ -96,7 +105,7 @@ module.exports = React.createClass({
       <div className="form-group">
         <div className="input-group">
           <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
-          <input type="text" className="form-control" ref="integrationName" placeholder="Integration Name"/>
+          <input type="text" className="form-control" name="publicIntegrationName" placeholder="Integration Name"/>
         </div>
       </div>
     );
@@ -105,7 +114,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" ref="apiKey" placeholder="API Key"/>
+            <input type="text" className="form-control" name="publicApiKey" placeholder="API Key"/>
           </div>
         </div>
       );
@@ -115,7 +124,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" ref="endpoint" placeholder="Access Key ID"/>
+            <input type="text" className="form-control" name="publicEndpoint" placeholder="Access Key ID"/>
           </div>
         </div>
       );
@@ -125,7 +134,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" ref="apiSecret" placeholder="Secret Access Key"/>
+            <input type="text" className="form-control" name="publicApiSecret" placeholder="Secret Access Key"/>
           </div>
         </div>
       );
@@ -134,8 +143,8 @@ module.exports = React.createClass({
   },
 
   explore2step: function (provider, id) {
-    $('.clouds-icons-button').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
-    $("#"+id+'.clouds-icons-button').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
+    $('.public-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
+    $("#"+id+'.public-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
     var credetials = this.state.activeProvider;
     if (!credetials) {
       this.revealSecondStep();
@@ -152,14 +161,14 @@ module.exports = React.createClass({
     _.map(providers, function (provider, i) {
       if (null != provider.logo) {
         rows.push(
-          <div id={"pubPro_"+i} className="col-md-2 clouds-icons-button" onClick={function () {_SELF.explore2step(provider, "pubPro_"+i)}}>
+          <div id={"pubPro_"+i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () {_SELF.explore2step(provider, "pubPro_"+i)}}>
             <img src={provider.logo.public_path} ></img>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       } else {
         rows.push(
-          <div  id={"pubPro_"+i} className="clouds-icons-button" onClick={function () {_SELF.explore2step(provider, "pubPro_"+i)}}>
+          <div  id={"pubPro_"+i} className="public-cloud-provider clouds-icons-button" onClick={function () {_SELF.explore2step(provider, "pubPro_"+i)}}>
             <div className="clouds-icons aws"></div>
             <p className="aws-text">{provider.name}</p>
           </div>
@@ -210,7 +219,7 @@ module.exports = React.createClass({
                     <div className="btn btn-default image-preview-input">
                         <span className="glyphicon glyphicon-folder-open"></span>
                         <span className="image-preview-input-title">Upload Certificate</span>
-                        <input type="file" name="certificate" id="certificate" />
+                        <input type="file" name="certificate" id="publicCertificate" />
                     </div>
                   </span>
                   <span className="form-control image-preview-filename hidden"></span>
