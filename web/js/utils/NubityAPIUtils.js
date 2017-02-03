@@ -1042,7 +1042,7 @@ module.exports = {
       }.bind(this));
     },
 
-    submitCloudData: function (cloudData) {
+  submitCloudData: function (cloudData) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var _SELF = this;
