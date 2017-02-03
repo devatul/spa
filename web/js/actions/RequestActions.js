@@ -167,4 +167,8 @@ module.exports = {
   configureTemplate: function (id, macros, templateId) {
     NubityAPIUtils.configureTemplate(id, macros, templateId);
   },
+
+  submitCloudData: function (cloudData) {
+    NubityAPIUtils.submitCloudData(cloudData);
+  },
 };
