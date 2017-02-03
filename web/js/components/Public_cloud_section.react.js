@@ -5,12 +5,14 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
+var submitCloudData            = require('../actions/RequestActions').submitCloudData;
 var _                          = require('lodash');
+//var FormData                   = require('form-data');
 
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      credentialType: false,
+      activeProvider: false,
     };
   },
 
@@ -19,6 +21,7 @@ module.exports = React.createClass({
         var file = this.files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
+          console.log('componentDidMount',reader);
             $(".image-preview-input-title").text("Change Certificate");
             $(".image-preview-filename").text(file.name).removeClass('hidden');
         }
@@ -110,18 +113,37 @@ module.exports = React.createClass({
     $('#cancelButton').addClass('hidden');
     $('#addButton').removeClass('hidden');
     this.setState({
-      credentialType: false,
+      activeProvider: false,
     });
+  },
+  submitData: function () {
+    var providerId = this.state.activeProvider.provider;
+    var integrationName = this.refs.integrationName.value || null;
+    var apiKey = this.refs.apiKey && this.refs.apiKey.value || null;
+    var endpoint = this.refs.endpoint && this.refs.endpoint.value || null;
+    var apiSecret = this.refs.apiSecret && this.refs.apiSecret.value || null;
+    var certificate = $("#certificate").prop("files");
+    //var reader1 = new FileReader();
+    var cloudData = new FormData();
+
+    cloudData.append('name', integrationName);
+    cloudData.append('api_key', apiKey);
+    cloudData.append('endpoint', endpoint);
+    cloudData.append('api_secret', apiSecret);
+    cloudData.append('certificate', certificate[0]);
+    cloudData.append('provider_id', providerId);
+
+    submitCloudData(cloudData);
   },
 
   getCloudInputField: function () {
-    var credetials = this.state.credentialType;
+    var credetials = this.state.activeProvider && this.state.activeProvider.requirements;
     var input = [];
     input.push(
       <div className="form-group">
         <div className="input-group">
           <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
-          <input type="text" className="form-control" placeholder="Integration Name"/>
+          <input type="text" className="form-control" ref="integrationName" placeholder="Integration Name"/>
         </div>
       </div>
     );
@@ -130,7 +152,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" placeholder="API Key"/>
+            <input type="text" className="form-control" ref="apiKey" placeholder="API Key"/>
           </div>
         </div>
       );
@@ -140,7 +162,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" placeholder="Access Key ID"/>
+            <input type="text" className="form-control" ref="endpoint" placeholder="Access Key ID"/>
           </div>
         </div>
       );
@@ -150,7 +172,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" placeholder="Secret Access Key"/>
+            <input type="text" className="form-control" ref="apiSecret" placeholder="Secret Access Key"/>
           </div>
         </div>
       );
@@ -161,12 +183,12 @@ module.exports = React.createClass({
   explore2step: function (provider, id) {
     $('.clouds-icons-button').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
     $("#"+id+'.clouds-icons-button').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
-    var credetials = this.state.credentialType;
+    var credetials = this.state.activeProvider;
     if (!credetials) {
       this.revealSecondStep();
     }
     this.setState({
-      credentialType: provider.requirements,
+      activeProvider: provider,
     });
   },
 
@@ -192,7 +214,7 @@ module.exports = React.createClass({
       }
     });
 
-    var certificate = this.state.credentialType.certificate;
+    var certificate = this.state.activeProvider && this.state.activeProvider.requirements.certificate;
     return (
       <div>
         <button className="transparent-button" onClick={this._revealFirstStep} id="addButton">
@@ -227,7 +249,7 @@ module.exports = React.createClass({
           <span>Complete your cloud information</span>
         </div>
         <div className="row hidden" id="onBoarding2StepContent">
-          <form action="http://api.pricing.nubity.com/doc#post--company-{company_id}-cloud.{_format}" className="public-cloud-form col-lg-offset-1 col-lg-5">
+          <form className="public-cloud-form col-lg-offset-1 col-lg-5" method="post" encType="multipart/form-data">
             <div style={{paddingTop: '10px'}}>
               {this.getCloudInputField()}
               { certificate ?
@@ -236,12 +258,12 @@ module.exports = React.createClass({
                     <div className="btn btn-default image-preview-input">
                         <span className="glyphicon glyphicon-folder-open"></span>
                         <span className="image-preview-input-title">Upload Certificate</span>
-                        <input type="file" name="input-file-preview"/>
+                        <input type="file" name="certificate" id="certificate" />
                     </div>
                   </span>
                   <span className="form-control image-preview-filename hidden"></span>
-              </div>:""}
-              <button type="button" className="btn btn-success pull-right public-cloud-button">Save</button>
+                </div>:""}
+              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF.submitData()}}>Save</button>
               <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
             </div>
           </form>

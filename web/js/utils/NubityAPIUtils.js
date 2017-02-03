@@ -1019,7 +1019,30 @@ module.exports = {
     }.bind(this));
   },
 
-  submitCloudData: function (cloudData) {
+    getInstanceForMonitoring: function (id) {
+      var token   = this.getToken();
+      var company = localStorage.getItem('nubity-company');
+      request
+      .get('/company/' + company + '/instance/' + id + '.json')
+      .query({include_products: true})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInstanceForMonitoring();
+          } else {
+            var url = window.location.href;
+            if (-1 != url.indexOf('monitoring')) {
+              showInstanceForMonitoring(text);
+            }
+          }
+        }.bind(this));
+      }.bind(this));
+    },
+
+    submitCloudData: function (cloudData) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
     var _SELF = this;

@@ -162,29 +162,13 @@ module.exports = {
 
   installPlugin: function (pluginId, instanceId) {
     NubityAPIUtils.installPlugin(pluginId, instanceId);
-  },
+  }
 
   configureTemplate: function (id, macros, templateId) {
     NubityAPIUtils.configureTemplate(id, macros, templateId);
   },
 
   submitCloudData: function (cloudData) {
-    return NubityAPIUtils.submitCloudData(cloudData);
-  },
-
-  getProviderCredential: function (tab, page, limit) {
-    NubityAPIUtils.getProviderCredential(tab, page, limit);
-  },
-
-  deleteProviderCredential: function (id) {
-    return NubityAPIUtils.deleteProviderCredential(id);
-  },
-
-  getCredentialDetails: function (credetialId) {
-    return NubityAPIUtils.getCredentialDetails(credetialId);
-  },
-
-  updateNewCredentials: function (credetialId, newCredential) {
-    return NubityAPIUtils.updateNewCredentials(credetialId, newCredential);
+    NubityAPIUtils.submitCloudData(cloudData);
   },
 }
