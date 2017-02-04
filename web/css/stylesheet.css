@@ -133,3 +133,38 @@ width:100%;
 .non-selected-provider-step1 {
   opacity: 0.5;
 }
+
+.add-cloud-table-container {
+  border: 1px solid #ccc;
+  padding: 1px 0px;
+  margin-top: 20px;
+}
+.add-cloud-table th, td {
+  text-align: left !important;
+  padding-left: 25px !important;
+}
+
+.add-cloud-table .column-action {
+  width: 33%;
+}
+.connection-name-container, .status-container {
+  display: inline-table;
+}
+.status-container i {
+  font-size:20pt;
+  margin-right: 10px;
+}
+
+.label-inline {
+  vertical-align: middle;
+  display: table-cell;
+}
+.connection-name-container .clouds-icons {
+  margin-right: 10px;
+}
+.add-cloud-btn-disabled {
+  background-color: #CECECE;
+}
+.add-cloud-btn-deleted {
+  background-color: #DD4A4A;
+}
