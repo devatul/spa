@@ -4,6 +4,8 @@ var SessionStore               = require('../stores/SessionStore');
 var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
 var submitCloudData            = require('../actions/RequestActions').submitCloudData;
+var Warning                    = require('./Warning_message.react');
+var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 var _                          = require('lodash');
 
 module.exports = React.createClass({
@@ -241,6 +243,86 @@ module.exports = React.createClass({
         <div>
           <i className="fa fa-cloud" aria-hidden="true"></i>
           <span>Connected Public Cloud</span>
+        </div>
+        <div className="add-cloud-table-container">
+          <table className="add-cloud-table">
+            <thead>
+            <tr>
+              <th className="">Status</th>
+              <th className="">Connection name</th>
+              <th className="">Last Sync</th>
+              <th className="column-action">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div className="status-container">
+                    <i className="fa fa-check-circle green-text" aria-hidden="true"></i>
+                    <span className="label-inline">OK</span>
+                  </div>
+                </td>
+                <td>
+                  <div className="connection-name-container">
+                    <span className="clouds-icons aws"></span>
+                    <span className="label-inline">front1</span>
+                  </div>
+                </td>
+                <td className="">
+                  <div>DD/MM/YYYY 00:00:00</div>
+                </td>
+                <td className="icons">
+                  <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
+                  <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
+                  <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted">Deleted</span></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div className="status-container">
+                    <i className="fa fa-times-circle red-text" aria-hidden="true"></i>
+                    <span className="label-inline">Fail</span>
+                  </div>
+                </td>
+                <td>
+                  <div className="connection-name-container">
+                    <span className="clouds-icons aws"></span>
+                    <span className="label-inline">front2</span>
+                  </div>
+                </td>
+                <td className="">
+                  <div>DD/MM/YYYY 00:00:00</div>
+                </td>
+                <td className="icons">
+                  <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
+                  <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
+                  <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted">Deleted</span></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div className="status-container">
+                    <i className="fa fa-ban grey-text" aria-hidden="true"></i>
+                    <span className="label-inline">Disabled</span>
+                  </div>
+                </td>
+                <td>
+                  <div className="connection-name-container">
+                    <span className="clouds-icons aws"></span>
+                    <span className="label-inline">front3</span>
+                  </div>
+                </td>
+                <td className="">
+                  <div>DD/MM/YYYY 00:00:00</div>
+                </td>
+                <td className="icons">
+                  <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
+                  <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
+                  <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted">Deleted</span></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );
