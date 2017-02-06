@@ -183,4 +183,12 @@ module.exports = {
   submitCloudData: function (cloudData) {
     return NubityAPIUtils.submitCloudData(cloudData);
   },
+
+  getProviderCredential: function (tab, page, limit) {
+    NubityAPIUtils.getProviderCredential(tab, page, limit);
+  },
+
+  deleteProviderCredential: function (tab, page, limit, id) {
+    NubityAPIUtils.deleteProviderCredential(tab, page, limit, id);
+  }
 }

@@ -196,28 +196,21 @@ module.exports = {
 };
 
   showProviderCredential: function (providerCredentials, tab) {
-    if(tab == '_PUBLIC'){
+    if(tab = '_PUBLIC'){
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PUBLIC,
         res: providerCredentials,
       });
-    } else if (tab == '_PRIVATE') {
+    } else if (tab = '_PRIVATE') {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PRIVATE,
         res: providerCredentials,
       });
-    } else if(tab == '_ONPREMISE'){
+    } else if(tab = '_ONPREMISE'){
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_ONPREMISE,
         res: providerCredentials,
       });
     }
   },
-
-  showCredentialDetails: function (credentialDetails) {
-    Dispatcher.handleServerAction({
-      actionType: ActionTypes.SHOW_CREDENTIAL_DETAILS,
-      res: credentialDetails,
-    });
-  }
 }
