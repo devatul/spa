@@ -83,7 +83,7 @@ module.exports = {
       res: onPremise,
     });
   },
-  
+
   showAlerts: function (alerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_ALERTS,
@@ -181,4 +181,23 @@ module.exports = {
       res: companyInfo,
     });
   },
-};
+
+  showProviderCredential: function (providerCredentials, tab) {
+    if(tab = '_PUBLIC'){
+      Dispatcher.handleServerAction({
+        actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PUBLIC,
+        res: providerCredentials,
+      });
+    } else if (tab = '_PRIVATE') {
+      Dispatcher.handleServerAction({
+        actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PRIVATE,
+        res: providerCredentials,
+      });
+    } else if(tab = '_ONPREMISE'){
+      Dispatcher.handleServerAction({
+        actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_ONPREMISE,
+        res: providerCredentials,
+      });
+    }
+  },
+}

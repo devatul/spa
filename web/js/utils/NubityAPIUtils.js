@@ -15,6 +15,7 @@ var showDashboards                 = require('../actions/ServerActions').showDas
 var createAlertTicket              = require('../actions/ServerActions').createAlertTicket;
 var showDashboard                  = require('../actions/ServerActions').showDashboard;
 var showProviders                  = require('../actions/ServerActions').showProviders;
+var showProviderCredential         = require('../actions/ServerActions').showProviderCredential;
 var showNinja                      = require('../actions/ServerActions').showNinja;
 var showSignupMessage              = require('../actions/ServerActions').showSignupMessage;
 var showConfirmMessage             = require('../actions/ServerActions').showConfirmMessage;
@@ -1064,6 +1065,27 @@ module.exports = {
     }.bind(this));
   },
 
+  getProviderCredential: function (tab, page, limit) {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+
+    request
+    .get('/company/'+company+'/cloud.json')
+    .query({page: page, limit: limit})
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getProviderCredential();
+        } else {
+          showProviderCredential(text, tab);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
   getInstanceConfiguration: function (id) {
     var token = this.getToken();
     request
@@ -1137,6 +1159,25 @@ module.exports = {
         }
       }.bind(this));
     }.bind(this));
+  },
+
+  deleteProviderCredential: function (tab, page, limit, id) {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+    // request
+    // .get('/company/'+company+'/cloud/'+id+'.json')
+    // .accept('application/json')
+    // .set('Authorization', token)
+    // .end(function (res) {
+    //   var text = JSON.parse(res.text);
+    //   this.validateToken(res).then(function (status) {
+    //     if (!status) {
+    //       this.deleteProviderCredential(id);
+    //     } else {
+    //       getProviderCredential(tab, page, limit);
+    //     }
+    //   }.bind(this));
+    // }.bind(this));
   },
 
   hasToRefresh: function () {
