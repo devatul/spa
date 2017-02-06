@@ -2,22 +2,30 @@ var React                      = require('react');
 var Router                     = require('../router');
 var OnBoardingStore            = require('../stores/OnBoardingStore');
 var redirect                   = require('../actions/RouteActions').redirect;
-var SessionStore               = require('../stores/SessionStore');
-var PublicCloudSection         = require('./Public_cloud_section.react');
-var PrivateCloudSection        = require('./Private_cloud_section.react');
 var submitCloudData            = require('../actions/RequestActions').submitCloudData;
-var Warning                    = require('./Warning_message.react');
-var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
+var getProviderCredential      = require('../actions/RequestActions').getProviderCredential;
+var deleteProviderCredential   = require('../actions/RequestActions').deleteProviderCredential;
 var _                          = require('lodash');
+var moment                     = require('moment');
 
 module.exports = React.createClass({
   getInitialState: function () {
+    var connectedPublicCloud = OnBoardingStore.getProviderCredentialPublic();
     return {
+      tableData: [
+        {status: 'Success', name: 'front1', lastSync: "02/02/2016"},
+        {status: 'Failed', name: 'front2', lastSync: "02/02/2017"},
+        {status: 'Disabled', name: 'front3', lastSync: "02/02/2018"},
+      ],
+      connectedPublicCloud: connectedPublicCloud,
       activeProvider: false,
+      page: 1,
     };
   },
 
   componentDidMount: function () {
+    OnBoardingStore.addChangeListener(this._onChange);
+    getProviderCredential('_PUBLIC', this.state.page, 5);
     $(".image-preview-input input:file").change(function () {
         var file = this.files[0];
         var reader = new FileReader();
@@ -25,13 +33,25 @@ module.exports = React.createClass({
             $(".image-preview-input-title").text("Change Certificate");
             $(".image-preview-filename").text(file.name).removeClass('hidden');
         }
-        reader.readAsDataURL(file);
     });
+  },
+
+  componentWillUnmount: function () {
+    OnBoardingStore.removeChangeListener(this._onChange);
   },
 
   componentWillReceiveProps: function (props) {
     var width = props.providers.length*150 || 600;
     $("#publicCloudProvidersList").css({width: width+"px"});
+  },
+
+  _onChange: function () {
+    if (this.isMounted()) {
+      var publicCloud = OnBoardingStore.getProviderCredentialPublic();
+      this.setState({
+        connectedPublicCloud: publicCloud.member,
+      });
+    }
   },
 
   scroll: function (arrow) {
@@ -225,6 +245,46 @@ module.exports = React.createClass({
       }
     });
 
+    //---------------connection  table row----------------
+    var connectionTableRow = [];
+    _.map(this.state.tableData, function (data, i) {
+      var statusClass = "fa fa-check-circle green-text";
+      var statusLable = "OK";
+
+      if (data.status == "Failed") {
+        statusClass = "fa fa-times-circle red-text";
+        statusLable = "Fail";
+      } else if (data.status == "Disabled") {
+        statusClass = "fa fa-ban grey-text";
+        statusLable = "Disabled";
+      }
+
+      connectionTableRow.push(
+        <tr>
+         <td>
+           <div className="status-container">
+             <i className={statusClass} aria-hidden="true"></i>
+             <span className="label-inline">{statusLable}</span>
+           </div>
+         </td>
+         <td>
+           <div className="connection-name-container">
+             <span className="clouds-icons aws"></span>
+             <span className="label-inline">{data.name}</span>
+           </div>
+         </td>
+         <td className="">
+           <div>{moment(new Date(data.lastSync)).format("MM/DD/YYYY hh:mm:ss")}</div>
+         </td>
+         <td className="icons">
+           <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential('_PUBLIC', _SELF.state.page, limit=5, id=i)}}>Deleted</span></div>
+         </td>
+       </tr>
+      );
+    });
+
     var certificate = this.state.activeProvider && this.state.activeProvider.requirements.certificate;
     return (
       <div>
@@ -303,72 +363,7 @@ module.exports = React.createClass({
             </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <div className="status-container">
-                    <i className="fa fa-check-circle green-text" aria-hidden="true"></i>
-                    <span className="label-inline">OK</span>
-                  </div>
-                </td>
-                <td>
-                  <div className="connection-name-container">
-                    <span className="clouds-icons aws"></span>
-                    <span className="label-inline">front1</span>
-                  </div>
-                </td>
-                <td className="">
-                  <div>DD/MM/YYYY 00:00:00</div>
-                </td>
-                <td className="icons">
-                  <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
-                  <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-                  <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted">Deleted</span></div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="status-container">
-                    <i className="fa fa-times-circle red-text" aria-hidden="true"></i>
-                    <span className="label-inline">Fail</span>
-                  </div>
-                </td>
-                <td>
-                  <div className="connection-name-container">
-                    <span className="clouds-icons aws"></span>
-                    <span className="label-inline">front2</span>
-                  </div>
-                </td>
-                <td className="">
-                  <div>DD/MM/YYYY 00:00:00</div>
-                </td>
-                <td className="icons">
-                  <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
-                  <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-                  <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted">Deleted</span></div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="status-container">
-                    <i className="fa fa-ban grey-text" aria-hidden="true"></i>
-                    <span className="label-inline">Disabled</span>
-                  </div>
-                </td>
-                <td>
-                  <div className="connection-name-container">
-                    <span className="clouds-icons aws"></span>
-                    <span className="label-inline">front3</span>
-                  </div>
-                </td>
-                <td className="">
-                  <div>DD/MM/YYYY 00:00:00</div>
-                </td>
-                <td className="icons">
-                  <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
-                  <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-                  <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted">Deleted</span></div>
-                </td>
-              </tr>
+              {connectionTableRow}
             </tbody>
           </table>
         </div>
