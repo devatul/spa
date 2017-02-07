@@ -13,6 +13,7 @@ var _errorCode = '';
 var _credetials_public = '';
 var _credetials_private = '';
 var _credetials_onpremise = '';
+var _credetial_details = '';
 
 var OnBoardingStore = assign({}, EventEmitter.prototype, {
 
@@ -51,6 +52,10 @@ var OnBoardingStore = assign({}, EventEmitter.prototype, {
   getProviderCredentialOnpremise: function () {
     return _credetials_onpremise;
   },
+
+  getCredentialDetails: function () {
+    return _credetial_details;
+  },
 });
 
 OnBoardingStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -85,7 +90,14 @@ OnBoardingStore.dispatchToken = Dispatcher.register(function (payload) {
       _errorCode = '';
       OnBoardingStore.emitChange();
       break;
-      
+
+    case ActionTypes.SHOW_CREDENTIAL_DETAILS:
+      _credetial_details = action.res;
+      _textError = '';
+      _errorCode = '';
+      OnBoardingStore.emitChange();
+      break;
+
     case ActionTypes.ERROR:
       if (401 == action.code) {
         router.transitionTo('login');
