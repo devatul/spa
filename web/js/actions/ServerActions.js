@@ -213,4 +213,11 @@ module.exports = {
       });
     }
   },
+
+  showCredentialDetails: function (credentialDetails) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_CREDENTIAL_DETAILS,
+      res: credentialDetails,
+    });
+  }
 }
