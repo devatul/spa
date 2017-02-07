@@ -19,9 +19,12 @@ module.exports = React.createClass({
     };
   },
 
+  limit: 5,
+  sectionKey: '_PRIVATE',
+
   componentDidMount: function () {
     OnBoardingStore.addChangeListener(this._onChange);
-    getProviderCredential('_PRIVATE', this.state.pageNo, 5);
+    getProviderCredential(this.sectionKey, this.state.pageNo, this.limit);
     $(".image-preview-input input:file").change(function () {
         var file = this.files[0];
         var reader = new FileReader();
@@ -179,7 +182,7 @@ module.exports = React.createClass({
 
   _updatePage: function (page) {
     if (0 < page && page <= this.state.totalPages) {
-      getProviderCredential('_PRIVATE', page, 5);
+      getProviderCredential(this.sectionKey, page, this.limit);
       this.setState({
         pageNo: page,
       });
@@ -259,7 +262,7 @@ module.exports = React.createClass({
          <td className="icons">
            <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential('_PRIVATE', _SELF.state.pageNo, limit=5, id=i)}}>Deleted</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit, id=data.provider_credential)}}>Deleted</span></div>
          </td>
        </tr>
       );

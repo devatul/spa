@@ -5,24 +5,31 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var submitCloudData            = require('../actions/RequestActions').submitCloudData;
 var getProviderCredential      = require('../actions/RequestActions').getProviderCredential;
 var deleteProviderCredential   = require('../actions/RequestActions').deleteProviderCredential;
+var getCredentialDetails       = require('../actions/RequestActions').getCredentialDetails;
 var _                          = require('lodash');
 var moment                     = require('moment');
 
 module.exports = React.createClass({
   getInitialState: function () {
     var connectedPublicCloud = OnBoardingStore.getProviderCredentialPublic();
+    var credentialDetails = OnBoardingStore.getCredentialDetails();
     return {
       connectedPublicCloud: connectedPublicCloud,
       activeProvider: false,
       totalItems: connectedPublicCloud.totalItems,
       totalPages: 0,
       pageNo: 1,
+      credentialDetails: credentialDetails,
+      editFields: false,
     };
   },
 
+  limit: 5,
+  sectionKey: '_PUBLIC',
+
   componentDidMount: function () {
     OnBoardingStore.addChangeListener(this._onChange);
-    getProviderCredential('_PUBLIC', this.state.pageNo, 5);
+    getProviderCredential(this.sectionKey, this.state.pageNo, this.limit);
     $(".image-preview-input input:file").change(function () {
         var file = this.files[0];
         var reader = new FileReader();
@@ -45,10 +52,12 @@ module.exports = React.createClass({
   _onChange: function () {
     if (this.isMounted()) {
       var publicCloud = OnBoardingStore.getProviderCredentialPublic();
+      var credentialDetails = OnBoardingStore.getCredentialDetails();
       this.setState({
         connectedPublicCloud: publicCloud.member,
         totalItems: publicCloud.totalItems,
         totalPages: Math.ceil(parseInt(publicCloud.totalItems)/5),
+        credentialDetails: credentialDetails,
       });
     }
   },
@@ -122,8 +131,7 @@ module.exports = React.createClass({
     });
   },
 
-  getCloudInputField: function () {
-    var credetials = this.state.activeProvider && this.state.activeProvider.requirements;
+  getCloudInputField: function (credetials) {
     var input = [];
     input.push(
       <div className="form-group">
@@ -180,11 +188,31 @@ module.exports = React.createClass({
 
   _updatePage: function (page) {
     if (0 < page && page <= this.state.totalPages) {
-      getProviderCredential('_PUBLIC', page, 5);
+      getProviderCredential(this.sectionKey, page, this.limit);
       this.setState({
         pageNo: page,
       });
     }
+  },
+
+  toggleDialog: function (back, front) {
+    $('#' + back).toggle();
+    $('#' + front).toggle();
+  },
+
+  editProviderCredential: function (credetialId, providerId) {
+    var _SELF = this;
+    var allProvoders = this.props.allProvoders || [];
+    var provider = _.find(allProvoders, function(o) { return o.provider == providerId });
+    if(typeof provider !== 'undefined'){
+      this.setState({
+        editFields: provider.requirements,
+      });
+    }
+    getCredentialDetails(credetialId).then(function () {
+      //_SELF.toggleDialog("EditModalOverlay","editModal");
+    });
+    this.toggleDialog("EditModalOverlay","editModal");
   },
 
   render: function () {
@@ -208,6 +236,7 @@ module.exports = React.createClass({
         );
       }
     });
+
     //---------------Pagination On Table---------
     var pages = this.state.totalPages;
 
@@ -259,15 +288,16 @@ module.exports = React.createClass({
            <div>{moment(data.checked_at).format("MM/DD/YYYY hh:mm:ss")}</div>
          </td>
          <td className="icons">
-           <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
+           <div className="col-xs-4"><span className="action-button nubity-blue" onClick={function () {_SELF.editProviderCredential(data.provider_credential, data.provider)}}>Edit</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential('_PUBLIC', _SELF.state.pageNo, limit=5, id=i)}}>Deleted</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit, id=data.provider_credential)}}>Deleted</span></div>
          </td>
        </tr>
       );
     });
 
-    var certificate = this.state.activeProvider && this.state.activeProvider.requirements.certificate;
+    var requiredCredetials = this.state.activeProvider && this.state.activeProvider.requirements;
+    var editFields = this.state.editFields || false;
     return (
       <div>
         <button className="transparent-button" onClick={this.revealFirstStep} id="addButton">
@@ -304,8 +334,8 @@ module.exports = React.createClass({
         <div className="row hidden" id="onBoarding2StepContent">
           <form className="public-cloud-form col-lg-offset-1 col-lg-5" method="post" encType="multipart/form-data">
             <div style={{paddingTop: '10px'}}>
-              {this.getCloudInputField()}
-              { certificate ?
+              {this.getCloudInputField(requiredCredetials)}
+              { requiredCredetials.certificate ?
                 <div className="input-group image-preview">
                   <span className="input-group-btn">
                     <div className="btn btn-default image-preview-input">
@@ -348,6 +378,24 @@ module.exports = React.createClass({
               {connectionTableRow}
             </tbody>
           </table>
+          <div id="publicCloud" className="modal" role="dialog">
+            <div className="modal-dialog">
+
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                  <h4 className="modal-title">Modal Header</h4>
+                </div>
+                <div className="modal-body">
+                  <p>Some text in the modal.</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
@@ -364,6 +412,37 @@ module.exports = React.createClass({
             </li>
           </ul>
         </nav>
+        <div id={"EditModalOverlay"} className="custom-modal-ovarlay" style={{'display':'none','opacity':0.5}} onClick={function () {_SELF.toggleDialog("EditModalOverlay","editModal")}}></div>
+          <div id="editModal" className="modal-dialog" style={{'display':'none'}} role="document">
+            <div className="modal-content">
+              <div className="modal-body">
+                <button type="button" className="modal-close" onClick={function () {_SELF.toggleDialog("EditModalOverlay","editModal")}} ><span aria-hidden="true">&times;</span></button>
+                <div className="dialog-body">
+                    Edit Credential
+                    <form className="public-cloud-form col-lg-offset-1 col-lg-10" method="post" encType="multipart/form-data">
+                      <div style={{paddingTop: '10px'}}>
+                        { editFields ? this.getCloudInputField(editFields): ""}
+                        { editFields.certificate ?
+                          <div className="input-group image-preview">
+                            <span className="input-group-btn">
+                              <div className="btn btn-default image-preview-input">
+                                  <span className="glyphicon glyphicon-folder-open"></span>
+                                  <span className="image-preview-input-title">Upload Certificate</span>
+                                  <input type="file" name="certificate" id="publicCertificate" />
+                              </div>
+                            </span>
+                            <span className="form-control image-preview-filename hidden"></span>
+                          </div>:""}
+                        <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF.submitData()}}>Save</button>
+                        <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
+                      </div>
+                    </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
       </div>
     );
   },
