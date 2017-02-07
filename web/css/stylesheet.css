@@ -159,8 +159,15 @@ width:100%;
   vertical-align: middle;
   display: table-cell;
 }
-.connection-name-container .clouds-icons {
-  margin-right: 10px;
+.logo-max-size {
+  max-width: 50px;
+  max-height: 50px;
+}
+.m-l-10 {
+  margin-right: 10px !important;
+}
+.m-t-15 {
+  margin-top: 15px !important;
 }
 .add-cloud-btn-disabled {
   background-color: #CECECE;

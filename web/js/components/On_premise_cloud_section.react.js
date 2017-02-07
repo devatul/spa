@@ -12,20 +12,17 @@ module.exports = React.createClass({
   getInitialState: function () {
     var connectedOnPremiseCloud = OnBoardingStore.getProviderCredentialOnpremise();
     return {
-      tableData: [
-        {status: 'Success', name: 'front1', lastSync: "02/02/2016"},
-        {status: 'Failed', name: 'front2', lastSync: "02/02/2017"},
-        {status: 'Disabled', name: 'front3', lastSync: "02/02/2018"},
-      ],
       connectedOnPremiseCloud: connectedOnPremiseCloud,
       activeProvider: false,
-      page: 1,
+      totalItems: connectedOnPremiseCloud.totalItems,
+      totalPages: 0,
+      pageNo: 1,
     };
   },
 
   componentDidMount: function () {
     OnBoardingStore.addChangeListener(this._onChange);
-    getProviderCredential('_ONPROMISE', 1, 5);
+    getProviderCredential('_ONPREMISE', this.state.pageNo, 5);
     $(".image-preview-input input:file").change(function () {
         var file = this.files[0];
         var reader = new FileReader();
@@ -50,6 +47,8 @@ module.exports = React.createClass({
       var premiseCloud = OnBoardingStore.getProviderCredentialOnpremise();
       this.setState({
         connectedOnPremiseCloud: premiseCloud.member,
+        totalItems: premiseCloud.totalItems,
+        totalPages: Math.ceil(parseInt(premiseCloud.totalItems)/5),
       });
     }
   },
@@ -179,6 +178,15 @@ module.exports = React.createClass({
     });
   },
 
+  _updatePage: function (page) {
+    if (0 < page && page <= this.state.totalPages) {
+      getProviderCredential('_ONPREMISE', page, 5);
+      this.setState({
+        pageNo: page,
+      });
+    }
+  },
+
   render: function () {
     var providers = this.props.providers;
     var _SELF = this;
@@ -187,7 +195,7 @@ module.exports = React.createClass({
       if (null != provider.logo) {
         rows.push(
           <div id={"prePro_"+i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider, "prePro_"+i)}}>
-            <img src={provider.logo.public_path} ></img>
+            <img src={provider.logo.public_path} className="logo-max-size m-t-15"></img>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
@@ -200,10 +208,25 @@ module.exports = React.createClass({
         );
       }
     });
+    //---------------Pagination On Table---------
+    var pages = this.state.totalPages;
 
-    //---------------connection  table row----------------
+    var navpages = [];
+    for (var key = 0 ; key < pages ; key++) {
+      var page = key + 1;
+      var send = page.toString();
+      navpages[navpages.length] = <li className={this.state.pageNo == page ? "active" : ""}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
+    }
+
+    var paginatorClass;
+    if (pages <= 1) {
+      paginatorClass = 'hidden';
+    }
+    //---------------Table Rows------------------
     var connectionTableRow = [];
-    _.map(this.state.tableData, function (data, i) {
+    var allProvoders = this.props.allProvoders || [];
+
+    _.map(this.state.connectedOnPremiseCloud, function (data, i) {
       var statusClass = "fa fa-check-circle green-text";
       var statusLable = "OK";
 
@@ -214,7 +237,9 @@ module.exports = React.createClass({
         statusClass = "fa fa-ban grey-text";
         statusLable = "Disabled";
       }
+      var provider = _.find(allProvoders, function(o) { return o.provider == data.provider });
 
+      if(typeof provider !== 'undefined')
       connectionTableRow.push(
         <tr>
          <td>
@@ -225,17 +250,17 @@ module.exports = React.createClass({
          </td>
          <td>
            <div className="connection-name-container">
-             <span className="clouds-icons aws"></span>
-             <span className="label-inline">{data.name}</span>
+             {null !== provider.logo ? <img src={provider.logo.public_path} className="logo-max-size m-l-10 m-t-15"></img> : <span className="clouds-icons aws m-l-10"></span>}
+             <span className="label-inline">{provider.name}</span>
            </div>
          </td>
          <td className="">
-           <div>{moment(new Date(data.lastSync)).format("MM/DD/YYYY hh:mm:ss")}</div>
+           <div>{moment(data.checked_at).format("MM/DD/YYYY hh:mm:ss")}</div>
          </td>
          <td className="icons">
            <div className="col-xs-4"><span className="action-button nubity-blue">Edit</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential('_PUBLIC', _SELF.state.page, limit=5, id=i)}}>Deleted</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential('_ONPREMISE', _SELF.state.pageNo, limit=5, id=i)}}>Deleted</span></div>
          </td>
        </tr>
       );
@@ -246,15 +271,15 @@ module.exports = React.createClass({
       <div>
         <button className="transparent-button" onClick={this.revealFirstStepOfPrivateCloud} id="onPremiseAddButton">
           <i className="fa fa-plus-circle big-green-circle" aria-hidden="true"></i>
-          <span> Add New Private Cloud Connection</span>
+          <span> Add New On Premise Cloud Connection</span>
         </button>
         <button className="transparent-button hidden" onClick={this.revertPrivateSteps} id="onPremiseCancelButton">
           <i  className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
-          <span>  Cancel Public Cloud Connection</span>
+          <span>Cancel On Premise Cloud Connection</span>
         </button>
         <div className="hidden" id="onPremise1StepTitle">
           <div className="round-number number-1">1</div>
-          <span>Select your Private Cloud</span>
+          <span>Select your On Premise Cloud</span>
         </div>
         <div className="row hidden" id="onPremise1StepContent">
           <div className="col-lg-8 col-lg-offset-2">
@@ -306,7 +331,7 @@ module.exports = React.createClass({
         <hr/>
         <div>
           <i className="fa fa-cloud" aria-hidden="true"></i>
-          <span>Connected Public Cloud</span>
+          <span>Connected On Premise Cloud</span>
         </div>
         <div className="add-cloud-table-container">
           <table className="add-cloud-table">
@@ -323,6 +348,21 @@ module.exports = React.createClass({
             </tbody>
           </table>
         </div>
+        <nav aria-label="Page navigation" className={paginatorClass}>
+          <ul className="pagination">
+            <li>
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo-1)}>
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+              {navpages}
+            <li>
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     );
   },
