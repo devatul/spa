@@ -433,7 +433,7 @@ button.action-button:hover {
   margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
-  position: fixed;
+  /*position: fixed;*/
 }
 .principal-section-loggedout {
   margin-top: 100px;

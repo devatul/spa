@@ -184,10 +184,8 @@ width:100%;
   z-index: 990;
   background-color: #CECECE;
 }
-#editModal {
-  position: absolute;
-  margin-top: -469px;
-  z-index: 1000;
+label {
+  font-weight: 400;
 }
 .dialog-body{
   border: 1px solid #DDDDDD;
@@ -196,4 +194,9 @@ width:100%;
   overflow: hidden;
   height: 100%;
   width: 90%;
+}
+.edit-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
 }
