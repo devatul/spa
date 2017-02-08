@@ -9,6 +9,7 @@ var getMonitored                  = require('../actions/RequestActions').getMoni
 var getManaged                    = require('../actions/RequestActions').getManaged;
 var stopOrder                     = require('../actions/RequestActions').stopOrder;
 var deleteOrderCancelation        = require('../actions/RequestActions').deleteOrderCancelation;
+var Preloader                     = require('./Preloader.react');
 var Warning                       = require('./Warning_message.react');
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
@@ -25,6 +26,7 @@ module.exports = React.createClass({
       totalItems: publicCloud.totalItems,
       totalpages:0,
       pageNo: 1,
+      isLoading: false,
     };
   },
 
@@ -53,6 +55,7 @@ module.exports = React.createClass({
         publicCloud: publicCloud.member,
         totalItems: publicCloud.totalItems,
         totalPages: Math.ceil(parseInt(publicCloud.totalItems)/10),
+        isLoading: false,
       });
     }
   },
@@ -64,6 +67,9 @@ module.exports = React.createClass({
   },
 
   _newPage: function (page) {
+    this.setState({
+      isLoading: true,
+    });
     getInfrastructurePublicCloud(page);
   },
 
@@ -87,7 +93,7 @@ module.exports = React.createClass({
     var publicCloud = this.state.publicCloud;
     var totalItems = this.state.totalItems;
     var pages = this.state.totalPages;
-
+    var content;
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
@@ -244,25 +250,52 @@ module.exports = React.createClass({
         </tr>
       );
     }
-    return (
-      <div id="infrastructureTable">
+
+    if (this.state.isLoading) {
+      content = (
+        <div>
+          <table className="publicCloud-table">
+            <thead>
+              <tr>
+                <th className="column-icon">State</th>
+                <th>Description</th>
+                <th className="hidden-xs">Connection name</th>
+                <th className="column-button hidden-xs hidden-sm">Actions</th>
+                <th className="hidden-xs hidden-sm">Memory</th>
+                <th className="column-icon">Health</th>
+                <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+                <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
+              </tr>
+            </thead>
+          </table>
+          <Preloader/>
+        </div>
+      );
+    } else {
+      content = (
         <table className="publicCloud-table">
           <thead>
-          <tr>
-            <th className="column-icon">State</th>
-            <th>Description</th>
-            <th className="hidden-xs">Connection name</th>
-            <th className="column-button hidden-xs hidden-sm">Actions</th>
-            <th className="hidden-xs hidden-sm">Memory</th>
-            <th className="column-icon">Health</th>
-            <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
-            <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
-          </tr>
+            <tr>
+              <th className="column-icon">State</th>
+              <th>Description</th>
+              <th className="hidden-xs">Connection name</th>
+              <th className="column-button hidden-xs hidden-sm">Actions</th>
+              <th className="hidden-xs hidden-sm">Memory</th>
+              <th className="column-icon">Health</th>
+              <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+              <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
+            </tr>
           </thead>
           <tbody>
           {rows}
           </tbody>
         </table>
+      );
+    }
+
+    return (
+      <div id="infrastructureTable">
+        {content}
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>

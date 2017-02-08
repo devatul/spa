@@ -17,6 +17,7 @@ module.exports = React.createClass({
     return {
       ninja: ninja.member,
       totalItems: ninja.totalItems,
+      loading: false,
     };
   },
 
@@ -35,6 +36,7 @@ module.exports = React.createClass({
       this.setState({
         ninja: ninja.member,
         totalItems: ninja.totalItems,
+        loading: false,
       });
     }
     if (NinjaStore.isViewingTicket()) {
@@ -47,6 +49,9 @@ module.exports = React.createClass({
   },
 
   _newPage: function (page) {
+    this.setState({
+      loading: true,
+    });
     getNinja(page);
   },
 
@@ -54,6 +59,7 @@ module.exports = React.createClass({
     var ticket = this.state.ninja;
     var totalItems = this.state.totalItems;
     var pages = Math.ceil(parseInt(totalItems)/10);
+    var content;
 
     if (ticket !== undefined) {
       var navpages = [];
@@ -134,13 +140,25 @@ module.exports = React.createClass({
       }
     }
 
-    if (!ticket) {
-      return (
-        <Preloader />
+    if (this.state.loading) {
+      content = (
+        <div>
+          <table>
+            <tr>
+              <th className="column-icon">Status</th>
+              <th>Ticket Id</th>
+              <th>Subject</th>
+              <th className="column-icon">Priority</th>
+              <th className="column-button hidden-xs">Department</th>
+              <th className="hidden-xs">Device</th>
+              <th className="hidden-xs hidden-sm">Date</th>
+            </tr>
+          </table>
+          <Preloader />
+        </div>
       );
-    }
-    return (
-      <div>
+    } else {
+      content = (
         <table>
           <tr>
             <th className="column-icon">Status</th>
@@ -155,6 +173,17 @@ module.exports = React.createClass({
             {rows}
           </tbody>
         </table>
+      );
+    }
+
+    if (!ticket) {
+      return (
+        <Preloader />
+      );
+    }
+    return (
+      <div>
+        {content}
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>

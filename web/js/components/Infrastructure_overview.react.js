@@ -28,6 +28,7 @@ module.exports = React.createClass({
       totalItems: overview.totalItems,
       totalPages:0,
       pageNo: 1,
+      isLoading: false,
     };
   },
 
@@ -58,6 +59,7 @@ module.exports = React.createClass({
         loaded: loaded,
         totalItems: overview.totalItems,
         totalPages: Math.ceil(parseInt(overview.totalItems)/10),
+        isLoading: false,
       });
     }
   },
@@ -69,6 +71,9 @@ module.exports = React.createClass({
   },
 
   _newPage: function (page) {
+    this.setState({
+      isLoading: true,
+    })
     getInfrastructureOverview(page);
   },
 
@@ -93,6 +98,7 @@ module.exports = React.createClass({
     var totalItems = this.state.totalItems;
     var pages = this.state.totalPages;
     var loaded = this.state.loaded;
+    var content;
 
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
@@ -279,6 +285,48 @@ module.exports = React.createClass({
       overview = false;
     }
 
+    if (this.state.isLoading) {
+      content = (
+        <div>
+          <table className="overview-table">
+            <thead>
+              <tr>
+                <th className="column-icon">State</th>
+                <th>Description</th>
+                <th className="hidden-xs">Integration</th>
+                <th className="column-button hidden-xs hidden-sm">Actions</th>
+                <th className="hidden-xs hidden-sm">Memory</th>
+                <th className="column-icon">Health</th>
+                <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+                <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
+              </tr>
+            </thead>
+          </table>
+          <Preloader />
+        </div>
+      );
+    } else {
+      content = (
+        <table className="overview-table">
+          <thead>
+            <tr>
+              <th className="column-icon">State</th>
+              <th>Description</th>
+              <th className="hidden-xs">Integration</th>
+              <th className="column-button hidden-xs hidden-sm">Actions</th>
+              <th className="hidden-xs hidden-sm">Memory</th>
+              <th className="column-icon">Health</th>
+              <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+              <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      );
+    }
+
     if (!overview) {
       return (
         <Preloader />
@@ -286,23 +334,7 @@ module.exports = React.createClass({
     }
     return (
       <div id="infrastructureTable">
-        <table className="overview-table">
-          <thead>
-          <tr>
-            <th className="column-icon">State</th>
-            <th>Description</th>
-            <th className="hidden-xs">Integration</th>
-            <th className="column-button hidden-xs hidden-sm">Actions</th>
-            <th className="hidden-xs hidden-sm">Memory</th>
-            <th className="column-icon">Health</th>
-            <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
-            <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
-          </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
+        {content}
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>

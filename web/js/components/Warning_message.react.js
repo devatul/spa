@@ -142,6 +142,42 @@ var Warning = React.createClass({
           action = (<span className='action-button nubity-blue no-button'>Management</span>);
         }
       break;
+      case 'mute':
+        actionType = 'action-notification';
+        if (this.props.status) {
+          action = (
+            <span>
+              <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
+              <OverlayTrigger placement="top" overlay={this.props.hover}>
+                <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
+                  <i className="icon nb-mute-on grey-text small"></i>
+                </span>
+              </OverlayTrigger>
+            </span>
+          );
+        } else {
+          warn = (
+            <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
+          );
+          notice = 'If you turn off the alerts, you won\'t receive them anymore!';
+          confirmButtons = (
+            <div className="pull-right">
+              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
+              <span className="action-button nubity-red" onClick={this.props.clickAction}>OK</span>
+            </div>
+          );
+          action = (
+            <span>
+              <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this.open}>Mute notifications</span>
+              <OverlayTrigger placement="top" overlay={this.props.hover}>
+                <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this.open}>
+                  <i className="icon nb-mute-off small white-text"></i>
+                </span>
+              </OverlayTrigger>
+            </span>
+          );
+        }
+      break;
     }
 
     return (
