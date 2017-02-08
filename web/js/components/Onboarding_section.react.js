@@ -114,13 +114,13 @@ module.exports = React.createClass({
         </div>
         <div className="tab-content section-content">
           <div id="public" className="tab-pane fade in active">
-            <PublicCloudSection allProvoders={this.state.providers} providers={this.state.publicCloudProviders}/>
+            <PublicCloudSection allProviders={this.state.providers} providers={this.state.publicCloudProviders}/>
           </div>
           <div id="private" className="tab-pane fade">
-            <PrivateCloudSection allProvoders={this.state.providers} providers={this.state.privateCloudProviders}/>
+            <PrivateCloudSection allProviders={this.state.providers} providers={this.state.privateCloudProviders}/>
           </div>
           <div id="menu2" className="tab-pane fade">
-            <OnPremiseCloudSection allProvoders={this.state.providers} providers={this.state.onPremiseProviders} />
+            <OnPremiseCloudSection allProviders={this.state.providers} providers={this.state.onPremiseProviders} />
           </div>
         </div>
       </div>

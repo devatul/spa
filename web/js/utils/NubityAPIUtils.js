@@ -1288,20 +1288,23 @@ module.exports = {
   deleteProviderCredential: function (id) {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
-    // request
-    // .get('/company/'+company+'/cloud/'+id+'.json')
-    // .accept('application/json')
-    // .set('Authorization', token)
-    // .end(function (res) {
-    //   var text = JSON.parse(res.text);
-    //   this.validateToken(res).then(function (status) {
-    //     if (!status) {
-    //       this.deleteProviderCredential(id);
-    //     } else {
-    //       getProviderCredential(tab, page, limit);
-    //     }
-    //   }.bind(this));
-    // }.bind(this));
+    var _SELF = this;
+    return new Promise( function ( resolve, reject ) {
+      request
+      .get('/company/'+company+'/cloud/'+id+'.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        _SELF.validateToken(res).then(function (status) {
+          if (!status) {
+            _SELF.deleteProviderCredential(id);
+          } else {
+            resolve();
+          }
+        }.bind(_SELF));
+      }.bind(_SELF));
+    });
   },
 
   getCredentialDetails: function (credetialId) {
@@ -1309,22 +1312,46 @@ module.exports = {
     var token = this.getToken();
     var _SELF = this;
     return new Promise( function ( resolve, reject ) {
-    request
-    .get('/company/'+company+'/cloud/'+credetialId+'.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      _SELF.validateToken(res).then(function (status) {
-        if (!status) {
-          _SELF.deleteProviderCredential(id);
-        } else {
-          showCredentialDetails(text);
-          resolve();
-        }
+      request
+      .get('/company/'+company+'/cloud/'+credetialId+'.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        _SELF.validateToken(res).then(function (status) {
+          if (!status) {
+            _SELF.deleteProviderCredential(id);
+          } else {
+            showCredentialDetails(text);
+            resolve();
+          }
+        }.bind(_SELF));
       }.bind(_SELF));
-    }.bind(_SELF));
-  });
+    });
+  },
+
+  updateNewCredentials: function (credetialId, newCredential) {
+    var company = localStorage.getItem('nubity-company');
+    var token = this.getToken();
+    var _SELF = this;
+
+    return new Promise( function ( resolve, reject ) {
+      request
+      .get('/company/'+company+'/cloud/'+credetialId+'.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        _SELF.validateToken(res).then(function (status) {
+          if (!status) {
+            _SELF.deleteProviderCredential(id);
+          } else {
+            showCredentialDetails(text);
+            resolve();
+          }
+        }.bind(_SELF));
+      }.bind(_SELF));
+    });
   },
 
   hasToRefresh: function () {

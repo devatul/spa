@@ -3,9 +3,11 @@ var Router                     = require('../router');
 var OnBoardingStore            = require('../stores/OnBoardingStore');
 var redirect                   = require('../actions/RouteActions').redirect;
 var submitCloudData            = require('../actions/RequestActions').submitCloudData;
+var updateNewCredentials       = require('../actions/RequestActions').updateNewCredentials;
 var getProviderCredential      = require('../actions/RequestActions').getProviderCredential;
 var deleteProviderCredential   = require('../actions/RequestActions').deleteProviderCredential;
 var getCredentialDetails       = require('../actions/RequestActions').getCredentialDetails;
+var EditProviderCredential     = require('./Edit_provider_credential.react');
 var _                          = require('lodash');
 var moment                     = require('moment');
 
@@ -20,12 +22,13 @@ module.exports = React.createClass({
       totalPages: 0,
       pageNo: 1,
       credentialDetails: credentialDetails,
-      editFields: false,
+      credetialInfo: false,
     };
   },
 
   limit: 5,
   sectionKey: '_PUBLIC',
+  editModalId: "editModalPublic",
 
   componentDidMount: function () {
     OnBoardingStore.addChangeListener(this._onChange);
@@ -240,24 +243,18 @@ module.exports = React.createClass({
     }
   },
 
-  toggleDialog: function (back, front) {
-    $('#' + back).toggle();
-    $('#' + front).toggle();
+  editProviderCredential: function (credetialInfo) {
+    this.setState({
+      credetialInfo: credetialInfo,
+    });
+    getCredentialDetails(credetialInfo.provider_credential)
   },
 
-  editProviderCredential: function (credetialId, providerId) {
+  deleteCredential: function (id) {
     var _SELF = this;
-    var allProvoders = this.props.allProvoders || [];
-    var provider = _.find(allProvoders, function(o) { return o.provider == providerId });
-    if(typeof provider !== 'undefined'){
-      this.setState({
-        editFields: provider.requirements,
-      });
-    }
-    getCredentialDetails(credetialId).then(function () {
-      //_SELF.toggleDialog("EditModalOverlay","editModal");
+    deleteProviderCredential(id).then(function () {
+      getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
     });
-    this.toggleDialog("EditModalOverlay","editModal");
   },
 
   render: function () {
@@ -299,7 +296,7 @@ module.exports = React.createClass({
 
     //---------------Table Rows------------------
     var connectionTableRow = [];
-    var allProvoders = this.props.allProvoders || [];
+    var allProviders = this.props.allProviders || [];
 
     _.map(this.state.connectedPublicCloud, function (data, i) {
       var statusClass = "fa fa-check-circle green-text";
@@ -312,7 +309,7 @@ module.exports = React.createClass({
         statusClass = "fa fa-ban grey-text";
         statusLable = "Disabled";
       }
-      var provider = _.find(allProvoders, function(o) { return o.provider == data.provider });
+      var provider = _.find(allProviders, function(o) { return o.provider == data.provider });
 
       if(typeof provider !== 'undefined')
       connectionTableRow.push(
@@ -333,16 +330,15 @@ module.exports = React.createClass({
            <div>{moment(data.checked_at).format("MM/DD/YYYY hh:mm:ss")}</div>
          </td>
          <td className="icons">
-           <div className="col-xs-4"><span className="action-button nubity-blue" onClick={function () {_SELF.editProviderCredential(data.provider_credential, data.provider)}}>Edit</span></div>
+           <div className="col-xs-4"><span className="action-button nubity-blue"  data-toggle="modal" data-target={"#"+_SELF.editModalId} onClick={function () {_SELF.editProviderCredential(data)}}>Edit</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {deleteProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit, id=data.provider_credential)}}>Deleted</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF.deleteCredential(data.provider_credential)}}>Deleted</span></div>
          </td>
        </tr>
       );
     });
 
     var requiredCredetials = this.state.activeProvider && this.state.activeProvider.requirements;
-    var editFields = this.state.editFields || false;
     return (
       <div>
         <button className="transparent-button" onClick={this._revealFirstStep} id="addButton">
@@ -423,24 +419,6 @@ module.exports = React.createClass({
               {connectionTableRow}
             </tbody>
           </table>
-          <div id="publicCloud" className="modal" role="dialog">
-            <div className="modal-dialog">
-
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button type="button" className="close" data-dismiss="modal">&times;</button>
-                  <h4 className="modal-title">Modal Header</h4>
-                </div>
-                <div className="modal-body">
-                  <p>Some text in the modal.</p>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-
-            </div>
-          </div>
         </div>
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
@@ -457,36 +435,15 @@ module.exports = React.createClass({
             </li>
           </ul>
         </nav>
-        <div id={"EditModalOverlay"} className="custom-modal-ovarlay" style={{'display':'none','opacity':0.5}} onClick={function () {_SELF.toggleDialog("EditModalOverlay","editModal")}}></div>
-          <div id="editModal" className="modal-dialog" style={{'display':'none'}} role="document">
-            <div className="modal-content">
-              <div className="modal-body">
-                <button type="button" className="modal-close" onClick={function () {_SELF.toggleDialog("EditModalOverlay","editModal")}} ><span aria-hidden="true">&times;</span></button>
-                <div className="dialog-body">
-                    Edit Credential
-                    <form className="public-cloud-form col-lg-offset-1 col-lg-10" method="post" encType="multipart/form-data">
-                      <div style={{paddingTop: '10px'}}>
-                        { editFields ? this.getCloudInputField(editFields): ""}
-                        { editFields.certificate ?
-                          <div className="input-group image-preview">
-                            <span className="input-group-btn">
-                              <div className="btn btn-default image-preview-input">
-                                  <span className="glyphicon glyphicon-folder-open"></span>
-                                  <span className="image-preview-input-title">Upload Certificate</span>
-                                  <input type="file" name="certificate" id="publicCertificate" />
-                              </div>
-                            </span>
-                            <span className="form-control image-preview-filename hidden"></span>
-                          </div>:""}
-                        <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF.submitData()}}>Save</button>
-                        <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
-                      </div>
-                    </form>
-                </div>
-
-              </div>
-            </div>
-          </div>
+        <div>
+          <EditProviderCredential
+            modalId={this.editModalId}
+            credentialDetails={this.state.credentialDetails}
+            credetialInfo={this.state.credetialInfo}
+            updateCredentials={function (credetialId, newCredential) {return updateNewCredentials(credetialId, newCredential)}}
+            refreshTable={function () {getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit)}}
+            {...this.props}/>
+        </div>
 
       </div>
     );
