@@ -11,6 +11,7 @@ var getDashboard               = require('../actions/RequestActions').getDashboa
 var getStats                   = require('../actions/RequestActions').getStats;
 var Graphs                     = require('./Graphs.react');
 var Preloader                  = require('./Preloader.react');
+var Warning                    = require('./Warning_message.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 var Tooltip                    = require('react-bootstrap').Tooltip;
@@ -140,12 +141,7 @@ module.exports = React.createClass({
         tooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
-            <OverlayTrigger placement="top" overlay={tooltip}>
-              <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
-                <i className="icon nb-mute-on icon-state grey-text"></i>
-              </span>
-            </OverlayTrigger>
+            <Warning type="mute" status={mainAlerts[key].is_acknowledged} hover={tooltip} />
           </td>
         );
       } else {
@@ -153,12 +149,7 @@ module.exports = React.createClass({
         tooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>Mute notifications</span>
-            <OverlayTrigger placement="top" overlay={tooltip}>
-              <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>
-                <i className="icon nb-mute-off icon-state white-text"></i>
-              </span>
-            </OverlayTrigger>
+            <Warning type="mute" status={mainAlerts[key].is_acknowledged} hover={tooltip} clickAction={this._acknowledge.bind(this, mainAlerts[key].id)} />
           </td>
         );
       }

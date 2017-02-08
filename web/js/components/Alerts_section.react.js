@@ -9,6 +9,7 @@ var getHistoryAlerts           = require('../actions/RequestActions').getHistory
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 var Preloader                  = require('./Preloader.react');
+var Warning                    = require('./Warning_message.react');
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
@@ -23,6 +24,8 @@ module.exports = React.createClass({
       totalHistoryItems: historyAlerts.totalItems,
       totalPages: {alerts: 0, history: 0},
       pageNo: 1,
+      loading: false,
+      loadingHistory: false,
     };
   },
 
@@ -67,6 +70,8 @@ module.exports = React.createClass({
           alerts: Math.ceil(parseInt(alerts.totalItems)/10),
           history: Math.ceil(parseInt(historyAlerts.totalItems)/10),
         },
+        loading: false,
+        loadingHistory: false,
       });
       if (AlertsStore.isAlertTicket()) {
         redirect('create_ticket');
@@ -98,10 +103,16 @@ module.exports = React.createClass({
   },
 
   _newPage: function (page) {
+    this.setState({
+      loading: true,
+    });
     getAlerts(page);
   },
 
   _newHistoryPage: function (page) {
+    this.setState({
+      loadingHistory: true,
+    });
     getHistoryAlerts(page);
   },
 
@@ -123,6 +134,7 @@ module.exports = React.createClass({
     var action;
     var tooltip;
     var severityTooltip;
+    var content;
 
     for (var key in alerts) {
       level = '';
@@ -147,12 +159,7 @@ module.exports = React.createClass({
         tooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
-            <OverlayTrigger placement="top" overlay={tooltip}>
-              <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
-                <i className="icon nb-mute-on grey-text small"></i>
-              </span>
-            </OverlayTrigger>
+            <Warning type="mute" status={alerts[key].is_acknowledged} hover={tooltip} />
           </td>
         );
       } else {
@@ -160,12 +167,7 @@ module.exports = React.createClass({
         tooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, alerts[key].id)}>Mute notifications</span>
-            <OverlayTrigger placement="top" overlay={tooltip}>
-              <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._acknowledge.bind(this, alerts[key].id)}>
-                <i className="icon nb-mute-off white-text small"></i>
-              </span>
-            </OverlayTrigger>
+            <Warning type="mute" status={alerts[key].is_acknowledged} hover={tooltip} clickAction={this._acknowledge.bind(this, alerts[key].id)} />
           </td>
         );
       }
@@ -212,6 +214,7 @@ module.exports = React.createClass({
     var haction;
     var htooltip;
     var hseverityTooltip;
+    var hcontent;
 
     for (var key in historyAlerts) {
 
@@ -236,12 +239,7 @@ module.exports = React.createClass({
         htooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         haction = (
           <td className="icons hidden-xs">
-            <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
-            <OverlayTrigger placement="top" overlay={htooltip}>
-              <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
-                <i className="icon nb-mute-on grey-text small"></i>
-              </span>
-            </OverlayTrigger>
+            <Warning type="mute" status={historyAlerts[key].is_acknowledged} hover={htooltip} />
           </td>
         );
       } else {
@@ -249,12 +247,7 @@ module.exports = React.createClass({
         htooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         haction = (
           <td className="icons hidden-xs">
-            <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>Mute notifications</span>
-            <OverlayTrigger placement="top" overlay={htooltip}>
-              <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._acknowledge.bind(this, historyAlerts[key].id)}>
-                <i className="icon nb-mute-off small white-text"></i>
-              </span>
-            </OverlayTrigger>
+            <Warning type="mute" status={historyAlerts[key].is_acknowledged} hover={htooltip} clickAction={this._acknowledge.bind(this, historyAlerts[key].id)} />
           </td>
         );
       }
@@ -330,11 +323,26 @@ module.exports = React.createClass({
 
     var alertTable;
 
-    if (!alerts) {
-      alertTable = <Preloader />;
+    if (this.state.loading) {
+      content = (
+        <div>
+          <table>
+            <tr>
+              <th className="column-icon">Severity</th>
+              <th>Description</th>
+              <th>Device</th>
+              <th className="hidden-xs hidden-sm">Integration</th>
+              <th className="hidden-xs hidden-sm">Started on</th>
+              <th className="hidden-xs hidden-sm">Resolved on</th>
+              <th className="column-button hidden-xs">Notifications</th>
+              <th className="column-button">Report a problem</th>
+            </tr>
+          </table>
+          <Preloader />
+        </div>
+      );
     } else {
-      alertTable =
-      <div>
+      content = (
         <table>
           <tr>
             <th className="column-icon">Severity</th>
@@ -350,6 +358,15 @@ module.exports = React.createClass({
             {rows}
           </tbody>
         </table>
+      );
+    }
+
+    if (!alerts) {
+      alertTable = <Preloader />;
+    } else {
+      alertTable =
+      <div>
+        {content}
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
@@ -370,11 +387,26 @@ module.exports = React.createClass({
 
     var historyTable;
 
-    if (!historyAlerts) {
-      historyTable = <Preloader />;
+    if (this.state.loadingHistory) {
+      hcontent = (
+        <div>
+          <table>
+            <tr>
+              <th className="column-icon">Severity</th>
+              <th>Description</th>
+              <th>Device</th>
+              <th className="hidden-xs hidden-sm">Integration</th>
+              <th className="hidden-xs hidden-sm">Started on</th>
+              <th className="hidden-xs hidden-sm">Resolved on</th>
+              <th className="column-button hidden-xs">Notifications</th>
+              <th className="column-button">Report a problem</th>
+            </tr>
+          </table>
+          <Preloader />
+        </div>
+      );
     } else {
-      historyTable =
-      <div>
+      hcontent = (
         <table>
           <tr>
             <th className="column-icon">Severity</th>
@@ -390,6 +422,15 @@ module.exports = React.createClass({
             {historyRows}
           </tbody>
         </table>
+      );
+    }
+
+    if (!historyAlerts) {
+      historyTable = <Preloader />;
+    } else {
+      historyTable =
+      <div>
+        {hcontent}
         <nav aria-label="Page navigation" className={hpaginatorClass}>
           <ul className="pagination">
             <li>
