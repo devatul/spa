@@ -176,11 +176,15 @@ module.exports = {
     NubityAPIUtils.getProviderCredential(tab, page, limit);
   },
 
-  deleteProviderCredential: function (tab, page, limit, id) {
-    NubityAPIUtils.deleteProviderCredential(tab, page, limit, id);
+  deleteProviderCredential: function (id) {
+    return NubityAPIUtils.deleteProviderCredential(id);
   },
 
   getCredentialDetails: function (credetialId) {
     return NubityAPIUtils.getCredentialDetails(credetialId);
+  },
+
+  updateNewCredentials: function (credetialId, newCredential) {
+    return NubityAPIUtils.updateNewCredentials(credetialId, newCredential);
   },
 }

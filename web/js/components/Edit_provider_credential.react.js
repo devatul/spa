@@ -23,35 +23,31 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (props) {
     var credentialDetails = props.credentialDetails;
-    var credetialInfo = props.credetialInfo;
-    if (props.open
-      && !_.isEmpty(credentialDetails)
-      && credetialInfo
-      && credentialDetails.provider_credential == credetialInfo.provider_credential) {
-        this.setState({
-          credetialInfo: props.credetialInfo,
-          name: credentialDetails.name,
-          apiKey: credentialDetails.api_key,
-          endpoint: credentialDetails.endpoint,
-          apiSecret: credentialDetails.api_secret,
-          certificate: credentialDetails.certificate,
-        });
+    if (!_.isEmpty(credentialDetails)) {
+      this.setState({
+        credetialInfo: props.credetialInfo,
+        name: credentialDetails.name,
+        apiKey: credentialDetails.api_key,
+        endpoint: credentialDetails.endpoint,
+        apiSecret: credentialDetails.api_secret,
+        certificate: credentialDetails.certificate,
+      });
     }
   },
 
-  _resetDialog: function () {
+  resetDialog: function () {
     $("#"+this.props.modalId).modal('toggle');
-      this.setState({
-        credetialInfo: '',
-        name: '',
-        apiKey: '',
-        endpoint: '',
-        apiSecret: '',
-        certificate: '',
-      });
+    this.setState({
+      credetialInfo: '',
+      name: '',
+      apiKey: '',
+      endpoint: '',
+      apiSecret: '',
+      certificate: '',
+    });
   },
 
-  _updateCredentials: function () {
+  updateCredentials: function () {
     var _SELF = this;
     var credetialId = this.state.credetialInfo.provider_credential || null;
     var providerId = this.state.credetialInfo.provider || null;
@@ -60,7 +56,9 @@ module.exports = React.createClass({
     var endpoint = this.state.endpoint || null;
     var apiSecret = this.state.apiSecret || null;
     var company = this.state.credetialInfo.company || null;
-    var certificate = this.state.certificate || null;
+
+    var certificate = $("#editCertificate").prop("files");
+    certificate = certificate && certificate[0] || null;
 
     var newCredential = new FormData();
 
@@ -74,16 +72,13 @@ module.exports = React.createClass({
 
     this.props.updateCredentials(credetialId, newCredential)
     .then(function () {
+      _SELF.resetDialog();
       _SELF.props.refreshTable();
-      _SELF._resetDialog();
     });
   },
 
-  _onFileChange: function (e) {
-    var file = e.target.files[0];
-    this.setState({
-      certificate: file,
-    });
+  onFileChange: function () {
+    var file = $("#editCertificate").prop("files")[0];
     $(".image-preview-input-title").text("Change Certificate");
     $(".image-preview-filename").text(file.name).removeClass('hidden');
   },
@@ -93,9 +88,9 @@ module.exports = React.createClass({
     var providers = this.props.allProviders || [];
     var credetialInfo = this.state.credetialInfo;
     var input = [];
-    if (credetialInfo) {
-      var provider = _.find(providers, function (o) { return o.provider == credetialInfo.provider });
-      if ('undefined' !== typeof provider) {
+    if(credetialInfo){
+      var provider = _.find(providers, function(o) { return o.provider == credetialInfo.provider });
+      if(typeof provider !== 'undefined'){
         var credetials = provider.requirements
 
         input.push(
@@ -147,7 +142,7 @@ module.exports = React.createClass({
             <div className="btn btn-default image-preview-input">
                 <span className="glyphicon glyphicon-folder-open"></span>
                 <span className="image-preview-input-title">Upload Certificate</span>
-                <input type="file" name="editCertificate" id="editCertificate" onChange={function (e) {_SELF._onFileChange(e)}}/>
+                <input type="file" name="editCertificate" id="editCertificate" onChange={function () {_SELF.onFileChange()}}/>
             </div>
           </span>
           <span className="form-control image-preview-filename hidden"></span>
@@ -167,8 +162,8 @@ module.exports = React.createClass({
                   <div className="dialog-body">
                     <div className="edit-title">Edit Credential</div>
                     <hr />
-                      {input}
-                    <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF._updateCredentials()}}>Update</button>
+                    {input}
+                    <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF.updateCredentials()}}>Update</button>
                     <button type="button" className="btn btn-default pull-right public-cloud-button grey-background" data-dismiss="modal">Cancel</button>
                   </div>
               </div>
