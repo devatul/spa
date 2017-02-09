@@ -12,13 +12,8 @@ module.exports = React.createClass({
     return {
     };
   },
-  updateURL: function (sectionId) {
-    var hash = window.location.href.split('/monitoring');
-    window.location.href = hash[0]+'/monitoring'+sectionId;
-  },
+
   render: function () {
-    var hash = window.location.href.split('/monitoring')[1] || '';
-    _SELF = this;
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -27,24 +22,24 @@ module.exports = React.createClass({
         <div className="section-tabs">Select OS for agent installation</div>
         <div>
           <ul className="nav nav-tabs section-tabs">
-            <li role="presentation" className={(hash == '#linux' || hash == '')? "active" : ""}>
-              <Link to="/monitoring#linux" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#linux', 1)}}>
+            <li role="presentation">
+              <a className="grey-color" data-toggle="tab" href="#linux">
                 <span className="hidden-xs hidden-sm"> Linux</span>
-              </Link>
+              </a>
             </li>
-            <li role="presentation" className={hash == '#windows' ? "active" : ""}>
-              <Link to="/monitoring#windows" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#windows', 1)}}>
+            <li role="presentation">
+              <a className="grey-color" data-toggle="tab" href="#windows">
                 <span className="hidden-xs hidden-sm"> Windows</span>
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
         <div className="tab-content section-content">
-          <div id="linux" className={"tab-pane fade " + (hash == '#linux' || hash == '' ? "in active" : "")}>
-            <Linux callUpdateURL={function (page) {_SELF.updateURL('#linux', page)}}/>
+          <div id="linux" className="tab-pane fade in active">
+            <Linux/>
           </div>
-          <div id="windows" className={"tab-pane fade " + (hash == '#windows' ? "in active" : "")}>
-            <Windows callUpdateURL={function (page) {_SELF.updateURL('#windows', page)}}/>
+          <div id="windows" className="tab-pane fade">
+            <Windows/>
           </div>
         </div>
       </div>

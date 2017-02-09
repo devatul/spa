@@ -20,6 +20,8 @@ var showSignupMessage              = require('../actions/ServerActions').showSig
 var showConfirmMessage             = require('../actions/ServerActions').showConfirmMessage;
 var search                         = require('../actions/ServerActions').search;
 var showAvailableGraphTypes        = require('../actions/ServerActions').showAvailableGraphTypes;
+var showInstanceForMonitoring      = require('../actions/ServerActions').showInstanceForMonitoring;
+var showInstanceConfiguration      = require('../actions/ServerActions').showInstanceConfiguration;
 var showTicket                     = require('../actions/ServerActions').showTicket;
 var showCompany                    = require('../actions/ServerActions').showCompany;
 var APIEndpoints                   = Constants.APIEndpoints;
@@ -868,6 +870,84 @@ module.exports = {
           this.getInfrastructureOnPremise();
           this.getInfrastructurePrivateCloud();
           this.getInfrastructurePublicCloud();
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  getInstanceForMonitoring: function (id) {
+    var token   = this.getToken();
+    var company = localStorage.getItem('nubity-company');
+
+    request
+    .get('/company/' + company + '/instance/' + id + '.json')
+    .query({include_products: true})
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getInstanceForMonitoring();
+        } else {
+          showInstanceForMonitoring(text);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  getInstanceConfiguration: function (id) {
+    var token   = this.getToken();
+
+    request
+    .get('/instance/' + id + '/monitoring/configuration.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getInstanceConfiguration();
+        } else {
+          showInstanceConfiguration(text);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  uninstallPlugin: function (idPlugin, id) {
+    var token   = this.getToken();
+
+    request
+    .del('/instance/' + id + '/monitoring/uninstall-template.json')
+    .send({template_id: idPlugin})
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.uninstallPlugin();
+        } else {
+          this.getInstanceConfiguration(id);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  installPlugin: function (idPlugin, id) {
+    var token   = this.getToken();
+
+    request
+    .post('/instance/' + id + '/monitoring/install-template.json')
+    .send({template_id: idPlugin})
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.installPlugin();
+        } else {
+          this.getInstanceConfiguration(id);
         }
       }.bind(this));
     }.bind(this));

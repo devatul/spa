@@ -9,8 +9,6 @@ var CHANGE_EVENT = 'change';
 
 var _dashboards  = '';
 var _dashboard   = '';
-var _textError   = '';
-var _errorCode   = '';
 var _graphTypes  = '';
 
 var GraphStore = assign({}, EventEmitter.prototype, {

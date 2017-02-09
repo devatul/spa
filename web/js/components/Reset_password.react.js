@@ -1,6 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var ChangePasswordAction       = require('../actions/RequestActions').changePassword;
 
@@ -36,7 +34,7 @@ module.exports = React.createClass({
         textError: "Passwords doesn't match",
       });
     } else {
-      ChangePasswordAction(token, password, password2);   
+      ChangePasswordAction(token, password, confirmation);   
     }   
   },
 

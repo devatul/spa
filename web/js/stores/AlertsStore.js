@@ -13,8 +13,6 @@ var _history         = '';
 var _isAlertTicket   = false;
 var _alertTicket     = '';
 var _dashboardAlerts = '';
-var _textError       = '';
-var _errorCode       = '';
 
 var AlertsStore = assign({}, EventEmitter.prototype, {
 

@@ -8,8 +8,6 @@ var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _ninja           = '';
-var _textError       = '';
-var _errorCode       = '';
 var _singleticket    = '';
 var _ticket          = '';
 var _isViewingTicket = false;

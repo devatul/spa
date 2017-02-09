@@ -1,7 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
-var SessionStore               = require('../stores/SessionStore');
 var CustomPerformance          = require('./Custom_performance.react');
 
 module.exports = React.createClass({
@@ -10,7 +7,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center"><span>Customize your infrastructure's performance</span></h2>
+          <h2 className="align-center"><span>Customize your infrastructure&#39;s performance</span></h2>
         </div>
         <div>
           <ul className="nav nav-tabs section-tabs">

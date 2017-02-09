@@ -1,6 +1,4 @@
 var React                 = require('react');
-var Router                = require('../router');
-var SessionStore          = require('../stores/SessionStore');
 var AlertsStore           = require('../stores/AlertsStore');
 var Link                  = require('react-router').Link;
 var getStats              = require('../actions/RequestActions').getStats;
@@ -43,6 +41,7 @@ module.exports = React.createClass({
     var warning;
     var critical;
     var statsNumber;
+    var alertBadge;
 
     if ("" !== stats) {
       info = parseInt(stats.info);

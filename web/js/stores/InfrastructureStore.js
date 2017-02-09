@@ -11,8 +11,8 @@ var _overview  = '';
 var _public    = '';
 var _private   = '';
 var _onPremise = '';
-var _textError = '';
-var _errorCode = '';
+var _instanceForMonitoring = '';
+var _instanceConfiguration = '';
 
 var InfrastructureStore = assign({}, EventEmitter.prototype, {
 
@@ -43,6 +43,14 @@ var InfrastructureStore = assign({}, EventEmitter.prototype, {
   getInfrastructureOnPremise: function () {
     return _onPremise;
   },
+
+  instanceForMonitoring: function () {
+    return _instanceForMonitoring;
+  },
+
+  instanceConfiguration: function () {
+    return _instanceConfiguration;
+  }
 });
 
 InfrastructureStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -53,6 +61,16 @@ InfrastructureStore.dispatchToken = Dispatcher.register(function (payload) {
       _overview = action.res;
       _textError = '';
       _errorCode = '';
+      InfrastructureStore.emitChange();
+    break;
+
+    case ActionTypes.SHOW_INSTANCE_FOR_MONITORING:
+      _instanceForMonitoring = action.res;
+      InfrastructureStore.emitChange();
+    break;
+
+    case ActionTypes.SHOW_INSTANCE_CONFIGURATION:
+      _instanceConfiguration = action.res;
       InfrastructureStore.emitChange();
     break;
 

@@ -1,11 +1,8 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
-var AlertsStore                = require('../stores/AlertsStore');
 var NinjaStore                 = require('../stores/NinjaStore');
 var getTicket                  = require('../actions/RequestActions').getTicket;
-var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var ReplyTicketAction          = require('../actions/RequestActions').replyTicket;
 var Preloader                  = require('./Preloader.react');
 var Reply                      = require('./Ticket_reply.react');
@@ -93,10 +90,12 @@ module.exports = React.createClass({
     var urlid    = url.slice(position);
     var ticketName    = '';
     var subject       = '';
+    var ticket        = '';
+    var replies;
 
     //Form
     if (NinjaStore.isViewingTicket()) {
-      var ticket        = this.state.ticket;
+      ticket        = this.state.ticket;
       formHeader = (<FormHeader priority={ticket.priority} department={ticket.department} server={ticket.hostname} subject={ticket.subject}/>);
       ticketName = ticket.name;
       subject = ticket.subject;
@@ -104,17 +103,15 @@ module.exports = React.createClass({
       if (!(undefined === this.state.ticket.priority || undefined === this.state.ticket.department || undefined === this.state.ticket.hostname || undefined === this.state.ticket.subject)) {
         formHeader = (<FormHeader priority={this.state.ticket.priority} department={this.state.ticket.department} server={this.state.ticket.hostname} subject={this.state.ticket.subject}/>);
       }
-    } else {
-      var ticket = '';
     }
 
     //Replies
     var message = '';
     if (undefined === this.state.ticket.replies) {
-      var replies = (<Preloader/>);
+      replies = (<Preloader/>);
       message = (<Preloader/>);
     } else {
-      var replies = this.state.ticket.replies;
+      replies = this.state.ticket.replies;
       message = this.state.ticket.replies[(this.state.ticket.replies).length-1].content;
       var index = replies.length-1;
       if (-1 < index) {
