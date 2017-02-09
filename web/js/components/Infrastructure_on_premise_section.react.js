@@ -285,25 +285,34 @@ module.exports = React.createClass({
         </div>
       );
     } else {
-      content = (
-        <table className="onPremise-table">
-          <thead>
-            <tr>
-              <th className="column-icon">State</th>
-              <th>Description</th>
-              <th className="hidden-xs">Connection name</th>
-              <th className="column-button hidden-xs hidden-sm">Actions</th>
-              <th className="hidden-xs hidden-sm">Memory</th>
-              <th className="column-icon">Health</th>
-              <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
-              <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
-            </tr>
-          </thead>
-          <tbody>
-          {rows}
-          </tbody>
-        </table>
-      );
+      if (0 == totalItems) {
+        content = (
+          <div className="empty-table">
+            <i className="icon nb-connection x-large grey-text"></i>
+            <h1 className="grey-text">There are no On Premise integrations yet.</h1>
+          </div>
+        );
+      } else {
+        content = (
+          <table className="onPremise-table">
+            <thead>
+              <tr>
+                <th className="column-icon">State</th>
+                <th>Description</th>
+                <th className="hidden-xs">Connection name</th>
+                <th className="column-button hidden-xs hidden-sm">Actions</th>
+                <th className="hidden-xs hidden-sm">Memory</th>
+                <th className="column-icon">Health</th>
+                <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+                <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
+              </tr>
+            </thead>
+            <tbody>
+            {rows}
+            </tbody>
+          </table>
+        );
+      }
     }
 
     return (

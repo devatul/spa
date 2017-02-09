@@ -305,6 +305,7 @@ module.exports = React.createClass({
       navpages[navpages.length] = <li className={this.state.pageNo == page ? "active" : ""}><a onClick={this._updatePage.bind(this, '#activeAlerts', page)}>{page}</a></li>;
     }
 
+    var totalHistoryItems = this.state.totalHistoryItems;
     var historyPages = this.state.totalPages.history;
 
     var hpaginatorClass;
@@ -327,38 +328,51 @@ module.exports = React.createClass({
       content = (
         <div>
           <table>
-            <tr>
-              <th className="column-icon">Severity</th>
-              <th>Description</th>
-              <th>Device</th>
-              <th className="hidden-xs hidden-sm">Integration</th>
-              <th className="hidden-xs hidden-sm">Started on</th>
-              <th className="hidden-xs hidden-sm">Resolved on</th>
-              <th className="column-button hidden-xs">Notifications</th>
-              <th className="column-button">Report a problem</th>
-            </tr>
+            <thead>
+              <tr>
+                <th className="column-icon">Severity</th>
+                <th>Description</th>
+                <th>Device</th>
+                <th className="hidden-xs hidden-sm">Integration</th>
+                <th className="hidden-xs hidden-sm">Started on</th>
+                <th className="hidden-xs hidden-sm">Resolved on</th>
+                <th className="column-button hidden-xs">Notifications</th>
+                <th className="column-button">Report a problem</th>
+              </tr>
+            </thead>
           </table>
           <Preloader />
         </div>
       );
     } else {
-      content = (
-        <table>
-          <tr>
-            <th className="column-icon">Severity</th>
-            <th>Description</th>
-            <th>Device</th>
-            <th className="hidden-xs hidden-sm">Integration</th>
-            <th className="hidden-xs hidden-sm">Started on</th>
-            <th className="hidden-xs hidden-sm">Resolved on</th>
-            <th className="column-button hidden-xs">Notifications</th>
-            <th className="column-button">Report a problem</th>
-          </tr>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-      );
+      if (0 == totalItems) {
+        content = (
+          <div className="empty-table">
+            <i className="icon nb-thick-circle x-large grey-text"></i>
+            <h1 className="grey-text">There are no Active alerts right now.</h1>
+          </div>
+        );
+      } else {
+        content = (
+          <table>
+            <thead>
+              <tr>
+                <th className="column-icon">Severity</th>
+                <th>Description</th>
+                <th>Device</th>
+                <th className="hidden-xs hidden-sm">Integration</th>
+                <th className="hidden-xs hidden-sm">Started on</th>
+                <th className="hidden-xs hidden-sm">Resolved on</th>
+                <th className="column-button hidden-xs">Notifications</th>
+                <th className="column-button">Report a problem</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        );
+      }
     }
 
     if (!alerts) {
@@ -391,38 +405,51 @@ module.exports = React.createClass({
       hcontent = (
         <div>
           <table>
-            <tr>
-              <th className="column-icon">Severity</th>
-              <th>Description</th>
-              <th>Device</th>
-              <th className="hidden-xs hidden-sm">Integration</th>
-              <th className="hidden-xs hidden-sm">Started on</th>
-              <th className="hidden-xs hidden-sm">Resolved on</th>
-              <th className="column-button hidden-xs">Notifications</th>
-              <th className="column-button">Report a problem</th>
-            </tr>
+            <thead>
+              <tr>
+                <th className="column-icon">Severity</th>
+                <th>Description</th>
+                <th>Device</th>
+                <th className="hidden-xs hidden-sm">Integration</th>
+                <th className="hidden-xs hidden-sm">Started on</th>
+                <th className="hidden-xs hidden-sm">Resolved on</th>
+                <th className="column-button hidden-xs">Notifications</th>
+                <th className="column-button">Report a problem</th>
+              </tr>
+            </thead>
           </table>
           <Preloader />
         </div>
       );
     } else {
-      hcontent = (
-        <table>
-          <tr>
-            <th className="column-icon">Severity</th>
-            <th>Description</th>
-            <th>Device</th>
-            <th className="hidden-xs hidden-sm">Integration</th>
-            <th className="hidden-xs hidden-sm">Started on</th>
-            <th className="hidden-xs hidden-sm">Resolved on</th>
-            <th className="column-button hidden-xs">Notifications</th>
-            <th className="column-button">Report a problem</th>
-          </tr>
-          <tbody>
-            {historyRows}
-          </tbody>
-        </table>
-      );
+      if (0 == totalHistoryItems) {
+        hcontent = (
+          <div className="empty-table">
+            <i className="icon nb-thick-circle x-large grey-text"></i>
+            <h1 className="grey-text">There are no History alerts yet.</h1>
+          </div>
+        );
+      } else {
+        hcontent = (
+          <table>
+            <thead>
+              <tr>
+                <th className="column-icon">Severity</th>
+                <th>Description</th>
+                <th>Device</th>
+                <th className="hidden-xs hidden-sm">Integration</th>
+                <th className="hidden-xs hidden-sm">Started on</th>
+                <th className="hidden-xs hidden-sm">Resolved on</th>
+                <th className="column-button hidden-xs">Notifications</th>
+                <th className="column-button">Report a problem</th>
+              </tr>
+            </thead>
+            <tbody>
+              {historyRows}
+            </tbody>
+          </table>
+        );
+      }
     }
 
     if (!historyAlerts) {

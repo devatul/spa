@@ -10,8 +10,6 @@ var PaymentMethodSection  = require('./Payment_method_section.react');
 var MyTeamSection         = require('./My_team_section.react');
 var CompanySection        = require('./Company_section.react');
 var AccountStatusSection  = require('./Account_status_section.react');
-var Dropdown              = require('react-bootstrap').Dropdown;
-var MenuItem              = require('react-bootstrap').MenuItem;
 var Tooltip               = require('react-bootstrap').Tooltip;
 var OverlayTrigger        = require('react-bootstrap').OverlayTrigger;
 
@@ -29,7 +27,6 @@ var NavBar = React.createClass({
     $('.nav a').on('click', function () {
       $('.btn-navbar').click();
       $('.navbar-toggle').click();
-      $('.dropdown-toggle').click();
     });
   },
 
@@ -95,7 +92,9 @@ var NavBar = React.createClass({
     var forgot    = url.search('forgot');
     var avatar    = '';
 
-    var tooltip = (<Tooltip id="tooltip">Integrations</Tooltip>);
+    var integrations = (<Tooltip id="tooltip">Integrations</Tooltip>);
+    var configure = (<Tooltip id="tooltip">My account</Tooltip>);
+    var logout = (<Tooltip id="tooltip">Log out</Tooltip>);
 
     if (null === localStorage.getItem('nubity-user-avatar') || 'undefined' === localStorage.getItem('nubity-user-avatar')) {
       avatar = './images/userpic.jpg';
@@ -150,48 +149,27 @@ var NavBar = React.createClass({
             </div>
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav navbar-right">
-                <li className="up-li hidden">
-                  <OverlayTrigger placement="bottom" overlay={tooltip}>
-                    <button className="onboarding-button" type="button" onClick={this._redirectOnboarding}>
-                      <i className="icon nb-connection"></i>
+                <li className="up-li">
+                  <OverlayTrigger placement="bottom" overlay={integrations}>
+                    <a className="onboarding-button" onClick={this._redirectOnboarding}>
+                      <i className="icon nb-connection-circle"></i>
                       <span className="notification-badge">+</span>
-                    </button>
+                    </a>
                   </OverlayTrigger>
                 </li>
-                <li>
-                  <Dropdown>
-                    <Dropdown.Toggle className="dropdown-menu-nb">
-                      <img src={avatar} alt="add photo" title="add photo" className="user-photo img-circle"/>
-                       {lastname}, {firstname}!
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <MenuItem eventKey="1">
-                        <a onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
-                          <i className="icon nb-config small"></i> My Account
-                        </a>
-                      </MenuItem>
-                      <MenuItem eventKey="2" className="hidden">
-                        <a onClick={this._openAccount}>
-                          <i className="icon nb-company small"></i> Company
-                        </a>
-                      </MenuItem>
-                      <MenuItem eventKey="3" className="hidden">
-                        <a onClick={this._openAccount}>
-                          <i className="icon nb-team small"></i> My Team
-                        </a>
-                      </MenuItem>
-                      <MenuItem eventKey="4" className="hidden">
-                        <a onClick={this._openBilling} >
-                          <i className="icon nb-billing small"></i> Billing
-                        </a>
-                      </MenuItem>
-                      <MenuItem eventKey="5">
-                        <a onClick={this._onClickLogOut}>
-                          <i className="icon nb-logout small"></i> Log Out
-                        </a>
-                      </MenuItem>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                <li className="up-li">
+                  <OverlayTrigger placement="bottom" overlay={configure}>
+                    <a className="onboarding-button" onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
+                      <i className="icon nb-config-circle"></i>
+                    </a>
+                  </OverlayTrigger>
+                </li>
+                <li className="up-li last">
+                  <OverlayTrigger placement="bottom" overlay={logout}>
+                    <a className="onboarding-button" onClick={this._onClickLogOut}>
+                      <i className="icon nb-logout-circle"></i>
+                    </a>
+                  </OverlayTrigger>
                 </li>
               </ul>
             </div>
