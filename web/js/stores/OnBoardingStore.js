@@ -8,8 +8,6 @@ var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _providers = '';
-var _textError = '';
-var _errorCode = '';
 
 var OnBoardingStore = assign({}, EventEmitter.prototype, {
 

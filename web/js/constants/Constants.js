@@ -7,6 +7,7 @@ module.exports = {
     LOGIN_RESPONSE: null,
     LOGOUT: null,
     REDIRECT: null,
+    REDIRECT_WITH_PARAMS: null,
     SHOW_SIGNUP_MESSAGE: null,
     ERROR: null,
     SHOW_INFRASTRUCTURE_OVERVIEW: null,
@@ -28,6 +29,8 @@ module.exports = {
     SHOW_TICKET: null,
     VIEW_TICKET: null,
     SHOW_COMPANY: null,
+    SHOW_INSTANCE_FOR_MONITORING: null,
+    SHOW_INSTANCE_CONFIGURATION: null,
   }),
 
   PayloadSources: keyMirror({

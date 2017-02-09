@@ -43,6 +43,20 @@ module.exports = {
     });
   },
 
+  showInstanceForMonitoring: function (instance) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_INSTANCE_FOR_MONITORING,
+      res: instance,
+    });
+  },
+
+  showInstanceConfiguration: function (instance) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_INSTANCE_CONFIGURATION,
+      res: instance,
+    });
+  },
+
   showInfrastructurePrivateCloud: function (privateCloud) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_PRIVATE_CLOUD,

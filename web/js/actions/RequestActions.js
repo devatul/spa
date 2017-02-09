@@ -64,8 +64,8 @@ module.exports = {
     NubityAPIUtils.getDashboards();
   },
 
-  getDashboard: function (id) {
-    NubityAPIUtils.getDashboard(id);
+  getDashboard: function (dashboardId) {
+    NubityAPIUtils.getDashboard(dashboardId);
   },
 
   createDashboard: function (widget, server, chart, dashboardId, position) {
@@ -88,12 +88,12 @@ module.exports = {
     NubityAPIUtils.getAvailableGraphTypes(id);
   },
 
-  createTicket: function(ticket) {
+  createTicket: function (ticket) {
     NubityAPIUtils.createTicket(ticket);
   },
 
-  replyTicket: function(id, content) {
-    NubityAPIUtils.replyTicket(id, content);
+  replyTicket: function (ticketId, content) {
+    NubityAPIUtils.replyTicket(ticketId, content);
   },
 
   createAlertTicket: function (alert) {
@@ -126,5 +126,21 @@ module.exports = {
 
   deleteOrderCancelation: function (orderCode) {
     NubityAPIUtils.deleteOrderCancelation(orderCode);
+  },
+
+  getInstanceForMonitoring: function (instanceId) {
+    NubityAPIUtils.getInstanceForMonitoring(instanceId);
+  },
+
+  getInstanceConfiguration: function (instanceId) {
+    NubityAPIUtils.getInstanceConfiguration(instanceId);
+  },
+
+  uninstallPlugin: function (pluginId, instanceId) {
+    NubityAPIUtils.uninstallPlugin(pluginId, instanceId);
+  },
+
+  installPlugin: function (pluginId, instanceId) {
+    NubityAPIUtils.installPlugin(pluginId, instanceId);
   }
 }

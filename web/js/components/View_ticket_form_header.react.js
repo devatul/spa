@@ -3,7 +3,7 @@ var React  = require('react');
 module.exports = React.createClass({
 
   render: function () {
-    servers = [];
+    var servers = [];
     servers.push(<option value="" disabled>Select Server</option>);
     servers.push(<option value={this.props.server} disabled>{this.props.server}</option>);
 

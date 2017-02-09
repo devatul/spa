@@ -2,6 +2,7 @@ var React                      = require('react');
 var ReactPropTypes             = React.PropTypes;
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
+var redirectWithParams         = require('../actions/RouteActions').redirectWithParams;
 var SessionStore               = require('../stores/SessionStore');
 var InfrastructureStore        = require('../stores/InfrastructureStore');
 var getInfrastructureOverview  = require('../actions/RequestActions').getInfrastructureOverview;
@@ -13,6 +14,7 @@ var Preloader                  = require('./Preloader.react');
 var Warning                    = require('./Warning_message.react');
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
+var Link                       = require('react-router').Link;
 
 module.exports = React.createClass({
 
@@ -75,10 +77,6 @@ module.exports = React.createClass({
       isLoading: true,
     })
     getInfrastructureOverview(page);
-  },
-
-  _monitoring: function (instance) {
-    redirect('monitoring');
   },
 
   _managed: function (instance) {
@@ -199,7 +197,7 @@ module.exports = React.createClass({
         if ('pending-acceptation' == monitoringStatus) {
           monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
         } else if ('' == monitoringStatus) {
-          monitoring = (<span className="action-button nubity-green" onClick={this._monitoring.bind(this, overview[key])}>Start</span>);
+          monitoring = (<Link className="action-button nubity-green" to="monitoring" params={{id: overview[key].instance}}>Start</Link>);
         } else if ('accepted' == monitoringStatus) {
           monitoring = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
         } else if ('pending-cancellation' == monitoringStatus) {
@@ -272,7 +270,7 @@ module.exports = React.createClass({
             </td>
             <td className="hidden-xs hidden-sm">{overview[key].memory/1024} GB</td>
             <td className="icons"><i className={level} aria-hidden="true"></i></td>
-            <td className="icons hidden-xs hidden-sm hidden">
+            <td className="icons hidden-xs hidden-sm">
               {monitoring}
             </td>
             <td className="icons hidden-xs hidden-sm">
