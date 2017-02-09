@@ -16,6 +16,7 @@ var createAlertTicket          = require('../actions/ServerActions').createAlert
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
+var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 
 module.exports = React.createClass({
 
@@ -24,25 +25,30 @@ module.exports = React.createClass({
     var dashboards = GraphStore.getDashboards();
     var dashboard  = GraphStore.getDashboard();
     var stats      = AlertsStore.getDashboardStats();
+    var companyInfo = SessionStore.getCompanyInfo();
     return {
       mainAlerts: mainAlerts.member,
       dashboards: '',
       dashboard: '',
       stats: stats,
+      companyInfo: companyInfo,
     };
   },
 
   componentDidMount: function() {
+    getCompanyInfo();
     getDashboardAlerts();
     getDashboards();
     getStats();
     AlertsStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
+    SessionStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
     AlertsStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
+    SessionStore.addChangeListener(this._onChange);
   },
 
   _onChange: function() {
@@ -51,11 +57,13 @@ module.exports = React.createClass({
       var dashboards = GraphStore.getDashboards();
       var dashboard  = GraphStore.getDashboard();
       var stats      = AlertsStore.getDashboardStats();
+      var companyInfo = SessionStore.getCompanyInfo();
       this.setState({
         mainAlerts: mainAlerts.member,
         dashboards: dashboards,
         dashboard: dashboard,
         stats: stats,
+        companyInfo: companyInfo,
       });
 
       if (AlertsStore.isAlertTicket()) {
@@ -77,11 +85,13 @@ module.exports = React.createClass({
   },
 
   render: function() {
+    var companyInfo = this.state.companyInfo;
     var dashboard = this.state.dashboard;
     var firstname = localStorage.getItem('nubity-firstname');
     var mainAlerts = this.state.mainAlerts;
     var notice;
     var tooltip = '';
+    var companyName = companyInfo.name;
 
     if (undefined !== mainAlerts) {
       if (mainAlerts.length > 1) {
@@ -195,33 +205,50 @@ module.exports = React.createClass({
     if (!mainAlerts) {
       alertTable = <Preloader />;
     } else {
-      alertTable =
-        <div className="alert-table">
-          <div className="margin-sides">
-            <table>
-              <tr>
-                <th className="column-icon">Severity</th>
-                <th>Description</th>
-                <th>Device</th>
-                <th className="hidden-xs hidden-sm">Integration</th>
-                <th className="hidden-xs hidden-sm">Started on</th>
-                <th className="hidden-xs hidden-sm">Resolved on</th>
-                <th className="column-button hidden-xs">Notifications</th>
-                <th className="column-button">Report a problem</th>
-              </tr>
-              <tbody>
-                {rows}
-              </tbody>
-            </table>
+      if (0 == totalItems) {
+        alertTable = (
+          <div className="alert-table">
+            <div className="margin-sides">
+              <div className="clear"></div>
+              <div className="empty-table">
+                <i className="icon nb-thick-circle x-large grey-text"></i>
+                <h1 className="grey-text">There are no Active alerts right now.</h1>
+              </div>
+            </div>
           </div>
-          {notice}
-        </div>;
+        );
+      } else {
+        alertTable = (
+          <div className="alert-table">
+            <div className="margin-sides">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="column-icon">Severity</th>
+                    <th>Description</th>
+                    <th>Device</th>
+                    <th className="hidden-xs hidden-sm">Integration</th>
+                    <th className="hidden-xs hidden-sm">Started on</th>
+                    <th className="hidden-xs hidden-sm">Resolved on</th>
+                    <th className="column-button hidden-xs">Notifications</th>
+                    <th className="column-button">Report a problem</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows}
+                </tbody>
+              </table>
+            </div>
+            {notice}
+          </div>
+        );
+      }
     }
 
     return (
       <div className="principal-section">
         <div className="section-title ">
-          <h2 className="align-center">Hi {firstname}! Check your infrastructure and apps status</h2>
+          <h2 className="align-center">{companyName}'s dashboard</h2>
         </div>
         {stats}
         {alertTable}
