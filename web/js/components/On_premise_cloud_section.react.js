@@ -23,6 +23,7 @@ module.exports = React.createClass({
       pageNo: 1,
       credentialDetails: credentialDetails,
       credetialInfo: false,
+      open: false,
     };
   },
 
@@ -33,14 +34,6 @@ module.exports = React.createClass({
   componentDidMount: function () {
     OnBoardingStore.addChangeListener(this._onChange);
     getProviderCredential(this.sectionKey, this.state.pageNo, this.limit);
-    $(".image-preview-input input:file").change(function () {
-        var file = this.files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $(".image-preview-input-title").text("Change Certificate");
-            $(".image-preview-filename").text(file.name).removeClass('hidden');
-        }
-    });
   },
 
   componentWillUnmount: function () {
@@ -65,33 +58,33 @@ module.exports = React.createClass({
     }
   },
 
-  scroll: function (arrow) {
+  _scroll: function (arrow) {
     var width = this.props.providers.length*150;
     var view = $("#premiseCloudProvidersList");
     var move = "100px";
     var sliderLimit = -(width-700);
-    if (arrow == 'leftArrow') {
+    if ('leftArrow' == arrow) {
       var currentPosition = parseInt(view.css("left"));
-      if (currentPosition < 0) view.stop(false,true).animate({left:"+="+move},{ duration: 400})
+      if (0 > currentPosition) view.stop(false,true).animate({left:"+="+move},{ duration: 400})
     } else {
       var currentPosition = parseInt(view.css("left"));
       if (currentPosition >= sliderLimit) view.stop(false,true).animate({left:"-="+move},{ duration: 400})
     }
   },
 
-  revealFirstStepOfPrivateCloud: function () {
+  _revealFirstStepOfPrivateCloud: function () {
     $('#onPremise1StepTitle').removeClass('hidden');
     $('#onPremise1StepContent').removeClass('hidden');
     $('#onPremiseCancelButton').removeClass('hidden');
     $('#onPremiseAddButton').addClass('hidden');
   },
 
-  revealSecondStepOfPrivateCloud: function () {
+  _revealSecondStepOfPrivateCloud: function () {
     $('#onPremise2StepTitle').removeClass('hidden');
     $('#onPremise2StepContent').removeClass('hidden');
   },
 
-  revertPrivateSteps: function () {
+  _revertPrivateSteps: function () {
     $('#onPremise1StepTitle').addClass('hidden');
     $('#onPremise1StepContent').addClass('hidden');
     $('#onPremise2StepTitle').addClass('hidden');
@@ -103,7 +96,7 @@ module.exports = React.createClass({
     });
   },
 
-  submitData: function () {
+  _submitData: function () {
     var providerId = this.state.activeProvider.provider;
     var integrationName = $("input[name='onPremiseIntegrationName']").prop("value") || null;
     var apiKey = $("input[name='onPremiseApiKey']").prop("value") || null;
@@ -134,7 +127,8 @@ module.exports = React.createClass({
     });
   },
 
-  getCloudInputField: function () {
+  _getCloudInputField: function () {
+    var _SELF = this;
     var credetials = this.state.activeProvider && this.state.activeProvider.requirements;
     var input = [];
     input.push(
@@ -175,15 +169,35 @@ module.exports = React.createClass({
         </div>
       );
     }
+    if (credetials.certificate) {
+      input.push(
+        <div className="input-group image-preview">
+          <span className="input-group-btn">
+            <div className="btn btn-default image-preview-input">
+                <span className="glyphicon glyphicon-folder-open"></span>
+                <span className="image-preview-input-title">Upload Certificate</span>
+                <input type="file" name="certificate" id="onPremiseCertificate" onChange={function () {_SELF._onFileChange()}} />
+            </div>
+          </span>
+          <span className="form-control image-preview-filename hidden"></span>
+        </div>
+      );
+    }
     return input
   },
 
-  exploreOnPremiseStep2: function (provider, id) {
+  _onFileChange: function () {
+    var file = $("#onPremiseCertificate").prop("files")[0];
+    $(".image-preview-input-title").text("Change Certificate");
+    $(".image-preview-filename").text(file.name).removeClass('hidden');
+  },
+
+  _exploreOnPremiseStep2: function (provider, id) {
     $('.onPremise-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
     $("#"+id+'.onPremise-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
     var credetials = this.state.activeProvider;
     if (!credetials) {
-      this.revealSecondStepOfPrivateCloud();
+      this._revealSecondStepOfPrivateCloud();
     }
     this.setState({
       activeProvider: provider,
@@ -199,14 +213,15 @@ module.exports = React.createClass({
     }
   },
 
-  editProviderCredential: function (credetialInfo) {
+  _editProviderCredential: function (credetialInfo) {
     this.setState({
+      open: true,
       credetialInfo: credetialInfo,
     });
-    getCredentialDetails(credetialInfo.provider_credential)
+    getCredentialDetails(credetialInfo.provider_credential);
   },
 
-  deleteCredential: function (id) {
+  _deleteCredential: function (id) {
     var _SELF = this;
     deleteProviderCredential(id).then(function () {
       getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
@@ -220,14 +235,14 @@ module.exports = React.createClass({
     _.map(providers, function (provider, i) {
       if (null != provider.logo) {
         rows.push(
-          <div id={"prePro_"+i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider, "prePro_"+i)}}>
+          <div id={"prePro_"+i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF._exploreOnPremiseStep2(provider, "prePro_"+i)}}>
             <img src={provider.logo.public_path} className="logo-max-size m-t-15"></img>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       } else {
         rows.push(
-          <div id={"prePro_"+i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF.exploreOnPremiseStep2(provider, "prePro_"+i)}}>
+          <div id={"prePro_"+i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF._exploreOnPremiseStep2(provider, "prePro_"+i)}}>
             <div className="clouds-icons aws"></div>
             <p className="aws-text">{provider.name}</p>
           </div>
@@ -245,7 +260,7 @@ module.exports = React.createClass({
     }
 
     var paginatorClass;
-    if (pages <= 1) {
+    if (1 >= pages) {
       paginatorClass = 'hidden';
     }
     //---------------Table Rows------------------
@@ -256,16 +271,16 @@ module.exports = React.createClass({
       var statusClass = "fa fa-check-circle green-text";
       var statusLable = "OK";
 
-      if (data.status == "Failed") {
+      if ("Failed" == data.status) {
         statusClass = "fa fa-times-circle red-text";
         statusLable = "Fail";
-      } else if (data.status == "Disabled") {
+      } else if ("Disabled" == data.status) {
         statusClass = "fa fa-ban grey-text";
         statusLable = "Disabled";
       }
       var provider = _.find(allProviders, function(o) { return o.provider == data.provider });
 
-      if(typeof provider !== 'undefined')
+      if('undefined' !== typeof provider)
       connectionTableRow.push(
         <tr>
          <td>
@@ -284,22 +299,21 @@ module.exports = React.createClass({
            <div>{moment(data.checked_at).format("MM/DD/YYYY hh:mm:ss")}</div>
          </td>
          <td className="icons">
-           <div className="col-xs-4"><span className="action-button nubity-blue" data-toggle="modal" data-target={"#"+_SELF.editModalId} onClick={function () {_SELF.editProviderCredential(data)}}>Edit</span></div>
+           <div className="col-xs-4"><span className="action-button nubity-blue" data-toggle="modal" data-target={"#"+_SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data)}}>Edit</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF.deleteCredential(data.provider_credential)}}>Deleted</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential)}}>Deleted</span></div>
          </td>
        </tr>
       );
     });
 
-    var certificate = this.state.activeProvider && this.state.activeProvider.requirements.certificate;
     return (
       <div>
-        <button className="transparent-button" onClick={this.revealFirstStepOfPrivateCloud} id="onPremiseAddButton">
+        <button className="transparent-button" onClick={this._revealFirstStepOfPrivateCloud} id="onPremiseAddButton">
           <i className="fa fa-plus-circle big-green-circle" aria-hidden="true"></i>
           <span> Add New On Premise Cloud Connection</span>
         </button>
-        <button className="transparent-button hidden" onClick={this.revertPrivateSteps} id="onPremiseCancelButton">
+        <button className="transparent-button hidden" onClick={this._revertPrivateSteps} id="onPremiseCancelButton">
           <i  className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
           <span>Cancel On Premise Cloud Connection</span>
         </button>
@@ -309,7 +323,7 @@ module.exports = React.createClass({
         </div>
         <div className="row hidden" id="onPremise1StepContent">
           <div className="col-lg-8 col-lg-offset-2">
-            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF.scroll('leftArrow')}}>
+            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('leftArrow')}}>
               <i className="fa fa-chevron-left" aria-hidden="true"></i>
             </div>
               <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
@@ -317,7 +331,7 @@ module.exports = React.createClass({
                   {rows}
                 </div>
               </div>
-            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF.scroll('rightArrow')}}>
+            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('rightArrow')}}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </div>
           </div>
@@ -329,19 +343,8 @@ module.exports = React.createClass({
         <div className="row hidden" id="onPremise2StepContent">
           <form className="public-cloud-form col-lg-offset-1 col-lg-5">
             <div style={{paddingTop: '10px'}}>
-              {this.getCloudInputField()}
-              { certificate ?
-                <div className="input-group image-preview">
-                  <span className="input-group-btn">
-                    <div className="btn btn-default image-preview-input">
-                        <span className="glyphicon glyphicon-folder-open"></span>
-                        <span className="image-preview-input-title">Upload Certificate</span>
-                        <input type="file" name="certificate" id="onPremiseCertificate"/>
-                    </div>
-                  </span>
-                  <span className="form-control image-preview-filename hidden"></span>
-              </div>:""}
-              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF.submitData()}} >Save</button>
+              {this._getCloudInputField()}
+              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF._submitData()}} >Save</button>
               <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
             </div>
           </form>
@@ -392,10 +395,14 @@ module.exports = React.createClass({
         <div>
           <EditProviderCredential
             modalId={this.editModalId}
+            open={this.state.open}
             credentialDetails={this.state.credentialDetails}
             credetialInfo={this.state.credetialInfo}
             updateCredentials={function (credetialId, newCredential) {return updateNewCredentials(credetialId, newCredential)}}
-            refreshTable={function () {getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit)}}
+            refreshTable={function () {
+              _SELF.setState({open: false})
+              getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit)
+            }}
             {...this.props}/>
         </div>
       </div>
