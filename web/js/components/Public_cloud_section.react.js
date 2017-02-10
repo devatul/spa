@@ -65,10 +65,14 @@ module.exports = React.createClass({
     var sliderLimit = -(width-700);
     if ('leftArrow' == arrow) {
       var currentPosition = parseInt(view.css("left"));
-      if (0 > currentPosition) view.stop(false,true).animate({left:"+="+move},{ duration: 400})
+      if (0 > currentPosition) {
+        view.stop(false,true).animate({left:"+="+move},{ duration: 400});
+      }
     } else {
       var currentPosition = parseInt(view.css("left"));
-      if (currentPosition >= sliderLimit) view.stop(false,true).animate({left:"-="+move},{ duration: 400})
+      if (currentPosition >= sliderLimit) {
+        view.stop(false,true).animate({left:"-="+move},{ duration: 400});
+      }
     }
   },
 
@@ -250,7 +254,6 @@ module.exports = React.createClass({
       }
     });
 
-    //---------------Pagination On Table---------
     var pages = this.state.totalPages;
 
     var navpages = [];
@@ -265,7 +268,6 @@ module.exports = React.createClass({
       paginatorClass = 'hidden';
     }
 
-    //---------------Table Rows------------------
     var connectionTableRow = [];
     var allProviders = this.props.allProviders || [];
 
@@ -367,12 +369,12 @@ module.exports = React.createClass({
         <div className="add-cloud-table-container">
           <table className="add-cloud-table">
             <thead>
-            <tr>
-              <th className="">Status</th>
-              <th className="">Connection name</th>
-              <th className="">Last Sync</th>
-              <th className="column-action">Actions</th>
-            </tr>
+              <tr>
+                <th className="">Status</th>
+                <th className="">Connection name</th>
+                <th className="">Last Sync</th>
+                <th className="column-action">Actions</th>
+              </tr>
             </thead>
             <tbody>
               {connectionTableRow}
@@ -386,7 +388,7 @@ module.exports = React.createClass({
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-              {navpages}
+            {navpages}
             <li>
               <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
                 <span aria-hidden="true">&raquo;</span>
@@ -407,7 +409,6 @@ module.exports = React.createClass({
             }}
             {...this.props}/>
         </div>
-
       </div>
     );
   },
