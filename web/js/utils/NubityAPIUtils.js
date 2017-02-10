@@ -192,6 +192,7 @@ module.exports = {
             localStorage.setItem('nubity-user-email', text.username);
             localStorage.setItem('nubity-user-avatar', text.public_path);
             localStorage.setItem('nubity-user-language', text.locale_display_name);
+            localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
 
             var uri = localStorage.getItem('nubity-uri');
             if (null !== uri){

@@ -104,10 +104,7 @@ var Warning = React.createClass({
             <span>
               You are activating management services for device {this.props.device}.<br/>
               The server takeover process may take from 4 to 6 hours depending on the server complexity.<br/>
-              This action will create a charge in the user's account:<br/>
-              Setup price: USD 35.00 (unique for each activation).<br/>
-              Monthly price: USD 4.34 (billed per 31 days).<br/>
-              Hourly price: USD 0.14<br/>
+              This action will create a charge in the user's account.<br/><br/>
               By clicking the button "I Accept" you agree the <a>Nubity's Terms and Conditions & Privacy Policy</a>.
             </span>
           );
