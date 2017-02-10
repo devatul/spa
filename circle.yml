@@ -2,7 +2,7 @@ dependencies:
   override:
     - npm install --prefix=web
     - npm run build --prefix=web
-    - cd web/ && ./node_modules/eslint/bin/eslint.js --fix .
+    - ./web/node_modules/eslint/bin/eslint.js --fix web/.
   cache_directories:
     - web/node_modules
 test:

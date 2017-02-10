@@ -47,7 +47,7 @@ module.exports = React.createClass({
         if (instanceForMonitoring.monitoring_agent.isActive) {
           this.setState({
             reportFlag: true,
-            report: "Report done",
+            report: 'Report done',
           });
           clearInterval(loop); 
         }

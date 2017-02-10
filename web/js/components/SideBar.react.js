@@ -5,23 +5,23 @@ var getStats              = require('../actions/RequestActions').getStats;
 
 module.exports = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     var stats      = AlertsStore.getDashboardStats();
     return {
       stats: stats,
-    }
+    };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     getStats();
     AlertsStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     AlertsStore.removeChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var stats      = AlertsStore.getDashboardStats();
       this.setState({
@@ -43,12 +43,12 @@ module.exports = React.createClass({
     var statsNumber;
     var alertBadge;
 
-    if ("" !== stats) {
+    if ('' !== stats) {
       info = parseInt(stats.info);
       warning = parseInt(stats.warning);
       critical = parseInt(stats.critical);
       statsNumber = info + warning + critical;
-      if (statsNumber >= 1) {
+      if (1 <= statsNumber) {
         alertBadge = (<span className="alert-badge">{statsNumber}</span>);
       } else {
         alertBadge = '';

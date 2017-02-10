@@ -75,35 +75,35 @@ AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError = '';
       _errorCode = '';
       AlertsStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_STATS:
       _stats = action.res;
       _textError = '';
       _errorCode = '';
       AlertsStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_HISTORY_ALERTS:
       _history   = action.res;
       _textError = '';
       _errorCode = '';
       AlertsStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_DASHBOARD_ALERTS:
       _dashboardAlerts = action.res;
       _textError = '';
       _errorCode = '';
       AlertsStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.CREATE_ALERT_TICKET:
       _alertTicket = action.res;
       _isAlertTicket = true; 
       _textError = '';
       _errorCode = '';
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
@@ -114,7 +114,7 @@ AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
         _errorCode = action.code;
         AlertsStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;

@@ -34,17 +34,17 @@ module.exports = React.createClass({
   componentDidMount: function () {
     var url = window.location.href;
 
-    var position = url.indexOf("monitoring") + 11;
+    var position = url.indexOf('monitoring') + 11;
     var id = url.slice(position);
-    if (-1 != url.indexOf("monitoring")) {
+    if (-1 != url.indexOf('monitoring')) {
       getInstanceForMonitoring(id);
     }
     InfrastructureStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
-    for (var i = 1; i < 99999; i++)
-     window.clearInterval(i);
+    for (var i = 1; 99999 > i; i++)
+      window.clearInterval(i);
    
     InfrastructureStore.removeChangeListener(this._onChange);
   },
@@ -54,9 +54,9 @@ module.exports = React.createClass({
       if (this.state.interval) {
         var loop = setInterval(function () {
           var url = window.location.href;
-          var position = url.indexOf("monitoring") + 11;
+          var position = url.indexOf('monitoring') + 11;
           var id = url.slice(position);
-          if (-1 != url.indexOf("monitoring")) {
+          if (-1 != url.indexOf('monitoring')) {
             getInstanceForMonitoring(id);
           }
         }, 6000);
@@ -79,7 +79,7 @@ module.exports = React.createClass({
         if (instanceForMonitoring.monitoring_agent.is_active) {
           this.setState({
             reportFlag: true,
-            report: "Report done",
+            report: 'Report done',
           });
           clearInterval(loop); 
         }

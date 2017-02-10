@@ -7,10 +7,10 @@ var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
-    return{
+    return {
       message: '',
-      code: ''
-    }
+      code: '',
+    };
   },
 
   componentDidMount: function () {

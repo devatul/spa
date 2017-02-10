@@ -47,30 +47,30 @@ module.exports = React.createClass({
         </div>
         <div>
           <ul className="nav nav-tabs section-tabs">
-            <li role="presentation" className={(hash == '#overview' || hash == '')? "active" : ""}>
+            <li role="presentation" className={('#overview' == hash || '' == hash)? 'active' : ''}>
               <OverlayTrigger placement="top" overlay={overviewTooltip}>
-                <Link to="/infrastructure#overview" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#overview', 1)}}>
+                <Link to="/infrastructure#overview" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#overview', 1);}}>
                   <i className="icon nb-eye small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Overview</span>
                 </Link>
               </OverlayTrigger>
             </li>
-            <li role="presentation" className={hash == '#public' ? "active" : ""}>
+            <li role="presentation" className={'#public' == hash ? 'active' : ''}>
               <OverlayTrigger placement="top" overlay={publicTooltip}>
-                <Link to="/infrastructure#public" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#public', 1)}}>
+                <Link to="/infrastructure#public" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#public', 1);}}>
                   <i className="icon nb-cloud-public small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Public Cloud</span>
                 </Link>
               </OverlayTrigger>
             </li>
-            <li role="presentation" className={hash == '#private' ? "active" : ""}>
+            <li role="presentation" className={'#private' == hash ? 'active' : ''}>
               <OverlayTrigger placement="top" overlay={privateTooltip}>
-                <Link to="/infrastructure#private" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#private', 1)}}>
+                <Link to="/infrastructure#private" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#private', 1);}}>
                   <i className="icon nb-cloud-private small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Private Cloud</span>
                 </Link>
               </OverlayTrigger>
             </li>
-            <li role="presentation" className={hash == '#onPremise' ? "active" : ""}>
+            <li role="presentation" className={'#onPremise' == hash ? 'active' : ''}>
               <OverlayTrigger placement="top" overlay={onPremiseTooltip}>
-                <Link to="/infrastructure#onPremise" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#onPremise', 1)}}>
+                <Link to="/infrastructure#onPremise" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#onPremise', 1);}}>
                   <i className="icon nb-servers small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> On-premise servers</span>
                 </Link>
               </OverlayTrigger>
@@ -99,17 +99,17 @@ module.exports = React.createClass({
           </ul>
         </div>
         <div className="tab-content section-content">
-          <div id="overview" className={"tab-pane fade " + (hash == '#overview' || hash == '' ? "in active" : "")}>
-            <InfrastructureOverview page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#overview', page)}}/>
+          <div id="overview" className={'tab-pane fade ' + ('#overview' == hash || '' == hash ? 'in active' : '')}>
+            <InfrastructureOverview page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#overview', page);}}/>
           </div>
-          <div id="public" className={"tab-pane fade " + (hash == '#public' ? "in active" : "")}>
-            <InfrastructurePublicCloud page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#public', page)}}/>
+          <div id="public" className={'tab-pane fade ' + ('#public' == hash ? 'in active' : '')}>
+            <InfrastructurePublicCloud page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#public', page);}}/>
           </div>
-          <div id="private" className={"tab-pane fade " + (hash == '#private' ? "in active" : "")}>
-            <InfrastructurePrivateCloud page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#private', page)}}/>
+          <div id="private" className={'tab-pane fade ' + ('#private' == hash ? 'in active' : '')}>
+            <InfrastructurePrivateCloud page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#private', page);}}/>
           </div>
-          <div id="onPremise" className={"tab-pane fade " + (hash == '#onPremise' ? "in active" : "")}>
-            <InfrastructureOnPremise page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page)}}/>
+          <div id="onPremise" className={'tab-pane fade ' + ('#onPremise' == hash ? 'in active' : '')}>
+            <InfrastructureOnPremise page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page);}}/>
           </div>
         </div>
       </div>

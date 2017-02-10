@@ -142,5 +142,5 @@ module.exports = {
 
   installPlugin: function (pluginId, instanceId) {
     NubityAPIUtils.installPlugin(pluginId, instanceId);
-  }
-}
+  },
+};

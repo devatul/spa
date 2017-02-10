@@ -51,7 +51,7 @@ var NinjaStore = assign({}, EventEmitter.prototype, {
 
   resetStore: function () {
     _singleticket = '';
-  }
+  },
   
 });
 
@@ -65,7 +65,7 @@ NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError = '';
       _errorCode = '';
       NinjaStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_TICKET:
       _singleticket = action.res;
@@ -73,14 +73,14 @@ NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError = '';
       _errorCode = '';
       NinjaStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.VIEW_TICKET:
       _ticket = action.res;
       _isViewingTicket = true;
       _textError = '';
       _errorCode = '';
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
@@ -91,7 +91,7 @@ NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
         _errorCode = action.code;
         NinjaStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;

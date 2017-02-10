@@ -90,20 +90,20 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.LOGIN_RESPONSE:
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_SIGNUP_MESSAGE:
       _signupMessage = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_CONFIRM_MESSAGE:
       _confirmMessage = action.res;
       _confirmCode = action.code;
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {     
@@ -112,38 +112,38 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError = action.res;
       _errorCode = action.code;
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.LOGOUT:
       localStorage.removeItem('nubity-token');
       localStorage.removeItem('nubity-refresh-token');
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SEARCH:
       _search = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES:
       _graphTypes = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_COMPANY:
       _companyInfo = action.res;
       _textError = '';
       _errorCode = '';
       SessionStore.emitChange();
-    break;
+      break;
     
     case ActionTypes.REDIRECT:
       router.transitionTo(action.route);
-    break;
+      break;
 
     default:
       if (null != action.res && null!= action.code && (401 == action.code)) {       

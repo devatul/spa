@@ -48,7 +48,7 @@ var Warning = React.createClass({
           );
           action = (<span className={buttonClass} onClick={this.open}></span>);
         }
-      break;
+        break;
       case 'stop':
         actionType = 'action-instance';
         if ('stopped' == this.props.status) {
@@ -71,7 +71,7 @@ var Warning = React.createClass({
           );
           action = (<span className={buttonClass} onClick={this.open}></span>);
         }
-      break;
+        break;
       case 'restart':
         actionType = 'action-instance';
         if ('unavailable' == this.props.status) {
@@ -91,7 +91,7 @@ var Warning = React.createClass({
           );
           action = (<span className={buttonClass} onClick={this.open}></span>);
         }
-      break;
+        break;
       case 'support':
         actionType = 'action-support';
         if ('pending-acceptation' == this.props.status) {
@@ -141,7 +141,7 @@ var Warning = React.createClass({
         } else {
           action = (<span className='action-button nubity-blue no-button'>Management</span>);
         }
-      break;
+        break;
       case 'mute':
         actionType = 'action-notification';
         if (this.props.status) {
@@ -177,7 +177,7 @@ var Warning = React.createClass({
             </span>
           );
         }
-      break;
+        break;
     }
 
     return (

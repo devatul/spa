@@ -1,6 +1,6 @@
 var React                      = require('react');
 var Router                     = require('../router');
-var moment                     = require("moment");
+var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
 var GraphStore                 = require('../stores/GraphStore');
 var SessionStore               = require('../stores/SessionStore');
@@ -20,7 +20,7 @@ var getCompanyInfo             = require('../actions/RequestActions').getCompany
 
 module.exports = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     var mainAlerts = AlertsStore.getDashboardAlerts();
     var dashboards = GraphStore.getDashboards();
     var dashboard  = GraphStore.getDashboard();
@@ -35,7 +35,7 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     getCompanyInfo();
     getDashboardAlerts();
     getDashboards();
@@ -45,13 +45,13 @@ module.exports = React.createClass({
     SessionStore.addChangeListener(this._onChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     AlertsStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
     SessionStore.addChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange: function () {
     if (this.isMounted()) {
       var mainAlerts = AlertsStore.getDashboardAlerts();
       var dashboards = GraphStore.getDashboards();
@@ -72,7 +72,7 @@ module.exports = React.createClass({
     }
   },
 
-  _goToAlerts: function() {
+  _goToAlerts: function () {
     redirect('alerts');
   },
 
@@ -84,7 +84,7 @@ module.exports = React.createClass({
     acknowledge(alertId);
   },
 
-  render: function() {
+  render: function () {
     var companyInfo = this.state.companyInfo;
     var dashboard = this.state.dashboard;
     var firstname = localStorage.getItem('nubity-firstname');
@@ -94,9 +94,9 @@ module.exports = React.createClass({
     var companyName = companyInfo.name;
 
     if (undefined !== mainAlerts) {
-      if (mainAlerts.length > 1) {
+      if (1 < mainAlerts.length) {
         notice = <p className="margin-sides right-aligned">These are only {mainAlerts.length} alerts that needs your attention. For more alerts click <a onClick={this._goToAlerts}>here</a></p>;
-      } else if (mainAlerts.length == 1) {
+      } else if (1 == mainAlerts.length) {
         notice = <p className="margin-sides right-aligned">There is only {mainAlerts.length} alert that needs your attention. Go to <a onClick={this._goToAlerts}>Alerts</a></p>;
       } else {
         notice = <p className="margin-sides right-aligned">There are no alerts that needs your attention right now.</p>;
@@ -257,5 +257,5 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });

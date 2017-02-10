@@ -68,21 +68,21 @@ module.exports = React.createClass({
 
       Highcharts.chart(this.props.name, {
         chart: {
-          zoomType: 'x'
+          zoomType: 'x',
         },
         title: {
           text: slot_name,
-          x: -20
+          x: -20,
         },
         xAxis: {
-          categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat',]
+          categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
         },
         yAxis: {
           plotLines: [{
             value: 0,
             width: 1,
-            color: '#808080'
-          }]
+            color: '#808080',
+          }],
         },
         legend: {
           layout:'vertical',
@@ -90,8 +90,8 @@ module.exports = React.createClass({
         },
         series: [{
           name: legend1,
-          data: coords1
-        }]
+          data: coords1,
+        }],
       });
     }
       
@@ -117,5 +117,5 @@ module.exports = React.createClass({
       <GraphEmptyState/>
     );
     
-  }
+  },
 });
