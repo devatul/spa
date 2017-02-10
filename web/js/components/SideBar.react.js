@@ -70,7 +70,7 @@ module.exports = React.createClass({
                 <p className="menu-text">Dashboard</p>
               </div>
             </Link>
-            <Link to="infrastructure" activeClassName="nb-active">
+            <Link to="/infrastructure" activeClassName="nb-active">
               <div className="menu-button">
                 <div className="icon nb-infrastructure medium"></div>
                 <p className="menu-text">Infrastructure</p>

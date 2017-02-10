@@ -166,7 +166,9 @@ module.exports = React.createClass({
       if ('pending-acceptation' == monitoringStatus) {
         monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
       } else if ('' == monitoringStatus) {
-        monitoring = (<Link className="action-button nubity-green" to="monitoring" params={{id: onPremise[key].instance}}>Start</Link>);
+        if (undefined !== onPremise[key].instance) {
+          monitoring = (<Link className="action-button nubity-green" to="monitoring" params={{id: onPremise[key].instance}}>Start</Link>);
+        }
       } else if ('accepted' == monitoringStatus) {
         monitoring = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
       } else if ('pending-cancellation' == monitoringStatus) {
