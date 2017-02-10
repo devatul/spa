@@ -100,7 +100,6 @@
 .image-preview-input-title {
     margin-left:5px;
 }
-
 .scroll-step1 {
     display: inline-block;
     width: 3%;
@@ -121,7 +120,6 @@
     left:0;
     width:100%;
 }
-
 .selected-provider-step1 {
     border: 1px solid rgba(204, 204, 204, 0.79);
     border-radius: 7px;
@@ -130,7 +128,6 @@
 .non-selected-provider-step1 {
     opacity: 0.5;
 }
-
 .add-cloud-table-container {
     border: 1px solid #ccc;
     padding: 1px 0px;
@@ -140,7 +137,6 @@
     text-align: left !important;
     padding-left: 25px !important;
 }
-
 .add-cloud-table .column-action {
     width: 33%;
 }
@@ -151,7 +147,6 @@
     font-size:20pt;
     margin-right: 10px;
 }
-
 .label-inline {
     vertical-align: middle;
     display: table-cell;
