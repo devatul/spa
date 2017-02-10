@@ -183,17 +183,17 @@ module.exports = {
   },
 
   showProviderCredential: function (providerCredentials, tab) {
-    if(tab == '_PUBLIC'){
+     if ('_PUBLIC' == tab) {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PUBLIC,
         res: providerCredentials,
       });
-    } else if (tab == '_PRIVATE') {
+    } else if ('_PRIVATE' == tab) {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PRIVATE,
         res: providerCredentials,
       });
-    } else if(tab == '_ONPREMISE'){
+    } else if ('_ONPREMISE' == tab) {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_ONPREMISE,
         res: providerCredentials,
