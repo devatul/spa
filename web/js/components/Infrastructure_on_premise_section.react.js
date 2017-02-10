@@ -109,6 +109,7 @@ module.exports = React.createClass({
     var state = '';
     var os = '';
     var tooltip = '';
+    var num;
     for (var key in onPremise) {
       state = '';
       if ('running' == onPremise[key].status) {
@@ -231,6 +232,10 @@ module.exports = React.createClass({
         level = 'icon nb-help icon-state grey-text';
       }
 
+      num = onPremise[key].memory/1024;
+      num = num.toString(); 
+      num = num.slice(0, (num.indexOf('.'))+2); 
+
       rows.push(
         <tr>
           <td>
@@ -250,7 +255,7 @@ module.exports = React.createClass({
             <Warning type="stop" status={onPremise[key].status}/>
             <Warning type="restart" status={onPremise[key].status}/>
           </td>
-          <td className="hidden-xs hidden-sm">{onPremise[key].memory/1024} GB</td>
+          <td className="hidden-xs hidden-sm">{num} GB</td>
           <td className="icons"><i className={level} aria-hidden="true"></i></td>
           <td className="icons hidden-xs hidden-sm">
             {monitoring}
@@ -274,7 +279,7 @@ module.exports = React.createClass({
                 <th className="column-button hidden-xs hidden-sm">Actions</th>
                 <th className="hidden-xs hidden-sm">Memory</th>
                 <th className="column-icon">Health</th>
-                <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+                <th className="column-button hidden-xs hidden-sm">Monitoring</th>
                 <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
               </tr>
             </thead>
@@ -301,7 +306,7 @@ module.exports = React.createClass({
                 <th className="column-button hidden-xs hidden-sm">Actions</th>
                 <th className="hidden-xs hidden-sm">Memory</th>
                 <th className="column-icon">Health</th>
-                <th className="column-button hidden-xs hidden-sm hidden">Monitoring</th>
+                <th className="column-button hidden-xs hidden-sm">Monitoring</th>
                 <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
               </tr>
             </thead>

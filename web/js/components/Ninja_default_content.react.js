@@ -8,6 +8,7 @@ var getTicket                  = require('../actions/RequestActions').getTicket;
 var viewTicket                 = require('../actions/ServerActions').viewTicket;
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
+var Link                       = require('react-router').Link;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -119,7 +120,9 @@ module.exports = React.createClass({
                 <span className={status}></span>
               </OverlayTrigger>
             </td>
-            <td className="ticket-id-name" title="View ticket" onClick={this._viewTicket.bind(this, ticket[key])}>{ticket[key].name}</td>
+            <td className="ticket-id-name" title="View ticket">
+              <Link to="view_ticket_params" params={{id: ticket[key].ticket}}>{ticket[key].name}</Link>
+            </td>
             <td>{ticket[key].subject}</td>
             <td className="icons">
               <OverlayTrigger placement="top" overlay={priorityTooltip}>
