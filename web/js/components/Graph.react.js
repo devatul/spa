@@ -5,11 +5,13 @@ var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
 var Highcharts                 = require('highcharts');
 var addFunnel                  = require('highcharts/modules/funnel');
+var GraphEmptyState            = require('./Graph_empty_state.react');
 
 module.exports = React.createClass({
 
   componentDidMount: function () {
     GraphStore.addChangeListener(this._onChange);
+    if (null !== this.props.graph.content) {
       var name = JSON.stringify(this.props.graph.content.name);
       name = name.replace(/\"/g, '');
       var interval = this.props.graph.custom_interval;
@@ -91,6 +93,8 @@ module.exports = React.createClass({
           data: coords1
         }]
       });
+    }
+      
   },
 
   componentWillUnmount: function () {
@@ -102,10 +106,16 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    if (null !== this.props.graph.content) {
+      return (
+        <div id={this.props.name}>
+        </div>
+      );
+    } 
 
     return (
-      <div id={this.props.name}>
-      </div>
+      <GraphEmptyState/>
     );
+    
   }
 });

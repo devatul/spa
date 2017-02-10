@@ -10,6 +10,14 @@ module.exports = React.createClass({
     return { showModal: true };
   },
 
+  componentDidMount: function () {
+    this.setState({ showModal: true });
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({ showModal: true });
+  },
+
   close: function () {
     this.setState({ showModal: false });
   },
@@ -39,6 +47,7 @@ module.exports = React.createClass({
         <span className="icon nb-stop icon-margin" onClick={this.open}></span>
         <Modal show={this.state.showModal} onHide={this.close} bsSize="small">
           <Modal.Body>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.close}><span aria-hidden="true">&times;</span></button>
             {form}
           </Modal.Body>
         </Modal>

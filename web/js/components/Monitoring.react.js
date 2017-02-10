@@ -22,7 +22,7 @@ module.exports = React.createClass({
         <div className="section-tabs">Select OS for agent installation</div>
         <div>
           <ul className="nav nav-tabs section-tabs">
-            <li role="presentation">
+            <li role="presentation" className="active">
               <a className="grey-color" data-toggle="tab" href="#linux">
                 <span className="hidden-xs hidden-sm"> Linux</span>
               </a>

@@ -45,8 +45,8 @@ var routes = (
     <Route name="view_ticket_params"   path='/view-ticket/:id'              handler={ViewTicket} />
     <Route name="reset_password"       path='/reset-password/:token'        handler={ResetPassword} />
     <Route name="home"                 path='/'                             handler={Home} /> 
-    <Route name="monitoring"           path='infrastructure/monitoring/:id' handler={Monitoring} />
-    <Route name="configure"            path='infrastructure/configure/:id'  handler={Configure} /> 
+    <Route name="monitoring"           path='/infrastructure/monitoring/:id' handler={Monitoring} />
+    <Route name="configure"            path='/infrastructure/configure/:id'  handler={Configure} /> 
     <DefaultRoute                                                           handler={Login}/>
   </Route>
 );

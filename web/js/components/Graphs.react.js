@@ -43,12 +43,41 @@ module.exports = React.createClass({
     var allGraphs = [];
     var position  = 1;
 
+    allGraphs[0] = (
+      <div className="col-md-6 col-sm-12 col-xs-12">
+        <div className="widget">
+          <CreateGraph position={1}/>
+        </div>
+      </div>
+    );
+    allGraphs[1] = (
+      <div className="col-md-6 col-sm-12 col-xs-12">
+        <div className="widget">
+          <CreateGraph position={2}/>
+        </div>
+      </div>
+    );
+    allGraphs[2] = (
+      <div className="col-md-6 col-sm-12 col-xs-12">
+        <div className="widget">
+          <CreateGraph position={3}/>
+        </div>
+      </div>
+    );
+    allGraphs[3] = (
+      <div className="col-md-6 col-sm-12 col-xs-12">
+        <div className="widget">
+          <CreateGraph position={4}/>
+        </div>
+      </div>
+    );
+
     if (undefined != dashboard) {
       var name = '';
 
       for (var key in dashboard) {
         name = 'container' + key;
-        allGraphs.push(
+        allGraphs[parseInt(dashboard[key].position) - 1] = (
           <div className="col-md-6 col-sm-12 col-xs-12">
             <div className="widget">
               <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
@@ -58,18 +87,12 @@ module.exports = React.createClass({
             </div>
           </div>
         );
-        position = parseInt(key) + 2;
       }
     }
 
     return (
       <div className="row">
-        {allGraphs}
-        <div className="col-md-6 col-sm-12 col-xs-12">
-          <div className="widget">
-            <CreateGraph position={position}/>
-          </div>
-        </div>
+        {allGraphs} 
       </div>
     );
   }

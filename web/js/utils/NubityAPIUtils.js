@@ -878,7 +878,6 @@ module.exports = {
   getInstanceForMonitoring: function (id) {
     var token   = this.getToken();
     var company = localStorage.getItem('nubity-company');
-
     request
     .get('/company/' + company + '/instance/' + id + '.json')
     .query({include_products: true})
@@ -890,7 +889,10 @@ module.exports = {
         if (!status) {
           this.getInstanceForMonitoring();
         } else {
-          showInstanceForMonitoring(text);
+          var url = window.location.href;
+          if (-1 != url.indexOf('monitoring')) {
+            showInstanceForMonitoring(text);
+          }
         }
       }.bind(this));
     }.bind(this));
