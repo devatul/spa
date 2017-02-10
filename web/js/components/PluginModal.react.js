@@ -14,7 +14,7 @@ module.exports = React.createClass({
     this.setState({ showModal: true });
   },
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps: function (nextProps) {
     this.setState({ showModal: true });
   },
 

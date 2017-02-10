@@ -96,11 +96,11 @@ module.exports = React.createClass({
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
       var send = page.toString();
-      navpages[navpages.length] = <li className={this.props.page_no == page ? "active" : ""}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
+      navpages[navpages.length] = <li className={this.props.page_no == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
     var paginatorClass;
-    if (pages <= 1) {
+    if (1 >= pages) {
       paginatorClass = 'hidden';
     }
 
@@ -140,7 +140,7 @@ module.exports = React.createClass({
           tooltip = (<Tooltip id="tooltip">Stopped, Linux</Tooltip>);
         }
       } else {
-        os = 'fa fa-question-circle light-grey-color'
+        os = 'fa fa-question-circle light-grey-color';
         if ('running' == publicCloud[key].status) {
           tooltip = (<Tooltip id="tooltip">Running, Unknown</Tooltip>);
         } else if ('unavailable' == publicCloud[key].status) {

@@ -11,6 +11,6 @@ module.exports = {
     redirect ('ninja');
   },
   redirectTo: function (to) {
-    redirect (to)
-  }
+    redirect (to);
+  },
 };

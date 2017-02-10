@@ -22,7 +22,7 @@ module.exports = React.createClass({
   _configure: function (macros) {
     var modal = (<PluginModal macros={macros}/>);
     this.setState({
-      pluginModal: modal
+      pluginModal: modal,
     });
   },
 

@@ -25,9 +25,9 @@ module.exports = React.createClass({
       var message = SessionStore.signupMessage();
       if ('' != message) {
         this.setState({
-        message: message,
-        messageClass: 'alert alert-success',
-      });
+          message: message,
+          messageClass: 'alert alert-success',
+        });
       }
     }
   },

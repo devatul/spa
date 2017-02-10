@@ -35,7 +35,7 @@ var GraphStore = assign({}, EventEmitter.prototype, {
 
   getGraphTypes: function () {
     return _graphTypes;
-  }
+  },
 });
 
 GraphStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -48,30 +48,30 @@ GraphStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError  = '';
       _errorCode  = '';
       GraphStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_DASHBOARD:
       _dashboard = action.res;
       _textError  = '';
       _errorCode  = '';
       GraphStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES:
       _graphTypes = action.res;
       GraphStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
-          router.transitionTo('login');
+        router.transitionTo('login');
       }
       if (SessionStore.isLoggedIn()) {
         _textError = action.res.message;
         _errorCode = action.code;
         GraphStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;

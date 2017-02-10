@@ -95,5 +95,5 @@ module.exports = React.createClass({
         {allGraphs} 
       </div>
     );
-  }
+  },
 });

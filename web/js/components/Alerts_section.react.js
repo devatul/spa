@@ -54,7 +54,7 @@ module.exports = React.createClass({
       hash = arr[0];
       pageNo = parseInt(arr[1]);
     }
-    return {hash: hash, pageNo: pageNo}
+    return {hash: hash, pageNo: pageNo};
   },
 
   _onChange: function () {
@@ -292,7 +292,7 @@ module.exports = React.createClass({
     var pages = this.state.totalPages.alerts;
 
     var paginatorClass;
-    if (pages <= 1) {
+    if (1 >= pages) {
       paginatorClass = 'hidden';
     }
 
@@ -302,14 +302,14 @@ module.exports = React.createClass({
     for (var key = 0; key < pages; key++) {
       page = key + 1;
       send = page.toString();
-      navpages[navpages.length] = <li className={this.state.pageNo == page ? "active" : ""}><a onClick={this._updatePage.bind(this, '#activeAlerts', page)}>{page}</a></li>;
+      navpages[navpages.length] = <li className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, '#activeAlerts', page)}>{page}</a></li>;
     }
 
     var totalHistoryItems = this.state.totalHistoryItems;
     var historyPages = this.state.totalPages.history;
 
     var hpaginatorClass;
-    if (historyPages <= 1) {
+    if (1 >= historyPages) {
       hpaginatorClass = 'hidden';
     }
 
@@ -319,7 +319,7 @@ module.exports = React.createClass({
     for (var key = 0; key < historyPages; key++) {
       hpage = key + 1;
       hsend = page.toString();
-      historynavpages.push(<li key={key} className={this.state.pageNo == hpage ? "active" : ""}><a onClick={this._updatePage.bind(this, '#historyAlerts', hpage)}>{hpage}</a></li>);
+      historynavpages.push(<li key={key} className={this.state.pageNo == hpage ? 'active' : ''}><a onClick={this._updatePage.bind(this, '#historyAlerts', hpage)}>{hpage}</a></li>);
     }
 
     var alertTable;
@@ -486,24 +486,24 @@ module.exports = React.createClass({
         </div>
         <div>
           <ul className="nav nav-tabs section-tabs">
-            <li role="presentation" className={hash == '#activeAlerts' || hash == '' ? "active" : ""}>
-              <a className="grey-color" data-toggle="tab" href="#activeAlerts" onClick={function () {_SELF._updatePage('#activeAlerts', 1)}}>
+            <li role="presentation" className={'#activeAlerts' == hash || '' == hash ? 'active' : ''}>
+              <a className="grey-color" data-toggle="tab" href="#activeAlerts" onClick={function () {_SELF._updatePage('#activeAlerts', 1);}}>
                 Active alerts
               </a>
             </li>
-            <li role="presentation" className={hash == '#historyAlerts' ? "active" : ""}>
-              <a className="grey-color" data-toggle="tab" href="#historyAlerts" onClick={function () {_SELF._updatePage('#historyAlerts', 1)}}>
+            <li role="presentation" className={'#historyAlerts' == hash ? 'active' : ''}>
+              <a className="grey-color" data-toggle="tab" href="#historyAlerts" onClick={function () {_SELF._updatePage('#historyAlerts', 1);}}>
                 History alerts
               </a>
             </li>
           </ul>
         </div>
         <div className="tab-content section-content">
-          <div id="activeAlerts" className={"tab-pane fade " + (hash == '#activeAlerts' || hash == '' ? "in active" : "")}>
+          <div id="activeAlerts" className={'tab-pane fade ' + ('#activeAlerts' == hash || '' == hash ? 'in active' : '')}>
             <div>{alertTable}</div>
             <div className="invisible">oh</div>
           </div>
-          <div id="historyAlerts" className={"tab-pane fade " + (hash == '#historyAlerts' ? "in active" : "")}>
+          <div id="historyAlerts" className={'tab-pane fade ' + ('#historyAlerts' == hash ? 'in active' : '')}>
             <div>{historyTable}</div>
             <div className="invisible">oh</div>
           </div>

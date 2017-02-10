@@ -36,7 +36,7 @@ module.exports = {
     var interval = false;
     var code = JSON.parse(res.status);
     return new Promise( function ( resolve, reject ) {
-      if (code >= 400 && _SELF.hasToRefresh()) {
+      if (400 <= code && _SELF.hasToRefresh()) {
         setTimeout( function () {
           if (!_SELF.isTokenValidating) {
             _SELF.isTokenValidating = true;
@@ -53,10 +53,10 @@ module.exports = {
             }, 100);
           }
         },0);
-      } else if (code >= 300 && code <= 401) {
+      } else if (300 <= code && 401 >= code) {
         _SELF.saveURI();
         routes.redirectLogin();
-      } else if (code >= 200 && code < 300) {
+      } else if (200 <= code && 300 > code) {
         resolve(true);
       }
     });
@@ -122,7 +122,7 @@ module.exports = {
         if (400 <= code) {
           showConfirmMessage(text.code, text.message);
         } else {
-          showConfirmMessage(200, "Salio todo bien");
+          showConfirmMessage(200, 'Salio todo bien');
         }
 
       }.bind(this));
@@ -194,13 +194,13 @@ module.exports = {
             localStorage.setItem('nubity-user-language', text.locale_display_name);
 
             var uri = localStorage.getItem('nubity-uri');
-            if(uri !== null){
+            if (null !== uri){
               localStorage.removeItem('nubity-uri');
               var to = uri.split('/#/')[1];
               to = to.split('#')[0];
               routes.redirectTo(to);
               window.location.href = uri;
-            }else{
+            } else {
               routes.redirectDashboard();
             }
           }
@@ -266,8 +266,8 @@ module.exports = {
         } else {
           showDashboards(text);
           for (var key in text.member) {
-            if ("dashboard" == text.member[key].scope) {
-              localStorage.setItem("dashboardId", text.member[key].dashboard);
+            if ('dashboard' == text.member[key].scope) {
+              localStorage.setItem('dashboardId', text.member[key].dashboard);
               this.getDashboardSlots(text.member[key].dashboard);
             }
           }
@@ -528,7 +528,7 @@ module.exports = {
   getStats: function () {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
-      request
+    request
       .get('/company/' + company + '/alerts-stats.json')
       .accept('application/json')
       .set('Authorization', token)

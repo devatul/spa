@@ -39,7 +39,7 @@ module.exports = React.createClass({
       });
     }
     if (NinjaStore.isViewingTicket()) {
-        redirect('view_ticket');
+      redirect('view_ticket');
     }
   },
 
@@ -69,7 +69,7 @@ module.exports = React.createClass({
       }
 
       var paginatorClass;
-      if (pages <= 1) {
+      if (1 >= pages) {
         paginatorClass = 'hidden';
       }
 

@@ -19,7 +19,7 @@ module.exports = React.createClass({
     NinjaStore.resetStore();
 
     var url = window.location.href;
-    var position = url.indexOf("view-ticket") + 12;
+    var position = url.indexOf('view-ticket') + 12;
     var id = url.slice(position);
 
     if ('' != id ) {
@@ -30,7 +30,7 @@ module.exports = React.createClass({
     }
 
     return {
-      ticket: NinjaStore.getViewTicket()
+      ticket: NinjaStore.getViewTicket(),
     };
 
   },
@@ -38,7 +38,7 @@ module.exports = React.createClass({
   componentDidMount: function () {
 
     var url = window.location.href;
-    var position = url.indexOf("view-ticket") + 12;
+    var position = url.indexOf('view-ticket') + 12;
     var id = url.slice(position);
 
     if ('' != id ) {
@@ -60,12 +60,12 @@ module.exports = React.createClass({
   _onChange: function () {
     if (this.isMounted()) {
       this.setState({
-        ticket: NinjaStore.getViewTicket()
+        ticket: NinjaStore.getViewTicket(),
       });
     }
   },
 
-  _onSubmit: function(e) {
+  _onSubmit: function (e) {
     e.preventDefault();
     var id = this.state.ticket.ticket;
     var ticketReply = this.refs.content.getDOMNode().value;
@@ -86,7 +86,7 @@ module.exports = React.createClass({
   render: function () {
     var formHeader    = {};
     var url      = window.location.href;
-    var position = url.indexOf("view-ticket") + 12;
+    var position = url.indexOf('view-ticket') + 12;
     var urlid    = url.slice(position);
     var ticketName    = '';
     var subject       = '';
@@ -131,13 +131,13 @@ module.exports = React.createClass({
       switch (this.state.ticket.priority) {
         case 'low' :
           priority = (<p><span className="icon nb-level-low icon-state green-text"></span> Low</p>);
-        break;
+          break;
         case 'medium' :
           priority = (<p><span className="icon nb-level-medium icon-state yellow-text"></span> Medium</p>);
-        break;
+          break;
         case 'high' :
           priority = (<p><span className="icon nb-level-high icon-state red-text"></span> High</p>);
-        break;
+          break;
         default :
           priority = '';
       }
@@ -146,13 +146,13 @@ module.exports = React.createClass({
       switch (this.state.ticket.department) {
         case 'support' :
           department = 'icon nb-ninja-support small';
-        break;
+          break;
         case 'billing' :
           department = 'icon nb-billing small';
-        break;
+          break;
         case 'sales' :
           department = 'icon nb-sales small';
-        break;
+          break;
       }
 
       var username = '';
@@ -164,9 +164,9 @@ module.exports = React.createClass({
 
       var state = '';
       if ('open' == this.state.ticket.status) {
-        state = 'icon nb-ticket small blue-text'
+        state = 'icon nb-ticket small blue-text';
       } else {
-        state = 'icon nb-ticket small green-text'
+        state = 'icon nb-ticket small green-text';
       }
 
       var from = Moment(this.state.ticket.created_at).format('lll');
@@ -238,7 +238,7 @@ module.exports = React.createClass({
               </div>
               <form onSubmit={this._onSubmit}>
                 <div className="col-xs-12">
-                  <textarea className="form-control" rows="8" placeholder={"Write your reply"} ref="content" required></textarea>
+                  <textarea className="form-control" rows="8" placeholder={'Write your reply'} ref="content" required></textarea>
                   <button type="submit" className="margin-tops blue-button">Send</button>
                 </div>
               </form>

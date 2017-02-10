@@ -50,7 +50,7 @@ module.exports = React.createClass({
     }
   },
 
-  _onSubmit: function(e) {
+  _onSubmit: function (e) {
     e.preventDefault();
     var ticket = {};
     ticket.department = this.refs.department.getDOMNode().value;
@@ -94,20 +94,20 @@ module.exports = React.createClass({
           <option value="" disabled ref="type">Select Type</option>
           <option value="incident">Incident</option>
           <option value="service-request">Service Request</option>
-        </select>
+        </select>,
       ];
 
 
       switch (alert.level) {
         case 'critical':
           priorityCheck = 'high';
-        break; 
+          break; 
         case 'warning':
           priorityCheck = 'medium';
-        break; 
+          break; 
         case 'info':
           priorityCheck = 'low';
-        break; 
+          break; 
       } 
 
       subject = alert.description;
@@ -119,7 +119,7 @@ module.exports = React.createClass({
           }
         }
       }
-    }else {
+    } else {
       department = [
         <select className="form-control" ref="department" onChange={this._onChange}>
           <option value="billing">Billing</option>
@@ -133,7 +133,7 @@ module.exports = React.createClass({
           <option value="" disabled ref="type">Select Type</option>
           <option value="incident">Incident</option>
           <option value="service-request">Service Request</option>
-        </select>
+        </select>,
       ];
     }
 

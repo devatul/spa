@@ -4,9 +4,9 @@ var ChangePasswordAction       = require('../actions/RequestActions').changePass
 
 module.exports = React.createClass({
   getInitialState: function () {
-    return{
+    return {
       pass: '',
-    }
+    };
   },
 
   componentDidMount: function () {
@@ -31,7 +31,7 @@ module.exports = React.createClass({
     if (password != confirmation) {
       this.setState({ 
         codeClass: 'alert alert-danger',
-        textError: "Passwords doesn't match",
+        textError: 'Passwords doesn\'t match',
       });
     } else {
       ChangePasswordAction(token, password, confirmation);   

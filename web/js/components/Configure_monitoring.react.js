@@ -8,7 +8,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     var instanceConfiguration = InfrastructureStore.instanceConfiguration();
     var url = window.location.href;
-    var position = url.indexOf("configure") + 10;
+    var position = url.indexOf('configure') + 10;
     var id = url.slice(position);
     return {
       instanceConfiguration: instanceConfiguration,
@@ -18,7 +18,7 @@ module.exports = React.createClass({
 
   componentDidMount: function () {
     var url = window.location.href;
-    var position = url.indexOf("configure") + 10;
+    var position = url.indexOf('configure') + 10;
     var id = url.slice(position);
     getInstanceConfiguration(id);
     InfrastructureStore.addChangeListener(this._onChange);

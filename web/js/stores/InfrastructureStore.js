@@ -50,7 +50,7 @@ var InfrastructureStore = assign({}, EventEmitter.prototype, {
 
   instanceConfiguration: function () {
     return _instanceConfiguration;
-  }
+  },
 });
 
 InfrastructureStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -62,38 +62,38 @@ InfrastructureStore.dispatchToken = Dispatcher.register(function (payload) {
       _textError = '';
       _errorCode = '';
       InfrastructureStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_INSTANCE_FOR_MONITORING:
       _instanceForMonitoring = action.res;
       InfrastructureStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_INSTANCE_CONFIGURATION:
       _instanceConfiguration = action.res;
       InfrastructureStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_INFRASTRUCTURE_PUBLIC_CLOUD:
       _public = action.res;
       _textError = '';
       _errorCode = '';
       InfrastructureStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_INFRASTRUCTURE_PRIVATE_CLOUD:
       _private = action.res;
       _textError = '';
       _errorCode = '';
       InfrastructureStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.SHOW_INFRASTRUCTURE_ON_PREMISE:
       _onPremise = action.res;
       _textError = '';
       _errorCode = '';
       InfrastructureStore.emitChange();
-    break;
+      break;
 
     case ActionTypes.ERROR:
       if (401 == action.code) {
@@ -104,7 +104,7 @@ InfrastructureStore.dispatchToken = Dispatcher.register(function (payload) {
         _errorCode = action.code;
         InfrastructureStore.emitChange();
       }
-    break;
+      break;
   }
 
   return true;
