@@ -29,7 +29,7 @@ module.exports = React.createClass({
 
   limit: 5,
   sectionKey: '_PUBLIC',
-  editModalId: "editModalPublic",
+  editModalId: 'editModalPublic',
 
   componentDidMount: function () {
     OnBoardingStore.addChangeListener(this._onChange);
@@ -42,7 +42,7 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (props) {
     var width = props.providers.length*150 || 600;
-    $("#publicCloudProvidersList").css({width: width+"px"});
+    $('#publicCloudProvidersList').css({width: width+'px'});
   },
 
   _onChange: function () {
@@ -60,18 +60,17 @@ module.exports = React.createClass({
 
   _scroll: function (arrow) {
     var width = this.props.providers.length*150;
-    var view = $("#publicCloudProvidersList");
-    var move = "100px";
+    var view = $('#publicCloudProvidersList');
+    var move = '100px';
     var sliderLimit = -(width-700);
+    var currentPosition = parseInt(view.css("left"));
     if ('leftArrow' == arrow) {
-      var currentPosition = parseInt(view.css("left"));
       if (0 > currentPosition) {
-        view.stop(false,true).animate({left:"+="+move},{ duration: 400});
+        view.stop (false,true).animate ({left:"+="+move}, { duration: 400});
       }
     } else {
-      var currentPosition = parseInt(view.css("left"));
       if (currentPosition >= sliderLimit) {
-        view.stop(false,true).animate({left:"-="+move},{ duration: 400});
+        view.stop (false,true).animate ({left:"-="+move}, { duration: 400});
       }
     }
   },
@@ -102,11 +101,11 @@ module.exports = React.createClass({
 
   _submitData: function () {
     var providerId = this.state.activeProvider.provider;
-    var integrationName = $("input[name='publicIntegrationName']").prop("value") || null;
-    var apiKey = $("input[name='publicApiKey']").prop("value") || null;
-    var endpoint = $("input[name='publicEndpoint']").prop("value") || null;
-    var apiSecret = $("input[name='publicApiSecret']").prop("value") || null;
-    var certificate = $("#publicCertificate").prop("files");
+    var integrationName = $('input[name="publicIntegrationName"]').prop('value') || null;
+    var apiKey = $('input[name="publicApiKey"]').prop('value') || null;
+    var endpoint = $('input[name="publicEndpoint"]').prop('value') || null;
+    var apiSecret = $('input[name="publicApiSecret"]').prop('value') || null;
+    var certificate = $('#publicCertificate').prop('files');
     var company = localStorage.getItem('nubity-company') || null;
     certificate = certificate && certificate[0] || null;
 
@@ -121,13 +120,13 @@ module.exports = React.createClass({
     cloudData.append('company_id', company);
 
     submitCloudData(cloudData).then(function () {
-      $("input[name='publicIntegrationName']").val('');
-      $("input[name='publicApiKey']").val('');
-      $("input[name='publicEndpoint']").val('');
-      $("input[name='publicApiSecret']").val('');
-      $("#publicCertificate").val('');
-      $(".image-preview-input-title").text("Upload Certificate");
-      $(".image-preview-filename").text('').addClass('hidden');
+      $('input[name="publicIntegrationName"]').val('');
+      $('input[name="publicApiKey"]').val('');
+      $('input[name="publicEndpoint"]').val('');
+      $('input[name="publicApiSecret"]').val('');
+      $('#publicCertificate').val('');
+      $('.image-preview-input-title').text('Upload Certificate');
+      $('.image-preview-filename').text('').addClass('hidden');
     });
   },
 
@@ -143,7 +142,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-    if (credetials["api-key"]) {
+    if (credetials['api-key']) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -153,7 +152,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials.endpoint) {
+    if (credetials['endpoint']) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -163,7 +162,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials["api-secret"]) {
+    if (credetials['api-secret']) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -173,7 +172,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials.certificate) {
+    if (credetials['certificate']) {
       input.push(
         <div className="input-group image-preview">
           <span className="input-group-btn">
@@ -191,14 +190,14 @@ module.exports = React.createClass({
   },
 
   _onFileChange: function () {
-    var file = $("#publicCertificate").prop("files")[0];
-    $(".image-preview-input-title").text("Change Certificate");
-    $(".image-preview-filename").text(file.name).removeClass('hidden');
+    var file = $('#publicCertificate').prop('files')[0];
+    $('.image-preview-input-title').text('Change Certificate');
+    $('.image-preview-filename').text(file.name).removeClass('hidden');
   },
 
   _explore2step: function (provider, id) {
     $('.public-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
-    $("#"+id+'.public-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
+    $('#'+id+'.public-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
     var credetials = this.state.activeProvider;
     if (!credetials) {
       this._revealSecondStep();
@@ -240,7 +239,7 @@ module.exports = React.createClass({
       if (null != provider.logo) {
         rows.push(
           <div id={"pubPro_"+i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, "pubPro_"+i)}}>
-            <img src={provider.logo.public_path} className="logo-max-size m-t-15"></img>
+            <img src={provider.logo.public_path} className="logo-max-size m-t-15"/>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
@@ -257,7 +256,8 @@ module.exports = React.createClass({
     var pages = this.state.totalPages;
 
     var navpages = [];
-    for (var key = 0 ; key < pages ; key++) {
+    var key = 0;
+    for (key; key < pages ; key++) {
       var page = key + 1;
       var send = page.toString();
       navpages[navpages.length] = <li className={this.state.pageNo == page ? "active" : ""}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
@@ -315,11 +315,11 @@ module.exports = React.createClass({
       <div>
         <button className="transparent-button" onClick={this._revealFirstStep} id="addButton">
           <i  className="fa fa-plus-circle big-green-circle" aria-hidden="true"></i>
-          <span>  Add New Public Cloud Connection</span>
+          <span>Add New Public Cloud Connection</span>
         </button>
         <button className="transparent-button hidden" onClick={this._revertPublicSteps} id="cancelButton">
           <i  className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
-          <span>  Cancel Public Cloud Connection</span>
+          <span>Cancel Public Cloud Connection</span>
         </button>
         <div className="hidden" id="onBoarding1StepTitle">
           <div className="round-number number-1">1</div>

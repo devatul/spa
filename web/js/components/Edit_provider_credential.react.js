@@ -40,7 +40,7 @@ module.exports = React.createClass({
   },
 
   _resetDialog: function () {
-    $("#"+this.props.modalId).modal('toggle');
+    $('#'+this.props.modalId).modal('toggle');
       this.setState({
         credetialInfo: '',
         name: '',
@@ -84,8 +84,8 @@ module.exports = React.createClass({
     this.setState({
       certificate: file,
     });
-    $(".image-preview-input-title").text("Change Certificate");
-    $(".image-preview-filename").text(file.name).removeClass('hidden');
+    $('.image-preview-input-title').text('Change Certificate');
+    $('.image-preview-filename').text(file.name).removeClass('hidden');
   },
 
   render: function () {
@@ -107,7 +107,7 @@ module.exports = React.createClass({
             </div>
           </div>
         );
-        if (credetials["api-key"]) {
+        if (credetials['api-key']) {
           input.push(
             <div className="form-group">
               <label>Api Key</label>
@@ -118,7 +118,7 @@ module.exports = React.createClass({
             </div>
           );
         }
-        if (credetials.endpoint) {
+        if (credetials['endpoint']) {
           input.push(
             <div className="form-group">
               <label>End Point</label>
@@ -129,7 +129,7 @@ module.exports = React.createClass({
             </div>
           );
         }
-        if (credetials["api-secret"]) {
+        if (credetials['api-secret']) {
           input.push(
             <div className="form-group">
               <label>Api Secret</label>
@@ -140,18 +140,18 @@ module.exports = React.createClass({
             </div>
           );
         }
-        if (credetials["api-secret"]) {
+        if (credetials['certificate']) {
           input.push(
-        <div className="input-group image-preview">
-          <span className="input-group-btn">
-            <div className="btn btn-default image-preview-input">
-                <span className="glyphicon glyphicon-folder-open"></span>
-                <span className="image-preview-input-title">Upload Certificate</span>
-                <input type="file" name="editCertificate" id="editCertificate" onChange={function (e) {_SELF._onFileChange(e)}}/>
+            <div className="input-group image-preview">
+              <span className="input-group-btn">
+                <div className="btn btn-default image-preview-input">
+                    <span className="glyphicon glyphicon-folder-open"></span>
+                    <span className="image-preview-input-title">Upload Certificate</span>
+                    <input type="file" name="editCertificate" id="editCertificate" onChange={function (e) {_SELF._onFileChange(e)}}/>
+                </div>
+              </span>
+              <span className="form-control image-preview-filename hidden"></span>
             </div>
-          </span>
-          <span className="form-control image-preview-filename hidden"></span>
-        </div>
         );
       }
       }

@@ -39,9 +39,9 @@ module.exports = React.createClass({
       var providers = OnBoardingStore.getProviders();
       this.setState({
         providers: providers,
-        publicCloudProviders: _.filter(providers, function (o) {return o.classification == "public"}),
-        privateCloudProviders: _.filter(providers, function (o) {return o.classification == "private"}),
-        onPremiseProviders: _.filter(providers, function (o) {return o.classification == "on-premise"}),
+        publicCloudProviders: _.filter(providers, function (o) {return "public" == o.classification}),
+        privateCloudProviders: _.filter(providers, function (o) {return "private" == o.classification}),
+        onPremiseProviders: _.filter(providers, function (o) {return "on-premise" == o.classification}),
       });
     }
   },
@@ -120,7 +120,7 @@ module.exports = React.createClass({
             <PrivateCloudSection allProviders={this.state.providers} providers={this.state.privateCloudProviders}/>
           </div>
           <div id="menu2" className="tab-pane fade">
-            <OnPremiseCloudSection allProviders={this.state.providers} providers={this.state.onPremiseProviders} />
+            <OnPremiseCloudSection allProviders={this.state.providers} providers={this.state.onPremiseProviders}/>
           </div>
         </div>
       </div>
