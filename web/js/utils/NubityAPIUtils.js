@@ -981,7 +981,6 @@ module.exports = {
     return new Promise( function ( resolve, reject ) {
       request
       .post('/company/'+company+'/cloud.json')
-      //.accept('multipart/form-data')
       .type('form')
       .set('Authorization', token)
       .send(cloudData)

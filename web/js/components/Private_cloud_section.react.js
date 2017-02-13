@@ -28,7 +28,7 @@ module.exports = React.createClass({
 
   limit: 5,
   sectionKey: '_PRIVATE',
-  editModalId: "editModalPrivate",
+  editModalId: 'editModalPrivate',
 
   componentDidMount: function () {
     OnBoardingStore.addChangeListener(this._onChange);
@@ -41,7 +41,7 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (props) {
     var width = props.providers.length*150 || 600;
-    $("#privateCloudProvidersList").css({width: width+"px"});
+    $('#privateCloudProvidersList').css({width: width+'px'});
   },
 
   _onChange: function () {
@@ -59,18 +59,17 @@ module.exports = React.createClass({
 
   _scroll: function (arrow) {
     var width = this.props.providers.length*150;
-    var view = $("#privateCloudProvidersList");
-    var move = "100px";
+    var view = $('#privateCloudProvidersList');
+    var move = '100px';
     var sliderLimit = -(width-700);
+    var currentPosition = parseInt(view.css("left"));
     if ('leftArrow' == arrow) {
-      var currentPosition = parseInt(view.css("left"));
       if (0 > currentPosition) {
-        view.stop(false,true).animate({left:"+="+move},{ duration: 400});
+        view.stop (false,true).animate ({left:"+="+move}, { duration: 400});
       }
     } else {
-      var currentPosition = parseInt(view.css("left"));
       if (currentPosition >= sliderLimit) {
-        view.stop(false,true).animate({left:"-="+move},{ duration: 400});
+        view.stop (false,true).animate ({left:"-="+move}, { duration: 400});
       }
     }
   },
@@ -101,11 +100,11 @@ module.exports = React.createClass({
 
   _submitData: function () {
     var providerId = this.state.activeProvider.provider;
-    var integrationName = $("input[name='privateIntegrationName']").prop("value") || null;
-    var apiKey = $("input[name='privateApiKey']").prop("value") || null;
-    var endpoint = $("input[name='privateEndpoint']").prop("value") || null;
-    var apiSecret = $("input[name='privateApiSecret']").prop("value") || null;
-    var certificate = $("#privateCertificate").prop("files");
+    var integrationName = $('input[name="privateIntegrationName"]').prop('value') || null;
+    var apiKey = $('input[name="privateApiKey"]').prop('value') || null;
+    var endpoint = $('input[name="privateEndpoint"]').prop('value') || null;
+    var apiSecret = $('input[name="privateApiSecret"]').prop('value') || null;
+    var certificate = $('#privateCertificate').prop('files');
     var company = localStorage.getItem('nubity-company') || null;
     certificate = certificate && certificate[0] || null;
 
@@ -120,13 +119,13 @@ module.exports = React.createClass({
     cloudData.append('company_id', company);
 
     submitCloudData(cloudData).then(function(){
-      $("input[name='privateIntegrationName']").val('');
-      $("input[name='privateApiKey']").val('');
-      $("input[name='privateEndpoint']").val('');
-      $("input[name='privateApiSecret']").val('');
-      $("#privateCertificate").val('');
-      $(".image-preview-input-title").text("Upload Certificate");
-      $(".image-preview-filename").text('').addClass('hidden');
+      $('input[name="privateIntegrationName"]').val('');
+      $('input[name="privateApiKey"]').val('');
+      $('input[name="privateEndpoint"]').val('');
+      $('input[name="privateApiSecret"]').val('');
+      $('#privateCertificate').val('');
+      $('.image-preview-input-title').text('Upload Certificate');
+      $('.image-preview-filename').text('').addClass('hidden');
     });
   },
 
@@ -142,7 +141,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-    if (credetials["api-key"]) {
+    if (credetials['api-key']) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -152,7 +151,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials.endpoint) {
+    if (credetials['endpoint']) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -162,7 +161,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials["api-secret"]) {
+    if (credetials['api-secret']) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -172,7 +171,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials.certificate) {
+    if (credetials['certificate']) {
       input.push(
         <div className="input-group image-preview">
           <span className="input-group-btn">
@@ -190,14 +189,14 @@ module.exports = React.createClass({
   },
 
   _onFileChange: function () {
-    var file = $("#privateCertificate").prop("files")[0];
-    $(".image-preview-input-title").text("Change Certificate");
-    $(".image-preview-filename").text(file.name).removeClass('hidden');
+    var file = $('#privateCertificate').prop('files')[0];
+    $('.image-preview-input-title').text('Change Certificate');
+    $('.image-preview-filename').text(file.name).removeClass('hidden');
   },
 
   _explorePrivateStep2: function (provider, id) {
     $('.private-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
-    $("#"+id+'.private-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
+    $('#'+id+'.private-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
     var credetials = this.state.activeProvider;
     if (!credetials) {
       this._revealSecondStepOfPrivateCloud();
@@ -239,7 +238,7 @@ module.exports = React.createClass({
       if (null != provider.logo) {
         rows.push(
           <div id={"pvtPro_"+i} className="col-md-2 private-cloud-provider clouds-icons-button" onClick={function () {_SELF._explorePrivateStep2(provider, "pvtPro_"+i)}}>
-            <img src={provider.logo.public_path} className="logo-max-size m-t-15"></img>
+            <img src={provider.logo.public_path} className="logo-max-size m-t-15"/>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
@@ -256,7 +255,8 @@ module.exports = React.createClass({
     var pages = this.state.totalPages;
 
     var navpages = [];
-    for (var key = 0 ; key < pages ; key++) {
+    var key = 0;
+    for (key; key < pages ; key++) {
       var page = key + 1;
       var send = page.toString();
       navpages[navpages.length] = <li className={this.state.pageNo == page ? "active" : ""}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
@@ -283,7 +283,7 @@ module.exports = React.createClass({
       }
       var provider = _.find(allProviders, function(o) { return o.provider == data.provider });
 
-      if('undefined' !== typeof provider)
+      if ('undefined' !== typeof provider)
       connectionTableRow.push(
         <tr>
          <td>
@@ -314,11 +314,11 @@ module.exports = React.createClass({
       <div>
         <button className="transparent-button" onClick={this._revealFirstStepOfPrivateCloud} id="privateAddButton">
           <i id="buttonPrivateToClick" className="fa fa-plus-circle big-green-circle" aria-hidden="true"></i>
-          <span id="privateTextToClick"> Add New Private Cloud Connection</span>
+          <span id="privateTextToClick">Add New Private Cloud Connection</span>
         </button>
         <button className="transparent-button hidden" onClick={this._revertPrivateSteps} id="privateCancelButton">
           <i  className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
-          <span>  Cancel Private Cloud Connection</span>
+          <span>Cancel Private Cloud Connection</span>
         </button>
         <div className="hidden" id="private1StepTitle">
           <div className="round-number number-1">1</div>
