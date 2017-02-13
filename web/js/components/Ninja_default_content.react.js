@@ -17,6 +17,8 @@ module.exports = React.createClass({
       ninja: ninja.member,
       totalItems: ninja.totalItems,
       loading: false,
+      totalPages: 0,
+      pageNo: 1,
     };
   },
 
@@ -29,6 +31,24 @@ module.exports = React.createClass({
     NinjaStore.removeChangeListener(this._onChange);
   },
 
+  componentDidUpdate: function () {
+    var _uri = this._getURI();
+    if (_uri.pageNo != this.state.pageNo) {
+      this._updatePage(_uri.pageNo);
+    }
+  },
+
+  _getURI: function () {
+    var hash = window.location.href.split('/ninja-support')[1] || '';
+    var pageNo = 1;
+    if ('' !== hash) {
+      var arr = hash.split('#page=');
+      hash = arr[0];
+      pageNo = parseInt(arr[1]);
+    }
+    return {hash: hash, pageNo: pageNo};
+  },
+
   _onChange: function () {
     if (this.isMounted()) {
       var ninja = NinjaStore.getNinja();
@@ -36,6 +56,7 @@ module.exports = React.createClass({
         ninja: ninja.member,
         totalItems: ninja.totalItems,
         loading: false,
+        totalPages: Math.ceil(parseInt(ninja.totalItems)/10),
       });
     }
     if (NinjaStore.isViewingTicket()) {
@@ -45,6 +66,26 @@ module.exports = React.createClass({
 
   _viewTicket: function (ticket) {
     viewTicket(ticket);
+  },
+
+  _updatePage: function (page) {
+    var i = false;
+    if (0 < page && page <= this.state.totalPages) {
+      this._newPage(page);
+      i = true;
+    }
+   
+    if (i) {
+      this.updateURL(page);
+    }
+  },
+
+  updateURL: function (pageNo) {
+    this.setState({
+      pageNo: pageNo,
+    });
+    var hash = window.location.href.split('/ninja-support');
+    window.location.href = hash[0]+'/ninja-support#page='+pageNo;
   },
 
   _newPage: function (page) {
@@ -65,7 +106,7 @@ module.exports = React.createClass({
       for (var key = 0 ; key < pages ; key++) {
         var page = key + 1;
         var send = page.toString();
-        navpages[navpages.length] = <li><a onClick={this._newPage.bind(this, page)}>{page}</a></li>;
+        navpages[navpages.length] = <li className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
       }
 
       var paginatorClass;
