@@ -220,4 +220,4 @@ module.exports = {
       res: credentialDetails,
     });
   }
-}
+};

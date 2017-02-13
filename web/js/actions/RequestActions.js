@@ -199,4 +199,4 @@ module.exports = {
   updateNewCredentials: function (credetialId, newCredential) {
     return NubityAPIUtils.updateNewCredentials(credetialId, newCredential);
   },
-}
+};
