@@ -35,6 +35,12 @@ module.exports = React.createClass({
 
   },
 
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  },
+  
   componentDidMount: function () {
 
     var url = window.location.href;
@@ -172,6 +178,10 @@ module.exports = React.createClass({
       var from = Moment(this.state.ticket.created_at).format('lll');
     }
 
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
+    
     return (
       <div className="principal-section">
         <div className="section-title">

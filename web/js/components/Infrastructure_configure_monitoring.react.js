@@ -2,6 +2,8 @@ var React                         = require('react');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInstanceConfiguration      = require('../actions/RequestActions').getInstanceConfiguration;
 var PluginsTable                  = require('./PluginsTable.react');
+var SessionStore                  = require('../stores/SessionStore');
+var redirect                      = require('../actions/RouteActions').redirect;
 
 module.exports = React.createClass({
 
@@ -14,6 +16,12 @@ module.exports = React.createClass({
       instanceConfiguration: instanceConfiguration,
       idInstance: id,
     };
+  },
+
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
   },
 
   componentDidMount: function () {
@@ -38,6 +46,10 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
+
     return (
       <div className="principal-section">
         <div className="section-title">

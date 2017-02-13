@@ -1,9 +1,20 @@
 var React                      = require('react');
 var CustomPerformance          = require('./Custom_performance.react');
+var SessionStore               = require('../stores/SessionStore');
+var redirect                   = require('../actions/RouteActions').redirect;
 
 module.exports = React.createClass({
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  },
 
   render: function () {
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
+    
     return (
       <div className="principal-section">
         <div className="section-title">

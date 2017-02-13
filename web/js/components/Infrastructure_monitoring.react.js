@@ -13,7 +13,18 @@ module.exports = React.createClass({
     };
   },
 
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  },
+
   render: function () {
+
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
+    
     return (
       <div className="principal-section">
         <div className="section-title">
