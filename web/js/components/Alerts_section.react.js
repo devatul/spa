@@ -29,6 +29,12 @@ module.exports = React.createClass({
     };
   },
 
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  },
+  
   componentDidMount: function () {
     getAlerts(0);
     getHistoryAlerts(0);
@@ -479,6 +485,10 @@ module.exports = React.createClass({
     var hash = this._getURI().hash;
     var _SELF = this;
 
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
+    
     return (
       <div className="principal-section">
         <div className="section-title">

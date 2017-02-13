@@ -14,7 +14,17 @@ module.exports = React.createClass({
     redirect('create_ticket');
   },
 
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  },
+
   render: function () {
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
+    
     return (
       <div className="principal-section">
         <div className="section-title">

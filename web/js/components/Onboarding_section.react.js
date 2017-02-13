@@ -1,8 +1,10 @@
 var React                      = require('react');
 var OnBoardingStore            = require('../stores/OnBoardingStore');
+var SessionStore               = require('../stores/SessionStore');
 var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
 var getProviders               = require('../actions/RequestActions').getProviders;
+var redirect                   = require('../actions/RouteActions').redirect;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -11,6 +13,12 @@ module.exports = React.createClass({
       providers: providers,
       title: 'Manage your Public Cloud Connection',
     };
+  },
+
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
   },
 
   componentDidMount: function () {
@@ -54,6 +62,10 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
+    
     return (
       <div className="principal-section">
         <div className="section-title">

@@ -23,6 +23,12 @@ module.exports = React.createClass({
     SessionStore.addChangeListener(this._onChange);
   },
 
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  },
+  
   componentWillUnmount: function () {
     SessionStore.removeChangeListener(this._onChange);
   },
@@ -150,6 +156,10 @@ module.exports = React.createClass({
         <option value="high">High</option>
       </select>,
     ];
+
+    if (!SessionStore.isLoggedIn()) {
+      return(<div></div>)
+    }
 
     return (
       <div className="principal-section">
