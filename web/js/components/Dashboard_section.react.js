@@ -45,6 +45,12 @@ module.exports = React.createClass({
     SessionStore.addChangeListener(this._onChange);
   },
 
+  componentWillMount: function () {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  },
+
   componentWillUnmount: function () {
     AlertsStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
@@ -245,10 +251,14 @@ module.exports = React.createClass({
       }
     }
 
+    if (!mainAlerts) {
+      return(<Preloader/>)
+    }
+
     return (
       <div className="principal-section">
         <div className="section-title ">
-          <h2 className="align-center">{companyName}'s dashboard</h2>
+          <h2 className="align-center">{companyName}&#39;s dashboard</h2>
         </div>
         {stats}
         {alertTable}

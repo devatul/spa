@@ -102,7 +102,7 @@ var NavBar = React.createClass({
       avatar = localStorage.getItem('nubity-user-avatar');
     }
 
-    if (0 < login || 0 < signup || 0 < forgot) {
+    if (0 < login || 0 < signup || 0 < forgot || !SessionStore.isLoggedIn()) {
       return (
         <div></div>
       );
