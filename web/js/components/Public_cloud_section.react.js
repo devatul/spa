@@ -43,6 +43,13 @@ module.exports = React.createClass({
   componentWillReceiveProps: function (props) {
     var width = props.providers.length*150 || 600;
     $('#publicCloudProvidersList').css({width: width+'px'});
+
+    if (props.page_no !== this.state.pageNo) {
+      this.setState({
+        pageNo: props.page_no,
+      });
+      getProviderCredential(this.sectionKey, props.page_no, this.limit);
+    }
   },
 
   _onChange: function () {
@@ -209,10 +216,7 @@ module.exports = React.createClass({
 
   _updatePage: function (page) {
     if (0 < page && page <= this.state.totalPages) {
-      getProviderCredential(this.sectionKey, page, this.limit);
-      this.setState({
-        pageNo: page,
-      });
+      this.props.callUpdateURL(page);
     }
   },
 

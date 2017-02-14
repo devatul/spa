@@ -42,6 +42,13 @@ module.exports = React.createClass({
   componentWillReceiveProps: function (props) {
     var width = props.providers.length*150 || 600;
     $('#privateCloudProvidersList').css({width: width+'px'});
+
+    if (props.page_no !== this.state.pageNo) {
+      this.setState({
+        pageNo: props.page_no,
+      });
+      getProviderCredential(this.sectionKey, props.page_no, this.limit);
+    }
   },
 
   _onChange: function () {
@@ -118,7 +125,7 @@ module.exports = React.createClass({
     cloudData.append('provider_id', providerId);
     cloudData.append('company_id', company);
 
-    submitCloudData(cloudData).then(function(){
+    submitCloudData(cloudData).then(function () {
       $('input[name="privateIntegrationName"]').val('');
       $('input[name="privateApiKey"]').val('');
       $('input[name="privateEndpoint"]').val('');
@@ -208,10 +215,7 @@ module.exports = React.createClass({
 
   _updatePage: function (page) {
     if (0 < page && page <= this.state.totalPages) {
-      getProviderCredential(this.sectionKey, page, this.limit);
-      this.setState({
-        pageNo: page,
-      });
+      this.props.callUpdateURL(page);
     }
   },
 
@@ -281,7 +285,7 @@ module.exports = React.createClass({
         statusClass = "fa fa-ban grey-text";
         statusLable = "Disabled";
       }
-      var provider = _.find(allProviders, function(o) { return o.provider == data.provider });
+      var provider = _.find(allProviders, function (o) { return o.provider == data.provider });
 
       if ('undefined' !== typeof provider)
       connectionTableRow.push(
