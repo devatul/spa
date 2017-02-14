@@ -11,11 +11,12 @@ var getDashboard               = require('../actions/RequestActions').getDashboa
 var getStats                   = require('../actions/RequestActions').getStats;
 var Graphs                     = require('./Graphs.react');
 var Preloader                  = require('./Preloader.react');
-var Warning                    = require('./Warning_message.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
+var Modal                      = require('react-bootstrap').Modal;
+var Button                     = require('react-bootstrap').Button;
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 
 module.exports = React.createClass({
@@ -32,6 +33,7 @@ module.exports = React.createClass({
       dashboard: '',
       stats: stats,
       companyInfo: companyInfo,
+      modalType: '',
     };
   },
 
@@ -88,6 +90,27 @@ module.exports = React.createClass({
 
   _acknowledge: function (alertId) {
     acknowledge(alertId);
+    this.setState({
+      showModal: false,
+    });
+  },
+
+  _warning: function (props) {
+    switch (props) {
+      case 'mute':
+        this.setState({
+          modalType: 'mute',
+          showModal: true,
+        });
+      break;
+    }
+  },
+
+  close: function () {
+    this.setState({
+      showModal: false,
+      modalType: '',
+    });
   },
 
   render: function () {
@@ -133,6 +156,7 @@ module.exports = React.createClass({
     }
 
     var rows = [];
+    var mute = 'mute';
     for (var key in mainAlerts) {
       var level = '';
       var state = '';
@@ -157,7 +181,14 @@ module.exports = React.createClass({
         tooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <Warning type="mute" status={mainAlerts[key].is_acknowledged} hover={tooltip} />
+            <span>
+              <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
+              <OverlayTrigger placement="top" overlay={tooltip}>
+                <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
+                  <i className="icon nb-mute-on grey-text small"></i>
+                </span>
+              </OverlayTrigger>
+            </span>
           </td>
         );
       } else {
@@ -165,7 +196,14 @@ module.exports = React.createClass({
         tooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         action = (
           <td className="icons hidden-xs">
-            <Warning type="mute" status={mainAlerts[key].is_acknowledged} hover={tooltip} clickAction={this._acknowledge.bind(this, mainAlerts[key].id)} />
+            <span>
+              <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._warning.bind(this, mute)}>Mute notifications</span>
+              <OverlayTrigger placement="top" overlay={tooltip}>
+                <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._warning.bind(this, mute)}>
+                  <i className="icon nb-mute-off small white-text"></i>
+                </span>
+              </OverlayTrigger>
+            </span>
           </td>
         );
       }
@@ -180,7 +218,41 @@ module.exports = React.createClass({
         to = '-';
       }
 
-      rows[rows.length] =
+      var notice;
+      var warn;
+      var confirmButtons;
+
+      switch (this.state.modalType) {
+        case 'mute':
+          warn = (
+            <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
+          );
+          notice = 'If you turn off the alerts, you won\'t receive them anymore!';
+          confirmButtons = (
+            <div className="pull-right">
+              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
+              <span className="action-button nubity-red" onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>OK</span>
+            </div>
+          );
+        break;
+      }
+
+      var warning = (
+        <Modal show={this.state.showModal} onHide={this.close} bsSize="small">
+          <Modal.Body>
+            <div className="row">
+              <div className="col-xs-12 warn-message">
+                <h1>{warn}</h1>
+                <p>{notice}</p>
+                <div className="med"></div>
+                {confirmButtons}
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      );
+
+      rows[rows.length] = (
         <tr>
           <td className="icons">
             <OverlayTrigger placement="top" overlay={severityTooltip}>
@@ -203,7 +275,8 @@ module.exports = React.createClass({
               <i className="icon nb-ticket white-text small"></i>
             </span>
           </td>
-        </tr>;
+        </tr>
+      );
     }
 
     var alertTable;
@@ -265,6 +338,7 @@ module.exports = React.createClass({
         <div className="margin-sides row">
           <Graphs/>
         </div>
+        {warning}
       </div>
     );
   },

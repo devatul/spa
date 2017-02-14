@@ -6,6 +6,8 @@ var Preloader = React.createClass({
     var preloaderClass = '';
     if ('mini' == this.props.size) {
       preloaderClass = 'loader-mini';
+    } else if ('medium' == this.props.size) {
+      preloaderClass = 'loader-medium';
     } else {
       preloaderClass = 'loader';
     }
