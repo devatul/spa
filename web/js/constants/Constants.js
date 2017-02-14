@@ -1,5 +1,5 @@
 var keyMirror = require('keymirror');
-var Root      = 'https://api.nubity.com';
+var Root      = 'http://api.mobile-apps.nubity.com';
 var APIRoot   = Root;
 
 module.exports = {
