@@ -3,9 +3,16 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
+var Preloader                  = require('./Preloader.react');
 var loginAction                = require('../actions/RequestActions').login;
 
 module.exports = React.createClass({
+
+  getInitialState: function () {
+    return {
+      loading: false,
+    };
+  },
 
   componentDidMount: function () {
     SessionStore.addChangeListener(this._onChange);
@@ -19,15 +26,21 @@ module.exports = React.createClass({
   },
 
   _onChange: function () {
+    this.setState({
+      loading: false,
+    });
   },
 
   _onSubmit: function (e) {
+    this.setState({
+      loading: true,
+    });
     e.preventDefault();
     var user      = {};
     user.email    = this.refs.email.getDOMNode().value;
     user.password = this.refs.password.getDOMNode().value;
-    
-    loginAction(user); 
+
+    loginAction(user);
   },
 
   _redirectForgotPassword: function () {
@@ -47,6 +60,18 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    var login;
+
+    if (this.state.loading == true) {
+      login = (
+        <div className="login-load">
+          <Preloader size="medium"/>
+        </div>
+      );
+    } else {
+      login = (<button className="col-xs-12 login-button" type="submit" >Log in</button>);
+    }
+
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
@@ -91,7 +116,7 @@ module.exports = React.createClass({
                 <a className="link-login" onClick={this._redirectForgotPassword}>Forgot password?</a>
               </div>
             </div>
-            <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Log in</button>
+            <div onChange={this._onChange}>{login}</div>
           </form>
           <div className="row">
             <div className="col-xs-6">

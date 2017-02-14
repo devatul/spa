@@ -223,6 +223,7 @@ module.exports = {
           this.getCompanyInfo();
         } else {
           showCompany(text);
+          this.getUser();
         }
       }.bind(this));
     }.bind(this));
