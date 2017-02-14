@@ -1,14 +1,9 @@
-
+html, body, section {
+  height: 100%;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: 'neosansregular', sans-serif;
   font-weight: 300;
-}
-
-#nubityApp {
-  height: 100%;
-}
-.nubity-app {
-  height: 100%;
 }
 a {
   cursor: pointer;
@@ -19,6 +14,94 @@ a:hover, a:active, a:focus {
   text-decoration: none;
   color: #58595b;
   transition: all 0.3s ease-in;
+}
+/*Neo Sans Font*/
+@font-face {
+    font-family: 'neosansregular';
+    src: url('../fonts/neosans-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansbold';
+    src: url('../fonts/neosans-black-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansbold_italic';
+    src: url('../fonts/neosans-blackitalic-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-blackitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansbold';
+    src: url('../fonts/neosans-bold-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansbold_italic';
+    src: url('../fonts/neosans-bolditalic-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-bolditalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansitalic';
+    src: url('../fonts/neosans-italic-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosanslight';
+    src: url('../fonts/neosans-light-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansitalic';
+    src: url('../fonts/neosans-lightitalic-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-lightitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansmedium';
+    src: url('../fonts/neosans-medium-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'neosansitalic';
+    src: url('../fonts/neosans-mediumitalic-webfont.woff2') format('woff2'),
+         url('../fonts/neosans-mediumitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/*Font Helpers*/
+.neosansregular {
+    font-family: 'neosansregular' !important;
+}
+.neosansbold {
+    font-family: 'neosansbold' !important;
+}
+.neosanslight {
+    font-family: 'neosanslight' !important;
+}
+/*App styles*/
+#nubityApp {
+  height: 100%;
+}
+.nubity-app {
+  height: 100%;
 }
 .left-align {
   text-align: left;
@@ -633,15 +716,11 @@ body {
 }
 .widget-create {
   height: 370px !important;
-  background: rgba(0, 0, 0, 0.3) url('../images/widget-background.jpg') top center no-repeat;
+  background: url('../images/widget-background.png') top center no-repeat;
   background-size: cover;
 }
 .min-height-subsection {
   min-height: 360px;
-}
-html, body {
-  height: auto !important;
-  height: 100%;
 }
 .section-height {
   height: calc(100% - 70px);
@@ -1331,6 +1410,130 @@ tr:nth-child(even) {
     visibility: hidden;
   }
 }
+/*Login*/
+.login-div {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  background-image: url('../images/background-login.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  z-index: 10006;
+}
+.login-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.login-logo {
+  height: 89px;
+  width: 190px;
+  margin: auto;
+  margin-top: 20px;
+  background-image: url('../images/logo-nubity.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.login-box {
+  background-color: white;
+  border: solid 1px #ccc;
+  border-radius: 8px;
+  position: absolute;
+  top: 15%;
+}
+.signup-box {
+  background-color: white;
+  border: solid 1px #ccc;
+  border-radius: 8px;
+  position: absolute;
+  top: 5%;
+}
+.login-title {
+  text-align: left;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: 'neosansregular';
+  margin: 0px;
+}
+.login-subtitle {
+  text-align: left;
+  font-size: 15px;
+  font-family: 'neosansregular';
+  margin-top: 15px;
+}
+.link-login {
+  line-height: 40px;
+  color: #2d8ccf;
+}
+.login-button {
+  background-color: #50c00a;
+  border: solid 0px transparent;
+  border-radius: 5px;
+  color: white;
+  font-family: 'neosansregular';
+  padding: 6px;
+}
+.google-button {
+  background-color: #db0720;
+  border: solid 0px transparent;
+  border-radius: 5px;
+  color: white;
+  font-family: 'neosansregular';
+  padding: 6px;
+}
+.login-p {
+  display: inline;
+  color: grey;
+}
+.login-p-navbar {
+  display: inline;
+  color: white;
+}
+.top-div {
+  text-align: right;
+  margin-top: 20px;
+}
+.top-div-navbar {
+  text-align: right;
+  margin-right: 20px;
+}
+.go-to-signup {
+  background-color: #2d8ccf;
+  color: white;
+  border: solid 0px transparent;
+  border-radius: 3px;
+  padding: 10px;
+  margin-left: 10px;
+}
+.signup-subtitle {
+  text-align: left;
+  font-size: 15px;
+  font-family: 'neosansregular';
+}
+.verification-logo {
+  padding: 40px 0;
+}
+.verification-logo img {
+  width: 250px;
+}
+.verification-legend {
+  font-family: 'neosanslight', sans-serif;
+  font-size: 16pt;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 10px;
+}
+.verification-icon {
+  padding: 50px;
+}
+.login-load {
+  position: relative;
+  margin: 35px 50%;
+}
+@media (max-width: 1200px) {
+  .modal-content {
+    width: 100%!important;
+  }
+}
 /*Preloader*/
 .loader, .loader-mini, .loader-medium {
   color: #979797;
@@ -1357,10 +1560,6 @@ tr:nth-child(even) {
 .loader-medium {
   font-size: 6px;
   position: absolute;
-}
-.login-load {
-  position: relative;
-  margin: 35px 50%;
 }
 @-webkit-keyframes load4 {
   0%,
@@ -1416,3 +1615,4 @@ tr:nth-child(even) {
     box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
   }
 }
+
