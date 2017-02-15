@@ -2,6 +2,7 @@ var React                      = require('react');
 var Router                     = require('../router');
 var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
+var saveURI                    = require('../actions/RequestActions').saveURI;
 var GraphStore                 = require('../stores/GraphStore');
 var SessionStore               = require('../stores/SessionStore');
 var AlertsStore                = require('../stores/AlertsStore');
@@ -47,6 +48,7 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },

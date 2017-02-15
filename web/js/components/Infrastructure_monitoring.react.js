@@ -1,6 +1,7 @@
 var React                         = require('react');
 var Router                        = require('../router');
 var redirect                      = require('../actions/RouteActions').redirect;
+var saveURI                       = require('../actions/RequestActions').saveURI;
 var SessionStore                  = require('../stores/SessionStore');
 var Link                          = require('react-router').Link;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
@@ -15,6 +16,7 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },
@@ -24,7 +26,7 @@ module.exports = React.createClass({
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">

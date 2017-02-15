@@ -5,6 +5,8 @@ var PublicCloudSection         = require('./Public_cloud_section.react');
 var PrivateCloudSection        = require('./Private_cloud_section.react');
 var OnPremiseCloudSection      = require('./On_premise_cloud_section.react');
 var getProviders               = require('../actions/RequestActions').getProviders;
+var saveURI                    = require('../actions/RequestActions').saveURI;
+var redirect                   = require('../actions/RouteActions').redirect;
 var _                          = require('lodash');
 
 module.exports = React.createClass({
@@ -21,6 +23,7 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },
