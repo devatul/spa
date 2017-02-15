@@ -9,13 +9,16 @@ var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfr
 var getMonitored                  = require('../actions/RequestActions').getMonitored;
 var getManaged                    = require('../actions/RequestActions').getManaged;
 var stopOrder                     = require('../actions/RequestActions').stopOrder;
+var startInstance                 = require('../actions/RequestActions').startInstance;
+var stopInstance                  = require('../actions/RequestActions').stopInstance;
+var restartInstance               = require('../actions/RequestActions').restartInstance;
 var deleteOrderCancelation        = require('../actions/RequestActions').deleteOrderCancelation;
 var Preloader                     = require('./Preloader.react');
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
-var Modal                         = require('react-bootstrap').Modal;
 var Button                        = require('react-bootstrap').Button;
 var Link                          = require('react-router').Link;
+var Warning                       = require('./Warning.react');
 
 module.exports = React.createClass({
 
@@ -31,7 +34,7 @@ module.exports = React.createClass({
       pageNo: 1,
       isLoading: false,
       showModal: false,
-      modalType: '',
+      warning: (<Warning modalType=''/>)
     };
   },
 
@@ -78,70 +81,64 @@ module.exports = React.createClass({
     getInfrastructurePublicCloud(page);
   },
 
+  _startInstance: function (instance) {
+    startInstance(instance.instance);
+  },
+
+  _stopInstance: function (instance) {
+    stopInstance(instance.instance);
+  },
+
+  _restartInstance: function (instance) {
+    restartInstance(instance.instance);
+  },
+
   _managed: function (instance) {
     getManaged(instance.instance);
-    this.setState({
-      showModal: false,
-    });
   },
 
   _stopOrder: function (orderCode) {
     stopOrder(orderCode);
-    this.setState({
-      showModal: false,
-    });
   },
 
   _deleteOrderCancelation: function (orderCode) {
     deleteOrderCancelation(orderCode);
   },
 
-  _warning: function (props) {
+  _warning: function (props, instance, functionParam) {
     switch (props) {
       case 'start':
-        this.setState({
-          modalType: 'start',
-          showModal: true,
+       this.setState({
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._startInstance.bind(this)}/>)
         });
       break;
       case 'stop':
         this.setState({
-          modalType: 'stop',
-          showModal: true,
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopInstance.bind(this)}/>)
         });
       break;
       case 'restart':
         this.setState({
-          modalType: 'restart',
-          showModal: true,
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._restartInstance.bind(this)}/>)
         });
       break;
-      case 'monitoringStart':
+      case 'managementStart':
         this.setState({
-          modalType: 'monitoringStart',
-          showModal: true,
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._managed.bind(this)}/>)
         });
       break;
-      case 'monitoringStop':
+      case 'managementStop':
         this.setState({
-          modalType: 'monitoringStop',
-          showModal: true,
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopOrder.bind(this)}/>)
         });
       break;
     }
   },
 
-  close: function () {
-    this.setState({
-      showModal: false,
-      modalType: '',
-    });
-  },
-
   render: function () {
     var publicCloud = this.state.publicCloud;
-    var totalItems = this.state.totalItems;
-    var pages = this.state.totalPages;
+    var totalItems  = this.state.totalItems;
+    var pages       = this.state.totalPages;
     var content;
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
@@ -250,8 +247,8 @@ module.exports = React.createClass({
         }
       }
 
-      var monitoringStart = 'monitoringStart';
-      var monitoringStop = 'monitoringStop';
+      var managementStart = 'managementStart';
+      var managementStop = 'managementStop';
 
       if ('pending-acceptation' == managementStatus) {
         management = (
@@ -259,11 +256,11 @@ module.exports = React.createClass({
         );
       } else if ('' == managementStatus) {
         management = (
-          <span className="action-button nubity-green" onClick={this._warning.bind(this, monitoringStart)}>Start</span>
+          <span className="action-button nubity-green" onClick={this._warning.bind(this, managementStart, publicCloud[key], publicCloud[key])}>Start</span>
         );
       } else if ('accepted' == managementStatus) {
         management = (
-          <span className="action-button nubity-red" onClick={this._warning.bind(this, monitoringStop)}>Stop</span>
+          <span className="action-button nubity-red" onClick={this._warning.bind(this, managementStop, publicCloud[key], managementCode)}>Stop</span>
         );
       } else if ('pending-cancellation' == managementStatus) {
         management = (
@@ -280,24 +277,21 @@ module.exports = React.createClass({
       num = num.slice(0, (num.indexOf('.'))+2);
 
       var actionButtons;
-      var start = 'start';
-      var stop = 'stop';
-      var restart = 'restart';
 
       if ('running' == publicCloud[key].status) {
         actionButtons = (
           <td className="icons hidden-xs hidden-sm">
             <span className="icon nb-start action-icon disabled"></span>
-            <span className="icon nb-stop action-icon" onClick={this._warning.bind(this, stop)}></span>
-            <span className="icon nb-restart action-icon" onClick={this._warning.bind(this, restart)}></span>
+            <span className="icon nb-stop action-icon" onClick={this._warning.bind(this, 'stop', publicCloud[key], publicCloud[key])}></span>
+            <span className="icon nb-restart action-icon" onClick={this._warning.bind(this, 'restart', publicCloud[key], publicCloud[key])}></span>
           </td>
         );
       } else if ('stopped' == publicCloud[key].status) {
         actionButtons = (
           <td className="icons hidden-xs hidden-sm">
-            <span className="icon nb-start action-icon " onClick={this._warning.bind(this, start)} ></span>
+            <span className="icon nb-start action-icon " onClick={this._warning.bind(this, 'start', publicCloud[key], publicCloud[key])} ></span>
             <span className="icon nb-stop action-icon disabled" ></span>
-            <span className="icon nb-restart action-icon " onClick={this._warning.bind(this, restart)} ></span>
+            <span className="icon nb-restart action-icon " onClick={this._warning.bind(this, 'restart', publicCloud[key], publicCloud[key])} ></span>
           </td>
         );
       } else {
@@ -309,101 +303,6 @@ module.exports = React.createClass({
           </td>
         );
       }
-
-      var notice;
-      var warn;
-      var confirmButtons;
-
-      switch (this.state.modalType) {
-        case 'start':
-          warn = (
-            <span><i className="icon nb-warning yellow-text large"></i> You're about to start an instance</span>
-          );
-          notice = 'The instance will start right after you click OK button';
-          confirmButtons = (
-            <div className="pull-right">
-              <span className="action-button nubity-green" onClick={this.close}>Cancel</span>
-              <span className="action-button nubity-blue" onClick={this.close}>OK</span>
-            </div>
-          );
-        break;
-        case 'stop':
-          warn = (
-            <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
-          );
-          notice = 'If you stop this instance, it\'ll be unavailable until the next start';
-          confirmButtons = (
-            <div className="pull-right">
-              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
-              <span className="action-button nubity-red" onClick={this.close}>OK</span>
-            </div>
-          );
-        break;
-        case 'restart':
-          warn = (
-            <span><i className="icon nb-warning yellow-text large"></i> Are you sure to restart?</span>
-          );
-          notice = 'The instance will be unavailable for a few minutes';
-          confirmButtons = (
-            <div className="pull-right">
-              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
-              <span className="action-button nubity-red" onClick={this.close}>OK</span>
-            </div>
-          );
-        break;
-        case 'monitoringStart':
-          warn = (
-            <span><i className="icon nb-ninja-support yellow-text large"></i> Start Ninja Support</span>
-          );
-          notice = (
-            <span>
-              You are activating management services for device {publicCloud[key].hostname}.<br/>
-              The server takeover process may take from 4 to 6 hours depending on the server complexity.<br/>
-              This action will create a charge in the user's account.<br/><br/>
-              By clicking the button "I Accept" you agree the <a>Nubity's Terms and Conditions & Privacy Policy</a>.
-            </span>
-          );
-          confirmButtons = (
-            <div className="pull-right">
-              <span className="action-button nubity-blue" onClick={this.close}>Close</span>
-              <span className="action-button nubity-green" onClick={this._managed.bind(this, publicCloud[key])}>I Accept</span>
-            </div>
-          );
-        break;
-        case 'monitoringStop':
-          warn = (
-            <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
-          );
-          notice = (
-            <span>
-              Stopping the management services will be effective in billing as well as technical at the end of the 
-              current billing cicle. In any moment during this period, you can dismiss the stop and the service will 
-              continue normally.
-            </span>
-          );
-          confirmButtons = (
-            <div className="pull-right">
-              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
-              <span className="action-button nubity-red" onClick={this._stopOrder.bind(this, managementCode)}>OK</span>
-            </div>
-          );
-        break;
-      }
-
-      var warning = (
-        <Modal show={this.state.showModal} onHide={this.close} bsSize="small">
-          <Modal.Body>
-            <div className="row">
-              <div className="col-xs-12 warn-message">
-                <h1>{warn}</h1>
-                <p>{notice}</p>
-                <div className="med"></div>
-                {confirmButtons}
-              </div>
-            </div>
-          </Modal.Body>
-        </Modal>
-      );
 
       rows.push(
         <tr key={key}>
@@ -501,7 +400,7 @@ module.exports = React.createClass({
             </li>
           </ul>
         </nav>
-        {warning}
+        {this.state.warning}
       </div>
     );
   },
