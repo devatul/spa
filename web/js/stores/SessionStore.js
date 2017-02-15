@@ -19,6 +19,8 @@ var _search       = '';
 var _graphTypes   = '';
 var _companyInfo  = '';
 
+EventEmitter.prototype.setMaxListeners(0);
+
 var SessionStore  = assign({}, EventEmitter.prototype, {
   
   emitChange: function () {
