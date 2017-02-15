@@ -20,6 +20,8 @@ var _graphTypes   = '';
 var _companyInfo  = '';
 var _loginError   = '';
 
+EventEmitter.prototype.setMaxListeners(50);
+
 var SessionStore  = assign({}, EventEmitter.prototype, {
 
   emitChange: function () {
