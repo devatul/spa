@@ -5,6 +5,7 @@ var PluginsTable                  = require('./PluginsTable.react');
 var GroupView                     = require('./Databases_tabs.react');
 var SessionStore                  = require('../stores/SessionStore');
 var redirect                      = require('../actions/RouteActions').redirect;
+var saveURI                       = require('../actions/RequestActions').saveURI;
 
 module.exports = React.createClass({
 
@@ -21,6 +22,7 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },

@@ -2,6 +2,8 @@ var React                      = require('react');
 var Router                     = require('../router');
 var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
+var saveURI                    = require('../actions/RequestActions').saveURI;
+var GraphStore                 = require('../stores/GraphStore');
 var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
 var Preloader                  = require('./Preloader.react');
@@ -36,6 +38,7 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },
@@ -54,7 +57,7 @@ module.exports = React.createClass({
       });
     }
   },
-  
+
   close: function () {
     this.setState({
       showModal: false,
@@ -105,7 +108,7 @@ module.exports = React.createClass({
           </span>
         );
       }
-      
+
       if (3 > this.state.customDashboards.length) {
         dashboardsTabs = (
           <div className="section-title">

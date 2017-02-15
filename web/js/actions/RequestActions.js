@@ -199,4 +199,8 @@ module.exports = {
   updateNewCredentials: function (credetialId, newCredential) {
     return NubityAPIUtils.updateNewCredentials(credetialId, newCredential);
   },
+  
+  saveURI: function () {
+    return NubityAPIUtils.saveURI();
+  },
 };
