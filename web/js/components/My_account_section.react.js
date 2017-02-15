@@ -23,7 +23,7 @@ module.exports = React.createClass({
       case 'info' :
         alertCheck = (
           <div className="col-sm-12 light-grey-background">
-            <div className="col-md-3 col-xs-12">
+            <div className="col-lg-3 col-md-6 col-xs-12">
               <label className="input-group">
                 <span className="input-group-addon">
                   <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" checked disabled/>
@@ -33,7 +33,7 @@ module.exports = React.createClass({
                 </div>
               </label>
             </div>
-            <div className="col-md-3 col-xs-12">
+            <div className="col-lg-3 col-md-6 col-xs-12">
               <label className="input-group">
                 <span className="input-group-addon">
                   <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" disabled/>
@@ -43,7 +43,7 @@ module.exports = React.createClass({
                 </div>
               </label>
             </div>
-            <div className="col-md-3 col-xs-12">
+            <div className="col-lg-3 col-md-6 col-xs-12">
               <label className="input-group">
                 <span className="input-group-addon">
                   <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" disabled/>
@@ -53,7 +53,7 @@ module.exports = React.createClass({
                 </div>
               </label>
             </div>
-            <div className="col-md-3 col-xs-12">
+            <div className="col-lg-3 col-md-6 col-xs-12">
               <label className="input-group">
                 <span className="input-group-addon">
                   <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" disabled/>
@@ -262,10 +262,10 @@ module.exports = React.createClass({
           <h2>My Account</h2>
         </div>
         <div className="row">
-          <div className="col-xs-1">
+          <div className="col-xs-12 col-sm-1 col-md-1 centered">
             <img src={avatar} height="65" alt={firstname} title={firstname} className="img-circle"/>
           </div>
-          <div className="col-xs-8 my-account-data">
+          <div className="col-xs-12 col-sm-1 col-md-1 my-account-data">
             <p className="my-account-title">{firstname} {lastname} </p>
             <p className="my-account-email">{email}</p>
           </div>
