@@ -60,7 +60,7 @@ module.exports = React.createClass({
   componentWillUnmount: function () {
     NinjaStore.resetViewingTicket();
     SessionStore.removeChangeListener(this._onChange);
-    NinjaStore.addChangeListener(this._onChange);
+    NinjaStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function () {
