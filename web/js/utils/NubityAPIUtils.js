@@ -840,74 +840,10 @@ module.exports = {
     .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
+      var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
           this.stopMonitoring(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
-      }.bind(this));
-    }.bind(this));
-  },
-
-  stopInstance: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
-    var token   = this.getToken();
-    request
-    .put('/company/' + company + '/instance/' + instanceId + '/stop.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.stopInstance(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
-      }.bind(this));
-    }.bind(this));
-  },
-
-  startInstance: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
-    var token   = this.getToken();
- 
-    request
-    .put('/company/' + company + '/instance/' + instanceId + '/start.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.stopInstance(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
-      }.bind(this));
-    }.bind(this));
-  },
-
-  restartInstance: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
-    var token   = this.getToken();
- 
-    request
-    .put('/company/' + company + '/instance/' + instanceId + '/reboot.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.stopInstance(instanceId);
         } else {
           this.getInfrastructureOverview();
           this.getInfrastructureOnPremise();
