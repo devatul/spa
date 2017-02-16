@@ -124,18 +124,6 @@ module.exports = {
     NubityAPIUtils.stopOrder(orderCode);
   },
 
-  startInstance: function (instanceId) {
-    NubityAPIUtils.startInstance(instanceId);
-  },
-
-  restartInstance: function (instanceId) {
-    NubityAPIUtils.restartInstance(instanceId);
-  },
-
-  stopInstance: function (instanceId) {
-    NubityAPIUtils.stopInstance(instanceId);
-  },
-
   deleteOrderCancelation: function (orderCode) {
     NubityAPIUtils.deleteOrderCancelation(orderCode);
   },
