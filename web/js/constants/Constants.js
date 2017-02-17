@@ -1,5 +1,6 @@
+var config    = require('../config/config');
 var keyMirror = require('keymirror');
-var Root      = 'https://api.nubity.com';
+var Root      = config.url;
 var APIRoot   = Root;
 
 module.exports = {
