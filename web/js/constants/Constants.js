@@ -1,6 +1,6 @@
 var config    = require('../config/config');
 var keyMirror = require('keymirror');
-var Root      = config.url;
+var Root      = config.baseURL;
 var APIRoot   = Root;
 
 module.exports = {

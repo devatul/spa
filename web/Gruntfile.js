@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     copy: {
-      live: {
+      prod: {
         src: 'js/config/live.js',
         dest: 'js/config/config.js',
       },
@@ -14,6 +14,6 @@ module.exports = function(grunt) {
     },
   });
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.registerTask('config_live', ['copy:live']);
+  grunt.registerTask('config_prod', ['copy:prod']);
   grunt.registerTask('config_dev', ['copy:dev']);
 };

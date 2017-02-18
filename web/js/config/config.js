@@ -1,3 +1,3 @@
 module.exports = {
-  url: 'https://api.pricing.nubity.com',
+  baseURL: 'https://api.pricing.nubity.com',
 };

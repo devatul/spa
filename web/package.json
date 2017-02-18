@@ -4,9 +4,11 @@
   "description": "nubity-spa",
   "main": "js/app.js",
   "scripts": {
-    "live": "grunt config_live && watchify js/app.js -o js/bundle.js -v -d",
+    "prod": "grunt config_prod && watchify js/app.js -o js/bundle.js -v -d",
     "dev": "grunt config_dev && watchify js/app.js -o js/bundle.js -v -d",
-    "build": "browserify . -o js/bundle.tmp.js && uglifyjs js/bundle.tmp.js -cm > js/bundle.js && rm js/bundle.tmp.js"
+    "build": "browserify . -o js/bundle.tmp.js && uglifyjs js/bundle.tmp.js -cm > js/bundle.js && rm js/bundle.tmp.js",
+    "build:prod": "grunt config_prod && npm run build",
+    "build:dev": "grunt config_dev && npm run build"
   },
   "repository": {
     "type": "git",
