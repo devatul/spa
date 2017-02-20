@@ -9,7 +9,7 @@
     "build": "browserify . -o js/bundle.tmp.js && uglifyjs js/bundle.tmp.js -cm > js/bundle.js && rm js/bundle.tmp.js",
     "build:prod": "grunt config_prod && npm run build",
     "build:dev": "grunt config_dev && npm run build",
-    "deploy": "shipit production deploy"
+    "deploy": "npm run build:prod && shipit production build"
   },
   "repository": {
     "type": "git",

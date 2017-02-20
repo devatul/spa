@@ -14,12 +14,24 @@ this is the dommy configration data need to change with actual when implented
       shallowClone: true,
     },
     production: {
-      servers: 'etech00@192.168.1.144',
-      deployTo: path.resolve('./tmp/prod.deploy')
+      servers: 'etech@144.76.34.244:4444',
+      deployTo: 'public_html/spa',
+      key: path.resolve('./server-key.ppk'),
     },
     develop: {
-      servers: 'etech00@192.168.1.144',
+      servers: 'etech00@192.168.1.124',
       deployTo: path.resolve('./tmp/dev.deploy')
     },
   });
+
+  shipit.task('build', function () {
+    shipit.emit('updated');
+  });
+
+  shipit.on('updated', function () {
+    var buildDirectory = path.resolve('./js/bundle.js');
+    var serverDirectory = 'public_html/spa/web/js';
+    shipit.remoteCopy(buildDirectory, serverDirectory);
+  });
+
 };
