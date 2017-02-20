@@ -234,6 +234,7 @@ a:hover, a:active, a:focus {
 }
 .navbar-right {
   padding-top: 7px!important;
+  float: right !important;
 }
 .notification-badge {
   width: 18px;
@@ -263,6 +264,7 @@ a:hover, a:active, a:focus {
 }
 .up-li {
   margin-top: -5px;
+  display: inline-block !important;
 }
 .up-li.last {
   margin-right: 30px;
@@ -1365,6 +1367,34 @@ tr:nth-child(even) {
     left: 42px;
   }
 }
+@media screen and (max-width: 767px) {
+  .navbar-right {
+    position: relative;
+    top: -58px;
+  }
+  .up-li.last {
+    margin-right: 10px;
+  }
+  .light-grey-background {
+    padding: 4px 10px;
+  }
+  .light-grey-background h3 {
+    margin: 0;
+  }
+  .modal-dialog, .modal-content {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .modal.fade.in {
+    padding-left: 0 !important;
+  }
+  .section-content {
+    margin: 0 !important;
+  }
+  .section-tabs {
+    margin: 0 !important;
+  }
+}
 @media screen and (max-width: 425px) {
   .principal-section {
     height: calc(100% - 130px);
@@ -1529,7 +1559,7 @@ tr:nth-child(even) {
   position: relative;
   margin: 35px 50%;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1468px) {
   .modal-content {
     width: 100%!important;
   }

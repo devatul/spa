@@ -19,7 +19,7 @@ module.exports = React.createClass({
   },
 
   componentWillUnmount: function () {
-    SessionStore.removeChangeListener(this._onChange);
+    SessionStore.addChangeListener(this._onChange);
   },
 
   _onChange: function () {
