@@ -76,7 +76,7 @@ module.exports = React.createClass({
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
           <div className="top-div">
-            <p className="login-p">Don't have an account yet?</p>
+            <p className="login-p">Don&#39;t have an account yet?</p>
             <button className="go-to-signup" onClick={this._redirectSignUp}>Start Now!</button>
           </div>
           <div className="row">

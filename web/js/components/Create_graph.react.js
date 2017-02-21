@@ -53,7 +53,7 @@ module.exports = React.createClass({
     var chartType    = this.refs.chartType.getDOMNode().value;
     this.refs.server.getDOMNode().value = '';
     this.refs.chartType.getDOMNode().value = '';
-    CreateDashboardAction('graph', server, chartType, 22, this.props.position);
+    CreateDashboardAction('graph', server, chartType, localStorage.getItem('dashboardId'), this.props.position);
   },
 
   render: function () {

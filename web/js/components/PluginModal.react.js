@@ -34,7 +34,7 @@ module.exports = React.createClass({
       for (var key in this.props.macros) {
         inputs.push(
           <div className="form-group">
-            <label for={key}>{this.props.macros[key].macro}</label>
+            <label for={key}>{this.props.macros[key].name}</label>
             <input type="email" className="form-control" id={key} defaultValue={(null !== this.props.macros[key].value) ? this.props.macros[key].value : this.props.macros[key].default_value}/>
           </div>
         );
