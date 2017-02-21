@@ -94,7 +94,6 @@ module.exports = React.createClass({
         }],
       });
     }
-      
   },
 
   componentWillUnmount: function () {
@@ -111,11 +110,10 @@ module.exports = React.createClass({
         <div id={this.props.name}>
         </div>
       );
-    } 
+    }
 
     return (
       <GraphEmptyState/>
     );
-    
   },
 });
