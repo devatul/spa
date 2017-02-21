@@ -117,14 +117,28 @@ module.exports = React.createClass({
     certificate = certificate && certificate[0] || null;
 
     var cloudData = new FormData();
-
-    cloudData.append('name', integrationName);
-    cloudData.append('api_key', apiKey);
-    cloudData.append('endpoint', endpoint);
-    cloudData.append('api_secret', apiSecret);
-    cloudData.append('certificate', certificate);
-    cloudData.append('provider_id', providerId);
-    cloudData.append('company_id', company);
+    
+    if(integrationName !== null){
+      cloudData.append('name', integrationName);
+    }
+    if(apiKey !== null){
+      cloudData.append('api_key', apiKey);
+    }
+    if(endpoint !== null){
+      cloudData.append('endpoint', endpoint);
+    }
+    if(apiSecret !== null){
+      cloudData.append('api_secret', apiSecret);
+    }
+    if(certificate !== null){
+      cloudData.append('certificate', certificate);
+    }
+    if(providerId !== null){
+      cloudData.append('provider_id', providerId);
+    }
+    if(company !== null){
+      cloudData.append('company_id', company);
+    }
 
     submitCloudData(cloudData).then(function () {
       $('input[name="publicIntegrationName"]').val('');

@@ -1109,27 +1109,6 @@ module.exports = {
     }.bind(this));
   },
 
-  getProviderCredential: function (tab, page, limit) {
-    var company = localStorage.getItem('nubity-company');
-    var token = this.getToken();
-
-    request
-    .get('/company/'+company+'/cloud.json')
-    .query({page: page, limit: limit})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getProviderCredential();
-        } else {
-          showProviderCredential(text, tab);
-        }
-      }.bind(this));
-    }.bind(this));
-  },
-
   getInstanceConfiguration: function (id) {
     var token = this.getToken();
     request
@@ -1257,7 +1236,7 @@ module.exports = {
 
     return new Promise( function ( resolve, reject ) {
       request
-      .get('/company/'+company+'/cloud/'+credetialId+'.json')
+      .put('/company/'+company+'/cloud/'+credetialId+'.json')
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
