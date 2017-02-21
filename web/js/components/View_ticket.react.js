@@ -113,7 +113,7 @@ module.exports = React.createClass({
 
     //Replies
     var message = '';
-    if (undefined === this.state.ticket.replies) {
+    if (undefined === this.state.ticket.replies || (this.state.ticket.replies).length < 1) {
       replies = (<Preloader/>);
       message = (<Preloader/>);
     } else {
@@ -207,7 +207,7 @@ module.exports = React.createClass({
             <div className="ticket-message">
               {message}
             </div>
-            <span className="ticket-attachment">
+            <span className="ticket-attachment hidden">
               <i className="icon nb-attach small"></i> Attachment
             </span>
           </div>

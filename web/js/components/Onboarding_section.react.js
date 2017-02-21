@@ -84,22 +84,22 @@ module.exports = React.createClass({
               </a>
             </li>
             <li role="presentation" onClick={this.onPremise}>
-              <a className="grey-color" data-toggle="tab" href="#menu2">
+              <a className="grey-color" data-toggle="tab" href="#onPremise">
                 <i className="fa fa-server" aria-hidden="true"></i> On-premise servers
               </a>
             </li>
             <li role="presentation" className="hidden">
-              <a className="grey-color" data-toggle="tab" href="#menu2">
+              <a className="grey-color" data-toggle="tab" href="#onPremise">
                 <i className="fa fa-sitemap" aria-hidden="true"></i> Network devices
               </a>
             </li>
             <li role="presentation" className="hidden">
-              <a className="grey-color" data-toggle="tab" href="#menu2">
+              <a className="grey-color" data-toggle="tab" href="#onPremise">
                 <i className="fa fa-th" aria-hidden="true"></i> Business App
               </a>
             </li>
             <li role="presentation" className="hidden">
-              <a className="grey-color" data-toggle="tab" href="#menu2">
+              <a className="grey-color" data-toggle="tab" href="#onPremise">
                 <i className="fa fa-cube" aria-hidden="true"></i> Containers
               </a>
             </li>
@@ -112,9 +112,7 @@ module.exports = React.createClass({
           <div id="private" className="tab-pane fade">
             <PrivateCloudSection/>
           </div>
-          <div id="menu2" className="tab-pane fade">
-            <h3>Menu 2</h3>
-            <p>Some content in menu 2.</p>
+          <div id="onPremise" className="tab-pane fade">
           </div>
         </div>
       </div>

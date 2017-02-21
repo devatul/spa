@@ -2,6 +2,7 @@ var React                         = require('react');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var getInstanceConfiguration      = require('../actions/RequestActions').getInstanceConfiguration;
 var PluginsTable                  = require('./PluginsTable.react');
+var Databases                     = require('./Databases.react');
 var SessionStore                  = require('../stores/SessionStore');
 var redirect                      = require('../actions/RouteActions').redirect;
 
@@ -63,7 +64,7 @@ module.exports = React.createClass({
               </a>
             </li>
             <li role="presentation">
-              <a className="grey-color" data-toggle="tab" href="#windows">
+              <a className="grey-color" data-toggle="tab" href="#databases">
                 <span className="hidden-xs hidden-sm"> Databases</span>
               </a>
             </li>
@@ -73,7 +74,8 @@ module.exports = React.createClass({
           <div id="overview" className="tab-pane fade in active">
             <PluginsTable plugins={this.state.instanceConfiguration.templates} idInstance={this.state.idInstance}/>
           </div>
-          <div id="windows" className="tab-pane fade">
+          <div id="databases" className="tab-pane fade">
+            <Databases plugins={this.state.instanceConfiguration.templates} idInstance={this.state.idInstance}/>
           </div>
         </div>
       </div>

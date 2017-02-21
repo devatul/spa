@@ -202,7 +202,7 @@ module.exports = {
               routes.redirectTo(to);
               window.location.href = uri;
             } else {
-              routes.redirectDashboard();
+              //routes.redirectDashboard(); to do: ask why is this line required.
             }
           }
         }.bind(this));
