@@ -4,7 +4,7 @@ module.exports = React.createClass({
 
   render: function () {
     return (
-      <div className="empty-table">
+      <div className="empty-table valign">
         <i className="icon nb-performance x-large grey-text"></i>
         <h3 className="grey-text">There is no data in this graph.</h3>
       </div>
