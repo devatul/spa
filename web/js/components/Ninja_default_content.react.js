@@ -161,7 +161,7 @@ module.exports = React.createClass({
               </OverlayTrigger>
             </td>
             <td className="ticket-id-name" title="View ticket">
-              <Link to="view_ticket_params" params={{id: ticket[key].ticket}}>{ticket[key].name}</Link>
+              <Link className="ticket-id-name" to="view_ticket_params" params={{id: ticket[key].ticket}}>{ticket[key].name}</Link>
             </td>
             <td>{ticket[key].subject}</td>
             <td className="icons">
