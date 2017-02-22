@@ -114,8 +114,6 @@ module.exports = React.createClass({
         paginatorClass = 'hidden';
       }
 
-      var from = moment(ticket[key].created_at).format('DD/MM/YYYY hh:mm:ss');
-
       var rows = [];
       for (var key in ticket) {
         var status = '';
@@ -124,6 +122,7 @@ module.exports = React.createClass({
         var priority = '';
         var tooltip = '';
         var priorityTooltip = '';
+        var from = moment(ticket[key].created_at).format('DD/MM/YYYY hh:mm:ss');
 
         if ('open' == ticket[key].status) {
           status = 'icon nb-ticket icon-state blue-text';
