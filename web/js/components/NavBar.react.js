@@ -137,11 +137,11 @@ var NavBar = React.createClass({
             </div>
             <div>
               <ul className="nav navbar-nav navbar-right">
-                <li className="up-li">
-                  <OverlayTrigger placement="bottom" overlay={integrations}>
-                    <a className="onboarding-button" onClick={this._redirectOnboarding}>
-                      <i className="icon nb-connection-circle"></i>
-                      <span className="notification-badge">+</span>
+                <li className="up-li hidden">
+                  <OverlayTrigger className="hidden" placement="bottom" overlay={integrations}>
+                    <a className="onboarding-button hidden" onClick={this._redirectOnboarding}>
+                      <i className="icon nb-connection-circle hidden"></i>
+                      <span className="notification-badge hidden">+</span>
                     </a>
                   </OverlayTrigger>
                 </li>
