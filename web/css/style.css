@@ -705,6 +705,7 @@ body {
 .widget {
   border: 1px solid #cecece;
   padding: 10px;
+  min-height: 447px;
   max-height: 450px;
   font-family: 'neosanslight', sans-serif;
   margin: 10px;
@@ -1793,4 +1794,22 @@ tr:nth-child(even) {
 }
 .carousel-control {
   background: transparent!important;
+}
+.valign-wrapper {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.valign-wrapper .valign {
+  display: block;
+}
+.allHeight {
+  height: 380px;
+}
+.highcharts-container {
+  width: 592px!important;
+  height: 393px!important;
 }

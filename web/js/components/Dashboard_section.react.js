@@ -56,7 +56,7 @@ module.exports = React.createClass({
   componentWillUnmount: function () {
     AlertsStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
-    SessionStore.addChangeListener(this._onChange);
+    SessionStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function () {

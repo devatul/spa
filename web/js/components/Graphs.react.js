@@ -83,7 +83,9 @@ module.exports = React.createClass({
               <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
                 <span aria-hidden="true">&times;</span>
               </button>
-              <Graph graph={dashboard[key]} name={name} dashboardId={localStorage.getItem('dashboardId')}/>
+              <div className="valign-wrapper allHeight">
+                <Graph graph={dashboard[key]} name={name} dashboardId={localStorage.getItem('dashboardId')}/>
+              </div>
             </div>
           </div>
         );
