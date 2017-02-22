@@ -1788,3 +1788,9 @@ tr:nth-child(even) {
             transform: scale(1);
   }
 }
+.carousel-container {
+  margin:30px;
+}
+.carousel-control {
+  background: transparent!important;
+}
