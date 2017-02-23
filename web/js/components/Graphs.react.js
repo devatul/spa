@@ -79,7 +79,7 @@ module.exports = React.createClass({
         name = 'container' + key;
         allGraphs[parseInt(dashboard[key].position) - 1] = (
           <div className="col-md-6 col-sm-12 col-xs-12">
-            <div className="widget">
+            <div className="widget" id="widget">
               <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
                 <span aria-hidden="true">&times;</span>
               </button>

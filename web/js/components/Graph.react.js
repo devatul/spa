@@ -69,6 +69,7 @@ module.exports = React.createClass({
       Highcharts.chart(this.props.name, {
         chart: {
           zoomType: 'x',
+          className: 'hichart-main-container',
         },
         title: {
           text: slot_name,
@@ -107,7 +108,7 @@ module.exports = React.createClass({
   render: function () {
     if (null !== this.props.graph.content) {
       return (
-        <div id={this.props.name}>
+        <div id={this.props.name} style={{"width" : "100%"}}>
         </div>
       );
     }

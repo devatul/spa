@@ -1808,9 +1808,13 @@ tr:nth-child(even) {
 }
 .allHeight {
   height: 380px;
+  width: 100%;
+}
+.hichart-main-container {
+  width: 100%;
 }
 .highcharts-container {
-  width: 583px!important;
+  width: 100%!important;
   height: 380px!important;
 }
 .alert-margin {
