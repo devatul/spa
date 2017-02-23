@@ -11,6 +11,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       loading: false,
+      messageClass: 'hidden',
     };
   },
 
@@ -26,8 +27,26 @@ module.exports = React.createClass({
   },
 
   _onChange: function () {
+    if (this.isMounted()) {
+      this.setState({
+        loading: false,
+      });
+
+      var message = SessionStore.getLoginError();
+      if ('' != message) {
+        this.setState({
+          message: message,
+          loading: false,
+          messageClass: 'alert alert-danger alert-margin',
+        });
+      }
+    }
+  },
+
+  closeAlert: function (argument) {
     this.setState({
-      loading: false,
+      message: '',
+      messageClass: 'hidden',
     });
   },
 
@@ -85,6 +104,12 @@ module.exports = React.createClass({
               <p className="login-title">Your cloud,</p>
               <p className="login-title">Managed.</p>
               <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
+            </div>
+          </div>
+          <div className="row">
+            <div className={this.state.messageClass} role="alert">
+              <button type="button" className="close" onClick={this.closeAlert} aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              {this.state.message}
             </div>
           </div>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>

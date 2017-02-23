@@ -8,6 +8,13 @@ module.exports = {
     });
   },
 
+  loginError: function (message) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.LOGIN_ERROR,
+      res: message,
+    });
+  },
+
   logOut: function () {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.LOGOUT,

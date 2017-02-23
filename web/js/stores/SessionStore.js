@@ -18,6 +18,7 @@ var _textError    = '';
 var _search       = '';
 var _graphTypes   = '';
 var _companyInfo  = '';
+var _loginError   = '';
 
 var SessionStore  = assign({}, EventEmitter.prototype, {
   
@@ -80,6 +81,14 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
     return _companyInfo;
   },
 
+  getLoginError: function () {
+    return _loginError;
+  },
+
+  resetLoginError: function () {
+    _loginError = '';
+  },
+
 });
 
 SessionStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -89,6 +98,11 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
   switch (action.actionType) {
 
     case ActionTypes.LOGIN_RESPONSE:
+      SessionStore.emitChange();
+      break;
+
+    case ActionTypes.LOGIN_ERROR:
+      _loginError = action.res;
       SessionStore.emitChange();
       break;
 

@@ -2,7 +2,7 @@ var request                        = require('superagent-use')(require('superage
 var prefix                         = require('superagent-prefix');
 var Constants                      = require('../constants/Constants');
 var SessionStore                   = require('../stores/SessionStore');
-var error                          = require('../actions/ServerActions').error;
+var loginError                     = require('../actions/ServerActions').loginError;
 var showInfrastructureOverview     = require('../actions/ServerActions').showInfrastructureOverview;
 var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInfrastructurePublicCloud;
 var showInfrastructurePrivateCloud = require('../actions/ServerActions').showInfrastructurePrivateCloud;
@@ -83,16 +83,16 @@ module.exports = {
       .accept('application/json')
       .end(function (res) {
         var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.login(user);
-          } else {
-            localStorage.setItem('nubity-token', text.token);
-            localStorage.setItem('nubity-refresh-token', text.refresh_token);
-            this.getUser();
-            routes.redirectDashboard();
-          }
-        }.bind(this));
+        var code = JSON.parse(res.status);
+        if (300 <= code) {
+          loginError('Bad credentials');
+        } else {
+          SessionStore.resetLoginError();
+          localStorage.setItem('nubity-token', text.token);
+          localStorage.setItem('nubity-refresh-token', text.refresh_token);
+          this.getUser();
+          routes.redirectDashboard();
+        }
       }.bind(this));
   },
 
