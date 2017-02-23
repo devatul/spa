@@ -132,7 +132,7 @@ module.exports = React.createClass({
     }
 
     var priority = '';
-    if (undefined !== this.state.ticket) {
+    if ('' != this.state.ticket && undefined !== this.state.ticket) {
 
       switch (this.state.ticket.priority) {
         case 'low' :
@@ -162,7 +162,7 @@ module.exports = React.createClass({
       }
 
       var username = '';
-      if (undefined !== this.state.ticket.user) {
+      if ('' != this.state.ticket && undefined !== this.state.ticket.user) {
         username = this.state.ticket.user.firstname;
       } else {
         username = '';

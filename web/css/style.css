@@ -1813,3 +1813,7 @@ tr:nth-child(even) {
   width: 583px!important;
   height: 380px!important;
 }
+.alert-margin {
+  margin-left: 15px;
+  margin-right: 15px;
+}
