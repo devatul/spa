@@ -5,7 +5,7 @@ module.exports = React.createClass({
   render: function () {
     var firstname = ''; 
     var from = '';
-    
+
     if (undefined !== this.props.reply.created_at && this.props.reply.created_at) {
       from = moment(this.props.reply.created_at).format('lll');
     } 
