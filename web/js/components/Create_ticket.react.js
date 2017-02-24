@@ -30,6 +30,7 @@ module.exports = React.createClass({
   },
   
   componentWillUnmount: function () {
+    AlertsStore.resetAlertTicket();
     SessionStore.removeChangeListener(this._onChange);
   },
 
