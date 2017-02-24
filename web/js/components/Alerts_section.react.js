@@ -262,6 +262,7 @@ module.exports = React.createClass({
       if (null != alerts[key].resolved_on) {
         to = moment(alerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
         state = 'icon nb-thick-circle icon-state green-text';
+        action = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
       }
@@ -389,6 +390,7 @@ module.exports = React.createClass({
       if (null != historyAlerts[key].resolved_on) {
         to = moment(historyAlerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
         hstate = 'icon nb-thick-circle icon-state green-text';
+        haction = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
       }
