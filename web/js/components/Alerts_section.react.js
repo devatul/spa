@@ -436,7 +436,7 @@ module.exports = React.createClass({
     for (var key = 0; key < pages; key++) {
       page = key + 1;
       send = page.toString();
-      navpages[navpages.length] = <li className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, '#activeAlerts', page)}>{page}</a></li>;
+      navpages[navpages.length] = <li key={key} className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, '#activeAlerts', page)}>{page}</a></li>;
     }
 
     var totalHistoryItems = this.state.totalHistoryItems;
@@ -518,13 +518,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous">
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo-1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next">
+              <a aria-label="Next" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo+1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -595,13 +595,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={hpaginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous">
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo-1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {historynavpages}
             <li>
-              <a aria-label="Next">
+              <a aria-label="Next" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo+1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
