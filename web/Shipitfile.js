@@ -1,9 +1,7 @@
 var path = require('path');
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit);
-/**********************
-this is the dommy configration data need to change with actual when implented
-**********************/
+
   shipit.initConfig({
     default: {
       rsync: [

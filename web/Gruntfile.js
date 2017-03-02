@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     copy: {
       prod: {
-        src: 'js/config/live.js',
+        src: 'js/config/prod.js',
         dest: 'js/config/config.js',
       },
       dev: {
