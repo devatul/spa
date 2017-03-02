@@ -101,14 +101,9 @@ module.exports = React.createClass({
 
     //Form
     if (NinjaStore.isViewingTicket()) {
-      ticket        = this.state.ticket;
-      formHeader = (<FormHeader priority={ticket.priority} department={ticket.department} server={ticket.hostname} subject={ticket.subject}/>);
+      ticket     = this.state.ticket;
       ticketName = ticket.name;
-      subject = ticket.subject;
-    } else if ('' != urlid) {
-      if (!(undefined === this.state.ticket.priority || undefined === this.state.ticket.department || undefined === this.state.ticket.hostname || undefined === this.state.ticket.subject)) {
-        formHeader = (<FormHeader priority={this.state.ticket.priority} department={this.state.ticket.department} server={this.state.ticket.hostname} subject={this.state.ticket.subject}/>);
-      }
+      subject    = ticket.subject;
     }
 
     //Replies
@@ -119,6 +114,7 @@ module.exports = React.createClass({
     } else {
       replies = this.state.ticket.replies;
       message = this.state.ticket.replies[(this.state.ticket.replies).length-1].content;
+      subject = this.state.ticket.subject;
       var index = replies.length-1;
       if (-1 < index) {
         replies.splice(index, 1);
