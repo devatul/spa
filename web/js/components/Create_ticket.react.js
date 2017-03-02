@@ -64,7 +64,7 @@ module.exports = React.createClass({
     ticket.priority   = this.refs.priority.getDOMNode().value;
     ticket.type       = this.refs.type.getDOMNode().value;
     ticket.subject    = this.refs.subject.getDOMNode().value;
-    ticket.content    = this.refs.subject.getDOMNode().value;
+    ticket.content    = this.refs.content.getDOMNode().value;
     ticket.hostname   = this.refs.hostname.getDOMNode().value;
     CreateTicketAction(ticket);
   },
