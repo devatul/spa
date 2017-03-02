@@ -22,7 +22,7 @@ module.exports = React.createClass({
     var position = url.indexOf('view-ticket') + 12;
     var id = url.slice(position);
 
-    if ('' != id ) {
+    if (undefined !== id && id) {
       getTicket(id);
       return {
         ticket: '',
@@ -47,7 +47,7 @@ module.exports = React.createClass({
     var position = url.indexOf('view-ticket') + 12;
     var id = url.slice(position);
 
-    if ('' != id ) {
+    if (undefined !== id && id) {
       getTicket(id);
     } else {
       getTicket(NinjaStore.getViewTicket().ticket);

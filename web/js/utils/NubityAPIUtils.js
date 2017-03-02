@@ -776,7 +776,7 @@ module.exports = {
       var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.getTicket();
+          this.getTicket(ticketId);
         } else {
           showTicket(text);
         }
