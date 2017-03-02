@@ -17,8 +17,8 @@ var Footer = React.createClass({
     return (
       <footer className="footer">
         <div className="footer-text">
-          © 2015 Nubity. All Rights Reserved. 
-          <a onClick={this._redirectTerms}> Terms and conditions</a> | 
+          © 2017 Nubity. All Rights Reserved. 
+          <a onClick={this._redirectTerms}> Terms and conditions</a> |
           <a onClick={this._redirectPolicy}>Privacy policies</a>
         </div>
       </footer>
