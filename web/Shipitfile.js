@@ -1,32 +1,33 @@
 var path = require('path');
-var ssh = require('./js/config/config');
+YAML = require('yamljs');
+var fs = require('fs');
+var config = {};
+var config_path = '../../deploy_config.yml';
+if (fs.existsSync(config_path)) {
+  config = YAML.load(config_path);
+}
+var dist = YAML.load('dist.yml');
+
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit);
 
   shipit.initConfig({
     default: {
-      rsync: [
-        '--include',' "js/bundle.js"',
-        '--exclude',' "js/*"',
-        '--exclude', '"node_modules"',
-     ],
+      rsync: config.rsync || dist.rsync,
     },
     production: {
-      servers: 'etech@144.76.34.244:4444',
-      key: path.resolve(ssh.SSH_key_path),
-    },
-    develop: {
-      servers: 'etech00@192.168.1.124',
+      servers: config.host || dist.host,
+      key: path.resolve(config.SSH_key || dist.SSH_key),
     },
   });
 
-  shipit.task('build', function () {
+  shipit.task('deploy', function () {
     shipit.emit('updated');
   });
 
   shipit.on('updated', function () {
-    var buildDirectory = path.resolve('../web/*');
-    var serverDirectory = 'public_html/spa/web/test/';
+    var buildDirectory = path.resolve(config.src || dist.src);
+    var serverDirectory = config.dest || dist.dest;
     shipit.remoteCopy(buildDirectory, serverDirectory);
   });
 
