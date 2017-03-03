@@ -33,7 +33,7 @@ var NinjaStore = assign({}, EventEmitter.prototype, {
   getViewTicket: function () {
     if ('' != _singleticket) {
       return _singleticket;
-    } 
+    }
     return _ticket;
   },
 
@@ -52,7 +52,7 @@ var NinjaStore = assign({}, EventEmitter.prototype, {
   resetStore: function () {
     _singleticket = '';
   },
-  
+
 });
 
 NinjaStore.dispatchToken = Dispatcher.register(function (payload) {
