@@ -210,6 +210,34 @@ module.exports = {
       }.bind(this));
   },
 
+  getUserForSwitchUser: function () {
+    var token = this.getToken();
+    request
+      .get('/user.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        console.log("s", res.status, res);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getUserForSwitchUser();
+          } else {
+            localStorage.setItem('nubity-company', text.company);
+            localStorage.setItem('nubity-firstname', text.firstname);
+            localStorage.setItem('nubity-lastname', text.lastname);
+            localStorage.setItem('nubity-user-id', text.user);
+            localStorage.setItem('nubity-user-email', text.username);
+            localStorage.setItem('nubity-user-avatar', text.public_path);
+            localStorage.setItem('nubity-user-language', text.locale_display_name);
+            localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
+
+            routes.redirectDashboard();
+          }
+        }.bind(this));
+      }.bind(this));
+  },
+
   getCompanyInfo: function () {
     var company = localStorage.getItem('nubity-company');
     var token = this.getToken();

@@ -1,6 +1,7 @@
 var React                 = require('react');
 var Router                = require('../router');
 var logOutAction          = require('../actions/ServerActions').logOut;
+var goBackToAdmin         = require('../actions/ServerActions').goBackToAdmin;
 var redirect              = require('../actions/RouteActions').redirect;
 var SessionStore          = require('../stores/SessionStore');
 var RouteStore            = require('../stores/RouteStore');
@@ -79,6 +80,10 @@ var NavBar = React.createClass({
     redirect('home');
   },
 
+  _onClickGoBackToAdmin: function (argument) {
+    goBackToAdmin();
+  },
+
   onSelected: function (e) {
     // doesn't need to have functionality
   },
@@ -95,6 +100,7 @@ var NavBar = React.createClass({
     var integrations = (<Tooltip id="tooltip">Integrations</Tooltip>);
     var configure = (<Tooltip id="tooltip">My account</Tooltip>);
     var logout = (<Tooltip id="tooltip">Log out</Tooltip>);
+    var switchUser = (<Tooltip id="tooltip">Go back to admin</Tooltip>);
 
     if (null === localStorage.getItem('nubity-user-avatar') || 'undefined' === localStorage.getItem('nubity-user-avatar')) {
       avatar = './images/userpic.jpg';
@@ -142,6 +148,13 @@ var NavBar = React.createClass({
                     <a className="onboarding-button hidden" onClick={this._redirectOnboarding}>
                       <i className="icon nb-connection-circle hidden"></i>
                       <span className="notification-badge hidden">+</span>
+                    </a>
+                  </OverlayTrigger>
+                </li>
+                <li className={'true' == localStorage.getItem('switching-user') ? 'up-li last' : 'hidden'} >
+                  <OverlayTrigger placement="bottom" overlay={switchUser}>
+                    <a className="onboarding-button" onClick={this._onClickGoBackToAdmin}>
+                      <i className="icon nb-logout-circle"></i>
                     </a>
                   </OverlayTrigger>
                 </li>

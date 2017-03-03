@@ -5,6 +5,10 @@ module.exports = {
     NubityAPIUtils.login(user);
   },
 
+  getUserForSwitchUser: function () {
+    NubityAPIUtils.getUserForSwitchUser();
+  },
+
   signup: function (user) {
     NubityAPIUtils.signup(user);
   },
