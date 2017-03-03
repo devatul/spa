@@ -5,6 +5,7 @@ var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var Preloader                  = require('./Preloader.react');
 var loginAction                = require('../actions/RequestActions').login;
+var getUserForSwitchUser       = require('../actions/RequestActions').getUserForSwitchUser;
 
 module.exports = React.createClass({
 
@@ -17,8 +18,23 @@ module.exports = React.createClass({
 
   componentDidMount: function () {
     SessionStore.addChangeListener(this._onChange);
-    if (SessionStore.isLoggedIn()) {
-      redirect('dashboard');
+    
+    var url          = window.location.href;
+    var start        = parseInt(url.indexOf('?'));
+    var end          = parseInt(url.indexOf('&return='));
+    var token        = url.slice(parseInt(start) + parseInt(5), parseInt(end));
+    var returnUrl    = url.slice(parseInt(end) + parseInt(8));
+    if (0 <= start && token) {
+      localStorage.clear();
+      localStorage.setItem('nubity-token', token);
+      localStorage.setItem('switching-user', true);
+      localStorage.setItem('go-back-url', decodeURIComponent(returnUrl));
+      getUserForSwitchUser();
+    } else {
+      if (SessionStore.isLoggedIn()) {
+        redirect('dashboard');
+      }
+      localStorage.setItem('switching-user', false);
     }
   },
 

@@ -129,8 +129,14 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       break;
 
     case ActionTypes.LOGOUT:
-      localStorage.removeItem('nubity-token');
-      localStorage.removeItem('nubity-refresh-token');
+      localStorage.clear();
+      SessionStore.emitChange();
+      break;
+
+    case ActionTypes.BACK_TO_ADMIN:
+      var href = localStorage.getItem('go-back-url');
+      localStorage.clear();
+      window.location.href = href;
       SessionStore.emitChange();
       break;
 

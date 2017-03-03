@@ -31,6 +31,7 @@ module.exports = {
     SHOW_COMPANY: null,
     SHOW_INSTANCE_FOR_MONITORING: null,
     SHOW_INSTANCE_CONFIGURATION: null,
+    BACK_TO_ADMIN: null,
   }),
 
   PayloadSources: keyMirror({

@@ -21,6 +21,12 @@ module.exports = {
     });
   },
 
+  goBackToAdmin: function () {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.BACK_TO_ADMIN,
+    });
+  },
+
   showSignupMessage: function (message) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_SIGNUP_MESSAGE,
