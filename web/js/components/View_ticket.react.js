@@ -40,19 +40,8 @@ module.exports = React.createClass({
       redirect('login');
     }
   },
-  
+
   componentDidMount: function () {
-
-    var url = window.location.href;
-    var position = url.indexOf('view-ticket') + 12;
-    var id = url.slice(position);
-
-    if (undefined !== id && id) {
-      getTicket(id);
-    } else {
-      getTicket(NinjaStore.getViewTicket().ticket);
-    }
-
     SessionStore.addChangeListener(this._onChange);
     NinjaStore.addChangeListener(this._onChange);
   },
@@ -177,7 +166,7 @@ module.exports = React.createClass({
     if (!SessionStore.isLoggedIn()) {
       return(<div></div>)
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">
