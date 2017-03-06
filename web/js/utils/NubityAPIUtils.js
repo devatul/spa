@@ -165,7 +165,7 @@ module.exports = {
             localStorage.removeItem('nubity-refresh-token');
             routes.redirectLogin();
             resolve();
-          } else {
+          } else if (SessionStore.isLoggedIn()) {
             localStorage.setItem('nubity-token', text.token);
             localStorage.setItem('nubity-refresh-token', text.refresh_token);
             resolve();
