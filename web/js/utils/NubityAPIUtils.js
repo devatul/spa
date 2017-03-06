@@ -166,10 +166,9 @@ module.exports = {
             routes.redirectLogin();
             resolve();
           } else if (SessionStore.isLoggedIn()) {
-              localStorage.setItem('nubity-token', text.token);
-              localStorage.setItem('nubity-refresh-token', text.refresh_token);
-              resolve();
-            }
+            localStorage.setItem('nubity-token', text.token);
+            localStorage.setItem('nubity-refresh-token', text.refresh_token);
+            resolve();
           }
         }.bind(_SELF));
     });
