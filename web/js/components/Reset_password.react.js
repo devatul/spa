@@ -23,7 +23,7 @@ module.exports = React.createClass({
   _onSubmit: function (e) {
     e.preventDefault();
     var password     = this.refs.password.getDOMNode().value;
-    var confirmation = this.refs.confirmation.getDOMNode().value;
+    var confirmation = this.refs.password2.getDOMNode().value;
     var url          = window.location.href;
     var start        = parseInt(url.indexOf('change-password/')) + parseInt(16);
     var token        = url.slice(parseInt(start));
@@ -50,7 +50,7 @@ module.exports = React.createClass({
           <div className="row left-align">
           </div>
           <div className={this.state.codeClass}>{this.state.textError}</div>
-          <p className="login-title">Your cloud, managed.</p>
+          <p className="login-title">Your cloud, managed</p>
           <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
             <div className="form-group row">
@@ -69,7 +69,7 @@ module.exports = React.createClass({
                 <input type="password" className="form-control no-shadow" id="confirmation" placeholder="Confirm Password" ref="password2"  name="password2" required/>
               </div>
             </div>
-            <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Cambiar contraseña</button>
+            <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Change Password</button>
           </form>
         </div>
       </section>
