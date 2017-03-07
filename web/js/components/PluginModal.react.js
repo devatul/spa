@@ -38,12 +38,11 @@ module.exports = React.createClass({
     }
     configureAction(this.props.instanceId, newMacros, this.props.templateId);
     this.setState({ showModal: false });
-    
+
   },
 
   render: function () {
     var inputs = [];
-    var id;
     var form = (<form>{inputs}</form>);
     if (undefined !== this.props.macros) {
       for (var key in this.props.macros) {

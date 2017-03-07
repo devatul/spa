@@ -10,10 +10,6 @@ module.exports = React.createClass({
     redirect('create_ticket');
   },
 
-  _createTicket: function () {
-    redirect('create_ticket');
-  },
-
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
       redirect('login');
@@ -22,9 +18,9 @@ module.exports = React.createClass({
 
   render: function () {
     if (!SessionStore.isLoggedIn()) {
-      return(<div></div>)
+      return (<div></div>);
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">

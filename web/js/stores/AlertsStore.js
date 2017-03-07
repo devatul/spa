@@ -13,6 +13,8 @@ var _history         = '';
 var _isAlertTicket   = false;
 var _alertTicket     = '';
 var _dashboardAlerts = '';
+var _errorCode    = '';
+var _textError    = '';
 
 var AlertsStore = assign({}, EventEmitter.prototype, {
 
@@ -60,6 +62,13 @@ var AlertsStore = assign({}, EventEmitter.prototype, {
     return _isAlertTicket;
   },
 
+  getCodeError: function () {
+    return _errorCode;
+  },
+
+  getTextError: function () {
+    return _textError;
+  },
 });
 
 AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -100,7 +109,7 @@ AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.CREATE_ALERT_TICKET:
       _alertTicket = action.res;
-      _isAlertTicket = true; 
+      _isAlertTicket = true;
       _textError = '';
       _errorCode = '';
       break;

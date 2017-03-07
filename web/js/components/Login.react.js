@@ -97,7 +97,7 @@ module.exports = React.createClass({
   render: function () {
     var login;
 
-    if (this.state.loading == true) {
+    if (true == this.state.loading) {
       login = (
         <div className="login-load">
           <Preloader size="medium"/>

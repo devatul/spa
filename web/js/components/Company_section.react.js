@@ -40,11 +40,6 @@ module.exports = React.createClass({
     var state = companyInfo.state;
     var city = companyInfo.city;
     var language = companyInfo.locale;
-    var postalCode = '';
-
-    if (null !== companyInfo.postal_code) {
-      postalCode = companyInfo.postal_code;
-    }
 
     return (
       <div>

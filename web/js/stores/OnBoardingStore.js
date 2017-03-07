@@ -8,6 +8,8 @@ var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _providers = '';
+var _errorCode    = '';
+var _textError    = '';
 
 var OnBoardingStore = assign({}, EventEmitter.prototype, {
 
@@ -25,6 +27,14 @@ var OnBoardingStore = assign({}, EventEmitter.prototype, {
 
   getProviders: function () {
     return _providers;
+  },
+
+  getCodeError: function () {
+    return _errorCode;
+  },
+
+  getTextError: function () {
+    return _textError;
   },
 });
 

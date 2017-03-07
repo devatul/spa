@@ -66,7 +66,7 @@ module.exports = React.createClass({
             <div className="min"></div>
           </div>
         );
-      break;
+        break;
       case 'warning' :
         alertCheck = (
           <div className="col-sm-12 light-grey-background">
@@ -113,7 +113,7 @@ module.exports = React.createClass({
             <div className="min"></div>
           </div>
         );
-      break;
+        break;
       case 'critical' :
         alertCheck = (
           <div className="col-sm-12 light-grey-background">
@@ -160,7 +160,7 @@ module.exports = React.createClass({
             <div className="min"></div>
           </div>
         );
-      break;
+        break;
       case 'undefined' :
         alertCheck = (
           <div className="col-sm-12 light-grey-background">
@@ -207,7 +207,7 @@ module.exports = React.createClass({
             <div className="min"></div>
           </div>
         );
-      break;
+        break;
       default :
         alertCheck = (
           <div className="col-sm-12 light-grey-background">

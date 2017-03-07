@@ -40,6 +40,6 @@ module.exports = {
   }),
 
   APIEndpoints: {
-    PUBLIC: Root,
+    PUBLIC: APIRoot,
   },
 };

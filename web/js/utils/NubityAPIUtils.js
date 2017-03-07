@@ -218,7 +218,6 @@ module.exports = {
       .set('Authorization', token)
       .end(function (res) {
         var text = JSON.parse(res.text);
-        console.log("s", res.status, res);
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.getUserForSwitchUser();
@@ -335,7 +334,6 @@ module.exports = {
     .set('Authorization', token)
     .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: localStorage.getItem('dashboardId'), position: position, custom_interval: 'TODAY'})
     .end(function (res) {
-      var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
           this.createGraph(widget, instance, chart, dashboardId, position);
@@ -637,7 +635,6 @@ module.exports = {
   getDashboardAlerts: function () {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
     request
     .get('/company/' + company + '/alerts')
     .query({limit: 5})
@@ -656,7 +653,6 @@ module.exports = {
   },
 
   getProviders: function () {
-    var company = localStorage.getItem('nubity-company');
     var token = this.getToken();
 
     request
@@ -785,7 +781,7 @@ module.exports = {
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.replyTicket(ticket);
+          this.replyTicket(id, content);
         } else {
           this.getTicket(id);
         }
@@ -813,7 +809,6 @@ module.exports = {
   },
 
   getMonitored: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
@@ -822,7 +817,6 @@ module.exports = {
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 2})
     .end(function (res) {
-      var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
           this.getMonitored(instanceId);
@@ -837,7 +831,6 @@ module.exports = {
   },
 
   getManaged: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
@@ -846,10 +839,9 @@ module.exports = {
     .set('Authorization', token)
     .send({instance_id: instanceId, product_type_id: 1})
     .end(function (res) {
-      var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.getMonitored(instanceId);
+          this.getManaged(instanceId);
         } else {
           this.getInfrastructureOverview();
           this.getInfrastructureOnPremise();
@@ -861,9 +853,8 @@ module.exports = {
   },
 
   stopOrder: function (orderId) {
-    var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
- 
+
     request
     .del('/order/' + orderId + '.json')
     .accept('application/json')
@@ -871,7 +862,7 @@ module.exports = {
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.stopMonitoring(instanceId);
+          this.stopOrder(orderId);
         } else {
           this.getInfrastructureOverview();
           this.getInfrastructureOnPremise();
@@ -906,7 +897,7 @@ module.exports = {
   startInstance: function (instanceId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
- 
+
     request
     .put('/company/' + company + '/instance/' + instanceId + '/start.json')
     .accept('application/json')
@@ -928,7 +919,7 @@ module.exports = {
   restartInstance: function (instanceId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
- 
+
     request
     .put('/company/' + company + '/instance/' + instanceId + '/reboot.json')
     .accept('application/json')
@@ -946,9 +937,8 @@ module.exports = {
       }.bind(this));
     }.bind(this));
   },
- 
+
   deleteOrderCancelation: function (orderId) {
-    var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
 
     request
@@ -956,10 +946,9 @@ module.exports = {
     .accept('application/json')
     .set('Authorization', token)
     .end(function (res) {
-      var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.stopManagement(instanceId);
+          this.deleteOrderCancelation(orderId);
         } else {
           this.getInfrastructureOverview();
           this.getInfrastructureOnPremise();

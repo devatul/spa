@@ -41,7 +41,6 @@ module.exports = React.createClass({
   render: function () {
     var dashboard = this.state.dashboard;
     var allGraphs = [];
-    var position  = 1;
 
     allGraphs[0] = (
       <div className="col-md-6 col-sm-12 col-xs-12">
@@ -94,7 +93,7 @@ module.exports = React.createClass({
 
     return (
       <div className="row">
-        {allGraphs} 
+        {allGraphs}
       </div>
     );
   },

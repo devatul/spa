@@ -28,7 +28,7 @@ module.exports = React.createClass({
       redirect('login');
     }
   },
-  
+
   componentWillUnmount: function () {
     AlertsStore.resetAlertTicket();
     SessionStore.removeChangeListener(this._onChange);
@@ -43,7 +43,7 @@ module.exports = React.createClass({
         for (var key in search.instances) {
           if (search.instances[key].instance == alert.instance.id) {
             serverCheck = search.instances[key].hostname;
-            break;            
+            break;
           }
         }
       }
@@ -85,7 +85,7 @@ module.exports = React.createClass({
     var type = [];
     var subject = '';
     var serverCheck = this.state.serverCheck;
-    var priorityCheck = ''; 
+    var priorityCheck = '';
 
     if (AlertsStore.isAlertTicket()) {
       var alert = AlertsStore.getAlertTicket();
@@ -108,14 +108,14 @@ module.exports = React.createClass({
       switch (alert.level) {
         case 'critical':
           priorityCheck = 'high';
-          break; 
+          break;
         case 'warning':
           priorityCheck = 'medium';
-          break; 
+          break;
         case 'info':
           priorityCheck = 'low';
-          break; 
-      } 
+          break;
+      }
 
       subject = alert.description;
       if (instances) {
@@ -145,10 +145,10 @@ module.exports = React.createClass({
     }
 
     servers.push(<option value="" disabled>Select Server</option>);
-    for (var key in instances) {
+    for (key in instances) {
       servers.push(<option value={instances[key].hostname}>{instances[key].hostname}</option>);
     }
-    
+
     var priority = [
       <select className="form-control" ref="priority" defaultValue={priorityCheck}>
         <option value="" disabled>Select Priority</option>
@@ -159,7 +159,7 @@ module.exports = React.createClass({
     ];
 
     if (!SessionStore.isLoggedIn()) {
-      return(<div></div>)
+      return (<div></div>);
     }
 
     return (
