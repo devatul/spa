@@ -9,7 +9,7 @@ module.exports = React.createClass({
   _onSubmit: function (e) {
     e.preventDefault();
     var email = this.refs.email.getDOMNode().value;
-    ForgotPasswordAction(email); 
+    ForgotPasswordAction(email);
   },
 
   _redirectLogin: function () {
@@ -24,7 +24,7 @@ module.exports = React.createClass({
             <button className="go-to-signup" onClick={this._redirectLogin}>Go to login</button>
           </div>
           <div className="login-logo"></div>
-          <p className="login-title">Your cloud, managed.k</p>
+          <p className="login-title">Your cloud, managed</p>
           <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
             <div className="form-group row">
@@ -35,7 +35,7 @@ module.exports = React.createClass({
                 <input type="email" className="form-control no-shadow" id="email" placeholder="Email" ref="email" name="email" required/>
               </div>
             </div>
-            <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Recuperar contraseña</button>
+            <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Reset Password</button>
           </form>
         </div>
       </section>
