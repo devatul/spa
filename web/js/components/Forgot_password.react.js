@@ -35,7 +35,7 @@ module.exports = React.createClass({
                 <input type="email" className="form-control no-shadow" id="email" placeholder="Email" ref="email" name="email" required/>
               </div>
             </div>
-            <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Recover Password</button>
+            <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Reset Password</button>
           </form>
         </div>
       </section>
