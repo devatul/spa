@@ -251,9 +251,23 @@ module.exports = React.createClass({
           }
 
         } else if ('accepted' == monitoringStatus) {
-          monitoring = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
+          monitoring = (
+          <div>
+            <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
+              <i className="fa fa-cog" aria-hidden="true"></i>
+            </Link>
+            <span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>
+          </div>
+          );
         } else if ('pending-cancellation' == monitoringStatus) {
-          monitoring = (<span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
+          monitoring = (
+          <div>
+            <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
+              <i className="fa fa-cog" aria-hidden="true"></i>
+            </Link>
+            <span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>
+          </div>
+          );
         } else {
           monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
         }

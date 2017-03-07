@@ -892,7 +892,7 @@ module.exports = {
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.stopInstance(instanceId);
+          this.startInstance(instanceId);
         } else {
           this.getInfrastructureOverview();
           this.getInfrastructureOnPremise();
@@ -914,7 +914,7 @@ module.exports = {
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.stopInstance(instanceId);
+          this.restartInstance(instanceId);
         } else {
           this.getInfrastructureOverview();
           this.getInfrastructureOnPremise();
@@ -982,7 +982,7 @@ module.exports = {
       var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.getInstanceForMonitoring();
+          this.getInstanceForMonitoring(id);
         } else {
           var url = window.location.href;
           if (-1 != url.indexOf('monitoring')) {
@@ -994,8 +994,7 @@ module.exports = {
   },
 
   getInstanceConfiguration: function (id) {
-    var token   = this.getToken();
-
+    var token = this.getToken();
     request
     .get('/instance/' + id + '/monitoring/configuration.json')
     .accept('application/json')
@@ -1004,9 +1003,28 @@ module.exports = {
       var text = JSON.parse(res.text);
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.getInstanceConfiguration();
+          this.getInstanceConfiguration(id);
         } else {
           showInstanceConfiguration(text);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  configureTemplate: function (id, macros, templateId) {
+    var token   = this.getToken();
+
+    request
+    .put('/instance/' + id + '/monitoring/configuere-template.json')
+    .accept('application/json')
+    .send({user_macros: macros, template_id: templateId})
+    .set('Authorization', token)
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.configureTemplate(id, macros);
+        } else {
+          this.getInstanceConfiguration(id);
         }
       }.bind(this));
     }.bind(this));
@@ -1023,7 +1041,7 @@ module.exports = {
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.uninstallPlugin();
+          this.uninstallPlugin(idPlugin, id);
         } else {
           this.getInstanceConfiguration(id);
         }
@@ -1042,7 +1060,7 @@ module.exports = {
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
-          this.installPlugin();
+          this.installPlugin(idPlugin, id);
         } else {
           this.getInstanceConfiguration(id);
         }

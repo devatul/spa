@@ -159,4 +159,8 @@ module.exports = {
   installPlugin: function (pluginId, instanceId) {
     NubityAPIUtils.installPlugin(pluginId, instanceId);
   },
+
+  configureTemplate: function (id, macros, templateId) {
+    NubityAPIUtils.configureTemplate(id, macros, templateId); 
+  },
 };

@@ -19,8 +19,8 @@ module.exports = React.createClass({
     installPlugin(idPlugin, this.props.idInstance);
   },
 
-  _configure: function (macros) {
-    var modal = (<PluginModal macros={macros}/>);
+  _configure: function (template) {
+    var modal = (<PluginModal macros={template.user_macros} instanceId={this.props.idInstance} templateId={template.template}/>);
     this.setState({
       pluginModal: modal,
     });
@@ -40,7 +40,7 @@ module.exports = React.createClass({
           <td>{this.props.plugins[key].name}</td>
           <td>Web Apps</td>
           <td>{this.props.plugins[key].description}</td>
-          <td><span className="action-button nubity-blue" onClick={this._configure.bind(this, this.props.plugins[key].user_macros)}>Configure</span></td>
+          <td><span className="action-button nubity-blue" onClick={this._configure.bind(this, this.props.plugins[key])}>Configure</span></td>
           <td>{install}</td>
         </tr>
       );
