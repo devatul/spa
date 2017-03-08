@@ -23,7 +23,7 @@ module.exports = React.createClass({
       redirect('login');
     }
   },
-  
+
   updateURL: function (sectionId, pageNo) {
     this.setState({
       pageNo: pageNo,
@@ -46,12 +46,12 @@ module.exports = React.createClass({
       hash = arr[0];
       pageNo = parseInt(arr[1]);
     }
-    _SELF=this;
+    var _SELF=this;
 
     if (!SessionStore.isLoggedIn()) {
-      return(<div></div>)
+      return (<div></div>);
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">

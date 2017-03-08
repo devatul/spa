@@ -45,7 +45,7 @@ module.exports = React.createClass({
   componentWillUnmount: function () {
     for (var i = 1; 99999 > i; i++)
       window.clearInterval(i);
-   
+
     InfrastructureStore.removeChangeListener(this._onChange);
   },
 
@@ -64,11 +64,11 @@ module.exports = React.createClass({
           interval: false,
         });
       }
-      
+
       var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
 
       if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
-        token = instanceForMonitoring.monitoring_agent.name;
+        var token = instanceForMonitoring.monitoring_agent.name;
         this.setState({
           token: token,
           tokenFlag: false,
@@ -81,7 +81,7 @@ module.exports = React.createClass({
             reportFlag: true,
             report: 'Report done',
           });
-          clearInterval(loop); 
+          clearInterval(loop);
         }
       }
 

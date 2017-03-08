@@ -79,10 +79,6 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var formHeader    = {};
-    var url      = window.location.href;
-    var position = url.indexOf('view-ticket') + 12;
-    var urlid    = url.slice(position);
     var ticketName    = '';
     var subject       = '';
     var ticket        = '';
@@ -97,7 +93,7 @@ module.exports = React.createClass({
 
     //Replies
     var message = '';
-    if (undefined === this.state.ticket.replies || (this.state.ticket.replies).length < 1) {
+    if (undefined === this.state.ticket.replies || 1 > (this.state.ticket.replies).length) {
       replies = (<Preloader/>);
       message = (<Preloader/>);
     } else {
@@ -164,7 +160,7 @@ module.exports = React.createClass({
     }
 
     if (!SessionStore.isLoggedIn()) {
-      return(<div></div>)
+      return (<div></div>);
     }
 
     return (

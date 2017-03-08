@@ -63,7 +63,7 @@ module.exports = React.createClass({
 
   render: function () {
     if (!SessionStore.isLoggedIn()) {
-      return(<div></div>)
+      return (<div></div>);
     }
     
     return (

@@ -30,7 +30,7 @@ module.exports = React.createClass({
             <div id="pluginMonitoring" className="tab-pane fade in active">
               <PluginMonitoring template={nextProps.templates[key]} idInstance={nextProps.idInstance}/>
             </div>
-            <div id="pluginConfigure" className={nextProps.templates[key].triggers.length > 0 ? 'tab-pane fade' : 'hidden'}>
+            <div id="pluginConfigure" className={0 < nextProps.templates[key].triggers.length ? 'tab-pane fade' : 'hidden'}>
               <PluginConfigure template={nextProps.templates[key]} idInstance={nextProps.idInstance}/>
             </div>
           </div>
@@ -39,7 +39,7 @@ module.exports = React.createClass({
           tabs: 'nav nav-tabs section-tabs',
           content: content,
           templateContent: nextProps.templates[key],
-          configureClass: nextProps.templates[key].triggers.length > 0 ? '' : 'hidden'
+          configureClass: 0 < nextProps.templates[key].triggers.length ? '' : 'hidden',
         });
       }
     }
@@ -51,7 +51,7 @@ module.exports = React.createClass({
         <div id="pluginMonitoring" className="tab-pane fade in active">
           <PluginMonitoring template={template} idInstance={this.props.idInstance}/>
         </div>
-        <div id="pluginConfigure" className={template.triggers.length > 0 ? 'tab-pane fade' : 'hidden'}>
+        <div id="pluginConfigure" className={0 < template.triggers.length ? 'tab-pane fade' : 'hidden'}>
           <PluginConfigure template={template} idInstance={this.props.idInstance}/>
         </div>
       </div>
@@ -60,7 +60,7 @@ module.exports = React.createClass({
       tabs: 'nav nav-tabs section-tabs',
       content: content,
       templateContent: template,
-      configureClass: template.triggers.length > 0 ? '' : 'hidden'
+      configureClass: 0 < template.triggers.length ? '' : 'hidden',
     });
   },
 

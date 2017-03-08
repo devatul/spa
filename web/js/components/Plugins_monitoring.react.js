@@ -40,12 +40,11 @@ module.exports = React.createClass({
 
   _onSubmit: function (e) {
     e.preventDefault();
-    var macros    = this.props.template.user_macros;
     var newMacros = [];
     var form      = e.target.elements;
 
     for (var key in this.props.macros) {
-      newMacros[key] = {value: form.macros[key].value}
+      newMacros[key] = {value: form.macros[key].value};
     }
     configureAction(this.props.idInstance, newMacros, this.state.idTemplate);
     if ('install' == this.state.action) {
@@ -75,7 +74,7 @@ module.exports = React.createClass({
     var numberTwo;
     var numberThree;
 
-    if (macros.length > 0) {
+    if (0 < macros.length) {
       numberOne = 'col-xs-12';
       numberTwo = '2';
       numberThree = '3';

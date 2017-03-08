@@ -168,7 +168,6 @@ module.exports = React.createClass({
 
     var rows = [];
     var level;
-    var state;
     var action;
     var tooltip;
     var severityTooltip;
@@ -189,12 +188,10 @@ module.exports = React.createClass({
         severityTooltip = (<Tooltip id="tooltip">Information</Tooltip>);
       }
 
-      state = '';
       action = '';
       tooltip = '';
 
       if (alerts[key].is_acknowledged) {
-        state = 'icon nb-thick-circle icon-state green-text';
         tooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         action = (
           <td className="icons hidden-xs">
@@ -209,7 +206,6 @@ module.exports = React.createClass({
           </td>
         );
       } else {
-        state = 'icon nb-alert icon-state red-text';
         tooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         action = (
           <td className="icons hidden-xs">
@@ -261,7 +257,6 @@ module.exports = React.createClass({
       var to = '';
       if (null != alerts[key].resolved_on) {
         to = moment(alerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
-        state = 'icon nb-thick-circle icon-state green-text';
         action = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
@@ -296,14 +291,13 @@ module.exports = React.createClass({
 
     var historyRows = [];
     var hlevel;
-    var hstate;
     var haction;
     var htooltip;
     var hseverityTooltip;
     var hcontent;
     var hmute = 'hmute';
 
-    for (var key in historyAlerts) {
+    for (key in historyAlerts) {
 
       hlevel = '';
       hseverityTooltip = '';
@@ -318,11 +312,9 @@ module.exports = React.createClass({
         hseverityTooltip = (<Tooltip id="tooltip">Information</Tooltip>);
       }
 
-      hstate = '';
       haction = '';
       htooltip = '';
       if (historyAlerts[key].is_acknowledged) {
-        hstate = 'icon nb-thick-circle icon-state green-text';
         htooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         haction = (
           <td className="icons hidden-xs">
@@ -337,7 +329,6 @@ module.exports = React.createClass({
           </td>
         );
       } else {
-        hstate = 'icon nb-alert icon-state red-text';
         htooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         haction = (
           <td className="icons hidden-xs">
@@ -385,11 +376,10 @@ module.exports = React.createClass({
         </Modal>
       );
 
-      var from = moment(historyAlerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
-      var to = '';
+      from = moment(historyAlerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
+      to = '';
       if (null != historyAlerts[key].resolved_on) {
         to = moment(historyAlerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
-        hstate = 'icon nb-thick-circle icon-state green-text';
         haction = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
@@ -432,10 +422,8 @@ module.exports = React.createClass({
 
     var navpages = [];
     var page = '';
-    var send = '';
-    for (var key = 0; key < pages; key++) {
+    for (key = 0; key < pages; key++) {
       page = key + 1;
-      send = page.toString();
       navpages[navpages.length] = <li key={key} className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, '#activeAlerts', page)}>{page}</a></li>;
     }
 
@@ -449,10 +437,8 @@ module.exports = React.createClass({
 
     var historynavpages = [];
     var hpage = '';
-    var hsend = '';
-    for (var key = 0; key < historyPages; key++) {
+    for (key = 0; key < historyPages; key++) {
       hpage = key + 1;
-      hsend = page.toString();
       historynavpages.push(<li key={key} className={this.state.pageNo == hpage ? 'active' : ''}><a onClick={this._updatePage.bind(this, '#historyAlerts', hpage)}>{hpage}</a></li>);
     }
 
@@ -614,7 +600,7 @@ module.exports = React.createClass({
     var _SELF = this;
 
     if (!SessionStore.isLoggedIn()) {
-      return(<div></div>)
+      return (<div></div>);
     }
 
     return (

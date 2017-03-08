@@ -23,8 +23,6 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     var mainAlerts = AlertsStore.getDashboardAlerts();
-    var dashboards = GraphStore.getDashboards();
-    var dashboard  = GraphStore.getDashboard();
     var stats      = AlertsStore.getDashboardStats();
     var companyInfo = SessionStore.getCompanyInfo();
     return {
@@ -102,7 +100,7 @@ module.exports = React.createClass({
           modalType: 'mute',
           showModal: true,
         });
-      break;
+        break;
     }
   },
 
@@ -115,8 +113,6 @@ module.exports = React.createClass({
 
   render: function () {
     var companyInfo = this.state.companyInfo;
-    var dashboard = this.state.dashboard;
-    var firstname = localStorage.getItem('nubity-firstname');
     var mainAlerts = this.state.mainAlerts;
     var notice;
     var tooltip = '';
@@ -134,7 +130,7 @@ module.exports = React.createClass({
 
     var stats = '';
     if (undefined !== this.state.stats && mainAlerts) {
-      var stats = (
+      stats = (
         <div className="col-md-6 col-md-offset-3">
           <div className="col-xs-4 dashboard-icons blue">
             <i className="icon nb-information blue-text dashboard-minus" aria-hidden="true"></i>
@@ -159,7 +155,6 @@ module.exports = React.createClass({
     var mute = 'mute';
     for (var key in mainAlerts) {
       var level = '';
-      var state = '';
       var severityTooltip = '';
       if ('critical' == mainAlerts[key].level) {
         level = 'icon nb-critical icon-state red-text';
@@ -172,12 +167,10 @@ module.exports = React.createClass({
         severityTooltip = (<Tooltip id="tooltip">Information</Tooltip>);
       }
 
-      state = '';
-      action = '';
+      var action = '';
       tooltip = '';
 
       if (mainAlerts[key].is_acknowledged) {
-        state = 'icon nb-thick-circle icon-state green-text';
         tooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
         action = (
           <td className="icons hidden-xs">
@@ -192,7 +185,6 @@ module.exports = React.createClass({
           </td>
         );
       } else {
-        state = 'icon nb-alert icon-state red-text';
         tooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
         action = (
           <td className="icons hidden-xs">
@@ -218,7 +210,6 @@ module.exports = React.createClass({
         to = '-';
       }
 
-      var notice;
       var warn;
       var confirmButtons;
 
@@ -234,7 +225,7 @@ module.exports = React.createClass({
               <span className="action-button nubity-red" onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>OK</span>
             </div>
           );
-        break;
+          break;
       }
 
       var warning = (
@@ -325,7 +316,7 @@ module.exports = React.createClass({
     }
 
     if (!mainAlerts) {
-      return(<Preloader/>)
+      return (<Preloader/>);
     }
 
     return (

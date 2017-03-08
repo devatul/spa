@@ -14,7 +14,7 @@ module.exports = React.createClass({
     if (nextProps.modalType !== this.state.modalType) {
       this.setState({ modalType: nextProps.modalType });
     }
-    if (nextProps.modalType != '') {
+    if ('' != nextProps.modalType) {
       this.setState({ showModal: true });
     }
   },
@@ -50,7 +50,7 @@ module.exports = React.createClass({
             <span className="action-button nubity-blue" onClick={this.execute}>OK</span>
           </div>
         );
-      break;
+        break;
       case 'stop':
         warn = (
           <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
@@ -62,7 +62,7 @@ module.exports = React.createClass({
             <span className="action-button nubity-red" onClick={this.execute}>OK</span>
           </div>
         );
-      break;
+        break;
       case 'restart':
         warn = (
           <span><i className="icon nb-warning yellow-text large"></i> Are you sure to restart?</span>
@@ -74,7 +74,7 @@ module.exports = React.createClass({
             <span className="action-button nubity-red" onClick={this.execute}>OK</span>
           </div>
         );
-      break;
+        break;
       case 'managementStart':
         warn = (
           <span><i className="icon nb-ninja-support yellow-text large"></i> Start Ninja Support</span>
@@ -93,7 +93,7 @@ module.exports = React.createClass({
             <span className="action-button nubity-green" onClick={this.execute}>I Accept</span>
           </div>
         );
-      break;
+        break;
       case 'managementStop':
         warn = (
           <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
@@ -111,7 +111,7 @@ module.exports = React.createClass({
             <span className="action-button nubity-red" onClick={this.execute}>OK</span>
           </div>
         );
-      break;
+        break;
     }
 
     return (

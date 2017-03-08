@@ -11,6 +11,8 @@ var _ninja           = '';
 var _singleticket    = '';
 var _ticket          = '';
 var _isViewingTicket = false;
+var _errorCode    = '';
+var _textError    = '';
 
 var NinjaStore = assign({}, EventEmitter.prototype, {
 
@@ -53,6 +55,13 @@ var NinjaStore = assign({}, EventEmitter.prototype, {
     _singleticket = '';
   },
 
+  getCodeError: function () {
+    return _errorCode;
+  },
+
+  getTextError: function () {
+    return _textError;
+  },
 });
 
 NinjaStore.dispatchToken = Dispatcher.register(function (payload) {

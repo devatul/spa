@@ -10,6 +10,8 @@ var CHANGE_EVENT = 'change';
 var _dashboards  = '';
 var _dashboard   = '';
 var _graphTypes  = '';
+var _errorCode    = '';
+var _textError    = '';
 
 var GraphStore = assign({}, EventEmitter.prototype, {
 
@@ -35,6 +37,14 @@ var GraphStore = assign({}, EventEmitter.prototype, {
 
   getGraphTypes: function () {
     return _graphTypes;
+  },
+
+  getCodeError: function () {
+    return _errorCode;
+  },
+
+  getTextError: function () {
+    return _textError;
   },
 });
 

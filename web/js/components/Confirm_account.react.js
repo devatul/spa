@@ -17,7 +17,7 @@ module.exports = React.createClass({
     var url          = window.location.href;
     var start        = parseInt(url.indexOf('confirm-account/')) + parseInt(16);
     var token        = url.slice(parseInt(start));
-    ConfirmAccountAction(token); 
+    ConfirmAccountAction(token);
     SessionStore.addChangeListener(this._onChange);
   },
 
@@ -42,13 +42,12 @@ module.exports = React.createClass({
     var url          = window.location.href;
     var start        = parseInt(url.indexOf('confirm-account/')) + parseInt(16);
     var token        = url.slice(parseInt(start));
-    ConfirmAccountAction(token);   
+    ConfirmAccountAction(token);
   },
 
   render: function () {
     var icon = '';
     var legend = '';
-    var message = '';
 
     if (null == this.state.message.key) {
       icon = (<Preloader/>);

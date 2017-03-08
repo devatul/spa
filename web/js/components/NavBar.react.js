@@ -90,23 +90,14 @@ var NavBar = React.createClass({
 
   render: function () {
     var url       = window.location.href;
-    var firstname = localStorage.getItem('nubity-firstname');
-    var lastname  = localStorage.getItem('nubity-lastname');
     var login     = url.search('login');
     var signup    = url.search('signup');
     var forgot    = url.search('forgot');
-    var avatar    = '';
 
     var integrations = (<Tooltip id="tooltip">Integrations</Tooltip>);
     var configure = (<Tooltip id="tooltip">My account</Tooltip>);
     var logout = (<Tooltip id="tooltip">Log out</Tooltip>);
     var switchUser = (<Tooltip id="tooltip">Go back to admin</Tooltip>);
-
-    if (null === localStorage.getItem('nubity-user-avatar') || 'undefined' === localStorage.getItem('nubity-user-avatar')) {
-      avatar = './images/userpic.jpg';
-    } else {
-      avatar = localStorage.getItem('nubity-user-avatar');
-    }
 
     if (0 < login || 0 < signup || 0 < forgot || !SessionStore.isLoggedIn()) {
       return (
