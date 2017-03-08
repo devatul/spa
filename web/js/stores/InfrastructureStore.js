@@ -13,6 +13,8 @@ var _private   = '';
 var _onPremise = '';
 var _instanceForMonitoring = '';
 var _instanceConfiguration = '';
+var _errorCode    = '';
+var _textError    = '';
 
 var InfrastructureStore = assign({}, EventEmitter.prototype, {
 
@@ -50,6 +52,14 @@ var InfrastructureStore = assign({}, EventEmitter.prototype, {
 
   instanceConfiguration: function () {
     return _instanceConfiguration;
+  },
+
+  getCodeError: function () {
+    return _errorCode;
+  },
+
+  getTextError: function () {
+    return _textError;
   },
 });
 

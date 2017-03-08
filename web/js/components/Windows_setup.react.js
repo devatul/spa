@@ -36,7 +36,7 @@ module.exports = React.createClass({
     if (this.isMounted()) {
       var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
       if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
-        token = instanceForMonitoring.monitoring_agent.name;
+        var token = instanceForMonitoring.monitoring_agent.name;
         this.setState({
           token: token,
           tokenFlag: false,
@@ -49,7 +49,6 @@ module.exports = React.createClass({
             reportFlag: true,
             report: 'Report done',
           });
-          clearInterval(loop); 
         }
       }
 

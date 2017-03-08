@@ -60,11 +60,9 @@ module.exports = React.createClass({
       var legend1 = series[0].legend;
       var data1   = series[0].data;
       var coords1 = [];
-      for (var i = 0; i < data1.length; i++) {
+      for (i = 0; i < data1.length; i++) {
         coords1[i] = data1[i][1];
       }
-
-      var chart = Highcharts.chart;
 
       Highcharts.chart(this.props.name, {
         chart: {
@@ -108,7 +106,7 @@ module.exports = React.createClass({
   render: function () {
     if (null !== this.props.graph.content) {
       return (
-        <div id={this.props.name} style={{"width" : "100%"}}>
+        <div id={this.props.name} style={{'width' : '100%'}}>
         </div>
       );
     }

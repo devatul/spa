@@ -24,7 +24,6 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     var overview = InfrastructureStore.getInfrastructureOverview();
-    var arrayLength = overview.length;
     var rows = [];
     var loaded = false;
     return {
@@ -36,7 +35,7 @@ module.exports = React.createClass({
       pageNo: 1,
       isLoading: false,
       showModal: false,
-      warning: (<Warning modalType=''/>)
+      warning: (<Warning modalType=''/>),
     };
   },
 
@@ -112,30 +111,30 @@ module.exports = React.createClass({
   _warning: function (props, instance, functionParam) {
     switch (props) {
       case 'start':
-       this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._startInstance.bind(this)}/>)
+        this.setState({
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._startInstance.bind(this)}/>),
         });
-      break;
+        break;
       case 'stop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopInstance.bind(this)}/>)
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopInstance.bind(this)}/>),
         });
-      break;
+        break;
       case 'restart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._restartInstance.bind(this)}/>)
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._restartInstance.bind(this)}/>),
         });
-      break;
+        break;
       case 'managementStart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._managed.bind(this)}/>)
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._managed.bind(this)}/>),
         });
-      break;
+        break;
       case 'managementStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopOrder.bind(this)}/>)
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopOrder.bind(this)}/>),
         });
-      break;
+        break;
     }
   },
 
@@ -149,7 +148,6 @@ module.exports = React.createClass({
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
-      var send = page.toString();
       navpages[navpages.length] = <li className={this.props.page_no == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
@@ -164,7 +162,7 @@ module.exports = React.createClass({
     var tooltip = '';
     var num;
     if (loaded) {
-      for (var key in overview) {
+      for (key in overview) {
         state = '';
         if ('public' == overview[key].classification) {
           if ('running' == overview[key].status) {
@@ -275,7 +273,7 @@ module.exports = React.createClass({
         var managementStatus = '';
         var management = '';
         var managementCode = '';
-        for (var count in overview[key].product_orders) {
+        for (count in overview[key].product_orders) {
           if ('Management' == overview[key].product_orders[count].product_type) {
             managementStatus = overview[key].product_orders[count].status;
             managementCode = overview[key].product_orders[count].product_order;

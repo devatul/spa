@@ -74,7 +74,7 @@ module.exports = React.createClass({
       this._newPage(page);
       i = true;
     }
-   
+
     if (i) {
       this.updateURL(page);
     }
@@ -105,7 +105,6 @@ module.exports = React.createClass({
       var navpages = [];
       for (var key = 0 ; key < pages ; key++) {
         var page = key + 1;
-        var send = page.toString();
         navpages[navpages.length] = <li className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
       }
 
@@ -115,7 +114,7 @@ module.exports = React.createClass({
       }
 
       var rows = [];
-      for (var key in ticket) {
+      for (key in ticket) {
         var status = '';
         var department_icon = '';
         var department_name = '';

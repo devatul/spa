@@ -10,7 +10,6 @@ var getAvailableGraphTypes     = require('../actions/RequestActions').getAvailab
 module.exports = React.createClass({
   getInitialState: function () {
     var search = SessionStore.search();
-    var searchState = this.props.searchState;
     return {
       search: search,
       instances: search.instances,
@@ -48,7 +47,6 @@ module.exports = React.createClass({
 
   _onSubmit: function (e) {
     e.preventDefault();
-    var widgetType   = this.refs.widgetType.getDOMNode().value;
     var server       = this.refs.server.getDOMNode().value;
     var chartType    = this.refs.chartType.getDOMNode().value;
     this.refs.server.getDOMNode().value = '';
@@ -57,7 +55,6 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var search = this.state.search;
     var instances = this.state.instances;
 
     var rows = [];
@@ -67,7 +64,7 @@ module.exports = React.createClass({
 
     var graphTypes = this.state.graphTypes;
     var graphRows = [];
-    for (var key in graphTypes) {
+    for (key in graphTypes) {
       graphRows.push(<option value={graphTypes[key].graph} >{graphTypes[key].name}</option>);
     }
 

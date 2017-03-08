@@ -21,7 +21,7 @@ var _companyInfo  = '';
 var _loginError   = '';
 
 var SessionStore  = assign({}, EventEmitter.prototype, {
-  
+
   emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
@@ -39,7 +39,7 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
   },
 
   getErrors: function () {
-    return _errorMessage; 
+    return _errorMessage;
   },
 
   getCodeError: function () {
@@ -120,7 +120,7 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       break;
 
     case ActionTypes.ERROR:
-      if (401 == action.code) {     
+      if (401 == action.code) {
         router.transitionTo('login');
       }
       _textError = action.res;
@@ -160,13 +160,13 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       _errorCode = '';
       SessionStore.emitChange();
       break;
-    
+
     case ActionTypes.REDIRECT:
       router.transitionTo(action.route);
       break;
 
     default:
-      if (null != action.res && null!= action.code && (401 == action.code)) {       
+      if (null != action.res && null!= action.code && (401 == action.code)) {
         router.transitionTo('login');
       }
       SessionStore.emitChange();

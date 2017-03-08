@@ -15,10 +15,9 @@ module.exports = React.createClass({
 
   render: function () {
     var rows = [];
-    var install;
     var triggers = this.props.template.triggers;
     var priority = '';
-    var severityTooltip = ''; 
+    var severityTooltip = '';
     for (var key in triggers) {
       if ('critical' == triggers[key].priority) {
         priority = 'icon nb-critical icon-state red-text';
@@ -33,9 +32,9 @@ module.exports = React.createClass({
       rows.push(
         <tr key={key}>
           <td>{triggers[key].name}</td>
-          <td>{triggers[key].items.length > 0 ? Moment(triggers[key].items[0].last_check).format('DD/MM/YYYY hh:mm:ss') : '-'}</td>
-          <td>{triggers[key].items.length > 0 ? triggers[key].items[0].last_value : '-'}</td>
-          <td>{triggers[key].items.length > 0 ? triggers[key].items[0].prev_value : '-'}</td>
+          <td>{0 < triggers[key].items.length ? Moment(triggers[key].items[0].last_check).format('DD/MM/YYYY hh:mm:ss') : '-'}</td>
+          <td>{0 < triggers[key].items.length ? triggers[key].items[0].last_value : '-'}</td>
+          <td>{0 < triggers[key].items.length ? triggers[key].items[0].prev_value : '-'}</td>
           <td>
             <Switch/>
           </td>
