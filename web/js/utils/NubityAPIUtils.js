@@ -91,7 +91,6 @@ module.exports = {
           localStorage.setItem('nubity-token', text.token);
           localStorage.setItem('nubity-refresh-token', text.refresh_token);
           this.getUser();
-          routes.redirectDashboard();
         }
       }.bind(this));
   },
@@ -203,7 +202,7 @@ module.exports = {
               routes.redirectTo(to);
               window.location.href = uri;
             } else {
-              //routes.redirectDashboard(); to do: ask why is this line required.
+              routes.redirectDashboard();
             }
           }
         }.bind(this));
