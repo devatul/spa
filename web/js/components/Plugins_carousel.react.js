@@ -6,14 +6,14 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       index: 0,
-      direction: null
+      direction: null,
     };
   },
 
   handleSelect: function (selectedIndex, e) {
     this.setState({
       index: selectedIndex,
-      direction: e.direction
+      direction: e.direction,
     });
   },
 
@@ -28,32 +28,32 @@ module.exports = React.createClass({
     var templates = this.props.templates;
     var rows = [];
     if (templates !== undefined) {
-      for (key = 0; key < templates.length; key = key+4) { 
+      for (var key = 0; key < templates.length; key = key+4) { 
         rows.push(
           <CarouselItem>
           <div className="col-sm-8 col-sm-offset-2">
             <div className={templates[key] !== undefined ? 'col-sm-3' : 'hidden'}>
               <a className={templates[key] !== undefined && this.state.active == templates[key].template ? 'carousel-active thumbnail' : 'thumbnail'} >
                 <img src={templates[key] !== undefined ? templates[key].logo : ''} alt="Image" className="img-responsive" onClick={this.clickTemplate.bind(this, templates[key])}/>
-                <div className="is-installed-container"><span className={templates[key] !== undefined && templates[key].is_installed == true ? 'is-installed' : 'hidden'}></span></div>
+                <div className="is-installed-container"><span className={templates[key] !== undefined && true == templates[key].is_installed ? 'is-installed' : 'hidden'}></span></div>
               </a>
             </div>
             <div className={templates[key+1] !== undefined ? 'col-sm-3' : 'hidden'}>
               <a className={templates[key+1] !== undefined && this.state.active == templates[key+1].template ? 'carousel-active thumbnail' : 'thumbnail'} >
                 <img src={templates[key+1] !== undefined ? templates[key+1].logo : ''} className="img-responsive" onClick={this.clickTemplate.bind(this, templates[key+1])}/>
-                <div className="is-installed-container"><span className={templates[key+1] !== undefined && templates[key+1].is_installed == true ? 'is-installed' : 'hidden'}></span></div>
+                <div className="is-installed-container"><span className={templates[key+1] !== undefined && true == templates[key+1].is_installed ? 'is-installed' : 'hidden'}></span></div>
               </a>
             </div>
             <div className={templates[key+2] !== undefined ? 'col-sm-3' : 'hidden'}>
               <a className={templates[key+2] !== undefined && this.state.active == templates[key+2].template ? 'carousel-active thumbnail' : 'thumbnail'} >
                 <img src={templates[key+2] !== undefined ? templates[key+2].logo : ''} alt="Image" className="img-responsive" onClick={this.clickTemplate.bind(this, templates[key+2])}/>
-                <div className="is-installed-container"><span className={templates[key+2] !== undefined && templates[key+2].is_installed == true ? 'is-installed' : 'hidden'}></span></div>
+                <div className="is-installed-container"><span className={templates[key+2] !== undefined && true == templates[key+2].is_installed ? 'is-installed' : 'hidden'}></span></div>
               </a>
             </div>
             <div className={templates[key+3] !== undefined ? 'col-sm-3' : 'hidden'}>
               <a className={templates[key+3] !== undefined && this.state.active == templates[key+3].template ? 'carousel-active thumbnail' : 'thumbnail'} >
                 <img src={templates[key+3] !== undefined ? templates[key+3].logo : ''} alt="Image" className="img-responsive" onClick={this.clickTemplate.bind(this, templates[key+3])}/>
-                <div className="is-installed-container"><span className={templates[key+3] !== undefined && templates[key+3].is_installed == true ? 'is-installed' : 'hidden'}></span></div>
+                <div className="is-installed-container"><span className={templates[key+3] !== undefined && true == templates[key+3].is_installed ? 'is-installed' : 'hidden'}></span></div>
               </a>
             </div>
           </div>

@@ -29,12 +29,11 @@ module.exports = React.createClass({
 
   _onSubmit: function (e) {
     e.preventDefault();
-    var macros    = this.props.macros;
     var newMacros = [];
     var form      = e.target.elements;
 
     for (var key in this.props.macros) {
-      newMacros[key] = {value: form.macros[key].value}
+      newMacros[key] = {value: form.macros[key].value};
     }
     configureAction(this.props.instanceId, newMacros, this.props.templateId);
     this.setState({ showModal: false });
@@ -53,7 +52,7 @@ module.exports = React.createClass({
           </div>
         );
       }
-      var form = (
+      form = (
         <form onSubmit={this._onSubmit}>
           {inputs}
           <button type="submit" >Editar</button>

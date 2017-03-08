@@ -68,28 +68,28 @@ module.exports = React.createClass({
         switch (this.state.instanceConfiguration.templates[key].classification) {
           case 'basic_system':
             basicSystems.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
           case 'web_server':
             webServers.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
           case 'app_server':
             appServers.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
           case 'database':
             databases.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
           case 'caching':
             cachings.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
           case 'website':
             websites.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
           case 'service':
             services.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
           case 'web_app':
             webApps.push(this.state.instanceConfiguration.templates[key]);
-          break;
+            break;
         }
       }
     }

@@ -49,7 +49,6 @@ module.exports = React.createClass({
             reportFlag: true,
             report: 'Report done',
           });
-          //clearInterval(loop);
         }
       }
 
