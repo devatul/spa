@@ -1,19 +1,30 @@
-module.exports = function(grunt) {
+var YAML = require('yamljs');
+
+module.exports = function (grunt) {
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    copy: {
-      prod: {
-        src: 'js/config/prod.js',
-        dest: 'js/config/config.js',
-      },
-      dev: {
-        src: 'js/config/dev.js',
-        dest: 'js/config/config.js',
-      },
-    },
+
   });
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.registerTask('config_prod', ['copy:prod']);
-  grunt.registerTask('config_dev', ['copy:dev']);
+
+  grunt.registerTask('env','setup app "env"', function (env){
+    var isExists = grunt.file.exists('../../deploy_config.yml');
+    var dist = grunt.file.readYAML('parameters.dist.yml');
+    if (isExists) {
+      var config = grunt.file.readYAML('../../deploy_config.yml');
+      if ('prod' === env) {
+        dist.baseURL = config.prodBaseURL || dist.defaultBaseURL;
+      } else if ('dev' === env) {
+        dist.baseURL = config.devBaseURL || dist.defaultBaseURL;
+      }
+    } else {
+      if ('prod' === env) {
+        console.error('===========================================');
+        console.error('Error: Production envionment not available.\nRunning in default envionment');
+        console.error('===========================================');
+      }
+      dist.baseURL = dist.defaultBaseURL;
+    }
+    grunt.file.write('parameters.dist.yml', YAML.stringify(dist, null, 1));
+  });
+
 };

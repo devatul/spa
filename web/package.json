@@ -4,11 +4,11 @@
   "description": "nubity-spa",
   "main": "js/app.js",
   "scripts": {
-    "prod": "grunt config_prod && watchify js/app.js -o js/bundle.js -v -d",
-    "dev": "grunt config_dev && watchify js/app.js -o js/bundle.js -v -d",
+    "prod": "grunt env:prod && watchify js/app.js -o js/bundle.js -v -d",
+    "dev": "grunt env:dev && watchify js/app.js -o js/bundle.js -v -d",
     "build": "browserify . -o js/bundle.tmp.js && uglifyjs js/bundle.tmp.js -cm > js/bundle.js && rm js/bundle.tmp.js",
-    "build:prod": "grunt config_prod && npm run build",
-    "build:dev": "grunt config_dev && npm run build",
+    "build:prod": "grunt env:prod && npm run build",
+    "build:dev": "grunt env:dev && npm run build",
     "deploy": "npm run build:prod && shipit production deploy"
   },
   "repository": {
@@ -57,7 +57,8 @@
     "superagent": "^3.5.0",
     "superagent-prefix": "0.0.2",
     "superagent-use": "^0.1.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "yamljs": "^0.2.8"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",

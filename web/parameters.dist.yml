@@ -1,0 +1,13 @@
+SSH_key: ./server-key.ppk
+rsync:
+ - '--include'
+ - ' "js/bundle.js"'
+ - '--exclude'
+ - ' "js/*"'
+ - '--exclude'
+ - ' "node_modules"'
+host: 'deploy@127.0.0.1:22'
+src: '../web/*'
+dest: public_html/spa/web/test/
+baseURL: 'http://api.mobile-apps.nubity.com'
+defaultBaseURL: 'http://api.mobile-apps.nubity.com'

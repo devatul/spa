@@ -1,15 +1,15 @@
-var path = require('path');
-YAML = require('yamljs');
-var fs = require('fs');
-var config = {};
+var path        = require('path');
+var YAML        = require('yamljs');
+var fs          = require('fs');
+var config      = {};
 var config_path = '../../deploy_config.yml';
 if (fs.existsSync(config_path)) {
-  config = YAML.load(config_path);
+  config        = YAML.load(config_path);
 }
-var dist = YAML.load('dist.yml');
+var dist        = YAML.load('parameters.dist.yml');
+var shipit      = require('shipit-deploy');
 
 module.exports = function (shipit) {
-  require('shipit-deploy')(shipit);
 
   shipit.initConfig({
     default: {

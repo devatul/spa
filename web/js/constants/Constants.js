@@ -1,5 +1,6 @@
-var config    = require('../config/config');
 var keyMirror = require('keymirror');
+var YAML      = require('yamljs');
+var config    = YAML.load('parameters.dist.yml');
 var Root      = config.baseURL;
 var APIRoot   = Root;
 
