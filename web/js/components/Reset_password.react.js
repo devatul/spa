@@ -25,17 +25,17 @@ module.exports = React.createClass({
     var password     = this.refs.password.getDOMNode().value;
     var confirmation = this.refs.password2.getDOMNode().value;
     var url          = window.location.href;
-    var start        = parseInt(url.indexOf('change-password/')) + parseInt(16);
+    var start        = url.indexOf('reset-password/') + 15;
     var token        = url.slice(parseInt(start));
 
     if (password != confirmation) {
-      this.setState({ 
+      this.setState({
         codeClass: 'alert alert-danger',
         textError: 'Passwords doesn\'t match',
       });
     } else {
-      ChangePasswordAction(token, password, confirmation);   
-    }   
+      ChangePasswordAction(token, password, confirmation);
+    }
   },
 
   render: function () {
