@@ -39,7 +39,6 @@ module.exports = React.createClass({
         <tr key={key}>
           <td>{this.props.plugins[key].name}</td>
           <td>Web Apps</td>
-          <td>{this.props.plugins[key].description}</td>
           <td><span className="action-button nubity-blue" onClick={this._configure.bind(this, this.props.plugins[key])}>Configure</span></td>
           <td>{install}</td>
         </tr>
@@ -47,20 +46,23 @@ module.exports = React.createClass({
     }
 
     return (
-      <div>
-        <table>
-          <tr>
-            <th>Plugin</th>
-            <th>Group</th>
-            <th>Server</th>
-            <th></th>
-            <th></th>
-          </tr>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-        {this.state.pluginModal}
+      <div className="container">
+        <div classname="col-md-10 col-md-offset-1">
+          <table>
+            <thead>
+              <tr>
+                <th>Plugin</th>
+                <th>Group</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+          {this.state.pluginModal}
+        </div>
       </div>
     );
   },
