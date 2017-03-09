@@ -247,22 +247,21 @@ module.exports = React.createClass({
           if (undefined !== overview[key].instance) {
             monitoring = (<Link className="action-button nubity-green" to="monitoring" params={{id: overview[key].instance}}>Start</Link>);
           }
-
         } else if ('accepted' == monitoringStatus) {
-          // <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
-          //   <i className="fa fa-cog" aria-hidden="true"></i>
-          // </Link>
           monitoring = (
           <div>
+            <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
+              <i className="fa fa-cog" aria-hidden="true"></i>
+            </Link>
             <span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>
           </div>
           );
         } else if ('pending-cancellation' == monitoringStatus) {
-          // <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
-          //   <i className="fa fa-cog" aria-hidden="true"></i>
-          // </Link>
           monitoring = (
           <div>
+            <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
+              <i className="fa fa-cog" aria-hidden="true"></i>
+            </Link>
             <span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>
           </div>
           );
@@ -318,11 +317,8 @@ module.exports = React.createClass({
         }
 
         num = overview[key].memory/1024;
-        if (0 !== num % 1) {
-          num = num.toFixed(2);
-        } else {
-          num = num.toString();
-        }
+        num = num.toString();
+        num = num.slice(0, (num.indexOf('.'))+2);
 
         var actionButtons;
 
