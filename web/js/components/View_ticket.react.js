@@ -99,6 +99,7 @@ module.exports = React.createClass({
     } else {
       replies = this.state.ticket.replies;
       message = this.state.ticket.replies[(this.state.ticket.replies).length-1].content;
+      message = <div dangerouslySetInnerHTML = {{__html: message}}></div>;
       subject = this.state.ticket.subject;
       var index = replies.length-1;
       if (-1 < index) {

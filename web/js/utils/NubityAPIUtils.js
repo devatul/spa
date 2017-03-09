@@ -30,6 +30,7 @@ var routes                         = require('./RouteUtils');
 request.use(prefix(APIEndpoints.PUBLIC));
 
 module.exports = {
+  isLogin: false,
   isTokenValidating: false,
   validateToken: function (res) {
     var _SELF = this;
@@ -90,6 +91,7 @@ module.exports = {
           SessionStore.resetLoginError();
           localStorage.setItem('nubity-token', text.token);
           localStorage.setItem('nubity-refresh-token', text.refresh_token);
+          this.isLogin = true;
           this.getUser();
         }
       }.bind(this));
@@ -201,7 +203,8 @@ module.exports = {
               to = to.split('#')[0];
               routes.redirectTo(to);
               window.location.href = uri;
-            } else {
+            } else if (this.isLogin) {
+              this.isLogin = false;
               routes.redirectDashboard();
             }
           }
