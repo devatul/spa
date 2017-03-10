@@ -83,6 +83,7 @@ module.exports = React.createClass({
       numberTwo = '1';
       numberThree = '2';
     }
+
     return (
       <div className="container">
         <div className="row">
@@ -100,7 +101,7 @@ module.exports = React.createClass({
               <div className="round-number number-2">{numberTwo}</div>
               <span>Technical pocedure</span>
             </div>
-            <div className="col-xs-offset-4 col-xs-8">{this.props.template.description}</div>
+            <div className="col-xs-offset-4 col-xs-8" dangerouslySetInnerHTML={{__html: this.props.template.description}}></div>
             <div className="col-xs-12">
               <div className="round-number number-2">{numberThree}</div>
               <span>Install</span>
