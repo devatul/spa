@@ -61,7 +61,7 @@ module.exports = React.createClass({
         if ('user_data' == this.props.template.user_macros[key].type) {
           macros.push(
             <div className="form-group row">
-              <div className="col-xs-offset-4">
+              <div className="col-xs-offset-2">
                 <label for={key}>{this.props.template.user_macros[key].name}</label>
                 <input type={this.props.template.user_macros[key].is_password ? 'password' : 'text'} className="form-control col-xs-4" id={key} defaultValue={(null !== this.props.template.user_macros[key].value) ? this.props.template.user_macros[key].value : ''} placeholder={this.props.template.user_macros[key].default_value}/>
               </div>
@@ -95,18 +95,18 @@ module.exports = React.createClass({
           </div>
         </div>
         <div className="row">
-          <form onSubmit={this._onSubmit} className="col-xs-5">
+          <form onSubmit={this._onSubmit} className="col-xs-8">
             {macros}
             <div className="col-xs-12">
               <div className="round-number number-2">{numberTwo}</div>
               <span>Technical pocedure</span>
             </div>
-            <div className="col-xs-offset-4 col-xs-8" dangerouslySetInnerHTML={{__html: this.props.template.description}}></div>
+            <div className="col-xs-offset-2 col-xs-8" dangerouslySetInnerHTML={{__html: this.props.template.description}}></div>
             <div className="col-xs-12">
               <div className="round-number number-2">{numberThree}</div>
               <span>Install</span>
             </div>
-            <div className="col-xs-offset-4 col-xs-8">{this.state.install}</div>
+            <div className="col-xs-offset-2 col-xs-8">{this.state.install}</div>
           </form>
         </div>
       </div>
