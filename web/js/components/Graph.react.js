@@ -6,15 +6,17 @@ var GraphStore                 = require('../stores/GraphStore');
 var Highcharts                 = require('highcharts');
 var addFunnel                  = require('highcharts/modules/funnel');
 var GraphEmptyState            = require('./Graph_empty_state.react');
+var Moment                     = require('moment');
 
 module.exports = React.createClass({
 
   componentDidMount: function () {
     GraphStore.addChangeListener(this._onChange);
     if (null !== this.props.graph.content) {
-      var name = JSON.stringify(this.props.graph.content.name);
+      var graph = this.props.graph;
+      var name = JSON.stringify(graph.content.name);
       name = name.replace(/\"/g, '');
-      var interval = this.props.graph.custom_interval;
+      var interval = graph.custom_interval;
       var interval_name;
 
       switch (interval) {
@@ -51,46 +53,112 @@ module.exports = React.createClass({
       }
 
       addFunnel(Highcharts);
+      var chartSeries = [];
 
-      var series = [];
-      for (var i = 0; i < this.props.graph.content.series.length; i++) {
-        series[i] = this.props.graph.content.series[i];
-      }
+      for (var i = 0; i < graph.content.series.length; i++) {
+        var data1   = graph.content.series[i].data;
+        var pointStart = new Date();
 
-      var legend1 = series[0].legend;
-      var data1   = series[0].data;
-      var coords1 = [];
-      for (i = 0; i < data1.length; i++) {
-        coords1[i] = data1[i][1];
+        if (undefined !== data1[0] && undefined !== data1[0][0]) {
+          pointStart = data1[0][0]*1000;
+        } 
+        var legend = graph.content.series[i].legend;
+        var color = graph.content.series[i].color;
+        var suffix = graph.content.series[i].unit;
+        var coords = [];
+        for (var key = 0; key < data1.length; key++) {
+          coords[key] = [new Date(data1[key][0]*1000), data1[key][1]];
+        }
+
+        var chartSerie = {
+          name: legend,
+          data: coords,
+          color: color,
+          pointStart: pointStart,
+          pointInterval: 1 * 3600 * 1000,
+          tooltip: {
+            valueDecimals: 2,
+            valueSuffix: ' ' + suffix,
+          },
+        };
+        chartSeries.push(chartSerie);
       }
+      var yTitle = 'Values';
+      if (null != graph.content.series[0].unit) {
+        yTitle = 'Values (' + graph.content.series[0].unit + ')';
+      } 
 
       Highcharts.chart(this.props.name, {
         chart: {
           zoomType: 'x',
           className: 'hichart-main-container',
         },
+
+        exporting: {
+          enabled: false,
+        },
+
+        credits: {
+          enabled: false,
+        },
+
         title: {
           text: slot_name,
-          x: -20,
         },
+
+        subtitle: {
+          text: graph.hostname,
+        },
+
+        tooltip: {
+          shared: true,
+          crosshairs: true,
+        },
+
         xAxis: {
-          categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+          type: 'datetime',
+          dateTimeLabelFormats: {
+            second: '%H:%M:%S',
+            minute: '%H:%M',
+            hour: '%H:%M',
+            day: '%e. %b',
+            week: '%e. %b',
+            month: '%b \'%y',
+            year: '%Y',
+          },
+          title: {
+            text: 'Date',
+          },
         },
+
         yAxis: {
+          title: {
+            text: yTitle,
+          },
+          opposite: false,
+          min: 0,
+          maxPadding: 0.2,     
           plotLines: [{
             value: 0,
             width: 1,
             color: '#808080',
           }],
         },
+
         legend: {
-          layout:'vertical',
-          borderWidth: 0,
+          enabled: true,
+          align: 'center',
+          verticalAlign: 'bottom',
         },
-        series: [{
-          name: legend1,
-          data: coords1,
-        }],
+
+        navigator: {
+          height: 25,
+        },
+
+        rangeSelector: {
+          enabled: false,
+        },
+        series: chartSeries,
       });
     }
   },
