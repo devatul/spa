@@ -271,8 +271,11 @@ module.exports = React.createClass({
       }
 
       num = privateCloud[key].memory/1024;
-      num = num.toString();
-      num = num.slice(0, (num.indexOf('.'))+2);
+      if (0 !== num % 1) {
+        num = num.toFixed(2);
+      } else {
+        num = num.toString();
+      }
 
       var actionButtons;
 
