@@ -13,7 +13,7 @@ plugins:
 rules:
   react/jsx-uses-vars: 1
   react/jsx-uses-react: 1
-  no-unused-vars: 
+  no-unused-vars:
     - error
     -
       vars: local
@@ -49,6 +49,7 @@ rules:
     - 2
     - always
   global-require: error
+  space-before-blocks: error
 globals:
   require: false
   define: false

@@ -30,6 +30,7 @@ var routes                         = require('./RouteUtils');
 request.use(prefix(APIEndpoints.PUBLIC));
 
 module.exports = {
+  fromLogin: false,
   isTokenValidating: false,
   validateToken: function (res) {
     var _SELF = this;
@@ -90,6 +91,7 @@ module.exports = {
           SessionStore.resetLoginError();
           localStorage.setItem('nubity-token', text.token);
           localStorage.setItem('nubity-refresh-token', text.refresh_token);
+          this.fromLogin = true;
           this.getUser();
         }
       }.bind(this));
@@ -194,15 +196,18 @@ module.exports = {
             localStorage.setItem('nubity-user-language', text.locale_display_name);
             localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
 
-            var uri = localStorage.getItem('nubity-uri');
-            if (null !== uri){
-              localStorage.removeItem('nubity-uri');
-              var to = uri.split('/#/')[1];
-              to = to.split('#')[0];
-              routes.redirectTo(to);
-              window.location.href = uri;
-            } else {
-              routes.redirectDashboard();
+            if (this.fromLogin) {
+              this.fromLogin = false;
+              var uri = localStorage.getItem('nubity-uri');
+              if (null !== uri) {
+                localStorage.removeItem('nubity-uri');
+                var to = uri.split('/#/')[1];
+                to = to.split('#')[0];
+                routes.redirectTo(to);
+                window.location.href = uri;
+              } else {
+                routes.redirectDashboard();
+              }
             }
           }
         }.bind(this));
