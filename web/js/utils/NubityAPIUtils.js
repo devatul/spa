@@ -196,10 +196,10 @@ module.exports = {
             localStorage.setItem('nubity-user-language', text.locale_display_name);
             localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
 
-            if (this.fromLogin)  {
+            if (this.fromLogin) {
               this.fromLogin = false;
               var uri = localStorage.getItem('nubity-uri');
-              if (null !== uri){
+              if (null !== uri) {
                 localStorage.removeItem('nubity-uri');
                 var to = uri.split('/#/')[1];
                 to = to.split('#')[0];
