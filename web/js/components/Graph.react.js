@@ -18,6 +18,7 @@ module.exports = React.createClass({
       name = name.replace(/\"/g, '');
       var interval = graph.custom_interval;
       var interval_name;
+      var hostname = graph.hostname;
 
       switch (interval) {
         case 'TODAY':
@@ -84,7 +85,7 @@ module.exports = React.createClass({
         chartSeries.push(chartSerie);
       }
       var yTitle = 'Values';
-      if (null != graph.content.series[0].unit) {
+      if (graph.content.series[0].unit) {
         yTitle = 'Values (' + graph.content.series[0].unit + ')';
       } 
 
@@ -107,7 +108,7 @@ module.exports = React.createClass({
         },
 
         subtitle: {
-          text: graph.hostname,
+          text: hostname,
         },
 
         tooltip: {
