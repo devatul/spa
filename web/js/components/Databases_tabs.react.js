@@ -13,15 +13,6 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function () {
-  },
-
-  componentWillUnmount: function () {
-  },
-
-  _onChange: function () {
-  },
-
   componentWillReceiveProps: function (nextProps) {
     for (var key in nextProps.templates) {
       if (this.state.templateContent.template == nextProps.templates[key].template && this.state.templateContent.is_installed != nextProps.templates[key].is_installed) {
@@ -41,6 +32,32 @@ module.exports = React.createClass({
           templateContent: nextProps.templates[key],
           configureClass: 0 < nextProps.templates[key].triggers.length ? '' : 'hidden',
         });
+      }
+    }
+
+    var url = window.location.href.split('#');
+    if (3 < url.length) {
+      var urlContent = '';
+      var id = url[3];
+      for (var cont in nextProps.templates) {
+        if (nextProps.templates[cont].template == id) {
+          urlContent = (
+            <div className="tab-content section-content">
+              <div id="pluginMonitoring" className="tab-pane fade in active">
+                <PluginMonitoring template={nextProps.templates[cont]} idInstance={nextProps.idInstance}/>
+              </div>
+              <div id="pluginConfigure" className={0 < nextProps.templates[cont].triggers.length ? 'tab-pane fade' : 'hidden'}>
+                <PluginConfigure template={nextProps.templates[cont]} idInstance={nextProps.idInstance}/>
+              </div>
+            </div>
+          );
+          this.setState({
+            tabs: 'nav nav-tabs section-tabs',
+            content: urlContent,
+            templateContent: nextProps.templates[cont],
+            configureClass: 0 < nextProps.templates[cont].triggers.length ? '' : 'hidden',
+          });
+        }
       }
     }
   },

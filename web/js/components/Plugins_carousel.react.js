@@ -4,9 +4,15 @@ var CarouselItem = require('react-bootstrap').CarouselItem;
 
 module.exports = React.createClass({
   getInitialState: function () {
+    var active = '';
+    var url = window.location.href.split('#');
+    if (3 < url.length) {
+      active = url[3];
+    }
     return {
       index: 0,
       direction: null,
+      active: active,
     };
   },
 
@@ -21,6 +27,9 @@ module.exports = React.createClass({
     this.setState({
       active: template.template,
     });
+
+    var url = window.location.href.split('#');
+    window.location.href = url[0] + '#' + url[1] + '#' + url[2] + '#' + template.template;
     this.props.clickTemplate(template);
   },
 
