@@ -123,12 +123,14 @@ module.exports = React.createClass({
         var priorityTooltip = '';
         var from = moment(ticket[key].created_at).format('DD/MM/YYYY hh:mm:ss');
 
+        tooltip = <Tooltip id="tooltip" style={{textTransform: "capitalize"}}>{ticket[key].status}</Tooltip>;
+        status = 'icon nb-ticket icon-state ';
         if ('open' == ticket[key].status) {
-          status = 'icon nb-ticket icon-state blue-text';
-          tooltip = (<Tooltip id="tooltip">Open</Tooltip>);
-        } else {
-          status = 'icon nb-ticket icon-state green-text';
-          tooltip = (<Tooltip id="tooltip">Closed</Tooltip>);
+          status = status + 'blue-text';
+        } else if ('closed' == ticket[key].status) {
+          status = status + 'green-text';
+        } else if ('in-progress' == ticket[key].status) {
+          status = status + 'grey-text';
         }
 
         if ('billing' == ticket[key].department) {
