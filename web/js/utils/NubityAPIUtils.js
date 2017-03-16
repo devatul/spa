@@ -126,17 +126,25 @@ module.exports = {
         } else {
           showConfirmMessage(200, 'Salio todo bien');
         }
-
       }.bind(this));
   },
+
   forgotPassword: function (email) {
-    request
-      .post('/password/request-reset.json')
-      .send({_username: email})
-      .accept('application/json')
-      .end(function (res) {
-        this.validateToken(res);
-      }.bind(this));
+    return new Promise( function ( resolve, reject ) {
+      request
+        .post('/password/request-reset.json')
+        .send({_username: email})
+        .accept('application/json')
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          var code = JSON.parse(res.status);
+          if (200 === code) {
+            resolve('Reset link sent to your email');
+          } else {
+            reject(text);
+          }
+        }.bind(this));
+    });
   },
 
   changePassword: function (token, password, confirmation_password) {

@@ -6,10 +6,41 @@ var ForgotPasswordAction       = require('../actions/RequestActions').forgotPass
 
 module.exports = React.createClass({
 
+  getInitialState: function () {
+    return {
+      message: '',
+      messageClass: 'hidden',
+    };
+  },
+
   _onSubmit: function (e) {
     e.preventDefault();
     var email = this.refs.email.getDOMNode().value;
-    ForgotPasswordAction(email);
+    if ('' !== email) {
+      ForgotPasswordAction(email).then( function (res) {
+        this.setState({
+          message: res,
+          messageClass: 'alert alert-success alert-margin',
+        });
+      }.bind(this)).catch( function (res) {
+        this.setState({
+          message: res.message,
+          messageClass: 'alert alert-danger alert-margin',
+        });
+      }.bind(this));
+    } else {
+      this.setState({
+        message: 'Please enter email',
+        messageClass: 'alert alert-danger alert-margin',
+      });
+    }
+  },
+
+  closeAlert: function (argument) {
+    this.setState({
+      message: '',
+      messageClass: 'hidden',
+    });
   },
 
   _redirectLogin: function () {
@@ -27,6 +58,12 @@ module.exports = React.createClass({
           <p className="login-title">Your cloud, managed</p>
           <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
           <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
+            <div className="row">
+              <div className={this.state.messageClass} role="alert">
+                <button type="button" className="close" onClick={this.closeAlert} aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {this.state.message}
+              </div>
+            </div>
             <div className="form-group row">
               <div className="input-group col-xs-10 col-xs-offset-1">
                 <div className="input-group-addon">

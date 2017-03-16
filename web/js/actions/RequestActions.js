@@ -18,7 +18,7 @@ module.exports = {
   },
 
   forgotPassword: function (email) {
-    NubityAPIUtils.forgotPassword(email);
+    return NubityAPIUtils.forgotPassword(email);
   },
 
   changePassword: function (token, password, confirmation_password) {
@@ -47,7 +47,7 @@ module.exports = {
   getStats: function () {
     NubityAPIUtils.getStats();
   },
-  
+
   getHistoryAlerts: function (page) {
     NubityAPIUtils.getHistoryAlerts(page);
   },
@@ -55,11 +55,11 @@ module.exports = {
   getDashboardAlerts: function () {
     NubityAPIUtils.getDashboardAlerts();
   },
-  
+
   getNinja: function (page) {
     NubityAPIUtils.getNinja(page);
   },
-  
+
   getProviders: function () {
     NubityAPIUtils.getProviders();
   },
@@ -165,6 +165,6 @@ module.exports = {
   },
 
   configureTemplate: function (id, macros, templateId) {
-    NubityAPIUtils.configureTemplate(id, macros, templateId); 
+    NubityAPIUtils.configureTemplate(id, macros, templateId);
   },
 };
