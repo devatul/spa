@@ -123,7 +123,7 @@ module.exports = React.createClass({
         var priorityTooltip = '';
         var from = moment(ticket[key].created_at).format('DD/MM/YYYY hh:mm:ss');
 
-        tooltip = <Tooltip id="tooltip" style={{textTransform: "capitalize"}}>{ticket[key].status}</Tooltip>;
+        tooltip = <Tooltip id="tooltip" style={{textTransform: 'capitalize'}}>{ticket[key].status}</Tooltip>;
         status = 'icon nb-ticket icon-state ';
         if ('open' == ticket[key].status) {
           status = status + 'blue-text';
