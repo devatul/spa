@@ -191,7 +191,7 @@ module.exports = React.createClass({
             <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject" defaultValue={subject}/>
           </div>
           <div className="col-xs-12">
-            <textarea className="form-control" rows="8" placeholder="Message" ref="content"></textarea>
+            <textarea className="form-control" rows="8" placeholder="Message" ref="content" required></textarea>
             <button className="margin-tops blue-button" onClick={this._onSubmit}>Send</button>
           </div>
         </div>

@@ -793,6 +793,25 @@ module.exports = {
     }.bind(this));
   },
 
+  closeTicket: function (id) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+
+    request
+    .put('/company/' + company + '/ticket/' + id + '/close.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.closeTicket(id);
+        } else {
+          routes.redirectNinja();
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
   getTicket: function (ticketId) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();

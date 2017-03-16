@@ -96,6 +96,10 @@ module.exports = {
     NubityAPIUtils.createTicket(ticket);
   },
 
+  closeTicket: function (ticket) {
+    NubityAPIUtils.closeTicket(ticket);
+  },
+
   replyTicket: function (ticketId, content) {
     NubityAPIUtils.replyTicket(ticketId, content);
   },

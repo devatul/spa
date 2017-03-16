@@ -4,6 +4,7 @@ var SessionStore               = require('../stores/SessionStore');
 var NinjaStore                 = require('../stores/NinjaStore');
 var getTicket                  = require('../actions/RequestActions').getTicket;
 var ReplyTicketAction          = require('../actions/RequestActions').replyTicket;
+var closeTicket                = require('../actions/RequestActions').closeTicket;
 var Preloader                  = require('./Preloader.react');
 var Reply                      = require('./Ticket_reply.react');
 var FormHeader                 = require('./View_ticket_form_header.react');
@@ -70,6 +71,10 @@ module.exports = React.createClass({
     ReplyTicketAction(id, ticketReply);
   },
 
+  _closeTicket: function () {
+    closeTicket(this.state.ticket.ticket);
+  },
+
   _createTicket: function () {
     redirect('create_ticket');
   },
@@ -83,6 +88,7 @@ module.exports = React.createClass({
     var subject       = '';
     var ticket        = '';
     var replies;
+    var closeTicket   = '';
 
     //Form
     if (NinjaStore.isViewingTicket()) {
@@ -115,7 +121,9 @@ module.exports = React.createClass({
 
     var priority = '';
     if ('' != this.state.ticket && undefined !== this.state.ticket) {
-
+      if ('closed' != this.state.ticket.status) {
+        closeTicket = (<Button onClick={this._closeTicket} bsSize="small"><i className="icon nb-close-circle small"></i> Close ticket</Button>);
+      }
       switch (this.state.ticket.priority) {
         case 'low' :
           priority = (<p><span className="icon nb-level-low icon-state green-text"></span> Low</p>);
@@ -215,7 +223,7 @@ module.exports = React.createClass({
                       <MenuItem eventKey="3"><i className="icon nb-ninja-support small"></i> Ninja Support</MenuItem>
                     </Dropdown.Menu>
                   </Dropdown>
-                  <Button bsSize="small"><i className="icon nb-close-circle small"></i> Close ticket</Button>
+                  {closeTicket}
                 </ButtonToolbar>
               </div>
             </div>
