@@ -116,7 +116,7 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2 className="align-center">Configure monitoring</h2>
         </div>
-        <div>
+        <div className="large-section-tabs">
           <ul className="nav nav-tabs section-tabs">
             <li role="presentation" className={'overview' == section || '' == section ? 'active' : ''}>
               <a className="grey-color" data-toggle="tab" href="#overview" onClick={function () {_SELF._updatePage('#overview');}}>
@@ -150,7 +150,7 @@ module.exports = React.createClass({
             </li>
             <li role="presentation" className={'websites' == section ? 'active' : ''}>
               <a className="grey-color" data-toggle="tab" href="#website" onClick={function () {_SELF._updatePage('#websites');}}>
-                <i className="icon nb-code small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Websitess</span>
+                <i className="icon nb-code small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Websites</span>
               </a>
             </li>
             <li role="presentation" className={'services' == section ? 'active' : ''}>

@@ -1427,6 +1427,11 @@ tr.content:hover {
   height: 300px;
 }
 /*Media Queries*/
+@media screen and (max-width: 1440px) {
+  .large-section-tabs .section-tabs {
+    height: 75px;  
+  }
+}
 @media screen and (max-width: 1024px) {
   .section-content {
     margin: 0 !important;
@@ -1447,7 +1452,8 @@ tr.content:hover {
 }
 @media screen and (min-width: 768px) {
   .carousel-indicators {
-    bottom: -75px;
+    bottom: -64px;
+    display: none;
   }
 }
 @media screen and (max-width: 768px) {
