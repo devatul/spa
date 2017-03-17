@@ -73,20 +73,19 @@ module.exports = React.createClass({
         <div className="title-div">
           <p className="widget-p">Widget</p>
         </div>
-        <div className="inside-div widget-create">
-          <select className="hidden form-control select-margin" id="widgetType" name="widgetType" ref="widgetType">
-            <option>Select Widget Type</option>
-            <option>2</option>
-          </select>
-          <select className="form-control select-margin" id="server" name="server" ref="server" onChange={this._selectInstance}>
-            {rows}
-          </select>
-          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType">
-            <option>Select Chart Type</option>
-            {graphRows}
-          </select>
-          <button type="submit" className="green-button center-block">Save</button>
-        </div>
+        <select className="hide-it form-control select-margin" id="widgetType" name="widgetType" ref="widgetType">
+          <option>Select Widget Type</option>
+          <option>2</option>
+        </select>
+        <select className="form-control select-margin" id="server" name="server" ref="server" onChange={this._selectInstance}>
+          <option>Select an instance</option>
+          {rows}
+        </select>
+        <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType">
+          <option>Select Chart Type</option>
+          {graphRows}
+        </select>
+        <button type="submit" className="action-button nubity-blue">Save</button>
       </form>
     );
   },

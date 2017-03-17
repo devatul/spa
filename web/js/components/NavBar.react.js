@@ -108,7 +108,7 @@ var NavBar = React.createClass({
         <nav className="navbar navbar-default nav navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
-              <img src="./images/nubity-logo-hd.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+              <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand"/>
             </div>
             <div>
               <ul className="nav navbar-nav navbar-right">
@@ -129,7 +129,7 @@ var NavBar = React.createClass({
           <div className="container-fluid">
             <div className="navbar-header">
               <a onClick={this._redirectHome}>
-                <img src="./images/nubity-logo-hd.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+                <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand"/>
               </a>
             </div>
             <div>

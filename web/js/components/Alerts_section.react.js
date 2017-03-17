@@ -263,7 +263,7 @@ module.exports = React.createClass({
       }
 
       rows.push(
-        <tr key={key}>
+        <tr key={key} className="content">
           <td className="icons">
             <OverlayTrigger placement="top" overlay={severityTooltip}>
               <i className={level} aria-hidden="true"></i>
@@ -386,7 +386,7 @@ module.exports = React.createClass({
       }
 
       historyRows.push(
-        <tr key={key}>
+        <tr key={key} className="content">
           <td className="icons">
             <OverlayTrigger placement="top" overlay={hseverityTooltip}>
               <i className={hlevel} aria-hidden="true"></i>
@@ -418,6 +418,8 @@ module.exports = React.createClass({
     var paginatorClass;
     if (1 >= pages) {
       paginatorClass = 'hidden';
+    } else {
+      paginatorClass = 'pull-right';
     }
 
     var navpages = [];
@@ -433,6 +435,8 @@ module.exports = React.createClass({
     var hpaginatorClass;
     if (1 >= historyPages) {
       hpaginatorClass = 'hidden';
+    } else {
+      hpaginatorClass = 'pull-right';
     }
 
     var historynavpages = [];

@@ -20,16 +20,6 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2 className="align-center"><span>Customize your infrastructure&#39;s performance</span></h2>
         </div>
-        <div>
-          <ul className="nav nav-tabs section-tabs">
-            <li role="presentation" className="active">
-              <a className="grey-color" href="#">Infrastructure Performance</a>
-            </li>
-            <li role="presentation">
-              <a className="grey-color" href="#">Custom Performance Dashboards</a>
-            </li>
-          </ul>
-        </div>
         <div className="section-content">
           <CustomPerformance/>
         </div>

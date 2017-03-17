@@ -2,6 +2,7 @@ var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
+var CreateGraph                = require('./Create_graph.react');
 
 module.exports = React.createClass({
 
@@ -10,19 +11,7 @@ module.exports = React.createClass({
       <div className="">
         <ul className="nav nav-tabs section-tabs">
           <li role="presentation">
-            <a className="grey-color" href="#">MySQL Server 1</a>
-          </li>
-          <li role="presentation">
-            <a className="grey-color" href="#">MySQL Server 2</a>
-          </li>
-          <li role="presentation" >
-            <a className="grey-color" href="#">MySQL Server 3</a>
-          </li>
-          <li role="presentation">
-            <a className="grey-color" href="#">MySQL Server 4</a>
-          </li>
-          <li role="presentation" >
-            <a className="grey-color" href="#">MySQL Server 5</a>
+            <a className="grey-color" href="#">Custom Dashboard 1</a>
           </li>
           <li role="presentation" className="active">
             <a className="grey-color" href="#">New Dashboard</a>
@@ -53,86 +42,19 @@ module.exports = React.createClass({
             <button className="green-button">Save</button>
           </div>
           <div className="row margin-sides">
-            <div className="col-xs-6 right-div">
-              <div className="title-div">
-                <p className="widget-p">Widget</p>
-              </div>
-              <div className="inside-div">
-                <select className="form-control select-margin" id="widgetType">
-                  <option>Select Widget Type</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="server">
-                  <option>Select Server</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="chartType">
-                  <option>Select Chart Type</option>
-                  <option>2</option>
-                </select>
-                <button className="green-button">Save</button>
+            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div className="widget create">
+                <CreateGraph position={1}/>
               </div>
             </div>
-            <div className="col-xs-6 right-div">
-              <div className="title-div">
-                <p className="widget-p">Widget</p>
-              </div>
-              <div className="inside-div">
-                <select className="form-control select-margin" id="widgetType">
-                  <option>Select Widget Type</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="server">
-                  <option>Select Server</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="chartType">
-                  <option>Select Chart Type</option>
-                  <option>2</option>
-                </select>
-                <button className="green-button">Save</button>
+            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div className="widget create">
+                <CreateGraph position={2}/>
               </div>
             </div>
-          </div>
-          <div className="row margin-sides">
-            <div className="col-xs-6 right-div">
-              <div className="title-div">
-                <p className="widget-p">Widget</p>
-              </div>
-              <div className="inside-div">
-                <select className="form-control select-margin" id="widgetType">
-                  <option>Select Widget Type</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="server">
-                  <option>Select Server</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="chartType">
-                  <option>Select Chart Type</option>
-                  <option>2</option>
-                </select>
-                <button className="green-button">Save</button>
-              </div>
-            </div>
-            <div className="col-xs-6 right-div">
-              <div className="title-div">
-                <p className="widget-p">Widget</p>
-              </div>
-              <div className="inside-div">
-                <select className="form-control select-margin" id="widgetType">
-                  <option>Select Widget Type</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="server">
-                  <option>Select Server</option>
-                  <option>2</option>
-                </select>
-                <select className="form-control select-margin" id="chartType">
-                  <option>Select Chart Type</option>
-                  <option>2</option>
-                </select>
-                <button className="green-button">Save</button>
+            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div className="widget create">
+                <CreateGraph position={3}/>
               </div>
             </div>
           </div>

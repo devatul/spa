@@ -82,6 +82,10 @@ module.exports = React.createClass({
     redirect('alerts');
   },
 
+  _goToPerformance: function () {
+    redirect('performance');
+  },
+
   _createTicket: function (alert) {
     createAlertTicket(alert);
   },
@@ -98,6 +102,12 @@ module.exports = React.createClass({
       case 'mute':
         this.setState({
           modalType: 'mute',
+          showModal: true,
+        });
+        break;
+      case 'newDashboard':
+        this.setState({
+          modalType: 'newDashboard',
           showModal: true,
         });
         break;
@@ -131,21 +141,39 @@ module.exports = React.createClass({
     var stats = '';
     if (undefined !== this.state.stats && mainAlerts) {
       stats = (
-        <div className="col-md-6 col-md-offset-3">
-          <div className="col-xs-4 dashboard-icons blue">
-            <i className="icon nb-information blue-text dashboard-minus" aria-hidden="true"></i>
-            <span className="dashboard-icons-info">Information</span>
-            <div className="dashboard-icons-counter first">{this.state.stats.info}</div>
+        <div className="col-md-12">
+          <div className="col-xs-12 col-sm-4 col-md-4">
+            <div className="dashboard-icons first">
+              <div className="left">
+                <i className="icon nb-information" aria-hidden="true"></i>
+              </div>
+              <div className="right">
+                <div className="dashboard-icons-counter">{this.state.stats.info}</div>
+                <span className="dashboard-icons-info">Information <br/>alerts</span>
+              </div>
+            </div>
           </div>
-          <div className="col-xs-4 dashboard-icons">
-            <i className="icon nb-warning yellow-text dashboard-minus" aria-hidden="true"></i>
-            <span className="dashboard-icons-info">Warning</span>
-            <div className="dashboard-icons-counter second">{this.state.stats.warning}</div>
+          <div className="col-xs-12 col-sm-4 col-md-4">
+            <div className="dashboard-icons second">
+              <div className="left">
+                <i className="icon nb-warning" aria-hidden="true"></i>
+              </div>
+              <div className="right">
+                <div className="dashboard-icons-counter">{this.state.stats.warning}</div>
+                <span className="dashboard-icons-info">Warning <br/>alerts</span>
+              </div>
+            </div>
           </div>
-          <div className="col-xs-4 dashboard-icons">
-            <i className="icon nb-critical red-text dashboard-minus" aria-hidden="true"></i>
-            <span className="dashboard-icons-info">Critical</span>
-            <div className="dashboard-icons-counter third">{this.state.stats.critical}</div>
+          <div className="col-xs-12 col-sm-4 col-md-4">
+            <div className="dashboard-icons third">
+              <div className="left">
+                <i className="icon nb-critical" aria-hidden="true"></i>
+              </div>
+              <div className="right">
+                <div className="dashboard-icons-counter">{this.state.stats.critical}</div>
+                <span className="dashboard-icons-info">Critical <br/>alerts</span>
+              </div>
+            </div>
           </div>
         </div>
       );
@@ -211,6 +239,7 @@ module.exports = React.createClass({
       }
 
       var warn;
+      var form;
       var confirmButtons;
 
       switch (this.state.modalType) {
@@ -226,6 +255,42 @@ module.exports = React.createClass({
             </div>
           );
           break;
+        case 'newDashboard':
+          warn = (
+            <span>Add a new custom dashboard</span>
+          );
+          notice = '';
+          form = (
+            <div className="row margin-tops">
+              <div className="col-xs-3 centered">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-cubes" aria-hidden="true"></i>
+                  </div>
+                  <select className="form-control">
+                    <option>Select icon</option>
+                  </select>
+                </div>
+              </div>
+              <div className="col-xs-4">
+                <div className="form-group">
+                  <div className="input-group">
+                    <div className="input-group-addon">
+                      <i className="fa fa-area-chart" aria-hidden="true"></i>
+                    </div>
+                    <input type="text" className="form-control no-shadow" id="integrationName" placeholder="New Dashboard Performance Name"/>
+                  </div>
+                </div>
+              </div>
+              <button className="green-button">Save</button>
+            </div>
+          );
+          confirmButtons = (
+            <div className="pull-right">
+              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
+              <span className="action-button nubity-red" onClick={this._goToPerformance}>OK</span>
+            </div>
+          );
       }
 
       var warning = (
@@ -235,6 +300,7 @@ module.exports = React.createClass({
               <div className="col-xs-12 warn-message">
                 <h1>{warn}</h1>
                 <p>{notice}</p>
+                {form}
                 <div className="med"></div>
                 {confirmButtons}
               </div>
@@ -244,7 +310,7 @@ module.exports = React.createClass({
       );
 
       rows[rows.length] = (
-        <tr>
+        <tr className="content">
           <td className="icons">
             <OverlayTrigger placement="top" overlay={severityTooltip}>
               <i className={level} aria-hidden="true"></i>
@@ -313,6 +379,7 @@ module.exports = React.createClass({
           </div>
         );
       }
+      var newDash = 'newDashboard';
     }
 
     if (!mainAlerts) {
@@ -322,7 +389,10 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title ">
-          <h2 className="align-center">{companyName}&#39;s dashboard</h2>
+            <span className="item title">{companyName}&#39;s dashboard</span>
+            <span className="item" onClick={this._warning.bind(this, newDash)}>
+              <i className="icon nb-plus icon-state"></i> Add a custom dashboard
+            </span>
         </div>
         {stats}
         {alertTable}

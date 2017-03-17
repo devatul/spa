@@ -18,7 +18,7 @@ module.exports = React.createClass({
 
   componentDidMount: function () {
     SessionStore.addChangeListener(this._onChange);
-    
+
     var url          = window.location.href;
     var start        = parseInt(url.indexOf('?'));
     var end          = parseInt(url.indexOf('&return='));
@@ -104,12 +104,12 @@ module.exports = React.createClass({
         </div>
       );
     } else {
-      login = (<button className="col-xs-12 login-button" type="submit" >Log in</button>);
+      login = (<button className="action-button nubity-blue" type="submit" >Log in</button>);
     }
 
     return (
       <section className="login-div">
-        <div className="col-lg-4 col-lg-offset-4 login-box">
+        <div className="login-box">
           <div className="top-div">
             <p className="login-p">Don&#39;t have an account yet?</p>
             <button className="go-to-signup" onClick={this._redirectSignUp}>Start Now!</button>
@@ -117,9 +117,6 @@ module.exports = React.createClass({
           <div className="row">
             <div className="col-xs-10 col-xs-offset-1">
               <div className="login-logo"></div>
-              <p className="login-title">Your cloud,</p>
-              <p className="login-title">Managed.</p>
-              <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
             </div>
           </div>
           <div className="row">
@@ -128,7 +125,7 @@ module.exports = React.createClass({
               {this.state.message}
             </div>
           </div>
-          <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
+          <form className="login-form" onSubmit={this._onSubmit}>
             <div className="form-group row">
               <div className="input-group col-xs-10 col-xs-offset-1">
                 <div className="input-group-addon">
@@ -159,7 +156,7 @@ module.exports = React.createClass({
             </div>
             <div onChange={this._onChange}>{login}</div>
           </form>
-          <div className="row">
+          <div className="login-footer">
             <div className="col-xs-6">
               <a className="link-login" onClick={this._redirectTerms}>Terms and conditions</a>
             </div>

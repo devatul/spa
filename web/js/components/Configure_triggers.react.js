@@ -30,7 +30,7 @@ module.exports = React.createClass({
         severityTooltip = (<Tooltip id="tooltip">Information</Tooltip>);
       }
       rows.push(
-        <tr key={key}>
+        <tr key={key} className="content">
           <td>{triggers[key].name}</td>
           <td>{0 < triggers[key].items.length ? Moment(triggers[key].items[0].last_check).format('DD/MM/YYYY hh:mm:ss') : '-'}</td>
           <td>{0 < triggers[key].items.length ? triggers[key].items[0].last_value : '-'}</td>
@@ -58,14 +58,14 @@ module.exports = React.createClass({
               <th colSpan="4">Triggers</th>
             </tr>
             <tr>
-              <th>Name</th>
-              <th>Last Check</th>
-              <th>Last Value</th>
-              <th>Prev. Value</th>
-              <th>State</th>
-              <th>Condition</th>
-              <th>Treshold</th>
-              <th>Priority</th>
+              <th className="fix">Name</th>
+              <th className="fix">Last Check</th>
+              <th className="fix">Last Value</th>
+              <th className="fix">Prev. Value</th>
+              <th className="fix">State</th>
+              <th className="fix">Condition</th>
+              <th className="fix">Treshold</th>
+              <th className="fix">Priority</th>
             </tr>
           </thead>
           <tbody>

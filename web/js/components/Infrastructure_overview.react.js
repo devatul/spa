@@ -154,6 +154,8 @@ module.exports = React.createClass({
     var paginatorClass;
     if (1 >= pages) {
       paginatorClass = 'hidden';
+    } else {
+      paginatorClass = 'pull-right';
     }
 
     var rows = [];
@@ -352,7 +354,7 @@ module.exports = React.createClass({
         }
 
         rows.push(
-          <tr key={key}>
+          <tr key={key} className="content">
             <td>
               <OverlayTrigger placement="top" overlay={tooltip}>
                 <div className="status-container">

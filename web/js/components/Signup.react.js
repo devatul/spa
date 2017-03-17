@@ -61,21 +61,20 @@ module.exports = React.createClass({
   render: function () {
     return (
       <section className="login-div">
-        <div className="col-lg-4 col-lg-offset-4 signup-box">
+        <div className="login-box">
           <div className="top-div">
             <p className="login-p">Have an account?</p>
             <button className="go-to-signup" onClick={this._redirectLogin}>Log in</button>
           </div>
           <div className="row">
-            <div className="col-xs-10 col-xs-offset-1">
+            <div className="col-xs-12">
               <div className="login-logo"></div>
               <p className="login-title">Create an Account.</p>
-              <p className="signup-subtitle">It&#39;s free and always will be.</p>
             </div>
           </div>
           <div className={this.state.messageClass}>{this.state.message}</div>
-          <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
-            <button className="col-xs-12 google-button">Sign in with Google</button>
+          <form className="login-form" onSubmit={this._onSubmit}>
+            <button className="action-button nubity-red">Sign in with Google</button>
             <p>or</p>
             <div className="form-group col-xs-5 col-xs-offset-1">
               <div className="input-group col-xs-12">
@@ -133,7 +132,7 @@ module.exports = React.createClass({
                 <input type="text" className="form-control no-shadow" id="companyName"  ref="companyName" placeholder="Company name"/>
               </div>
             </div>
-            <button type="submit" className="col-xs-12 login-button">Sign up</button>
+            <button type="submit" className="action-button nubity-blue">Sign up</button>
           </form>
         </div>
       </section>
