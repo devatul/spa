@@ -34,7 +34,7 @@ var NubityApp  = React.createClass({
     var loggedIn = this.state.isLoggedIn;
     var dashboard;
     if (true == loggedIn) {
-      dashboard = 
+      dashboard =
         <span>
           <NavBar/>
           <SideBar/>
@@ -43,11 +43,10 @@ var NubityApp  = React.createClass({
         </span>
       ;
     } else {
-      dashboard = 
+      dashboard =
         <span>
           <NavBar/>
           <RouteHandler/>
-          <Footer/>
         </span>
       ;
     }

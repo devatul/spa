@@ -122,17 +122,17 @@ module.exports = React.createClass({
     var priority = '';
     if ('' != this.state.ticket && undefined !== this.state.ticket) {
       if ('closed' != this.state.ticket.status) {
-        closeTicket = (<Button onClick={this._closeTicket} bsSize="small"><i className="icon nb-close-circle small"></i> Close ticket</Button>);
+        closeTicket = (<Button onClick={this._closeTicket} bsSize="small"><i className="icon nb-close-circle small"></i> <span className="hidden-md hidden-sm hidden-xs">Close ticket</span></Button>);
       }
       switch (this.state.ticket.priority) {
         case 'low' :
-          priority = (<p><span className="icon nb-level-low icon-state green-text"></span> Low</p>);
+          priority = (<p><span className="icon nb-level-low icon-state reset  green-text"></span> <span className="hidden-xs">Low</span></p>);
           break;
         case 'medium' :
-          priority = (<p><span className="icon nb-level-medium icon-state yellow-text"></span> Medium</p>);
+          priority = (<p><span className="icon nb-level-medium icon-state reset yellow-text"></span> <span className="hidden-xs">Medium</span></p>);
           break;
         case 'high' :
-          priority = (<p><span className="icon nb-level-high icon-state red-text"></span> High</p>);
+          priority = (<p><span className="icon nb-level-high icon-state reset red-text"></span> <span className="hidden-xs">High</span></p>);
           break;
         default :
           priority = '';
@@ -160,9 +160,9 @@ module.exports = React.createClass({
 
       var state = '';
       if ('open' == this.state.ticket.status) {
-        state = 'icon nb-ticket small blue-text';
+        state = 'icon nb-ticket icon-state reset blue-text';
       } else {
-        state = 'icon nb-ticket small green-text';
+        state = 'icon nb-ticket icon-state reset green-text';
       }
 
       var from = Moment(this.state.ticket.created_at).format('lll');
@@ -184,10 +184,10 @@ module.exports = React.createClass({
         </div>
         <div className="ticket-container">
           <div className="ticket-header">
-            <div className="col-md-6">
+            <div className="col-xs-10">
               <span className={state}></span> <span className="ticket-title">{subject}</span>
             </div>
-            <div className="col-md-6">
+            <div className="col-xs-2">
               <div className="pull-right">
                 {priority}
               </div>
@@ -202,7 +202,7 @@ module.exports = React.createClass({
             </span>
           </div>
           <div className="ticket-footer">
-            <div className="col-md-6">
+            <div className="col-xs-7">
               <div className="ticket-date">
                 <i className="icon nb-date-time small"></i> {from}
               </div>
@@ -210,12 +210,12 @@ module.exports = React.createClass({
                 <i className="icon nb-user small"></i> <strong>{username}</strong> | Service Request
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="pull-right">
+            <div className="col-xs-5">
+              <div className="right">
                 <ButtonToolbar>
                   <Dropdown id="dropdown-custom-1">
                     <Dropdown.Toggle bsSize="small">
-                      <i className={department}></i> Change Department
+                      <i className={department}></i> <span className="hidden-md hidden-sm hidden-xs">Change Department</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <MenuItem eventKey="1"><i className="icon nb-billing small"></i> Billing</MenuItem>

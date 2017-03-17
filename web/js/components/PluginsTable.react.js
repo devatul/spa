@@ -36,11 +36,11 @@ module.exports = React.createClass({
         install = (<span className="action-button nubity-green" onClick={this._install.bind(this, this.props.plugins[key].template)}>Install</span>);
       }
       rows.push(
-        <tr key={key}>
+        <tr key={key} className="content">
           <td>{this.props.plugins[key].name}</td>
           <td>Web Apps</td>
-          <td><span className="action-button nubity-blue" onClick={this._configure.bind(this, this.props.plugins[key])}>Configure</span></td>
-          <td>{install}</td>
+          <td className="icons"><span className="action-button nubity-blue" onClick={this._configure.bind(this, this.props.plugins[key])}>Configure</span></td>
+          <td className="icons">{install}</td>
         </tr>
       );
     }
@@ -53,8 +53,8 @@ module.exports = React.createClass({
               <tr>
                 <th>Plugin</th>
                 <th>Group</th>
-                <th></th>
-                <th></th>
+                <th className="column-button"></th>
+                <th className="column-button"></th>
               </tr>
             </thead>
             <tbody>

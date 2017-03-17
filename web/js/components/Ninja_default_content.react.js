@@ -111,6 +111,8 @@ module.exports = React.createClass({
       var paginatorClass;
       if (1 >= pages) {
         paginatorClass = 'hidden';
+      } else {
+        paginatorClass = 'pull-right';
       }
 
       var rows = [];
@@ -155,7 +157,7 @@ module.exports = React.createClass({
           priorityTooltip = (<Tooltip id="tooltip">High</Tooltip>);
         }
         rows.push(
-          <tr key={key}>
+          <tr key={key} className="content">
             <td className="icons">
               <OverlayTrigger placement="top" overlay={tooltip}>
                 <span className={status}></span>

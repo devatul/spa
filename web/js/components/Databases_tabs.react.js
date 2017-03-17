@@ -89,12 +89,12 @@ module.exports = React.createClass({
           <ul className={this.state.tabs}>
             <li role="presentation" className="active">
               <a className="grey-color" data-toggle="tab" href="#pluginMonitoring">
-                <span className="hidden-xs hidden-sm"> Monitoring</span>
+                <span> Monitoring</span>
               </a>
             </li>
             <li role="presentation" className={this.state.configureClass}>
               <a className="grey-color" data-toggle="tab" href="#pluginConfigure">
-                <span className="hidden-xs hidden-sm"> Configure</span>
+                <span> Configure</span>
               </a>
             </li>
           </ul>

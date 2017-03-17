@@ -19,12 +19,12 @@ module.exports = React.createClass({
       redirect('login');
     }
   },
-  
+
   render: function () {
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -32,7 +32,7 @@ module.exports = React.createClass({
         </div>
         <div className="centered">
           <a onClick={this._createTicket}>
-            <button className="large-green-button">Create Ticket</button>
+            <button className="action-button nubity-blue">Create Ticket</button>
           </a>
           <a onClick={this._liveChat}>
             <button className="large-green-button hidden">Start Live Chat</button>

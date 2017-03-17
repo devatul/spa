@@ -62,7 +62,7 @@ module.exports = React.createClass({
 
         if (undefined !== data1[0] && undefined !== data1[0][0]) {
           pointStart = data1[0][0]*1000;
-        } 
+        }
         var legend = graph.content.series[i].legend;
         var color = graph.content.series[i].color;
         var suffix = graph.content.series[i].unit;
@@ -87,7 +87,7 @@ module.exports = React.createClass({
       var yTitle = 'Values';
       if (graph.content.series[0].unit) {
         yTitle = 'Values (' + graph.content.series[0].unit + ')';
-      } 
+      }
 
       Highcharts.chart(this.props.name, {
         chart: {
@@ -138,7 +138,7 @@ module.exports = React.createClass({
           },
           opposite: false,
           min: 0,
-          maxPadding: 0.2,     
+          maxPadding: 0.2,
           plotLines: [{
             value: 0,
             width: 1,
