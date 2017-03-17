@@ -53,7 +53,8 @@ module.exports = React.createClass({
     user.password2 = this.refs.password2.getDOMNode().value;
     user.phone     = this.refs.phone.getDOMNode().value;
     user.company   = this.refs.companyName.getDOMNode().value;
-    user.locale    = navigator.language || navigator.userLanguage;
+    var locale     = navigator.language || navigator.userLanguage;
+    user.locale    = locale.replace('-', '_');
     signupAction(user);
   },
 
