@@ -390,7 +390,7 @@ module.exports = React.createClass({
       <div className="principal-section">
         <div className="section-title ">
             <span className="item title">{companyName}&#39;s dashboard</span>
-            <span className="item" onClick={this._warning.bind(this, newDash)}>
+            <span className="item hidden" onClick={this._warning.bind(this, newDash)}>
               <i className="icon nb-plus icon-state"></i> Add a custom dashboard
             </span>
         </div>
