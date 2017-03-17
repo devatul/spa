@@ -73,8 +73,7 @@ module.exports = React.createClass({
           </div>
         </li>
         <li>
-          <p className="rounded-list-title"><span>Run it with root privileges</span></p>
-          <p className="col-sm-offset-1">chmod +x nubity-installer.sh && ./nubity-installer.sh</p>
+          <p className="rounded-list-title"><span>Run it with administrator privileges</span></p>
         </li>
         <li>
           <p className="rounded-list-title"><span>Monitor your server</span></p>
