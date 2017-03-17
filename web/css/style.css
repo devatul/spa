@@ -450,7 +450,7 @@ button.action-button:hover {
   font-size: 18pt;
   color: #58595b;
   position: relative;
-  top: 0;
+  top: 5px;
 }
 .section-title .item:hover {
   background-color: #e2e2e2;
