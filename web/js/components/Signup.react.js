@@ -55,7 +55,21 @@ module.exports = React.createClass({
     user.company   = this.refs.companyName.getDOMNode().value;
     var locale     = navigator.language || navigator.userLanguage;
     user.locale    = locale.replace('-', '_');
-    signupAction(user);
+
+    signupAction(user).then(function () {
+      this.refs.firstname.getDOMNode().value = '';
+      this.refs.lastname.getDOMNode().value = '';
+      this.refs.email.getDOMNode().value = '';
+      this.refs.password.getDOMNode().value = '';
+      this.refs.password2.getDOMNode().value = '';
+      this.refs.phone.getDOMNode().value = '';
+      this.refs.companyName.getDOMNode().value = '';
+    }.bind(this)).catch(function (message) {
+      this.setState({
+        message: message,
+        messageClass: 'alert alert-danger',
+      });
+    }.bind(this));
   },
 
   render: function () {

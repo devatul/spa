@@ -10,7 +10,7 @@ module.exports = {
   },
 
   signup: function (user) {
-    NubityAPIUtils.signup(user);
+    return NubityAPIUtils.signup(user);
   },
 
   confirmAccount: function (token) {
