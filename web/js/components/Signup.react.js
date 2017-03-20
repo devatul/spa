@@ -65,8 +65,19 @@ module.exports = React.createClass({
       this.refs.phone.getDOMNode().value = '';
       this.refs.companyName.getDOMNode().value = '';
     }.bind(this)).catch(function (message) {
+      var error = [];
+      if ('undefined' !== typeof message.email) {
+        error.push(<li>{message.email[0]}</li>);
+      }
+      if ('undefined' !== typeof message.password) {
+        error.push(<li>{message.password[0]}</li>);
+      }
+      if ('undefined' !== typeof message.locale) {
+        error.push(<li>{message.locale[0]}</li>);
+      }
+      var errorList = <ul>{error}</ul>;
       this.setState({
-        message: message,
+        message: errorList,
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
@@ -86,7 +97,7 @@ module.exports = React.createClass({
               <p className="login-title">Create an Account.</p>
             </div>
           </div>
-          <div className={this.state.messageClass}>{this.state.message}</div>
+          <div className={this.state.messageClass + ' signup-error-show'}>{this.state.message}</div>
           <form className="login-form" onSubmit={this._onSubmit}>
             <button className="action-button nubity-red">Sign in with Google</button>
             <p>or</p>

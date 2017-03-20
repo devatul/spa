@@ -110,7 +110,7 @@ module.exports = {
             showSignupMessage(text.message);
             resolve();
           } else {
-            reject('Something went wrong. Please try again');
+            reject(text);
           }
         }.bind(this));
     });
