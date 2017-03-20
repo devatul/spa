@@ -128,11 +128,15 @@ module.exports = React.createClass({
         tooltip = <Tooltip id="tooltip" style={{textTransform: 'capitalize'}}>{ticket[key].status}</Tooltip>;
         status = 'icon nb-ticket icon-state ';
         if ('open' == ticket[key].status) {
-          status = status + 'blue-text';
+          status = status + 'black-text';
         } else if ('closed' == ticket[key].status) {
-          status = status + 'green-text';
-        } else if ('in-progress' == ticket[key].status) {
           status = status + 'grey-text';
+        } else if ('in-progress' == ticket[key].status) {
+          status = status + 'blue-text';
+        } else if ('resolved' == ticket[key].status) {
+          status = status + 'green-text';
+        } else if ('on-hold' == ticket[key].status) {
+          status = status + 'yellow-text';
         }
 
         if ('billing' == ticket[key].department) {
