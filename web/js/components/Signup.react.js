@@ -2,6 +2,7 @@ var React                      = require('react');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var signupAction               = require('../actions/RequestActions').signup;
+var _                          = require('lodash');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -66,14 +67,15 @@ module.exports = React.createClass({
       this.refs.companyName.getDOMNode().value = '';
     }.bind(this)).catch(function (message) {
       var error = [];
+      message = {email:['abc','xyz']};
       if ('undefined' !== typeof message.email) {
-        error.push(<li>{message.email[0]}</li>);
-      }
-      if ('undefined' !== typeof message.password) {
-        error.push(<li>{message.password[0]}</li>);
-      }
-      if ('undefined' !== typeof message.locale) {
-        error.push(<li>{message.locale[0]}</li>);
+        var err = [];
+        _.map(message.email, function (errMsg) {
+          err.push(<li>{errMsg}</li>);
+        });
+        error.push(<li><strong>email</strong><br/>
+            <ul>{err}</ul>
+          </li>);
       }
       var errorList = <ul>{error}</ul>;
       this.setState({
