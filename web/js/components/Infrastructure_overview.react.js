@@ -252,19 +252,19 @@ module.exports = React.createClass({
         } else if ('accepted' == monitoringStatus) {
           monitoring = (
           <div>
-            <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
-              <i className="fa fa-cog" aria-hidden="true"></i>
+            <span className="action-button config nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>
+            <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
+              <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>
-            <span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>
           </div>
           );
         } else if ('pending-cancellation' == monitoringStatus) {
           monitoring = (
           <div>
-            <Link className="configure-icon" to="configure" params={{id: overview[key].instance}}>
-              <i className="fa fa-cog" aria-hidden="true"></i>
+            <span className="action-button config nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>
+            <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
+              <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>
-            <span className="action-button nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>
           </div>
           );
         } else {

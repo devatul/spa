@@ -43,28 +43,28 @@ module.exports = React.createClass({
     var allGraphs = [];
 
     allGraphs[0] = (
-      <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
           <CreateGraph position={1}/>
         </div>
       </div>
     );
     allGraphs[1] = (
-      <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
           <CreateGraph position={2}/>
         </div>
       </div>
     );
     allGraphs[2] = (
-      <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
           <CreateGraph position={3}/>
         </div>
       </div>
     );
     allGraphs[3] = (
-      <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
           <CreateGraph position={4}/>
         </div>
@@ -77,7 +77,7 @@ module.exports = React.createClass({
       for (var key in dashboard) {
         name = 'container' + key;
         allGraphs[parseInt(dashboard[key].position) - 1] = (
-          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget" id="widget">
               <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
                 <span aria-hidden="true">&times;</span>
