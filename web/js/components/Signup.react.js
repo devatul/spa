@@ -67,15 +67,26 @@ module.exports = React.createClass({
       this.refs.companyName.getDOMNode().value = '';
     }.bind(this)).catch(function (message) {
       var error = [];
-      message = {email:['abc','xyz']};
+      if ('undefined' !== typeof message.firstname) {
+        error.push(this._listErrors(message.firstname, 'First name errors'));
+      }
+      if ('undefined' !== typeof message.lastname) {
+        error.push(this._listErrors(message.lastname, 'Last name errors'));
+      }
       if ('undefined' !== typeof message.email) {
-        var err = [];
-        _.map(message.email, function (errMsg) {
-          err.push(<li>{errMsg}</li>);
-        });
-        error.push(<li><strong>email</strong><br/>
-            <ul>{err}</ul>
-          </li>);
+        error.push(this._listErrors(message.email, 'Email errors'));
+      }
+      if ('undefined' !== typeof message.password) {
+        error.push(this._listErrors(message.password, 'Password errors'));
+      }
+      if ('undefined' !== typeof message.locale) {
+        error.push(this._listErrors(message.locale, 'Locale errors'));
+      }
+      if ('undefined' !== typeof message.phone) {
+        error.push(this._listErrors(message.phone, 'Phone errors'));
+      }
+      if ('undefined' !== typeof message.companyName) {
+        error.push(this._listErrors(message.companyName, 'Company name errors'));
       }
       var errorList = <ul>{error}</ul>;
       this.setState({
@@ -83,6 +94,16 @@ module.exports = React.createClass({
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
+  },
+
+  _listErrors: function (error, lable) {
+    var err = [];
+    _.map(error, function (errMsg) {
+      err.push(<li>{errMsg}</li>);
+    });
+    return <li><strong>{lable}</strong><br/>
+        <ul>{err}</ul>
+      </li>;
   },
 
   render: function () {
