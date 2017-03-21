@@ -130,11 +130,11 @@ module.exports = React.createClass({
 
     if (undefined !== mainAlerts) {
       if (1 < mainAlerts.length) {
-        notice = <p className="margin-sides right-aligned">These are only {mainAlerts.length} alerts that needs your attention. For more alerts click <a onClick={this._goToAlerts}>here</a></p>;
+        notice = <span><i className="icon nb-information icon-state reset grey-text"></i> These are only {mainAlerts.length} alerts that needs your attention. For more alerts click <a onClick={this._goToAlerts}>here  &#8594;</a></span>;
       } else if (1 == mainAlerts.length) {
-        notice = <p className="margin-sides right-aligned">There is only {mainAlerts.length} alert that needs your attention. Go to <a onClick={this._goToAlerts}>Alerts</a></p>;
+        notice = <span><i className="icon nb-information icon-state reset grey-text"></i> There is only {mainAlerts.length} alert that needs your attention. Go to <a onClick={this._goToAlerts}>Alerts &#8594;</a></span>;
       } else {
-        notice = <p className="margin-sides right-aligned">There are no alerts that needs your attention right now.</p>;
+        notice = <span><i className="icon nb-information icon-state reset grey-text"></i> There are no alerts that needs your attention right now.</span>;
       }
     }
 
@@ -372,10 +372,14 @@ module.exports = React.createClass({
                 </thead>
                 <tbody>
                   {rows}
+                  <tr>
+                    <td className="centered" colSpan={8}>
+                      {notice}
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
-            {notice}
           </div>
         );
       }

@@ -610,7 +610,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">Alerts</h2>
+          <span className="item title">Alerts</span>
         </div>
         <div>
           <ul className="nav nav-tabs section-tabs">
