@@ -2,6 +2,7 @@ var React                      = require('react');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var signupAction               = require('../actions/RequestActions').signup;
+var _                          = require('lodash');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -55,7 +56,54 @@ module.exports = React.createClass({
     user.company   = this.refs.companyName.getDOMNode().value;
     var locale     = navigator.language || navigator.userLanguage;
     user.locale    = locale.replace('-', '_');
-    signupAction(user);
+
+    signupAction(user).then(function () {
+      this.refs.firstname.getDOMNode().value = '';
+      this.refs.lastname.getDOMNode().value = '';
+      this.refs.email.getDOMNode().value = '';
+      this.refs.password.getDOMNode().value = '';
+      this.refs.password2.getDOMNode().value = '';
+      this.refs.phone.getDOMNode().value = '';
+      this.refs.companyName.getDOMNode().value = '';
+    }.bind(this)).catch(function (message) {
+      var error = [];
+      if ('undefined' !== typeof message.firstname) {
+        error.push(this._listErrors(message.firstname, 'First name errors'));
+      }
+      if ('undefined' !== typeof message.lastname) {
+        error.push(this._listErrors(message.lastname, 'Last name errors'));
+      }
+      if ('undefined' !== typeof message.email) {
+        error.push(this._listErrors(message.email, 'Email errors'));
+      }
+      if ('undefined' !== typeof message.password) {
+        error.push(this._listErrors(message.password, 'Password errors'));
+      }
+      if ('undefined' !== typeof message.locale) {
+        error.push(this._listErrors(message.locale, 'Locale errors'));
+      }
+      if ('undefined' !== typeof message.phone) {
+        error.push(this._listErrors(message.phone, 'Phone errors'));
+      }
+      if ('undefined' !== typeof message.companyName) {
+        error.push(this._listErrors(message.companyName, 'Company name errors'));
+      }
+      var errorList = <ul>{error}</ul>;
+      this.setState({
+        message: errorList,
+        messageClass: 'alert alert-danger',
+      });
+    }.bind(this));
+  },
+
+  _listErrors: function (error, lable) {
+    var err = [];
+    _.map(error, function (errMsg) {
+      err.push(<li>{errMsg}</li>);
+    });
+    return <li><strong>{lable}</strong><br/>
+        <ul>{err}</ul>
+      </li>;
   },
 
   render: function () {
@@ -72,7 +120,7 @@ module.exports = React.createClass({
               <p className="login-title">Create an Account.</p>
             </div>
           </div>
-          <div className={this.state.messageClass}>{this.state.message}</div>
+          <div className={this.state.messageClass + ' signup-error-show'}>{this.state.message}</div>
           <form className="login-form" onSubmit={this._onSubmit}>
             <button className="action-button nubity-red">Sign in with Google</button>
             <p>or</p>

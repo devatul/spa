@@ -98,20 +98,22 @@ module.exports = {
   },
 
   signup: function (user) {
-    request
-      .post('/signup.json')
-      .send({firstname: user.firstname, lastname: user.lastname, email: user.email,  password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
-      .accept('application/json')
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.signup(user);
-          } else {
+    return new Promise( function ( resolve, reject ) {
+      request
+        .post('/signup.json')
+        .send({firstname: user.firstname, lastname: user.lastname, email: user.email,  password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
+        .accept('application/json')
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          var code = JSON.parse(res.status);
+          if (200 <= code && 300 > code) {
             showSignupMessage(text.message);
+            resolve();
+          } else {
+            reject(text);
           }
         }.bind(this));
-      }.bind(this));
+    });
   },
 
   confirmAccount: function (token) {
