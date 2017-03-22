@@ -987,30 +987,6 @@ module.exports = {
     }.bind(this));
   },
 
-  submitCloudData: function (cloudData) {
-    var company = localStorage.getItem('nubity-company');
-    var token   = this.getToken();
-    var _SELF = this;
-
-    return new Promise( function ( resolve, reject ) {
-      request
-      .post('/company/'+company+'/cloud.json')
-      .type('form')
-      .set('Authorization', token)
-      .send(cloudData)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        _SELF.validateToken(res).then(function (status) {
-          if (!status) {
-            _SELF.submitCloudData(cloudData);
-          } else {
-            resolve();
-          }
-        }.bind(_SELF));
-      }.bind(_SELF));
-    });
-  },
-
   deleteOrderCancelation: function (orderId) {
     var token   = this.getToken();
 
@@ -1032,29 +1008,6 @@ module.exports = {
     }.bind(this));
   },
 
-    getInstanceForMonitoring: function (id) {
-      var token   = this.getToken();
-      var company = localStorage.getItem('nubity-company');
-      request
-      .get('/company/' + company + '/instance/' + id + '.json')
-      .query({include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInstanceForMonitoring();
-          } else {
-            var url = window.location.href;
-            if (-1 != url.indexOf('monitoring')) {
-              showInstanceForMonitoring(text);
-            }
-          }
-        }.bind(this));
-      }.bind(this));
-    },
-
   submitCloudData: function (cloudData) {
     var company = localStorage.getItem('nubity-company');
     var token   = this.getToken();
@@ -1067,7 +1020,6 @@ module.exports = {
       .set('Authorization', token)
       .send(cloudData)
       .end(function (res) {
-        var text = JSON.parse(res.text);
         _SELF.validateToken(res).then(function (status) {
           if (!status) {
             _SELF.submitCloudData(cloudData);
@@ -1273,7 +1225,6 @@ module.exports = {
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
-        var text = JSON.parse(res.text);
         _SELF.validateToken(res).then(function (status) {
           if (!status) {
             _SELF.deleteProviderCredential(id);
@@ -1298,7 +1249,7 @@ module.exports = {
         var text = JSON.parse(res.text);
         _SELF.validateToken(res).then(function (status) {
           if (!status) {
-            _SELF.deleteProviderCredential(id);
+            _SELF.getCredentialDetails(credetialId);
           } else {
             showCredentialDetails(text);
             resolve();
@@ -1322,7 +1273,7 @@ module.exports = {
         var text = JSON.parse(res.text);
         _SELF.validateToken(res).then(function (status) {
           if (!status) {
-            _SELF.deleteProviderCredential(id);
+            _SELF.updateNewCredentials(credetialId, newCredential);
           } else {
             showCredentialDetails(text);
             resolve();

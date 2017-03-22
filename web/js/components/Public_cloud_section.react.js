@@ -70,14 +70,14 @@ module.exports = React.createClass({
     var view = $('#publicCloudProvidersList');
     var move = '100px';
     var sliderLimit = -(width-700);
-    var currentPosition = parseInt(view.css("left"));
+    var currentPosition = parseInt(view.css('left'));
     if ('leftArrow' == arrow) {
       if (0 > currentPosition) {
-        view.stop (false,true).animate ({left:"+="+move}, { duration: 400});
+        view.stop (false,true).animate ({left:'+='+move}, { duration: 400});
       }
     } else {
       if (currentPosition >= sliderLimit) {
-        view.stop (false,true).animate ({left:"-="+move}, { duration: 400});
+        view.stop (false,true).animate ({left:'-='+move}, { duration: 400});
       }
     }
   },
@@ -117,26 +117,26 @@ module.exports = React.createClass({
     certificate = certificate && certificate[0] || null;
 
     var cloudData = new FormData();
-    
-    if(integrationName !== null){
+
+    if (null !== integrationName) {
       cloudData.append('name', integrationName);
     }
-    if(apiKey !== null){
+    if (null !== apiKey) {
       cloudData.append('api_key', apiKey);
     }
-    if(endpoint !== null){
+    if (null !== endpoint) {
       cloudData.append('endpoint', endpoint);
     }
-    if(apiSecret !== null){
+    if (null !== apiSecret) {
       cloudData.append('api_secret', apiSecret);
     }
-    if(certificate !== null){
+    if (null !== certificate) {
       cloudData.append('certificate', certificate);
     }
-    if(providerId !== null){
+    if (null !== providerId) {
       cloudData.append('provider_id', providerId);
     }
-    if(company !== null){
+    if (null !== company) {
       cloudData.append('company_id', company);
     }
 
@@ -200,14 +200,14 @@ module.exports = React.createClass({
             <div className="btn btn-default image-preview-input">
                 <span className="glyphicon glyphicon-folder-open"></span>
                 <span className="image-preview-input-title">Upload Certificate</span>
-                <input type="file" name="certificate" id="publicCertificate" onChange={function () {_SELF._onFileChange()}} />
+                <input type="file" name="certificate" id="publicCertificate" onChange={function () {_SELF._onFileChange();}} />
             </div>
           </span>
           <span className="form-control image-preview-filename hidden"></span>
         </div>
       );
     }
-    return input
+    return input;
   },
 
   _onFileChange: function () {
@@ -256,14 +256,14 @@ module.exports = React.createClass({
     _.map(providers, function (provider, i) {
       if (null != provider.logo) {
         rows.push(
-          <div id={"pubPro_"+i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, "pubPro_"+i)}}>
+          <div id={'pubPro_'+i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_'+i);}}>
             <img src={provider.logo.public_path} className="logo-max-size m-t-15"/>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       } else {
         rows.push(
-          <div  id={"pubPro_"+i} className="public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, "pubPro_"+i)}}>
+          <div  id={'pubPro_'+i} className="public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_'+i);}}>
             <div className="clouds-icons aws"></div>
             <p className="aws-text">{provider.name}</p>
           </div>
@@ -277,8 +277,7 @@ module.exports = React.createClass({
     var key = 0;
     for (key; key < pages ; key++) {
       var page = key + 1;
-      var send = page.toString();
-      navpages[navpages.length] = <li className={this.state.pageNo == page ? "active" : ""}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
+      navpages[navpages.length] = <li className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
     var paginatorClass;
@@ -290,20 +289,20 @@ module.exports = React.createClass({
     var allProviders = this.props.allProviders || [];
 
     _.map(this.state.connectedPublicCloud, function (data, i) {
-      var statusClass = "fa fa-check-circle green-text";
-      var statusLable = "OK";
+      var statusClass = 'fa fa-check-circle green-text';
+      var statusLable = 'OK';
 
-      if ("Failed" == data.status) {
-        statusClass = "fa fa-times-circle red-text";
-        statusLable = "Fail";
-      } else if ("Disabled" == data.status) {
-        statusClass = "fa fa-ban grey-text";
-        statusLable = "Disabled";
+      if ('Failed' == data.status) {
+        statusClass = 'fa fa-times-circle red-text';
+        statusLable = 'Fail';
+      } else if ('Disabled' == data.status) {
+        statusClass = 'fa fa-ban grey-text';
+        statusLable = 'Disabled';
       }
-      var provider = _.find(allProviders, function (o) { return o.provider == data.provider });
+      var provider = _.find(allProviders, function (o) { return o.provider == data.provider; });
 
       if ('undefined' !== typeof provider)
-      connectionTableRow.push(
+        connectionTableRow.push(
         <tr>
          <td>
            <div className="status-container">
@@ -318,12 +317,12 @@ module.exports = React.createClass({
            </div>
          </td>
          <td className="">
-           <div>{moment(data.checked_at).format("MM/DD/YYYY hh:mm:ss")}</div>
+           <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
          </td>
          <td className="icons">
-           <div className="col-xs-4"><span className="action-button nubity-blue"  data-toggle="modal" data-target={"#"+_SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data)}}>Edit</span></div>
+           <div className="col-xs-4"><span className="action-button nubity-blue"  data-toggle="modal" data-target={'#'+_SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data);}}>Edit</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential)}}>Deleted</span></div>
+           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential);}}>Deleted</span></div>
          </td>
        </tr>
       );
@@ -345,7 +344,7 @@ module.exports = React.createClass({
         </div>
         <div className="row hidden" id="onBoarding1StepContent">
           <div className="col-lg-8 col-lg-offset-2">
-            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('leftArrow')}}>
+            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('leftArrow');}}>
               <i className="fa fa-chevron-left" aria-hidden="true"></i>
             </div>
               <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
@@ -353,7 +352,7 @@ module.exports = React.createClass({
                   {rows}
                 </div>
               </div>
-            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('rightArrow')}}>
+            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('rightArrow');}}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </div>
           </div>
@@ -366,7 +365,7 @@ module.exports = React.createClass({
           <form className="public-cloud-form col-lg-offset-1 col-lg-5" method="post" encType="multipart/form-data">
             <div style={{paddingTop: '10px'}}>
               {this._getCloudInputField()}
-              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF._submitData()}}>Save</button>
+              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF._submitData();}}>Save</button>
               <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
             </div>
           </form>
@@ -420,10 +419,10 @@ module.exports = React.createClass({
             open={this.state.open}
             credentialDetails={this.state.credentialDetails}
             credetialInfo={this.state.credetialInfo}
-            updateCredentials={function (credetialId, newCredential) {return updateNewCredentials(credetialId, newCredential)}}
+            updateCredentials={function (credetialId, newCredential) {return updateNewCredentials(credetialId, newCredential);}}
             refreshTable={function () {
-              _SELF.setState({open: false})
-              getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit)
+              _SELF.setState({open: false});
+              getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
             }}
             {...this.props}/>
         </div>
