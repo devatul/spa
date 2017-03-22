@@ -261,7 +261,7 @@ module.exports = React.createClass({
         } else if ('pending-cancellation' == monitoringStatus) {
           monitoring = (
           <div>
-            <span className="action-button config nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>
+            <span className="action-button config nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, monitoringCode)}>Dismiss</span>
             <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
               <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>
