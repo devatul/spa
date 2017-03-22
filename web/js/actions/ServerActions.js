@@ -183,7 +183,7 @@ module.exports = {
   },
 
   showProviderCredential: function (providerCredentials, tab) {
-     if ('_PUBLIC' == tab) {
+    if ('_PUBLIC' == tab) {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PUBLIC,
         res: providerCredentials,
@@ -206,5 +206,5 @@ module.exports = {
       actionType: ActionTypes.SHOW_CREDENTIAL_DETAILS,
       res: credentialDetails,
     });
-  }
+  },
 };

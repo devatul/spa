@@ -42,9 +42,9 @@ module.exports = React.createClass({
       var providers = OnBoardingStore.getProviders();
       this.setState({
         providers: providers,
-        publicCloudProviders: _.filter(providers, function (o) {return "public" == o.classification}),
-        privateCloudProviders: _.filter(providers, function (o) {return "private" == o.classification}),
-        onPremiseProviders: _.filter(providers, function (o) {return "on-premise" == o.classification}),
+        publicCloudProviders: _.filter(providers, function (o) {return 'public' == o.classification;}),
+        privateCloudProviders: _.filter(providers, function (o) {return 'private' == o.classification;}),
+        onPremiseProviders: _.filter(providers, function (o) {return 'on-premise' == o.classification;}),
       });
     }
   },
