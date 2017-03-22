@@ -219,7 +219,7 @@ module.exports = React.createClass({
       } else if ('accepted' == monitoringStatus) {
         monitoring = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
       } else if ('pending-cancellation' == monitoringStatus) {
-        monitoring = (<span className="action-button nubity-blue" onClick={this._deleteOrderCancelation.bind(this, managementCode)}>Dismiss</span>);
+        monitoring = (<span className="action-button nubity-blue" onClick={this._deleteOrderCancelation.bind(this, monitoringCode)}>Dismiss</span>);
       } else {
         monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
       }
