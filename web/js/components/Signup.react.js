@@ -44,6 +44,14 @@ module.exports = React.createClass({
     redirect('login');
   },
 
+  _redirectTerms: function () {
+    redirect('terms_and_conditions');
+  },
+
+  _redirectPolicy: function () {
+    redirect('privacy_policies');
+  },
+
   _onSubmit: function (e) {
     e.preventDefault();
     var user       = {};
@@ -112,7 +120,7 @@ module.exports = React.createClass({
         <div className="login-box">
           <div className="top-div">
             <p className="login-p">Have an account?</p>
-            <button className="go-to-signup" onClick={this._redirectLogin}>Log in</button>
+            <a className="action-button nubity-blue" onClick={this._redirectLogin}>Log in</a>
           </div>
           <div className="row">
             <div className="col-xs-12">
@@ -122,66 +130,115 @@ module.exports = React.createClass({
           </div>
           <div className={this.state.messageClass + ' signup-error-show'}>{this.state.message}</div>
           <form className="login-form" onSubmit={this._onSubmit}>
-            <button className="action-button nubity-red">Sign in with Google</button>
-            <p>or</p>
-            <div className="form-group col-xs-5 col-xs-offset-1">
-              <div className="input-group col-xs-12">
+            <button className="action-button nubity-red hidden">Sign in with Google</button>
+            <p className="hidden">or</p>
+            <div className="form-group col-xs-6">
+              <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-user" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="firstname" ref="firstname" placeholder="First name"/>
+                <input
+                  type="text"
+                  className="form-control no-shadow"
+                  id="firstname"
+                  ref="firstname"
+                  placeholder="First name"
+                  required/>
               </div>
             </div>
-            <div className="form-group col-xs-5">
-              <div className="input-group col-xs-12">
+            <div className="form-group col-xs-6">
+              <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-user" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="lastname" ref="lastname" placeholder="Last name"/>
+                <input
+                  type="text"
+                  className="form-control no-shadow"
+                  id="lastname"
+                  ref="lastname"
+                  placeholder="Last name"
+                  required/>
               </div>
             </div>
-            <div className="form-group row">
-              <div className="input-group col-xs-10 col-xs-offset-1">
+            <div className="form-group col-xs-12">
+              <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-envelope" aria-hidden="true"></i>
                 </div>
-                <input type="email" className="form-control no-shadow" id="email" ref="email" placeholder="Email"/>
+                <input
+                  type="email"
+                  className="form-control no-shadow"
+                  id="email"
+                  ref="email"
+                  placeholder="Email"
+                  required/>
               </div>
             </div>
-            <div className="form-group row">
-              <div className="input-group col-xs-10 col-xs-offset-1">
+            <div className="form-group col-xs-12">
+              <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <input type="password" className="form-control no-shadow" id="password" ref="password" placeholder="Password"/>
+                <input
+                  type="password"
+                  className="form-control no-shadow"
+                  id="password"
+                  ref="password"
+                  placeholder="Password"
+                  required/>
               </div>
             </div>
-            <div className="form-group row">
-              <div className="input-group col-xs-10 col-xs-offset-1">
+            <div className="form-group col-xs-12">
+              <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <input type="password" className="form-control no-shadow" id="password2" ref="password2" placeholder="Repeat password"/>
+                <input
+                  type="password"
+                  className="form-control no-shadow"
+                  id="password2"
+                  ref="password2"
+                  placeholder="Repeat password"
+                  required/>
               </div>
             </div>
-            <div className="form-group row">
-              <div className="input-group col-xs-10 col-xs-offset-1">
+            <div className="form-group col-xs-12">
+              <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-phone" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="phone" ref="phone" placeholder="Phone"/>
+                <input
+                  type="tel"
+                  className="form-control no-shadow"
+                  id="phone"
+                  ref="phone"
+                  placeholder="Phone"
+                  title="Only valid phone numbers"/>
               </div>
             </div>
-            <div className="form-group row">
-              <div className="input-group col-xs-10 col-xs-offset-1">
+            <div className="form-group col-xs-12">
+              <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-briefcase" aria-hidden="true"></i>
                 </div>
-                <input type="text" className="form-control no-shadow" id="companyName"  ref="companyName" placeholder="Company name"/>
+                <input
+                  type="text"
+                  className="form-control no-shadow"
+                  id="companyName"
+                  ref="companyName"
+                  placeholder="Company name"/>
               </div>
             </div>
             <button type="submit" className="action-button nubity-blue">Sign up</button>
           </form>
+          <div className="login-footer">
+            <div className="col-xs-6">
+              <a className="link-login" onClick={this._redirectTerms}>Terms and conditions</a>
+            </div>
+            <div className="col-xs-6">
+              <a className="link-login" onClick={this._redirectPolicy}>Privacy policies</a>
+            </div>
+          </div>
         </div>
       </section>
     );

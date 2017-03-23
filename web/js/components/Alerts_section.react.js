@@ -461,7 +461,7 @@ module.exports = React.createClass({
                 <th className="hidden-xs hidden-sm">Started on</th>
                 <th className="hidden-xs hidden-sm">Resolved on</th>
                 <th className="column-button hidden-xs">Notifications</th>
-                <th className="column-button">Report a problem</th>
+                <th className="column-button">Action</th>
               </tr>
             </thead>
           </table>
@@ -485,10 +485,10 @@ module.exports = React.createClass({
                 <th>Description</th>
                 <th>Device</th>
                 <th className="hidden-xs hidden-sm">Integration</th>
-                <th className="hidden-xs hidden-sm">Started on</th>
-                <th className="hidden-xs hidden-sm">Resolved on</th>
+                <th className="hidden-xs hidden-sm">Started</th>
+                <th className="hidden-xs hidden-sm">Resolved</th>
                 <th className="column-button hidden-xs">Notifications</th>
-                <th className="column-button">Report a problem</th>
+                <th className="column-button">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -535,10 +535,10 @@ module.exports = React.createClass({
                 <th>Description</th>
                 <th>Device</th>
                 <th className="hidden-xs hidden-sm">Integration</th>
-                <th className="hidden-xs hidden-sm">Started on</th>
-                <th className="hidden-xs hidden-sm">Resolved on</th>
+                <th className="hidden-xs hidden-sm">Started</th>
+                <th className="hidden-xs hidden-sm">Resolved</th>
                 <th className="column-button hidden-xs">Notifications</th>
-                <th className="column-button">Report a problem</th>
+                <th className="column-button">Action</th>
               </tr>
             </thead>
           </table>
@@ -565,7 +565,7 @@ module.exports = React.createClass({
                 <th className="hidden-xs hidden-sm">Started on</th>
                 <th className="hidden-xs hidden-sm">Resolved on</th>
                 <th className="column-button hidden-xs">Notifications</th>
-                <th className="column-button">Report a problem</th>
+                <th className="column-button">Action</th>
               </tr>
             </thead>
             <tbody>
