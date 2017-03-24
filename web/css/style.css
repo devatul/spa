@@ -344,7 +344,7 @@ p.menu-text {
 }
 .action-button:hover, a.action-button:hover {
   filter: brightness(110%);
-} 
+}
 .action-button.config {
   border-radius: .30em 0 0 .30em;
   padding-right: .5em;
@@ -1376,7 +1376,7 @@ tr.content:hover {
     border: none;
   }
   .large-section-tabs .section-tabs {
-    height: 95px;  
+    height: 95px;
   }
   .section-tabs {
     margin-left: 5px !important;
@@ -1444,7 +1444,7 @@ tr.content:hover {
     margin: 0 !important;
   }
   .large-section-tabs .section-tabs {
-    height: 50px;  
+    height: 50px;
   }
   .dashboard-icons .left {
     font-size: 100pt;
@@ -1966,8 +1966,37 @@ a.link-login:hover {
   height: 10px;
 }
 
-.signup-error-show{
+.signup-error-show {
   width: 50%;
   margin: 0px auto;
   text-align: left;
+}
+.integration {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.integration .provider-logo {
+  width: 25%;
+  float: left;
+  height: 100%;
+  display: inline-table;
+}
+.integration .credential-name {
+  width: 75%;
+  float: left;
+  height: 100%;
+  text-align: left !important;
+  display: inline-table;
+}
+.label-inline {
+  vertical-align: middle;
+  display: table-cell;
+}
+.logo-max-size {
+  max-width: 50px;
+  max-height: 50px;
+}
+.default-logo-size {
+  font-size: 30px;
 }
