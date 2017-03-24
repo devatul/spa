@@ -366,7 +366,19 @@ module.exports = React.createClass({
               </OverlayTrigger>
             </td>
             <td>{overview[key].hostname}</td>
-            <td className="hidden-xs">{overview[key].external_identifier}</td>
+            <td className="hidden-xs">
+              <div className="integration">
+                <div className="provider-logo">
+                  {null !== overview[key].provider_logo ? <img src={overview[key].provider_logo} className="logo-max-size m-l-10 m-t-15"></img> : <span className="clouds-icons aws m-l-10"></span>}
+                </div>
+                <div className="credential-name">
+                  <span className="label-inline">
+                    <strong>{overview[key].provider_credential_name}</strong><br/>
+                    {overview[key].external_identifier}
+                  </span>
+                </div>
+              </div>
+            </td>
             {actionButtons}
             <td className="hidden-xs hidden-sm">{num} GB</td>
             <td className="icons"><i className={level} aria-hidden="true"></i></td>
