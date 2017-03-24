@@ -26,6 +26,7 @@ var showTicket                     = require('../actions/ServerActions').showTic
 var showCompany                    = require('../actions/ServerActions').showCompany;
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
+var _                              = require('lodash');
 
 request.use(prefix(APIEndpoints.PUBLIC));
 
@@ -37,7 +38,7 @@ module.exports = {
     var interval = false;
     var code = JSON.parse(res.status);
     return new Promise( function ( resolve, reject ) {
-      if (400 <= code && _SELF.hasToRefresh()) {
+      if (401 === code && _SELF.hasToRefresh()) {
         setTimeout( function () {
           if (!_SELF.isTokenValidating) {
             _SELF.isTokenValidating = true;
@@ -59,6 +60,17 @@ module.exports = {
         routes.redirectLogin();
       } else if (200 <= code && 300 > code) {
         resolve(true);
+      } else {
+        var text = JSON.parse(res.text);
+        var err = [];
+        _.map(text.messages, function (errMag, i) {
+          err = parseInt(i+1) + '. ' + errMag + '\n';
+        });
+        var message = 'Error ['+ code +'] : \n' + err;
+        if (window.console) {
+          console.error(message);
+        }
+        alert(message);
       }
     });
   },
@@ -174,8 +186,8 @@ module.exports = {
           if (401 == code) {
             localStorage.removeItem('nubity-token');
             localStorage.removeItem('nubity-refresh-token');
+            _SELF.saveURI();
             routes.redirectLogin();
-            resolve();
           } else if (SessionStore.isLoggedIn()) {
             localStorage.setItem('nubity-token', text.token);
             localStorage.setItem('nubity-refresh-token', text.refresh_token);
