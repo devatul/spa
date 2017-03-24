@@ -369,7 +369,7 @@ module.exports = React.createClass({
             <td className="hidden-xs">
               <div className="integration">
                 <div className="provider-logo">
-                  {null !== overview[key].provider_logo ? <img src={overview[key].provider_logo} className="logo-max-size m-l-10 m-t-15"></img> : <span className="clouds-icons aws m-l-10"></span>}
+                  {null !== overview[key].provider_logo ? <img src={overview[key].provider_logo} className="logo-max-size m-l-10 m-t-15" /> : <span className="fa fa-ban label-inline default-logo-size"></span>}
                 </div>
                 <div className="credential-name">
                   <span className="label-inline">
