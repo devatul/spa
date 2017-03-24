@@ -76,7 +76,7 @@ module.exports = React.createClass({
           data: coords,
           color: color,
           pointStart: pointStart,
-          pointInterval: 1 * 3600 * 1000,
+          pointInterval: 1 * 3600 * 24,
           tooltip: {
             valueDecimals: 2,
             valueSuffix: ' ' + suffix,
