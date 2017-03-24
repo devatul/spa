@@ -66,8 +66,11 @@ module.exports = {
         _.map(text.messages, function (errMag, i) {
           err = parseInt(i+1) + '. ' + errMag + '\n';
         });
-        console.error('Error ['+ code +'] : \n' + err);
-        alert('Error ['+ code +'] : \n' + err);
+        var message = 'Error ['+ code +'] : \n' + err;
+        if (window.console) {
+          console.error(message);
+        }
+        alert(message);
       }
     });
   },
