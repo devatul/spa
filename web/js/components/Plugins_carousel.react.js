@@ -70,13 +70,35 @@ module.exports = React.createClass({
         );
       }
     }
-
-    return (
-      <div>
-        <Carousel data-interval="false" activeIndex={this.state.index} direction={this.state.direction} onSelect={this.handleSelect}>
-          {rows}
-        </Carousel>
-      </div>
-    );
+    if (templates && 4 < templates.length) {
+      return (
+        <div>
+          <Carousel data-interval="false" activeIndex={this.state.index} direction={this.state.direction} onSelect={this.handleSelect}>
+            {rows}
+          </Carousel>
+        </div>
+      );
+    } else {
+      var templatesItems = [];
+      if (templates !== undefined) {
+        for (var cont = 0; cont < templates.length; cont++) { 
+          templatesItems.push(
+            <div className={templates[cont] !== undefined ? 'carousel-item' : 'hidden'}>
+              <a className={templates[cont] !== undefined && this.state.active == templates[cont].template ? 'carousel-active thumbnail' : 'thumbnail'} >
+                <img src={templates[cont] !== undefined ? templates[cont].logo : ''} alt="Image" className="img-responsive" onClick={this.clickTemplate.bind(this, templates[cont])}/>
+                <div className="is-installed-container"><span className={templates[cont] !== undefined && true == templates[cont].is_installed ? 'is-installed' : 'hidden'}></span></div>
+              </a>
+            </div>
+          );
+        }
+      }
+      return (
+        <div>
+          <div className="carousel-box">
+           {templatesItems}
+          </div>
+        </div>
+      );
+    }
   },
 });

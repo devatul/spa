@@ -1922,6 +1922,23 @@ a.link-login:hover {
 .carousel-control {
   background: transparent!important;
 }
+.carousel-box {
+  float: none;
+  align-items: center;
+  display: inline-block;
+  justify-content: center;
+  width: 66.66666667%;
+  margin-left: 16.66666667%;
+  text-align: center;
+}
+.carousel-item {
+  width: 25%;
+  display: inline-block;
+  padding: 10px;
+}
+.thumbnail {
+  min-height: 82px;
+}
 .valign-wrapper {
   display: -webkit-flex;
   display: -ms-flexbox;
