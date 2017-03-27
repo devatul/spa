@@ -24,6 +24,8 @@ var showInstanceForMonitoring      = require('../actions/ServerActions').showIns
 var showInstanceConfiguration      = require('../actions/ServerActions').showInstanceConfiguration;
 var showTicket                     = require('../actions/ServerActions').showTicket;
 var showCompany                    = require('../actions/ServerActions').showCompany;
+var showCustomDashboards           = require('../actions/ServerActions').showCustomDashboards;
+var showCustomSlots                = require('../actions/ServerActions').showCustomSlots;
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
@@ -353,12 +355,11 @@ module.exports = {
 
   createGraph: function (widget, instance, chart, dashboardId, position) {
     var token   = this.getToken();
-
     request
     .post('/slot.json')
     .accept('application/json')
     .set('Authorization', token)
-    .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: localStorage.getItem('dashboardId'), position: position, custom_interval: 'TODAY'})
+    .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: 'TODAY'})
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
@@ -382,6 +383,7 @@ module.exports = {
           this.deleteSlot(slot);
         } else {
           this.getDashboards();
+          this.getCustomDashboards();
         }
       }.bind(this));
     }.bind(this));
@@ -1097,6 +1099,71 @@ module.exports = {
           this.installPlugin(idPlugin, id);
         } else {
           this.getInstanceConfiguration(id);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  createCustomDashboard: function (title, icon) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+    var user    = localStorage.getItem('nubity-user-id');
+
+    request
+    .post('/dashboard') 
+    .accept('application/json')
+    .set('Authorization', token)
+    .send({user_id: user, company_id: company, scope: 'performance', name: title})
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.createCustomDashboard(title, icon);
+        } else {
+          this.getCustomDashboards();
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  getCustomDashboards: function () {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+    var user    = localStorage.getItem('nubity-user-id');
+
+    request
+    .get('/company/' + company + '/user/' + user + '/dashboard')
+    .query({scope: 'performance'})
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getCustomDashboards();
+        } else {
+          showCustomDashboards(text);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  getCustomSlots: function (id) {
+    var company = localStorage.getItem('nubity-company');
+    var token   = this.getToken();
+    var user    = localStorage.getItem('nubity-user-id');
+
+    request
+    .get('/slot.json')
+    .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getCustomSlots(id);
+        } else {
+          showCustomSlots(text);
         }
       }.bind(this));
     }.bind(this));

@@ -181,4 +181,16 @@ module.exports = {
       res: companyInfo,
     });
   },
+  showCustomDashboards: function (dashboards) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_CUSTOM_DASHBOARDS,
+      res: dashboards,
+    });
+  },
+  showCustomSlots: function (slots) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_CUSTOM_SLOTS,
+      res: slots,
+    });
+  },
 };

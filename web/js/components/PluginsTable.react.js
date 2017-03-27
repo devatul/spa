@@ -47,7 +47,7 @@ module.exports = React.createClass({
 
     return (
       <div className="container">
-        <div classname="col-md-10 col-md-offset-1">
+        <div className="col-md-10 col-md-offset-1">
           <table>
             <thead>
               <tr>

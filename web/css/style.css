@@ -2000,3 +2000,10 @@ a.link-login:hover {
 .default-logo-size {
   font-size: 30px;
 }
+.open-modal-graph {
+  background: transparent;
+  border: solid transparent;
+  font-size: 19px;
+  color: grey;
+  outline: none;
+}
