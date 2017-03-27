@@ -7,6 +7,8 @@ var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
 var CreateGraph                = require('./Create_graph.react');
 var Graph                      = require('./Graph.react');
+var Modal                      = require('react-bootstrap').Modal;
+var moment                     = require('moment');
 
 module.exports = React.createClass({
 
@@ -14,6 +16,8 @@ module.exports = React.createClass({
     var dashboard = GraphStore.getDashboard();
     return {
       dashboard: dashboard,
+      showModal: false,
+      graphToShowInModal: '',
     };
   },
 
@@ -36,6 +40,21 @@ module.exports = React.createClass({
 
   _deleteGraph: function (dashboard) {
     deleteSlot(dashboard.slot);
+  },
+
+  _modalGraph: function (dashboard) {
+    var name = 'container' + moment().format('MMMMDoYYYYh:mm:ss');
+    var graph = (<Graph graph={dashboard} name={name} dashboardId={localStorage.getItem('dashboardId')}/>);
+    this.setState({
+      showModal: true,
+      graphToShowInModal: graph,
+    });
+  },
+
+  close: function () {
+    this.setState({
+      showModal: false,
+    });
   },
 
   render: function () {
@@ -82,6 +101,9 @@ module.exports = React.createClass({
               <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
                 <span aria-hidden="true">&times;</span>
               </button>
+              <button type="button" className="pull-right open-modal-graph" onClick={this._modalGraph.bind(this, dashboard[key])}>
+                <i className="fa fa-arrows-alt" aria-hidden="true"></i>
+              </button>
               <div className="valign-wrapper allHeight">
                 <Graph graph={dashboard[key]} name={name} dashboardId={localStorage.getItem('dashboardId')}/>
               </div>
@@ -94,6 +116,11 @@ module.exports = React.createClass({
     return (
       <div className="row">
         {allGraphs}
+        <Modal show={this.state.showModal} onHide={this.close} bsSize="large">
+          <Modal.Header closeButton>
+            {this.state.graphToShowInModal}
+          </Modal.Header>
+        </Modal>
       </div>
     );
   },

@@ -32,6 +32,8 @@ module.exports = {
     SHOW_INSTANCE_FOR_MONITORING: null,
     SHOW_INSTANCE_CONFIGURATION: null,
     BACK_TO_ADMIN: null,
+    SHOW_CUSTOM_DASHBOARDS: null,
+    SHOW_CUSTOM_SLOTS: null,
   }),
 
   PayloadSources: keyMirror({
