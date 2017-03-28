@@ -1,33 +1,158 @@
 var React                 = require('react');
 var AlertsStore           = require('../stores/AlertsStore');
+var RouteStore            = require('../stores/RouteStore');
 var Link                  = require('react-router').Link;
 var getStats              = require('../actions/RequestActions').getStats;
+var redirect              = require('../actions/RouteActions').redirect;
 
 module.exports = React.createClass({
 
   getInitialState: function () {
     var stats      = AlertsStore.getDashboardStats();
+    var url = window.location.href;
+    if (0 <= url.search('infrastructure')) {
+      return {
+        stats: stats,
+        infrastructureClass: 'nb-active',
+        dashboardClass: '',
+        alertsClass: '',
+        performanceClass: '',
+        ninjaSupportClass: '',
+      };
+    }
+    if (0 <= url.search('ticket')) {
+      return {
+        stats: stats,
+        infrastructureClass: '',
+        dashboardClass: '',
+        alertsClass: '',
+        performanceClass: '',
+        ninjaSupportClass: 'nb-active',
+      };
+    }
+    if (0 <= url.search('ninja-support')) {
+      return {
+        stats: stats,
+        infrastructureClass: '',
+        dashboardClass: '',
+        alertsClass: '',
+        performanceClass: '',
+        ninjaSupportClass: 'nb-active',
+      };
+    }
+    if (0 <= url.search('alerts')) {
+      return {
+        stats: stats,
+        infrastructureClass: '',
+        dashboardClass: '',
+        alertsClass: 'nb-active',
+        performanceClass: '',
+        ninjaSupportClass: '',
+      };
+    }
+
     return {
       stats: stats,
+      dashboardClass: 'nb-active',
+      infrastructureClass: '',
+      alertsClass: '',
+      performanceClass: '',
+      ninjaSupportClass: '',
     };
   },
 
   componentDidMount: function () {
     getStats();
     AlertsStore.addChangeListener(this._onChange);
+    RouteStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
     AlertsStore.removeChangeListener(this._onChange);
+    RouteStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function () {
+    var url = window.location.href;
+    if (0 <= url.search('infrastructure')) {
+      this.setState({
+        infrastructureClass: 'nb-active',
+        dashboardClass: '',
+        alertsClass: '',
+        performanceClass: '',
+        ninjaSupportClass: '',
+      });
+    }
+    if (0 <= url.search('ticket')) {
+      this.setState({
+        infrastructureClass: '',
+        dashboardClass: '',
+        alertsClass: '',
+        performanceClass: '',
+        ninjaSupportClass: 'nb-active',
+      });
+    }
     if (this.isMounted()) {
       var stats      = AlertsStore.getDashboardStats();
       this.setState({
         stats: stats,
       });
     }
+  },
+
+  _dashboard: function () {
+    redirect('dashboard');
+    this.setState({
+      dashboardClass: 'nb-active',
+      infrastructureClass: '',
+      alertsClass: '',
+      performanceClass: '',
+      ninjaSupportClass: '',
+    });
+  },
+
+  _alerts: function () {
+    redirect('alerts');
+    this.setState({
+      alertsClass: 'nb-active',
+      dashboardClass: '',
+      infrastructureClass: '',
+      performanceClass: '',
+      ninjaSupportClass: '',
+    });
+  },
+
+  _infrastructure: function () {
+    redirect('infrastructure');
+    this.setState({
+      infrastructureClass: 'nb-active',
+      dashboardClass: '',
+      alertsClass: '',
+      performanceClass: '',
+      ninjaSupportClass: '',
+    });
+  },
+
+  _performance: function () {
+    redirect('performance');
+    this.setState({
+      performanceClass: 'nb-active',
+      dashboardClass: '',
+      infrastructureClass: '',
+      alertsClass: '',
+      ninjaSupportClass: '',
+    });
+  },
+
+  _ninjaSupport: function () {
+    redirect('ninja');
+    this.setState({
+      ninjaSupportClass: 'nb-active',
+      dashboardClass: '',
+      infrastructureClass: '',
+      alertsClass: '',
+      performanceClass: '',
+    });
   },
 
   render: function () {
@@ -64,38 +189,38 @@ module.exports = React.createClass({
 
         <div className="side-bar-container" id="sidebar">
           <div className="menu-buttons">
-            <Link to="/dashboard" activeClassName="nb-active">
+            <a onClick={this._dashboard} className={this.state.dashboardClass}>
               <div className="menu-button">
                 <div className="icon nb-dashboard medium"></div>
                 <p className="menu-text">Dashboard</p>
               </div>
-            </Link>
-            <Link to="/infrastructure" activeClassName="nb-active">
+            </a>
+            <a onClick={this._infrastructure} className={this.state.infrastructureClass}>
               <div className="menu-button">
                 <div className="icon nb-infrastructure medium"></div>
                 <p className="menu-text">Infrastructure</p>
               </div>
-            </Link>
-            <Link to="/alerts" activeClassName="nb-active">
+            </a>
+            <a onClick={this._alerts} className={this.state.alertsClass}>
               <div className="menu-button">
                 <div className="icon nb-alert medium">
                   {alertBadge}
                 </div>
                 <p className="menu-text">Alerts</p>
               </div>
-            </Link>
-            <Link to="/performance" activeClassName="nb-active">
+            </a>
+            <a onClick={this._performance} className={this.state.performanceClass}>
               <div className="menu-button hidden">
                 <div className="icon nb-performance medium"></div>
                 <p className="menu-text">Performance</p>
               </div>
-            </Link>
-            <Link to="/ninja-support" activeClassName="nb-active">
+            </a>
+            <a onClick={this._ninjaSupport} className={this.state.ninjaSupportClass}>
               <div className="menu-button">
                 <div className="icon nb-ninja-support medium"></div>
                 <p className="menu-text">Ninja Support</p>
               </div>
-            </Link>
+            </a>
           </div>
           <div className="social-links">
             <div className="menu-button hide-it">
