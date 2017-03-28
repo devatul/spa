@@ -39,12 +39,12 @@ var routes = (
     <Route name="alerts"               path='/alerts'                        handler={Alerts} />
     <Route name="performance"          path='/performance'                   handler={Performance} />
     <Route name="ninja"                path='/ninja-support'                 handler={Ninja} />
-    <Route name="create_ticket"        path='/create-ticket'                 handler={CreateTicket} />
-    <Route name="live_chat"            path='/live-chat'                     handler={LiveChat} />
-    <route name="terms_and_conditions" path='/terms-and-conditions'          handler={TermsAndConditions} />
-    <route name="privacy_policies"     path='/privacy-policies'              handler={PrivacyPolicies} />
-    <Route name="view_ticket"          path='/view-ticket/'                  handler={ViewTicket} />
-    <Route name="view_ticket_params"   path='/view-ticket/:id'               handler={ViewTicket} />
+    <Route name="create_ticket"        path='/ninja-support/create-ticket'   handler={CreateTicket} />
+    <Route name="live_chat"            path='/ninja-support/live-chat'       handler={LiveChat} />
+    <Route name="view_ticket"          path='/ninja-support/view-ticket/'    handler={ViewTicket} />
+    <Route name="view_ticket_params"   path='/ninja-support/view-ticket/:id' handler={ViewTicket} />
+    <Route name="terms_and_conditions" path='/terms-and-conditions'          handler={TermsAndConditions} />
+    <Route name="privacy_policies"     path='/privacy-policies'              handler={PrivacyPolicies} />
     <Route name="reset_password"       path='/reset-password/:token'         handler={ResetPassword} />
     <Route name="home"                 path='/'                              handler={Home} /> 
     <DefaultRoute                                                            handler={Login}/>
