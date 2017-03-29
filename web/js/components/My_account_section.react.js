@@ -9,7 +9,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       firstname: localStorage.getItem('nubity-firstname'),
-      lastname:   localStorage.getItem('nubity-lastname'),
+      lastname: localStorage.getItem('nubity-lastname'),
       email: localStorage.getItem('nubity-user-email'),
       language: localStorage.getItem('nubity-user-language'),
       notificationLevel: localStorage.getItem('nubity-notification-level'),
@@ -101,7 +101,7 @@ module.exports = React.createClass({
                 SELF.setState({
                   notificationLevel: 'info',
                 });
-              }} checked={'info' === notificationLevel ? true : false} disabled={!this.state.enableEdit}/>
+              }} checked={'info' === notificationLevel} disabled={!this.state.enableEdit}/>
             </span>
             <div className="form-control">
               <i className="icon nb-information blue-text small"></i> Information
@@ -115,7 +115,7 @@ module.exports = React.createClass({
                 SELF.setState({
                   notificationLevel: 'warning',
                 });
-              }} checked={'warning' === notificationLevel ? true : false} disabled={!this.state.enableEdit}/>
+              }} checked={'warning' === notificationLevel} disabled={!this.state.enableEdit}/>
             </span>
             <div className="form-control">
               <i className="icon nb-warning yellow-text small"></i> Warning
@@ -129,7 +129,7 @@ module.exports = React.createClass({
                 SELF.setState({
                   notificationLevel: 'critical',
                 });
-              }} checked={'critical' === notificationLevel ? true : false}  disabled={!this.state.enableEdit}/>
+              }} checked={'critical' === notificationLevel}  disabled={!this.state.enableEdit}/>
             </span>
             <div className="form-control">
               <i className="icon nb-critical red-text small"></i> Critical
@@ -143,7 +143,7 @@ module.exports = React.createClass({
                 SELF.setState({
                   notificationLevel: 'none',
                 });
-              }} checked={'undefined' === notificationLevel || 'none' === notificationLevel ? true : false} disabled={!this.state.enableEdit}/>
+              }} checked={'undefined' === notificationLevel || 'none' === notificationLevel} disabled={!this.state.enableEdit}/>
             </span>
             <div className="form-control">
               <i className="icon nb-mute-on grey-text small"></i> Mute
