@@ -7,6 +7,7 @@ var LinuxSetup                    = require('./Linux_setup.react');
 var WindowsSetup                  = require('./Windows_setup.react');
 var Preloader                     = require('./Preloader.react');
 var getInstanceForMonitoring      = require('../actions/RequestActions').getInstanceForMonitoring;
+var ClipboardButton               = require('react-clipboard.js');
 
 module.exports = React.createClass({
 
@@ -92,22 +93,18 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    var script = 'NUBITY_TOKEN=' + this.state.token + ' bash -c "$(curl https://packages.nubity.com/installer/nubity-installer.sh)"';
     return (
       <ol className="rounded-list">
-        <li>
-          <p className="rounded-list-title"><span>Download the Installation Script and run it with Root privileges </span></p>
-          <a className="action-button nubity-green col-sm-offset-1" target="_blank" href="http://packages.nubity.com/installer/nubity-installer-last.sh">Download Installation Script</a>
-        </li>
-        <li>
-          <p className="rounded-list-title"><span>Validation - Important!</span></p>
-          <p className="col-sm-offset-1">During the installation enter the following Key to validate the agent:</p>
-          <div className="col-sm-offset-1 centered">
-            {this.state.token}
+        <li className="first-step">
+          <div className="row">
+            <p className="rounded-list-title"><span>Run this script</span></p>
+            <p className="col-sm-offset-1 col-sm-10 notice">{script}</p>
+            <div className="col-sm-1 clipboard-div">
+              <ClipboardButton className="clipboard-button" data-clipboard-text={script}><img className="clippy" src="./images/clippy.png" width="17" alt="Copy to clipboard"/></ClipboardButton>
+            </div>
           </div>
-        </li>
-        <li>
-          <p className="rounded-list-title"><span>Run it with root privileges</span></p>
-          <p className="col-sm-offset-1">chmod +x nubity-installer.sh && ./nubity-installer.sh</p>
+          <br/>
         </li>
         <li>
           <p className="rounded-list-title"><span>Monitor your server</span></p>
