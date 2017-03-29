@@ -1170,11 +1170,12 @@ module.exports = {
     var token   = this.getToken();
     var userId  = localStorage.getItem('nubity-user-id');
     var SELF = this;
+
     return new Promise(function (resolve, reject) {
       request
       .put('/user/' + userId + '.json')
+      .type('form')
       .send(userData)
-      .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
         var code = JSON.parse(res.status);

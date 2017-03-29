@@ -14,6 +14,7 @@ module.exports = React.createClass({
       language: localStorage.getItem('nubity-user-language'),
       notificationLevel: localStorage.getItem('nubity-notification-level'),
       timezone: localStorage.getItem('nubity-timezone'),
+      avatar: false,
       enableEdit: false,
       message: '',
       messageClass: 'hidden',
@@ -25,25 +26,39 @@ module.exports = React.createClass({
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       email: this.state.email,
-      language: this.state.language,
-      notificationLevel: this.state.notificationLevel,
+      avatar: this.state.avatar,
       timezone: this.state.timezone,
     };
-    updateUserData(userData).then(function (msg) {
+
+    var formData = new FormData();
+
+    formData.append('firstname', userData.firstname);
+    formData.append('lastname', userData.lastname);
+    formData.append('email', userData.email);
+    formData.append('avatar', userData.avatar);
+    formData.append('timezone', userData.timezone);
+    updateUserData(formData).then(function (msg) {
       this.setState({
         message: msg,
         messageClass: 'alert alert-success',
       });
     }.bind(this)).catch(function (message) {
-      var error = [];
-      for (var key in message) {
-        error.push(this._listErrors(message[key], key + ' errors :'));
+      if ('string' !== typeof message[0]) {
+        var error = [];
+        for (var key in message) {
+          error.push(this._listErrors(message[key], key + ' errors :'));
+        }
+        var errorList = <ul>{error}</ul>;
+        this.setState({
+          message: errorList,
+          messageClass: 'alert alert-danger',
+        });
+      } else {
+        this.setState({
+          message: message[0],
+          messageClass: 'alert alert-danger',
+        });
       }
-      var errorList = <ul>{error}</ul>;
-      this.setState({
-        message: errorList,
-        messageClass: 'alert alert-danger',
-      });
     }.bind(this));
   },
 
@@ -66,6 +81,13 @@ module.exports = React.createClass({
   _cancleEdit: function () {
     this.setState({
       enableEdit: false,
+    });
+  },
+
+  _onChangeAvatar: function (e) {
+    var file = e.target.files[0];
+    this.setState({
+      avatar: file,
     });
   },
 
@@ -97,11 +119,7 @@ module.exports = React.createClass({
         <div className="col-lg-3 col-md-6 col-xs-12">
           <label className="input-group">
             <span className="input-group-addon">
-              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" onChange={function (e) {
-                SELF.setState({
-                  notificationLevel: 'info',
-                });
-              }} checked={'info' === notificationLevel} disabled={!this.state.enableEdit}/>
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" checked={'info' === notificationLevel} disabled/>
             </span>
             <div className="form-control">
               <i className="icon nb-information blue-text small"></i> Information
@@ -111,11 +129,7 @@ module.exports = React.createClass({
         <div className="col-lg-3 col-md-6 col-xs-12">
           <label className="input-group">
             <span className="input-group-addon">
-              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" onChange={function (e) {
-                SELF.setState({
-                  notificationLevel: 'warning',
-                });
-              }} checked={'warning' === notificationLevel} disabled={!this.state.enableEdit}/>
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" checked={'warning' === notificationLevel} disabled/>
             </span>
             <div className="form-control">
               <i className="icon nb-warning yellow-text small"></i> Warning
@@ -125,11 +139,7 @@ module.exports = React.createClass({
         <div className="col-lg-3 col-md-6 col-xs-12">
           <label className="input-group">
             <span className="input-group-addon">
-              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" onChange={function (e) {
-                SELF.setState({
-                  notificationLevel: 'critical',
-                });
-              }} checked={'critical' === notificationLevel}  disabled={!this.state.enableEdit}/>
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" checked={'critical' === notificationLevel}  disabled/>
             </span>
             <div className="form-control">
               <i className="icon nb-critical red-text small"></i> Critical
@@ -139,15 +149,11 @@ module.exports = React.createClass({
         <div className="col-lg-3 col-md-6 col-xs-12">
           <label className="input-group">
             <span className="input-group-addon">
-              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" onChange={function (e) {
-                SELF.setState({
-                  notificationLevel: 'none',
-                });
-              }} checked={'undefined' === notificationLevel || 'none' === notificationLevel} disabled={!this.state.enableEdit}/>
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" checked={'undefined' === notificationLevel || 'none' === notificationLevel} disabled/>
             </span>
             <div className="form-control">
               <i className="icon nb-mute-on grey-text small"></i> Mute
-            </div>
+             </div>
           </label>
         </div>
         <div className="min"></div>
@@ -159,18 +165,26 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2>My Account</h2>
         </div>
+        <form encType="multipart/form-data">
         <div className="row">
-          <div className="col-xs-12 col-sm-1 col-md-1 centered">
+          <div className="col-xs-12 col-sm-1 col-md-1 centered enable-change-option">
             <img src={avatar} height="65" alt={this.state.firstname} title={this.state.firstname} className="img-circle"/>
+            <div className="change-avatar">
+              <input type="file" name="changeAvatar" id="changeAvatar" onChange={function (e) {
+                SELF._onChangeAvatar(e);
+              }} />
+              <i className="fa fa-camera cam-icon" aria-hidden="true"></i>
+            </div>
           </div>
           <div className="col-xs-12 col-sm-1 col-md-1 my-account-data">
             <p className="my-account-title">{this.state.firstname} {this.state.lastname} </p>
             <p className="my-account-email">{this.state.email}</p>
           </div>
+          <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>Avatar Slected</span>
         </div>
         <hr/>
         <div className={this.state.messageClass + ' signup-error-show'}>{this.state.message}</div>
-        <form >
+
           <div className="public-cloud-form col-sm-6">
             <div className="form-group">
               <div className="input-group">
