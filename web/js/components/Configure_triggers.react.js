@@ -5,12 +5,30 @@ var Carousel                   = require('react-bootstrap').Carousel;
 var CarouselItem               = require('react-bootstrap').CarouselItem;
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
+var enableTrigger              = require('../actions/RequestActions').enableTrigger;
+var disableTrigger             = require('../actions/RequestActions').disableTrigger;
 
 module.exports = React.createClass({
   getInitialState: function () {
     return {
       disabled: false,
+      triggers: this.props.template.triggers,
     };
+  },
+
+  switchTrigger: function (trigger) {
+    if (trigger.is_enabled) {
+      disableTrigger(trigger.trigger);
+    } else {
+      enableTrigger(trigger.trigger);
+    }
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    this.setState({
+      triggers: nextProps,
+    });
+
   },
 
   render: function () {
@@ -36,7 +54,7 @@ module.exports = React.createClass({
           <td>{0 < triggers[key].items.length ? triggers[key].items[0].last_value : '-'}</td>
           <td>{0 < triggers[key].items.length ? triggers[key].items[0].prev_value : '-'}</td>
           <td>
-            <Switch/>
+            <Switch checked={triggers[key].is_enabled ? true : false} onChange={this.switchTrigger.bind(this, triggers[key])}/>
           </td>
           <td>{triggers[key].condition}</td>
           <td>{triggers[key].threshold}</td>

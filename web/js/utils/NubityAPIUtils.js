@@ -1169,6 +1169,14 @@ module.exports = {
     }.bind(this));
   },
 
+  enableTrigger: function (id) {
+    alert('This action will be available soon');
+  },
+
+  disableTrigger: function (id) {
+    alert('This action will be available soon');
+  },
+
   hasToRefresh: function () {
     return (null != localStorage.getItem('nubity-token') && null != localStorage.getItem('nubity-refresh-token'));
   },

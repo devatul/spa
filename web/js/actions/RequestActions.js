@@ -179,4 +179,12 @@ module.exports = {
   getCustomSlots: function (dashboardId) {
     NubityAPIUtils.getCustomSlots(dashboardId); 
   },
+
+  enableTrigger: function (triggerId) {
+    NubityAPIUtils.enableTrigger(triggerId);
+  },
+
+  disableTrigger: function (triggerId) {
+    NubityAPIUtils.disableTrigger(triggerId);
+  },
 };
