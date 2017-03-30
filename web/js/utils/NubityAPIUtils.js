@@ -1213,7 +1213,7 @@ module.exports = {
         }
       }.bind(this));
     }.bind(this));
-  }
+  },
 
   deleteProviderCredential: function (id) {
     var company = localStorage.getItem('nubity-company');

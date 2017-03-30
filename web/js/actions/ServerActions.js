@@ -181,19 +181,6 @@ module.exports = {
       res: companyInfo,
     });
   },
-  showCustomDashboards: function (dashboards) {
-    Dispatcher.handleServerAction({
-      actionType: ActionTypes.SHOW_CUSTOM_DASHBOARDS,
-      res: dashboards,
-    });
-  },
-  showCustomSlots: function (slots) {
-    Dispatcher.handleServerAction({
-      actionType: ActionTypes.SHOW_CUSTOM_SLOTS,
-      res: slots,
-    });
-  },
-};
 
   showProviderCredential: function (providerCredentials, tab) {
     if ('_PUBLIC' == tab) {
@@ -218,6 +205,20 @@ module.exports = {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CREDENTIAL_DETAILS,
       res: credentialDetails,
+    });
+  },
+
+  showCustomDashboards: function (dashboards) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_CUSTOM_DASHBOARDS,
+      res: dashboards,
+    });
+  },
+  
+  showCustomSlots: function (slots) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_CUSTOM_SLOTS,
+      res: slots,
     });
   },
 };

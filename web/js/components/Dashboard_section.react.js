@@ -5,7 +5,6 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var saveURI                    = require('../actions/RequestActions').saveURI;
 var GraphStore                 = require('../stores/GraphStore');
 var SessionStore               = require('../stores/SessionStore');
-var GraphStore                 = require('../stores/GraphStore');
 var Preloader                  = require('./Preloader.react');
 var DefaultDashboard           = require('./Default_dashboard.react');
 var CustomPerformanceDashboard = require('./Custom_performance_dashboard.react');
