@@ -13,7 +13,7 @@ module.exports = React.createClass({
     if (undefined !== this.props.reply.user && this.props.reply.user) {
       firstname = this.props.reply.user.firstname;
     } 
-
+    var message = $('<textarea />').html(this.props.reply.content).text();
     return (
       <div className="ticket-reply">
         <div className="ticket-reply-header">
@@ -26,7 +26,7 @@ module.exports = React.createClass({
           <div className="ticket-message">
             <div className="col-xs-12">
             </div>
-            {this.props.reply.content}
+            {message}
           </div>
         </div>
       </div>
