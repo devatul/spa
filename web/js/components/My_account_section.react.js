@@ -1,15 +1,107 @@
 var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
+var updateUserData             = require('../actions/RequestActions').updateUserData;
 var SessionStore               = require('../stores/SessionStore');
+var _                          = require('lodash');
 
 module.exports = React.createClass({
+  getInitialState: function () {
+    return {
+      firstname: localStorage.getItem('nubity-firstname'),
+      lastname: localStorage.getItem('nubity-lastname'),
+      email: localStorage.getItem('nubity-user-email'),
+      language: localStorage.getItem('nubity-user-language'),
+      notificationLevel: localStorage.getItem('nubity-notification-level'),
+      timezone: localStorage.getItem('nubity-timezone'),
+      avatar: false,
+      enableEdit: false,
+      message: '',
+      messageClass: 'hidden',
+    };
+  },
+
+  _submit: function () {
+    var userData = {
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      email: this.state.email,
+      timezone: this.state.timezone,
+    };
+
+    updateUserData(userData).then(function (msg) {
+      this.setState({
+        message: msg,
+        messageClass: 'alert alert-success',
+        firstname: localStorage.getItem('nubity-firstname'),
+        lastname: localStorage.getItem('nubity-lastname'),
+        email: localStorage.getItem('nubity-user-email'),
+        timezone: localStorage.getItem('nubity-timezone'),
+      });
+    }.bind(this)).catch(function (message) {
+      if ('string' !== typeof message[0]) {
+        var error = [];
+        for (var key in message) {
+          error.push(this._listErrors(message[key], key + ' errors :'));
+        }
+        var errorList = <ul>{error}</ul>;
+        this.setState({
+          message: errorList,
+          messageClass: 'alert alert-danger',
+        });
+      } else {
+        this.setState({
+          message: message[0],
+          messageClass: 'alert alert-danger',
+        });
+      }
+    }.bind(this));
+  },
+
+  _listErrors: function (error, lable) {
+    var err = [];
+    _.map(error, function (errMsg) {
+      err.push(<li>{errMsg}</li>);
+    });
+    return (
+      <li>
+        <strong>{lable}</strong>
+        <br/>
+        <ul>{err}</ul>
+      </li>);
+  },
+
+  _enableEdit: function () {
+    this.setState({
+      enableEdit: true,
+    });
+  },
+
+  _cancleEdit: function () {
+    this.setState({
+      enableEdit: false,
+    });
+  },
+
+  _onChangeAvatar: function (e) {
+    var file = e.target.files[0];
+    this.setState({
+      avatar: file,
+    });
+  },
+
+  _formButtons: function () {
+    if (this.state.enableEdit) {
+      return <span>
+        <button type="button" onClick={this._submit} className="btn btn-success pull-right public-cloud-button">Save</button>
+        <button type="button" onClick={this._cancleEdit} className="btn btn-default pull-right public-cloud-button">Cancle</button>
+      </span>;
+    }
+    return <button type="button" onClick={this._enableEdit} className="btn btn-success pull-right public-cloud-button">Edit</button>;
+  },
+
   render: function () {
-    var firstname = localStorage.getItem('nubity-firstname');
-    var lastname  = localStorage.getItem('nubity-lastname');
-    var email     = localStorage.getItem('nubity-user-email');
-    var language  = localStorage.getItem('nubity-user-language');
-    var notificationLevel = localStorage.getItem('nubity-notification-level');
+    var notificationLevel = this.state.notificationLevel;
     var avatar    = '';
 
     if (null === localStorage.getItem('nubity-user-avatar') || 'undefined' === localStorage.getItem('nubity-user-avatar')) {
@@ -18,267 +110,91 @@ module.exports = React.createClass({
       avatar = localStorage.getItem('nubity-user-avatar');
     }
 
-    var alertCheck = '';
-    switch (notificationLevel) {
-      case 'info' :
-        alertCheck = (
-          <div className="col-sm-12 light-grey-background">
-            <div className="col-lg-3 col-md-6 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" checked disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-information blue-text small"></i> Information
-                </div>
-              </label>
+    var SELF = this;
+
+    var alertCheck = (
+      <div className="col-sm-12 light-grey-background">
+        <div className="col-lg-3 col-md-6 col-xs-12">
+          <label className="input-group">
+            <span className="input-group-addon">
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" checked={'info' === notificationLevel} disabled/>
+            </span>
+            <div className="form-control">
+              <i className="icon nb-information blue-text small"></i> Information
             </div>
-            <div className="col-lg-3 col-md-6 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-warning yellow-text small"></i> Warning
-                </div>
-              </label>
+          </label>
+        </div>
+        <div className="col-lg-3 col-md-6 col-xs-12">
+          <label className="input-group">
+            <span className="input-group-addon">
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" checked={'warning' === notificationLevel} disabled/>
+            </span>
+            <div className="form-control">
+              <i className="icon nb-warning yellow-text small"></i> Warning
             </div>
-            <div className="col-lg-3 col-md-6 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-critical red-text small"></i> Critical
-                </div>
-              </label>
+          </label>
+        </div>
+        <div className="col-lg-3 col-md-6 col-xs-12">
+          <label className="input-group">
+            <span className="input-group-addon">
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" checked={'critical' === notificationLevel}  disabled/>
+            </span>
+            <div className="form-control">
+              <i className="icon nb-critical red-text small"></i> Critical
             </div>
-            <div className="col-lg-3 col-md-6 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-mute-on grey-text small"></i> Mute
-                </div>
-              </label>
-            </div>
-            <div className="min"></div>
-          </div>
-        );
-        break;
-      case 'warning' :
-        alertCheck = (
-          <div className="col-sm-12 light-grey-background">
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-information blue-text small"></i> Information
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" checked disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-warning yellow-text small"></i> Warning
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-critical red-text small"></i> Critical
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-mute-on grey-text small"></i> Mute
-                </div>
-              </label>
-            </div>
-            <div className="min"></div>
-          </div>
-        );
-        break;
-      case 'critical' :
-        alertCheck = (
-          <div className="col-sm-12 light-grey-background">
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-information blue-text small"></i> Information
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-warning yellow-text small"></i> Warning
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" checked disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-critical red-text small"></i> Critical
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-mute-on grey-text small"></i> Mute
-                </div>
-              </label>
-            </div>
-            <div className="min"></div>
-          </div>
-        );
-        break;
-      case 'undefined' :
-        alertCheck = (
-          <div className="col-sm-12 light-grey-background">
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-information blue-text small"></i> Information
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-warning yellow-text small"></i> Warning
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-critical red-text small"></i> Critical
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" checked disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-mute-on grey-text small"></i> Mute
-                </div>
-              </label>
-            </div>
-            <div className="min"></div>
-          </div>
-        );
-        break;
-      default :
-        alertCheck = (
-          <div className="col-sm-12 light-grey-background">
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="info" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-information blue-text small"></i> Information
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="warning" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-warning yellow-text small"></i> Warning
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="critical" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-critical red-text small"></i> Critical
-                </div>
-              </label>
-            </div>
-            <div className="col-md-3 col-xs-12">
-              <label className="input-group">
-                <span className="input-group-addon">
-                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" disabled/>
-                </span>
-                <div className="form-control">
-                  <i className="icon nb-mute-on grey-text small"></i> Mute
-                </div>
-              </label>
-            </div>
-            <div className="min"></div>
-          </div>
-        );
-    }
+          </label>
+        </div>
+        <div className="col-lg-3 col-md-6 col-xs-12">
+          <label className="input-group">
+            <span className="input-group-addon">
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="none" checked={'undefined' === notificationLevel || 'none' === notificationLevel} disabled/>
+            </span>
+            <div className="form-control">
+              <i className="icon nb-mute-on grey-text small"></i> Mute
+             </div>
+          </label>
+        </div>
+        <div className="min"></div>
+      </div>
+    );
 
     return (
       <div>
         <div className="section-title">
           <h2>My Account</h2>
         </div>
+        <form encType="multipart/form-data">
         <div className="row">
-          <div className="col-xs-12 col-sm-1 col-md-1 centered">
-            <img src={avatar} height="65" alt={firstname} title={firstname} className="img-circle"/>
+          <div className="col-xs-12 col-sm-1 col-md-1 centered enable-change-option">
+            <img src={avatar} height="65" alt={this.state.firstname} title={this.state.firstname} className="img-circle"/>
+            <div className="change-avatar">
+              <input type="file" name="changeAvatar" id="changeAvatar" onChange={function (e) {
+                SELF._onChangeAvatar(e);
+              }} />
+              <i className="fa fa-camera cam-icon" aria-hidden="true"></i>
+            </div>
           </div>
           <div className="col-xs-12 col-sm-1 col-md-1 my-account-data">
-            <p className="my-account-title">{firstname} {lastname} </p>
-            <p className="my-account-email">{email}</p>
+            <p className="my-account-title">{this.state.firstname} {this.state.lastname} </p>
+            <p className="my-account-email">{this.state.email}</p>
           </div>
+          <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>Avatar Slected</span>
         </div>
+      </form>
         <hr/>
-        <form >
+        <div className={this.state.messageClass + ' signup-error-show'}>{this.state.message}</div>
+        <form>
           <div className="public-cloud-form col-sm-6">
             <div className="form-group">
               <div className="input-group">
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </span>
-                <input type="text" className="form-control no-shadow" id="privateUser" placeholder="First Name" value={firstname} readOnly/>
+                <input type="text" className="form-control no-shadow" onChange={function (e) {
+                  SELF.setState({
+                    firstname: e.target.value,
+                  });
+                }} id="firstname" placeholder="First Name" value={this.state.firstname} readOnly={!this.state.enableEdit} />
               </div>
             </div>
             <div className="form-group">
@@ -286,7 +202,11 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </span>
-                <input type="text" className="form-control no-shadow" id="privatePassword" placeholder="Last Name" value={lastname} readOnly/>
+                <input type="text" className="form-control no-shadow" onChange={function (e) {
+                  SELF.setState({
+                    lastname: e.target.value,
+                  });
+                }} ref="lastname" placeholder="Last Name" value={this.state.lastname} readOnly={!this.state.enableEdit} />
               </div>
             </div>
             <div className="form-group">
@@ -294,7 +214,11 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-servers small" aria-hidden="true"></i>
                 </span>
-                <input type="email" className="form-control no-shadow" id="integrationName" placeholder="Email" value={email} readOnly/>
+                <input type="email" className="form-control no-shadow" onChange={function (e) {
+                  SELF.setState({
+                    email: e.target.value,
+                  });
+                }} ref="email" placeholder="Email" value={this.state.email} readOnly={!this.state.enableEdit} />
               </div>
             </div>
             <div className="form-group">
@@ -302,7 +226,7 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-lock small" aria-hidden="true"></i>
                 </span>
-                <input type="password" className="form-control no-shadow" id="privateNubityName" placeholder="Password" readOnly/>
+                <input type="password" className="form-control no-shadow" ref="password" placeholder="Password" readOnly/>
               </div>
             </div>
           </div>
@@ -312,7 +236,7 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-skype small" aria-hidden="true"></i>
                 </span>
-                <input type="text" className="form-control no-shadow" id="skype" placeholder="Skype"/>
+                <input type="text" className="form-control no-shadow" ref="skype" placeholder="Skype"/>
               </div>
             </div>
             <div className="form-group">
@@ -320,8 +244,12 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-language small" aria-hidden="true"></i>
                 </span>
-                <select className="form-control no-shadow" id="language" readOnly>
-                  <option>{language}</option>
+                <select className="form-control no-shadow" ref="language" onChange={function (e) {
+                  SELF.setState({
+                    language: e.target.value,
+                  });
+                }} disabled={true}>
+                  <option>{this.state.language}</option>
                 </select>
               </div>
             </div>
@@ -330,7 +258,7 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-time small" aria-hidden="true"></i>
                 </span>
-                <input type="text" className="form-control no-shadow" id="timeZone" placeholder="Time Zone"/>
+                <input type="text" className="form-control no-shadow" ref="timeZone" placeholder="Time Zone"/>
               </div>
             </div>
             <div className="form-group hidden">
@@ -338,7 +266,7 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </span>
-                <input type="text" className="form-control no-shadow" id="contactType" placeholder="Contact Type"/>
+                <input type="text" className="form-control no-shadow" ref="contactType" placeholder="Contact Type"/>
               </div>
             </div>
           </div>
@@ -347,7 +275,7 @@ module.exports = React.createClass({
           </div>
             {alertCheck}
           <div className="col-sm-12">
-            <button type="button" className="btn btn-success pull-right public-cloud-button disabled">Save</button>
+            {this._formButtons()}
           </div>
         </form>
       </div>

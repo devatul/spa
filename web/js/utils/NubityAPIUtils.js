@@ -199,6 +199,18 @@ module.exports = {
     });
   },
 
+  setUserData: function (text) {
+    localStorage.setItem('nubity-company', text.company);
+    localStorage.setItem('nubity-firstname', text.firstname);
+    localStorage.setItem('nubity-lastname', text.lastname);
+    localStorage.setItem('nubity-user-id', text.user);
+    localStorage.setItem('nubity-user-email', text.username);
+    localStorage.setItem('nubity-user-avatar', text.public_path);
+    localStorage.setItem('nubity-user-language', text.locale_display_name);
+    localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
+    localStorage.setItem('nubity-timezone', text.timezone);
+  },
+
   getUser: function () {
     var token = this.getToken();
     request
@@ -211,14 +223,7 @@ module.exports = {
           if (!status) {
             this.getUser();
           } else {
-            localStorage.setItem('nubity-company', text.company);
-            localStorage.setItem('nubity-firstname', text.firstname);
-            localStorage.setItem('nubity-lastname', text.lastname);
-            localStorage.setItem('nubity-user-id', text.user);
-            localStorage.setItem('nubity-user-email', text.username);
-            localStorage.setItem('nubity-user-avatar', text.public_path);
-            localStorage.setItem('nubity-user-language', text.locale_display_name);
-            localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
+            this.setUserData(text);
 
             if (this.fromLogin) {
               this.fromLogin = false;
@@ -250,15 +255,7 @@ module.exports = {
           if (!status) {
             this.getUserForSwitchUser();
           } else {
-            localStorage.setItem('nubity-company', text.company);
-            localStorage.setItem('nubity-firstname', text.firstname);
-            localStorage.setItem('nubity-lastname', text.lastname);
-            localStorage.setItem('nubity-user-id', text.user);
-            localStorage.setItem('nubity-user-email', text.username);
-            localStorage.setItem('nubity-user-avatar', text.public_path);
-            localStorage.setItem('nubity-user-language', text.locale_display_name);
-            localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
-
+            this.setUserData(text);
             routes.redirectDashboard();
           }
         }.bind(this));
@@ -1110,7 +1107,7 @@ module.exports = {
     var user    = localStorage.getItem('nubity-user-id');
 
     request
-    .post('/dashboard') 
+    .post('/dashboard')
     .accept('application/json')
     .set('Authorization', token)
     .send({user_id: user, company_id: company, scope: 'performance', name: title})
@@ -1167,6 +1164,36 @@ module.exports = {
         }
       }.bind(this));
     }.bind(this));
+  },
+
+  updateUserData: function (userData) {
+    var token   = this.getToken();
+    var userId  = localStorage.getItem('nubity-user-id');
+    var SELF = this;
+
+    return new Promise(function (resolve, reject) {
+      request
+      .put('/user/' + userId + '.json')
+      .type('form')
+      .send(userData)
+      .set('Authorization', token)
+      .end(function (res) {
+        var code = JSON.parse(res.status);
+        var text = JSON.parse(res.text);
+        if (200 === code) {
+          SELF.setUserData(text);
+          resolve('Data updated successfully');
+        } else if (401 === code) {
+          SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              SELF.updateUserData(userData);
+            }
+          }.bind(SELF));
+        } else {
+          reject(text);
+        }
+      }.bind(SELF));
+    });
   },
 
   enableTrigger: function (id) {
