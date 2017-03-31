@@ -1182,7 +1182,7 @@ module.exports = {
         var text = JSON.parse(res.text);
         if (200 === code) {
           SELF.setUserData(text);
-          resolve('Data updated successfully!!!');
+          resolve('Data updated successfully');
         } else if (401 === code) {
           SELF.validateToken(res).then(function (status) {
             if (!status) {
@@ -1203,7 +1203,7 @@ module.exports = {
   disableTrigger: function (id) {
     alert('This action will be available soon');
   },
-  
+
   hasToRefresh: function () {
     return (null != localStorage.getItem('nubity-token') && null != localStorage.getItem('nubity-refresh-token'));
   },

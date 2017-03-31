@@ -26,21 +26,17 @@ module.exports = React.createClass({
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       email: this.state.email,
-      avatar: this.state.avatar,
       timezone: this.state.timezone,
     };
 
-    var formData = new FormData();
-
-    formData.append('firstname', userData.firstname);
-    formData.append('lastname', userData.lastname);
-    formData.append('email', userData.email);
-    formData.append('avatar', userData.avatar);
-    formData.append('timezone', userData.timezone);
-    updateUserData(formData).then(function (msg) {
+    updateUserData(userData).then(function (msg) {
       this.setState({
         message: msg,
         messageClass: 'alert alert-success',
+        firstname: localStorage.getItem('nubity-firstname'),
+        lastname: localStorage.getItem('nubity-lastname'),
+        email: localStorage.getItem('nubity-user-email'),
+        timezone: localStorage.getItem('nubity-timezone'),
       });
     }.bind(this)).catch(function (message) {
       if ('string' !== typeof message[0]) {
@@ -67,9 +63,12 @@ module.exports = React.createClass({
     _.map(error, function (errMsg) {
       err.push(<li>{errMsg}</li>);
     });
-    return <li><strong>{lable}</strong><br/>
+    return (
+      <li>
+        <strong>{lable}</strong>
+        <br/>
         <ul>{err}</ul>
-      </li>;
+      </li>);
   },
 
   _enableEdit: function () {
@@ -97,9 +96,8 @@ module.exports = React.createClass({
         <button type="button" onClick={this._submit} className="btn btn-success pull-right public-cloud-button">Save</button>
         <button type="button" onClick={this._cancleEdit} className="btn btn-default pull-right public-cloud-button">Cancle</button>
       </span>;
-    } else {
-      return <button type="button" onClick={this._enableEdit} className="btn btn-success pull-right public-cloud-button">Edit</button>;
     }
+    return <button type="button" onClick={this._enableEdit} className="btn btn-success pull-right public-cloud-button">Edit</button>;
   },
 
   render: function () {
@@ -182,9 +180,10 @@ module.exports = React.createClass({
           </div>
           <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>Avatar Slected</span>
         </div>
+      </form>
         <hr/>
         <div className={this.state.messageClass + ' signup-error-show'}>{this.state.message}</div>
-
+        <form>
           <div className="public-cloud-form col-sm-6">
             <div className="form-group">
               <div className="input-group">
@@ -207,7 +206,7 @@ module.exports = React.createClass({
                   SELF.setState({
                     lastname: e.target.value,
                   });
-                }} ref="lastname" placeholder="Last Name" value={this.state.lastname}  readOnly={!this.state.enableEdit} />
+                }} ref="lastname" placeholder="Last Name" value={this.state.lastname} readOnly={!this.state.enableEdit} />
               </div>
             </div>
             <div className="form-group">
@@ -219,7 +218,7 @@ module.exports = React.createClass({
                   SELF.setState({
                     email: e.target.value,
                   });
-                }} ref="email" placeholder="Email" value={this.state.email}  readOnly={!this.state.enableEdit} />
+                }} ref="email" placeholder="Email" value={this.state.email} readOnly={!this.state.enableEdit} />
               </div>
             </div>
             <div className="form-group">
@@ -249,7 +248,7 @@ module.exports = React.createClass({
                   SELF.setState({
                     language: e.target.value,
                   });
-                }} disabled={!this.state.enableEdit}>
+                }} disabled={true}>
                   <option>{this.state.language}</option>
                 </select>
               </div>
