@@ -1048,7 +1048,7 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put('/instance/' + id + '/monitoring/configuere-template.json')
+    .put('/instance/' + id + '/monitoring/configure-template.json')
     .accept('application/json')
     .send({user_macros: macros, template_id: templateId})
     .set('Authorization', token)
