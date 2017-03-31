@@ -2057,3 +2057,45 @@ a.link-login:hover {
 .first-step {
   padding: 15px;
 }
+.change-avatar {
+  height: 100%;
+  width: 80%;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  z-index: -99999;
+  top: 0;
+  padding-right: 15px;
+  opacity: 0.5;
+  background: rgba(74, 72, 72, 0.33);
+}
+.change-avatar .cam-icon {
+  font-size: 25px;
+  margin-top: 31px;
+  margin-left: 17px;
+  color: rgba(8, 8, 8, 0.8);
+  cursor: pointer;
+}
+.enable-change-option:hover .change-avatar {
+  z-index: 0;
+  transition: opacity 0.5s;
+}
+.change-avatar input[type=file] {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.avatar-slected {
+  display: block;
+  position: absolute;
+  margin-top: 74px;
+  color: rgba(15, 53, 80, 0.91);
+  font-style: italic;
+}
