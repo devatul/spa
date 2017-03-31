@@ -511,6 +511,7 @@ button.action-button:hover {
 }
 .ticket-body {
   padding: 15px;
+  white-space: pre-wrap;
 }
 .ticket-body .ticket-attachment {
   width: auto;
