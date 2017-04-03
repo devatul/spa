@@ -5,8 +5,7 @@ var Carousel                   = require('react-bootstrap').Carousel;
 var CarouselItem               = require('react-bootstrap').CarouselItem;
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
-var enableTrigger              = require('../actions/RequestActions').enableTrigger;
-var disableTrigger             = require('../actions/RequestActions').disableTrigger;
+var modifyingTrigger           = require('../actions/RequestActions').modifyingTrigger;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -18,9 +17,9 @@ module.exports = React.createClass({
 
   switchTrigger: function (trigger) {
     if (trigger.is_enabled) {
-      disableTrigger(trigger.trigger);
+      modifyingTrigger(this.props.idInstance ,trigger.trigger, false);
     } else {
-      enableTrigger(trigger.trigger);
+      modifyingTrigger(this.props.idInstance ,trigger.trigger, true);
     }
   },
 

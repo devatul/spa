@@ -1196,12 +1196,23 @@ module.exports = {
     });
   },
 
-  enableTrigger: function (id) {
-    alert('This action will be available soon');
-  },
-
-  disableTrigger: function (id) {
-    alert('This action will be available soon');
+  modifyingTrigger: function (instanceId, triggerId, status) {
+    var token   = this.getToken();
+    request
+    .put('/instance/' + instanceId + '/monitoring/trigger-status.json')
+    .accept('application/json')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .set('Authorization', token)
+    .send({trigger_id: triggerId, status: status})
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.modifyingTrigger(instanceId, triggerId, status);
+        } else {
+          this.getInstanceConfiguration(instanceId);
+        }
+      }.bind(this));
+    }.bind(this));
   },
 
   hasToRefresh: function () {

@@ -184,11 +184,7 @@ module.exports = {
     return NubityAPIUtils.updateUserData(userData);
   },
 
-  enableTrigger: function (triggerId) {
-    NubityAPIUtils.enableTrigger(triggerId);
-  },
-
-  disableTrigger: function (triggerId) {
-    NubityAPIUtils.disableTrigger(triggerId);
+  modifyingTrigger: function (instanceId, triggerId, status) {
+    NubityAPIUtils.modifyingTrigger(instanceId, triggerId, status);
   },
 };
