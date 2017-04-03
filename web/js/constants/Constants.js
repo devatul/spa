@@ -1,5 +1,5 @@
 var keyMirror = require('keymirror');
-var Root      = 'https://api.nubity.com';
+var Root      = 'http://api.pricing.nubity.com';
 var APIRoot   = Root;
 
 module.exports = {
@@ -34,6 +34,8 @@ module.exports = {
     BACK_TO_ADMIN: null,
     SHOW_CUSTOM_DASHBOARDS: null,
     SHOW_CUSTOM_SLOTS: null,
+    STORE_TIMEZONE: null,
+    STORE_LOCALS: null,
   }),
 
   PayloadSources: keyMirror({
