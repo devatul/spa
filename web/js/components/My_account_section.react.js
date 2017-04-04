@@ -4,14 +4,14 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var updateUserData             = require('../actions/RequestActions').updateUserData;
 var updateNotificationLevel    = require('../actions/RequestActions').updateNotificationLevel;
 var getTimezone                = require('../actions/RequestActions').getTimezone;
-var getLocals                  = require('../actions/RequestActions').getLocals;
+var getLocales                 = require('../actions/RequestActions').getLocales;
 var SessionStore               = require('../stores/SessionStore');
 var _                          = require('lodash');
 
 module.exports = React.createClass({
   getInitialState: function () {
     var timezones = SessionStore.getTimezones();
-    var locales = SessionStore.getLocals();
+    var locales = SessionStore.getLocales();
     return {
       timezones: timezones,
       locales: locales,
@@ -33,7 +33,7 @@ module.exports = React.createClass({
 
   componentDidMount: function () {
     getTimezone();
-    getLocals();
+    getLocales();
     SessionStore.addChangeListener(this._onChange);
   },
 
@@ -44,7 +44,7 @@ module.exports = React.createClass({
   _onChange: function () {
     if (this.isMounted()) {
       var timezones = SessionStore.getTimezones();
-      var locales = SessionStore.getLocals();
+      var locales = SessionStore.getLocales();
       this.setState({
         timezones: timezones,
         locales: locales,
@@ -129,9 +129,24 @@ module.exports = React.createClass({
     });
   },
 
+  _closeAlert: function (alertToken) {
+    if ('formAlert' === alertToken) {
+      this.setState({
+        message: '',
+        messageClass: 'hidden',
+      });
+    }
+    if ('severityAlert' === alertToken) {
+      this.setState({
+        n_message: '',
+        n_messageClass: 'hidden',
+      });
+    }
+  },
+
   render: function () {
     var notificationLevel = this.state.notificationLevel;
-    var local = this.state.locales;
+    var locale = this.state.locales;
     var avatar    = '';
 
     if (null === localStorage.getItem('nubity-user-avatar') || 'undefined' === localStorage.getItem('nubity-user-avatar')) {
@@ -145,9 +160,9 @@ module.exports = React.createClass({
       timezones.push(<option key={i} value={timezone} >{timezone}</option>);
     });
 
-    var locals = [];
-    for (var key in local) {
-      locals.push(<option key={key} value={key} >{local[key]}</option>);
+    var locales = [];
+    for (var key in locale) {
+      locales.push(<option key={key} value={key} >{locale[key]}</option>);
     }
 
     var SELF = this;
@@ -238,8 +253,18 @@ module.exports = React.createClass({
         </div>
       </form>
         <hr/>
-        <div className={this.state.messageClass + ' signup-error-show'}>{this.state.message}</div>
-        <div className={this.state.n_messageClass + ' signup-error-show'}>{this.state.n_message}</div>
+        <div className={this.state.messageClass + ' signup-error-show'} >
+          <button type="button" className="close" onClick={ function () { SELF._closeAlert('formAlert'); }}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {this.state.message}
+        </div>
+        <div className={this.state.n_messageClass + ' signup-error-show'} >
+          <button type="button" className="close" onClick={ function () { SELF._closeAlert('severityAlert'); }}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {this.state.n_message}
+        </div>
         <form>
           <div className="public-cloud-form col-sm-6">
             <div className="form-group">
@@ -317,12 +342,12 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-language small" aria-hidden="true"></i>
                 </span>
-                <select className="form-control no-shadow" ref="timezone" value={this.state.language} onChange={function (e) {
+                <select className="form-control no-shadow" ref="language" value={this.state.language} onChange={function (e) {
                   SELF.setState({
                     language: e.target.value,
                   });
                 }} >
-                  {locals}
+                  {locales}
                 </select>
               </div>
             </div>
@@ -331,9 +356,9 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-time small" aria-hidden="true"></i>
                 </span>
-                <select className="form-control no-shadow" ref="language" value={this.state.timezone} onChange={function (e) {
+                <select className="form-control no-shadow" ref="timezone" value={this.state.timezone} onChange={function (e) {
                   SELF.setState({
-                    language: e.target.value,
+                    timezone: e.target.value,
                   });
                 }} >
                 {timezones}

@@ -196,7 +196,7 @@ module.exports = {
     NubityAPIUtils.getTimezone();
   },
 
-  getLocals: function () {
-    NubityAPIUtils.getLocals();
+  getLocales: function () {
+    NubityAPIUtils.getLocales();
   },
 };

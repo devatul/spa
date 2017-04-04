@@ -27,7 +27,7 @@ var showCompany                    = require('../actions/ServerActions').showCom
 var showCustomDashboards           = require('../actions/ServerActions').showCustomDashboards;
 var showCustomSlots                = require('../actions/ServerActions').showCustomSlots;
 var showTimezone                   = require('../actions/ServerActions').showTimezone;
-var showLocals                     = require('../actions/ServerActions').showLocals;
+var showLocales                    = require('../actions/ServerActions').showLocales;
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
@@ -1264,7 +1264,7 @@ module.exports = {
       }.bind(this));
   },
 
-  getLocals: function () {
+  getLocales: function () {
     var token = this.getToken();
     request
       .get('/locales.json')
@@ -1274,20 +1274,12 @@ module.exports = {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
-            this.getLocals();
+            this.getLocales();
           } else {
-            showLocals(text);
+            showLocales(text);
           }
         }.bind(this));
       }.bind(this));
-  },
-
-  enableTrigger: function (id) {
-    alert('This action will be available soon');
-  },
-
-  disableTrigger: function (id) {
-    alert('This action will be available soon');
   },
 
   hasToRefresh: function () {

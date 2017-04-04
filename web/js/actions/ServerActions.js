@@ -199,10 +199,10 @@ module.exports = {
       res: timezone,
     });
   },
-  showLocals: function (locals) {
+  showLocales: function (locales) {
     Dispatcher.handleServerAction({
-      actionType: ActionTypes.STORE_LOCALS,
-      res: locals,
+      actionType: ActionTypes.STORE_LOCALES,
+      res: locales,
     });
   },
 };

@@ -19,8 +19,8 @@ var _search       = '';
 var _graphTypes   = '';
 var _companyInfo  = '';
 var _loginError   = '';
-var _locals       = '';
-var _timezones     = '';
+var _locales      = '';
+var _timezones    = '';
 
 var SessionStore  = assign({}, EventEmitter.prototype, {
 
@@ -95,8 +95,8 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
     return _timezones;
   },
 
-  getLocals: function () {
-    return _locals;
+  getLocales: function () {
+    return _locales;
   },
 
 });
@@ -134,8 +134,8 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       SessionStore.emitChange();
       break;
 
-    case ActionTypes.STORE_LOCALS:
-      _locals = action.res;
+    case ActionTypes.STORE_LOCALES:
+      _locales = action.res;
       SessionStore.emitChange();
       break;
 
