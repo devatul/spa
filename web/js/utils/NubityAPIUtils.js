@@ -2,6 +2,7 @@ var request                        = require('superagent-use')(require('superage
 var prefix                         = require('superagent-prefix');
 var Constants                      = require('../constants/Constants');
 var SessionStore                   = require('../stores/SessionStore');
+var getUserData                    = require('../actions/StorageActions').getUserData;
 var loginError                     = require('../actions/ServerActions').loginError;
 var showInfrastructureOverview     = require('../actions/ServerActions').showInfrastructureOverview;
 var showInfrastructurePublicCloud  = require('../actions/ServerActions').showInfrastructurePublicCloud;
@@ -202,15 +203,7 @@ module.exports = {
   },
 
   setUserData: function (text) {
-    localStorage.setItem('nubity-company', text.company);
-    localStorage.setItem('nubity-firstname', text.firstname);
-    localStorage.setItem('nubity-lastname', text.lastname);
-    localStorage.setItem('nubity-user-id', text.user);
-    localStorage.setItem('nubity-user-email', text.username);
-    localStorage.setItem('nubity-user-avatar', text.public_path);
-    localStorage.setItem('nubity-user-language', text.locale_display_name);
-    localStorage.setItem('nubity-notification-level', text.notification_severity_level[0].name);
-    localStorage.setItem('nubity-timezone', text.timezone);
+    localStorage.setItem('nubity-user',JSON.stringify(text));
   },
 
   getUser: function () {
@@ -226,7 +219,6 @@ module.exports = {
             this.getUser();
           } else {
             this.setUserData(text);
-
             if (this.fromLogin) {
               this.fromLogin = false;
               var uri = localStorage.getItem('nubity-uri');
@@ -265,7 +257,7 @@ module.exports = {
   },
 
   getCompanyInfo: function () {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     request
     .get('/company/' + company)
@@ -285,9 +277,9 @@ module.exports = {
   },
 
   getDashboardSlots: function (id) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
+    var user    = getUserData('user');
     request
     .get('/slot' )
     .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
@@ -306,9 +298,9 @@ module.exports = {
   },
 
   getDashboards: function () {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
+    var user    = getUserData('user');
 
     request
     .get('/company/' + company + '/user/' + user + '/dashboard')
@@ -389,7 +381,7 @@ module.exports = {
   },
 
   getInfrastructureOverview: function (page) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     if (0 != page) {
       request
@@ -428,7 +420,7 @@ module.exports = {
   },
 
   getInfrastructurePublicCloud: function (page) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     if (0 != page) {
       request
@@ -467,7 +459,7 @@ module.exports = {
   },
 
   getInfrastructurePrivateCloud: function (page) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     if (0 != page) {
       request
@@ -506,7 +498,7 @@ module.exports = {
   },
 
   getInfrastructureOnPremise: function (page) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     if (0 != page) {
       request
@@ -545,7 +537,7 @@ module.exports = {
   },
 
   getAlerts: function (page) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     if (0 != page) {
       request
@@ -582,7 +574,7 @@ module.exports = {
   },
 
   getStats: function () {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
     request
       .get('/company/' + company + '/alerts-stats.json')
@@ -601,7 +593,7 @@ module.exports = {
   },
 
   getHistoryAlerts: function (page) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     if (0 != page) {
       request
@@ -660,7 +652,7 @@ module.exports = {
   },
 
   getDashboardAlerts: function () {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
     request
     .get('/company/' + company + '/alerts')
@@ -699,9 +691,9 @@ module.exports = {
   },
 
   createDasboard: function (widget, server, chart) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
+    var user    = getUserData('user');
 
     request
     .post('/dashboard') //Changed to createDasboard
@@ -721,7 +713,7 @@ module.exports = {
   },
 
   search: function () {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     request
     .get('/company/' + company + '/search.json')
@@ -740,7 +732,7 @@ module.exports = {
   },
 
   getNinja: function (page) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token = this.getToken();
     if (0 != page) {
       request
@@ -777,7 +769,7 @@ module.exports = {
   },
 
   createTicket: function (ticket) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
 
     request
@@ -797,7 +789,7 @@ module.exports = {
   },
 
   replyTicket: function (id, content) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
 
     request
@@ -817,7 +809,7 @@ module.exports = {
   },
 
   closeTicket: function (id) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
 
     request
@@ -836,7 +828,7 @@ module.exports = {
   },
 
   getTicket: function (ticketId) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
     request
     .get('/company/' + company + '/ticket/' + ticketId)
@@ -920,7 +912,7 @@ module.exports = {
   },
 
   stopInstance: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
     request
     .put('/company/' + company + '/instance/' + instanceId + '/stop.json')
@@ -941,7 +933,7 @@ module.exports = {
   },
 
   startInstance: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
 
     request
@@ -963,7 +955,7 @@ module.exports = {
   },
 
   restartInstance: function (instanceId) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
 
     request
@@ -1007,7 +999,7 @@ module.exports = {
 
   getInstanceForMonitoring: function (id) {
     var token   = this.getToken();
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     request
     .get('/company/' + company + '/instance/' + id + '.json')
     .query({include_products: true})
@@ -1104,9 +1096,9 @@ module.exports = {
   },
 
   createCustomDashboard: function (title, icon) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
+    var user    = getUserData('user');
 
     request
     .post('/dashboard')
@@ -1125,9 +1117,9 @@ module.exports = {
   },
 
   getCustomDashboards: function () {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
+    var user    = getUserData('user');
 
     request
     .get('/company/' + company + '/user/' + user + '/dashboard')
@@ -1147,9 +1139,9 @@ module.exports = {
   },
 
   getCustomSlots: function (id) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
-    var user    = localStorage.getItem('nubity-user-id');
+    var user    = getUserData('user');
 
     request
     .get('/slot.json')

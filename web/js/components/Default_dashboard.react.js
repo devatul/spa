@@ -1,6 +1,6 @@
 var React                      = require('react');
 var Router                     = require('../router');
-var moment                     = require('moment');
+var moment                     = require('moment-timezone');
 var redirect                   = require('../actions/RouteActions').redirect;
 var GraphStore                 = require('../stores/GraphStore');
 var SessionStore               = require('../stores/SessionStore');
@@ -9,6 +9,9 @@ var getDashboardAlerts         = require('../actions/RequestActions').getDashboa
 var getDashboards              = require('../actions/RequestActions').getDashboards;
 var getDashboard               = require('../actions/RequestActions').getDashboard;
 var getStats                   = require('../actions/RequestActions').getStats;
+var getUser                    = require('../actions/RequestActions').getUser;
+var getUserData                = require('../actions/StorageActions').getUserData;
+var getLocaleDateFormat        = require('../actions/StorageActions').getLocaleDateFormat;
 var Graphs                     = require('./Graphs.react');
 var Preloader                  = require('./Preloader.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
@@ -219,11 +222,15 @@ module.exports = React.createClass({
       }
 
       var totalItems = this.state.mainAlerts.legth;
-
-      var from = moment(mainAlerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
+      var userTimeZone = getUserData('timezone');
+      var locale = getUserData('locale');
+      moment.locale(locale);
+      var date_from_obj = moment.tz(mainAlerts[key].started_on, userTimeZone).toDate();
+      var from = date_from_obj.toLocaleDateString()+' '+date_from_obj.toLocaleTimeString();
       var to = '';
       if (null != mainAlerts[key].resolved_on) {
-        to = moment(mainAlerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
+        var date_to_obj = moment.tz(mainAlerts[key].resolved_on, userTimeZone).toDate();
+        to = date_to_obj.toLocaleDateString()+' '+date_to_obj.toLocaleTimeString();
       } else {
         to = '-';
       }

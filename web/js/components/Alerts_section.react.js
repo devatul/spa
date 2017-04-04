@@ -1,12 +1,14 @@
 var React                      = require('react');
 var Router                     = require('../router');
-var moment                     = require('moment');
+var moment                     = require('moment-timezone');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var AlertsStore                = require('../stores/AlertsStore');
 var getAlerts                  = require('../actions/RequestActions').getAlerts;
 var getHistoryAlerts           = require('../actions/RequestActions').getHistoryAlerts;
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
+var getUserData                = require('../actions/StorageActions').getUserData;
+var getLocaleDateFormat        = require('../actions/StorageActions').getLocaleDateFormat;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 var Preloader                  = require('./Preloader.react');
 var Tooltip                    = require('react-bootstrap').Tooltip;
@@ -173,6 +175,8 @@ module.exports = React.createClass({
     var severityTooltip;
     var content;
     var mute = 'mute';
+    var userTimeZone = getUserData('timezone');
+    var locale = getUserData('locale');
 
     for (var key in alerts) {
       level = '';
@@ -253,10 +257,14 @@ module.exports = React.createClass({
         </Modal>
       );
 
-      var from = moment(alerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
+      moment.locale(locale);
+      var date_from_obj = moment.tz(alerts[key].started_on, userTimeZone).toDate();
+      var from = date_from_obj.toLocaleDateString()+' '+date_from_obj.toLocaleTimeString();
+      var date_to_obj = '';
       var to = '';
       if (null != alerts[key].resolved_on) {
-        to = moment(alerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
+        date_to_obj = moment.tz(alerts[key].resolved_on, userTimeZone).toDate();
+        to = date_to_obj.toLocaleDateString()+' '+date_to_obj.toLocaleTimeString();
         action = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
@@ -376,10 +384,13 @@ module.exports = React.createClass({
         </Modal>
       );
 
-      from = moment(historyAlerts[key].started_on).format('DD/MM/YYYY hh:mm:ss');
+      moment.locale(locale);
+      date_from_obj = moment.tz(historyAlerts[key].started_on, userTimeZone).toDate();
+      from = date_from_obj.toLocaleDateString()+' '+date_from_obj.toLocaleTimeString();
       to = '';
       if (null != historyAlerts[key].resolved_on) {
-        to = moment(historyAlerts[key].resolved_on).format('DD/MM/YYYY hh:mm:ss');
+        date_to_obj = moment.tz(historyAlerts[key].resolved_on, userTimeZone).toDate();
+        to = date_to_obj.toLocaleDateString()+' '+date_to_obj.toLocaleTimeString();
         haction = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';

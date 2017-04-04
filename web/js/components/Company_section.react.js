@@ -3,7 +3,8 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
-var company                    = localStorage.getItem('nubity-company');
+var getUserData                = require('../actions/StorageActions').getUserData;
+var company                    = getUserData('company');
 
 module.exports = React.createClass({
   getInitialState: function () {
