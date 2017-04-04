@@ -203,4 +203,8 @@ module.exports = {
   getLocales: function () {
     NubityAPIUtils.getLocales();
   },
+
+  updateCompanyInfo: function (companyInfo) {
+    return NubityAPIUtils.updateCompanyInfo(companyInfo);
+  },
 };

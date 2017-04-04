@@ -1243,6 +1243,37 @@ module.exports = {
     });
   },
 
+  updateCompanyInfo: function (companyInfo) {
+    var token   = this.getToken();
+    var company = localStorage.getItem('nubity-company');
+    var SELF = this;
+
+    return new Promise(function (resolve, reject) {
+      request
+      .put('/company/' + company + '.json')
+      .type('application/json')
+      .send(companyInfo)
+      .set('Authorization', token)
+      .end(function (res) {
+        var code = JSON.parse(res.status);
+        var text = JSON.parse(res.text);
+        if (200 === code) {
+          showCompany(text);
+          SELF.getUser();
+          resolve('Company info updated successfully');
+        } else if (401 === code) {
+          SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              SELF.updateCompanyInfo(companyInfo);
+            }
+          }.bind(SELF));
+        } else {
+          reject(text);
+        }
+      }.bind(SELF));
+    });
+  },
+
   getTimezone: function () {
     var token = this.getToken();
     request
