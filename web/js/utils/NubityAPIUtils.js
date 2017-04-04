@@ -26,6 +26,8 @@ var showTicket                     = require('../actions/ServerActions').showTic
 var showCompany                    = require('../actions/ServerActions').showCompany;
 var showCustomDashboards           = require('../actions/ServerActions').showCustomDashboards;
 var showCustomSlots                = require('../actions/ServerActions').showCustomSlots;
+var showTimezone                   = require('../actions/ServerActions').showTimezone;
+var showLocales                    = require('../actions/ServerActions').showLocales;
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
@@ -1180,7 +1182,7 @@ module.exports = {
       .end(function (res) {
         var code = JSON.parse(res.status);
         var text = JSON.parse(res.text);
-        if (200 === code) {
+        if (200 <= code && 300 > code) {
           SELF.setUserData(text);
           resolve('Data updated successfully');
         } else if (401 === code) {
@@ -1213,6 +1215,71 @@ module.exports = {
         }
       }.bind(this));
     }.bind(this));
+  },
+
+  updateNotificationLevel: function (severity) {
+    var token   = this.getToken();
+    var userId  = localStorage.getItem('nubity-user-id');
+    var company = localStorage.getItem('nubity-company');
+    var SELF = this;
+    return new Promise(function (resolve, reject) {
+      request
+      .put('/company/'+company+'/notification-severity-level.json')
+      .type('application/json')
+      .send({user_id: userId, company_id: company, severity: severity})
+      .set('Authorization', token)
+      .end(function (res) {
+        var code = JSON.parse(res.status);
+        if (200 <= code && 300 > code) {
+          SELF.getUser();
+          resolve('Severity updated successfully');
+        } else if (401 === code) {
+          SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              SELF.updateNotificationLevel(severity);
+            }
+          }.bind(SELF));
+        } else {
+          reject('Error updating severity');
+        }
+      }.bind(SELF));
+    });
+  },
+
+  getTimezone: function () {
+    var token = this.getToken();
+    request
+      .get('/timezones.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getTimezone();
+          } else {
+            showTimezone(text);
+          }
+        }.bind(this));
+      }.bind(this));
+  },
+
+  getLocales: function () {
+    var token = this.getToken();
+    request
+      .get('/locales.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getLocales();
+          } else {
+            showLocales(text);
+          }
+        }.bind(this));
+      }.bind(this));
   },
 
   hasToRefresh: function () {
