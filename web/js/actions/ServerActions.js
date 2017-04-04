@@ -83,7 +83,7 @@ module.exports = {
       res: onPremise,
     });
   },
-  
+
   showAlerts: function (alerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_ALERTS,
@@ -191,6 +191,18 @@ module.exports = {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CUSTOM_SLOTS,
       res: slots,
+    });
+  },
+  showTimezone: function (timezone) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.STORE_TIMEZONE,
+      res: timezone,
+    });
+  },
+  showLocales: function (locales) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.STORE_LOCALES,
+      res: locales,
     });
   },
 };
