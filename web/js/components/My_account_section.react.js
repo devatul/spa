@@ -5,6 +5,7 @@ var updateUserData             = require('../actions/RequestActions').updateUser
 var updateNotificationLevel    = require('../actions/RequestActions').updateNotificationLevel;
 var getTimezone                = require('../actions/RequestActions').getTimezone;
 var getLocales                 = require('../actions/RequestActions').getLocales;
+var getUserData                = require('../actions/StorageActions').getUserData;
 var SessionStore               = require('../stores/SessionStore');
 var _                          = require('lodash');
 
@@ -12,15 +13,21 @@ module.exports = React.createClass({
   getInitialState: function () {
     var timezones = SessionStore.getTimezones();
     var locales = SessionStore.getLocales();
+    var user = JSON.parse(localStorage.getItem('nubity-user'));
+    var notificationLevel = null;
+    if (user && user.notification_severity_level) {
+      notificationLevel = user.notification_severity_level[0].name;
+    }
+
     return {
       timezones: timezones,
       locales: locales,
-      firstname: localStorage.getItem('nubity-firstname'),
-      lastname: localStorage.getItem('nubity-lastname'),
-      email: localStorage.getItem('nubity-user-email'),
-      language: localStorage.getItem('nubity-user-language'),
-      notificationLevel: localStorage.getItem('nubity-notification-level'),
-      timezone: localStorage.getItem('nubity-timezone'),
+      firstname: getUserData('firstname'),
+      lastname: getUserData('lastname'),
+      email: getUserData('email'),
+      language: getUserData('locale_display_name'),
+      notificationLevel: notificationLevel,
+      timezone: getUserData('timezone'),
       password: '',
       cmfPassword: '',
       avatar: false,
@@ -149,10 +156,10 @@ module.exports = React.createClass({
     var locale = this.state.locales;
     var avatar    = '';
 
-    if (null === localStorage.getItem('nubity-user-avatar') || 'undefined' === localStorage.getItem('nubity-user-avatar')) {
+    if (!getUserData('public_path')) {
       avatar = './images/userpic.jpg';
     } else {
-      avatar = localStorage.getItem('nubity-user-avatar');
+      avatar = getUserData('public_path');
     }
 
     var timezones = [];

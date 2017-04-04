@@ -1,6 +1,7 @@
 var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
+var getUserData                = require('../actions/StorageActions').getUserData;
 var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
 var Highcharts                 = require('highcharts');
@@ -18,8 +19,7 @@ module.exports = React.createClass({
       name = name.replace(/\"/g, '');
       var interval = graph.custom_interval;
       var interval_name;
-      var hostname = graph.hostname;
-
+      var hostname = graph.hostname;      
       switch (interval) {
         case 'TODAY':
           interval_name = 'Today\'s';
@@ -45,7 +45,6 @@ module.exports = React.createClass({
         default:
           interval_name = '';
       }
-
       var slot_name;
       if ('TODAY' == interval || 'YESTERDAY' == interval) {
         slot_name = interval_name + ' ' + name;
@@ -87,7 +86,13 @@ module.exports = React.createClass({
       var yTitle = 'Values';
       if (graph.content.series[0].unit) {
         yTitle = 'Values (' + graph.content.series[0].unit + ')';
-      }
+      }      
+
+      Highcharts.setOptions({
+        global: {
+          timezoneOffset: this.getUserTimeZoneOffset()*60,
+        },
+      });
 
       Highcharts.chart(this.props.name, {
         chart: {
@@ -162,6 +167,12 @@ module.exports = React.createClass({
         series: chartSeries,
       });
     }
+  },
+
+  getUserTimeZoneOffset: function () {
+    var date = new Date();
+    var timezoneOffset = date.toLocaleString('en-EN', {hour: '2-digit', hour12: false, timeZone: getUserData('timezone')});
+    return parseInt(timezoneOffset);
   },
 
   componentWillUnmount: function () {

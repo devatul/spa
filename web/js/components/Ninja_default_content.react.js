@@ -4,6 +4,8 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var NinjaStore                 = require('../stores/NinjaStore');
 var getNinja                   = require('../actions/RequestActions').getNinja;
 var Preloader                  = require('./Preloader.react');
+var getUserData                = require('../actions/StorageActions').getUserData;
+var getLocaleDateFormat        = require('../actions/StorageActions').getLocaleDateFormat;
 var getTicket                  = require('../actions/RequestActions').getTicket;
 var viewTicket                 = require('../actions/ServerActions').viewTicket;
 var Tooltip                    = require('react-bootstrap').Tooltip;
@@ -116,6 +118,9 @@ module.exports = React.createClass({
       }
 
       var rows = [];
+      var userTimeZone = getUserData('timezone');
+      var locale = getUserData('locale');
+      moment.locale(locale);      
       for (key in ticket) {
         var status = '';
         var department_icon = '';
@@ -123,7 +128,8 @@ module.exports = React.createClass({
         var priority = '';
         var tooltip = '';
         var priorityTooltip = '';
-        var from = moment(ticket[key].created_at).format('DD/MM/YYYY hh:mm:ss');
+        var date_obj = moment.tz(ticket[key].created_at, userTimeZone).toDate();
+        var from = date_obj.toLocaleDateString()+' '+date_obj.toLocaleTimeString();
 
         tooltip = <Tooltip id="tooltip" style={{textTransform: 'capitalize'}}>{ticket[key].status}</Tooltip>;
         status = 'icon nb-ticket icon-state ';
