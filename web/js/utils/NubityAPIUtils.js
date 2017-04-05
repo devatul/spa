@@ -208,33 +208,37 @@ module.exports = {
 
   getUser: function () {
     var token = this.getToken();
-    request
-      .get('/user.json')
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getUser();
-          } else {
-            this.setUserData(text);
-            if (this.fromLogin) {
-              this.fromLogin = false;
-              var uri = localStorage.getItem('nubity-uri');
-              if (null !== uri) {
-                localStorage.removeItem('nubity-uri');
-                var to = uri.split('/#/')[1];
-                to = to.split('#')[0];
-                routes.redirectTo(to);
-                window.location.href = uri;
-              } else {
-                routes.redirectDashboard();
+    var SELF = this;
+    return new Promise( function (resolve) {
+      request
+        .get('/user.json')
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              SELF.getUser();
+            } else {
+              SELF.setUserData(text);
+              if (SELF.fromLogin) {
+                SELF.fromLogin = false;
+                var uri = localStorage.getItem('nubity-uri');
+                if (null !== uri) {
+                  localStorage.removeItem('nubity-uri');
+                  var to = uri.split('/#/')[1];
+                  to = to.split('#')[0];
+                  routes.redirectTo(to);
+                  window.location.href = uri;
+                } else {
+                  routes.redirectDashboard();
+                }
               }
+              resolve();
             }
-          }
-        }.bind(this));
-      }.bind(this));
+          }.bind(SELF));
+        }.bind(SELF));
+    });
   },
 
   getUserForSwitchUser: function () {
@@ -1162,13 +1166,13 @@ module.exports = {
 
   updateUserData: function (userData) {
     var token   = this.getToken();
-    var userId  = localStorage.getItem('nubity-user-id');
+    var user    = getUserData('user');
     var SELF = this;
 
     return new Promise(function (resolve, reject) {
       request
-      .put('/user/' + userId + '.json')
-      .type('form')
+      .put('/user/' + user + '.json')
+      .type('application/json')
       .send(userData)
       .set('Authorization', token)
       .end(function (res) {
@@ -1211,20 +1215,21 @@ module.exports = {
 
   updateNotificationLevel: function (severity) {
     var token   = this.getToken();
-    var userId  = localStorage.getItem('nubity-user-id');
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
+    var user    = getUserData('user');
     var SELF = this;
     return new Promise(function (resolve, reject) {
       request
       .put('/company/'+company+'/notification-severity-level.json')
       .type('application/json')
-      .send({user_id: userId, company_id: company, severity: severity})
+      .send({user_id: user, company_id: company, severity: severity})
       .set('Authorization', token)
       .end(function (res) {
         var code = JSON.parse(res.status);
         if (200 <= code && 300 > code) {
-          SELF.getUser();
-          resolve('Severity updated successfully');
+          SELF.getUser().then(function () {
+            resolve('Severity updated successfully');
+          });
         } else if (401 === code) {
           SELF.validateToken(res).then(function (status) {
             if (!status) {
