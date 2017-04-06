@@ -13,19 +13,15 @@ module.exports = React.createClass({
   getInitialState: function () {
     var timezones = SessionStore.getTimezones();
     var locales = SessionStore.getLocales();
-    var user = JSON.parse(localStorage.getItem('nubity-user'));
-    var notificationLevel = null;
-    if (user && user.notification_severity_level) {
-      notificationLevel = user.notification_severity_level[0].name;
-    }
+    var notificationLevel = this._getNotificationLevel();
 
     return {
       timezones: timezones,
       locales: locales,
       firstname: getUserData('firstname'),
       lastname: getUserData('lastname'),
-      email: getUserData('email'),
-      language: getUserData('locale_display_name'),
+      email: getUserData('username'),
+      language: getUserData('locale'),
       notificationLevel: notificationLevel,
       timezone: getUserData('timezone'),
       password: '',
@@ -59,11 +55,21 @@ module.exports = React.createClass({
     }
   },
 
+  _getNotificationLevel: function () {
+    var user = JSON.parse(localStorage.getItem('nubity-user'));
+    var notificationLevel = null;
+    if (user && user.notification_severity_level) {
+      notificationLevel = user.notification_severity_level[0].name;
+    }
+    return notificationLevel;
+  },
+
   _submit: function () {
     var userData = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       email: this.state.email,
+      locale: this.state.language,
       timezone: this.state.timezone,
       password: {
         password: this.state.password,
@@ -75,10 +81,11 @@ module.exports = React.createClass({
       this.setState({
         message: msg,
         messageClass: 'alert alert-success',
-        firstname: localStorage.getItem('nubity-firstname'),
-        lastname: localStorage.getItem('nubity-lastname'),
-        email: localStorage.getItem('nubity-user-email'),
-        timezone: localStorage.getItem('nubity-timezone'),
+        firstname: getUserData('firstname'),
+        lastname: getUserData('lastname'),
+        email: getUserData('username'),
+        language: getUserData('locale'),
+        timezone: getUserData('timezone'),
       });
     }.bind(this)).catch(function (message) {
       var err = this._showError(message);
@@ -92,6 +99,7 @@ module.exports = React.createClass({
       this.setState({
         n_message: msg,
         n_messageClass: 'alert alert-success',
+        notificationLevel: this._getNotificationLevel(),
       });
     }.bind(this)).catch(function (message) {
       var err = this._showError(message);
@@ -307,7 +315,7 @@ module.exports = React.createClass({
                   SELF.setState({
                     email: e.target.value,
                   });
-                }} ref="email" placeholder="Email" value={this.state.email} />
+                }} ref="email" placeholder="Email" value={this.state.email} readOnly/>
               </div>
             </div>
             <div className="form-group">
