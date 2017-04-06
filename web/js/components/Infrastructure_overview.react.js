@@ -40,7 +40,7 @@ module.exports = React.createClass({
   },
 
   componentWillReceiveProps: function (props) {
-    if (props.page_no !== this.state.pageNo) {
+    if (props.page_no !== this.state.pageNo && ('#overview' === props.sectionId || '' === props.sectionId)) {
       this.setState({
         pageNo: props.page_no,
       });

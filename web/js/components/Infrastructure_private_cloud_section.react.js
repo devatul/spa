@@ -37,7 +37,7 @@ module.exports = React.createClass({
   },
 
   componentWillReceiveProps: function (props) {
-    if (props.page_no !== this.state.pageNo) {
+    if (props.page_no !== this.state.pageNo  && '#private' === props.sectionId) {
       this.setState({
         pageNo: props.page_no,
       });

@@ -112,16 +112,16 @@ module.exports = React.createClass({
         </div>
         <div className="tab-content section-content">
           <div id="overview" className={'tab-pane fade ' + ('#overview' == hash || '' == hash ? 'in active' : '')}>
-            <InfrastructureOverview page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#overview', page);}}/>
+            <InfrastructureOverview page_no={pageNo} sectionId={hash} callUpdateURL={function (page) {_SELF.updateURL('#overview', page);}}/>
           </div>
           <div id="public" className={'tab-pane fade ' + ('#public' == hash ? 'in active' : '')}>
-            <InfrastructurePublicCloud page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#public', page);}}/>
+            <InfrastructurePublicCloud page_no={pageNo} sectionId={hash} callUpdateURL={function (page) {_SELF.updateURL('#public', page);}}/>
           </div>
           <div id="private" className={'tab-pane fade ' + ('#private' == hash ? 'in active' : '')}>
-            <InfrastructurePrivateCloud page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#private', page);}}/>
+            <InfrastructurePrivateCloud page_no={pageNo} sectionId={hash} callUpdateURL={function (page) {_SELF.updateURL('#private', page);}}/>
           </div>
           <div id="onPremise" className={'tab-pane fade ' + ('#onPremise' == hash ? 'in active' : '')}>
-            <InfrastructureOnPremise page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page);}}/>
+            <InfrastructureOnPremise page_no={pageNo} sectionId={hash} callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page);}}/>
           </div>
         </div>
       </div>
