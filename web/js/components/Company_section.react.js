@@ -4,29 +4,37 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 var getUserData                = require('../actions/StorageActions').getUserData;
+var getTimezone                = require('../actions/RequestActions').getTimezone;
+var getLocales                 = require('../actions/RequestActions').getLocales;
 var updateCompanyInfo          = require('../actions/RequestActions').updateCompanyInfo;
 var _                          = require('lodash');
 
 module.exports = React.createClass({
   getInitialState: function () {
     var companyInfo = SessionStore.getCompanyInfo();
+    var timezones = SessionStore.getTimezones();
+    var locales = SessionStore.getLocales();
     return {
-      timezones: [],
-      locales: {},
+      timezones: timezones,
+      locales: locales,
       name: companyInfo.name,
       tradeName: companyInfo.trade_name,
+      tin: companyInfo.tin,
       address: companyInfo.address,
       country: companyInfo.country,
       state: companyInfo.state,
       city: companyInfo.city,
       language: companyInfo.locale,
-      timezone: localStorage.getItem('nubity-timezone'),
+      postalCode: companyInfo.postal_code,
+      timezone: companyInfo.timezone,
       message: '',
       messageClass: 'hidden',
     };
   },
 
   componentDidMount: function () {
+    getTimezone();
+    getLocales();
     getCompanyInfo();
     SessionStore.addChangeListener(this._onChange);
   },
@@ -38,17 +46,21 @@ module.exports = React.createClass({
   _onChange: function () {
     if (this.isMounted()) {
       var companyInfo = SessionStore.getCompanyInfo();
+      var timezones = SessionStore.getTimezones();
+      var locales = SessionStore.getLocales();
       this.setState({
-        timezones: [],
-        locales: {},
+        timezones: timezones,
+        locales: locales,
         name: companyInfo.name,
         tradeName: companyInfo.trade_name,
+        tin: companyInfo.tin,
         address: companyInfo.address,
         country: companyInfo.country,
         state: companyInfo.state,
         city: companyInfo.city,
         language: companyInfo.locale,
-        timezone: localStorage.getItem('nubity-timezone'),
+        postalCode: companyInfo.postal_code,
+        timezone: companyInfo.timezone,
       });
     }
   },
@@ -57,12 +69,14 @@ module.exports = React.createClass({
     var companyInfo = {
       name: this.state.name,
       trade_name: this.state.tradeName,
+      tin: this.state.tin,
       address: this.state.address,
       country: this.state.country,
       state: this.state.state,
       city: this.state.city,
       locale: this.state.language,
       timezone: this.state.timezone,
+      postal_code: this.state.postalCode,
     };
 
     updateCompanyInfo(companyInfo).then(function (msg) {
@@ -119,12 +133,12 @@ module.exports = React.createClass({
 
     var timezones = [];
     _.map(this.state.timezones,function (timezone, i) {
-      timezones.push(<option key={i} value={timezone} >{timezone}</option>);
+      timezones.push(<option key={i} value={timezone}>{timezone}</option>);
     });
 
     var locales = [];
     for (var key in locale) {
-      locales.push(<option key={key} value={key} >{locale[key]}</option>);
+      locales.push(<option key={key} value={key}>{locale[key]}</option>);
     }
 
     return (
@@ -171,7 +185,11 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-suitcase" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="rfc" placeholder="RFC" />
+                  <input type="text" className="form-control no-shadow" id="tin" placeholder="TIN" onChange={function (e) {
+                    SELF.setState({
+                      tin: e.target.value,
+                    });
+                  }} value={this.state.tin} />
                 </div>
               </div>
             </div>
@@ -229,7 +247,7 @@ module.exports = React.createClass({
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <i className="input-icon fa fa-map-marker" aria-hidden="true"></i>
+                    <i className="input-icon icon nb-language small" aria-hidden="true"></i>
                   </div>
                   <select className="form-control no-shadow" id="language" onChange={function (e) {
                     SELF.setState({
@@ -243,7 +261,7 @@ module.exports = React.createClass({
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <i className="input-icon icon nb-language small" aria-hidden="true"></i>
+                    <i className="input-icon icon nb-time small" aria-hidden="true"></i>
                   </div>
                   <select className="form-control no-shadow" id="timezone" onChange={function (e) {
                     SELF.setState({

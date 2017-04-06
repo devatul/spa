@@ -1245,7 +1245,7 @@ module.exports = {
 
   updateCompanyInfo: function (companyInfo) {
     var token   = this.getToken();
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var SELF = this;
 
     return new Promise(function (resolve, reject) {
@@ -1259,7 +1259,6 @@ module.exports = {
         var text = JSON.parse(res.text);
         if (200 === code) {
           showCompany(text);
-          SELF.getUser();
           resolve('Company info updated successfully');
         } else if (401 === code) {
           SELF.validateToken(res).then(function (status) {
