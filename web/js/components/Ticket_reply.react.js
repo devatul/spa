@@ -1,7 +1,12 @@
-var React  = require('react');
-var moment = require('moment');
+var React          = require('react');
+var moment         = require('moment');
+var openAttachment = require('../actions/RequestActions').openAttachment;
         
 module.exports = React.createClass({
+  _openAttachment: function (ticketId, attachmentId, attachmentName) {
+    openAttachment (ticketId, attachmentId, attachmentName);
+  },
+
   render: function () {
     var firstname = ''; 
     var from = '';
@@ -14,6 +19,10 @@ module.exports = React.createClass({
       firstname = this.props.reply.user.firstname;
     } 
     var message = $('<textarea />').html(this.props.reply.content).text();
+    var attachments = [];
+    for (var key in this.props.reply.ticket_attachments) {
+      attachments.push(<div className="attachments-link" onClick={this._openAttachment.bind(this, this.props.reply.ticket_attachments[key].ticket_id, this.props.reply.ticket_attachments[key].ticketAttachment, this.props.reply.ticket_attachments[key].filename)}>{this.props.reply.ticket_attachments[key].filename}</div>);
+    }
     return (
       <div className="ticket-reply">
         <div className="ticket-reply-header">
@@ -27,6 +36,9 @@ module.exports = React.createClass({
             <div className="col-xs-12">
             </div>
             {message}
+          </div>
+          <div className="ticket-message">
+            {attachments}
           </div>
         </div>
       </div>

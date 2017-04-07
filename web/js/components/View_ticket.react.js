@@ -13,6 +13,8 @@ var Dropdown                   = require('react-bootstrap').Dropdown;
 var Button                     = require('react-bootstrap').Button;
 var ButtonToolbar              = require('react-bootstrap').ButtonToolbar;
 var MenuItem                   = require('react-bootstrap').MenuItem;
+var Dropzone                   = require('react-dropzone');
+var openAttachment             = require('../actions/RequestActions').openAttachment;
 
 module.exports = React.createClass({
 
@@ -27,6 +29,8 @@ module.exports = React.createClass({
       getTicket(id);
       return {
         ticket: '',
+        files: [],
+        dropzone: 'dropzone',
       };
     }
 
@@ -54,9 +58,10 @@ module.exports = React.createClass({
   },
 
   _onChange: function () {
-    if (this.isMounted()) {
+    if (this.isMounted() && NinjaStore.getViewTicket() != this.state.ticket) {
       this.setState({
         ticket: NinjaStore.getViewTicket(),
+        files: [],
       });
     }
   },
@@ -68,7 +73,7 @@ module.exports = React.createClass({
 
     this.refs.content.getDOMNode().value = '';
 
-    ReplyTicketAction(id, ticketReply);
+    ReplyTicketAction(id, ticketReply, this.state.files);
   },
 
   _closeTicket: function () {
@@ -81,6 +86,24 @@ module.exports = React.createClass({
 
   _liveChat: function () {
     redirect('live_chat');
+  },
+
+  onDrop: function (acceptedFiles, rejectedFiles) {
+    this.setState({
+      files: acceptedFiles,
+    });
+  },
+
+  showDropZone: function (e) {
+    e.preventDefault();
+    this.setState({
+      dropzone: 'dropzone',
+      ticket: NinjaStore.getViewTicket(),
+    });
+  },
+
+  _openAttachment: function (ticketId, attachmentId, attachmentName) {
+    openAttachment (ticketId, attachmentId, attachmentName);
   },
 
   render: function () {
@@ -99,6 +122,7 @@ module.exports = React.createClass({
 
     //Replies
     var message = '';
+    var attachments = [];
     if (undefined === this.state.ticket.replies || 1 > (this.state.ticket.replies).length) {
       replies = (<Preloader/>);
       message = (<Preloader/>);
@@ -106,6 +130,10 @@ module.exports = React.createClass({
       replies = this.state.ticket.replies;
       message = this.state.ticket.replies[(this.state.ticket.replies).length-1].content;
       message = $('<textarea />').html(message).text();
+      var body = this.state.ticket.replies[(this.state.ticket.replies).length-1];
+      for (var key in body.ticket_attachments) {
+        attachments.push(<div className="attachments-link" onClick={this._openAttachment.bind(this, body.ticket_attachments[key].ticket_id, body.ticket_attachments[key].ticketAttachment, body.ticket_attachments[key].filename)}>{body.ticket_attachments[key].filename}</div>);
+      }
       subject = this.state.ticket.subject;
       var index = replies.length-1;
       if (-1 < index) {
@@ -113,9 +141,8 @@ module.exports = React.createClass({
       }
 
       var allReplies = [];
-
-      for (var key in replies) {
-        allReplies.push(<Reply reply={replies[key]}/>);
+      for (var i in replies) {
+        allReplies.push(<Reply reply={replies[i]}/>);
       }
     }
 
@@ -172,6 +199,20 @@ module.exports = React.createClass({
       return (<div></div>);
     }
 
+    var filesPreview = (<p>Try dropping some files here, or click to select files to upload.</p>);
+    var preview = [];
+    if (0 < this.state.files.length) {
+      for (var cont in this.state.files) {
+        preview.push(<div className="col-xs-2"><object className="pdfPreview" data={this.state.files[cont].preview}></object><p>{this.state.files[key].name}</p></div>);
+      }
+      filesPreview = (
+        <div>
+          <p>Uploading {this.state.files.length} files...</p>
+          <div>{preview}</div>
+        </div>
+      );
+    } 
+
     return (
       <div className="principal-section">
         <div className="section-title">
@@ -196,6 +237,8 @@ module.exports = React.createClass({
           <div className="ticket-body">
             <div className="ticket-message">
               {message}
+              <br/>
+              {attachments}
             </div>
             <span className="ticket-attachment hidden">
               <i className="icon nb-attach small"></i> Attachment
@@ -236,10 +279,16 @@ module.exports = React.createClass({
                   <i className="icon nb-send small"></i> Add reply
                 </div>
               </div>
-              <form onSubmit={this._onSubmit}>
+              <form className="row" onSubmit={this._onSubmit}>
                 <div className="col-xs-12">
                   <textarea className="form-control" rows="8" placeholder={'Write your reply'} ref="content" required></textarea>
+                  <div>
+                    <Dropzone onDrop={this.onDrop} className={this.state.dropzone}>
+                      {filesPreview}
+                    </Dropzone>
+                  </div>
                   <button type="submit" className="margin-tops blue-button">Send</button>
+                  <button className="attachmentFile hidden" onClick={this.showDropZone}><i className="fa fa-paperclip" aria-hidden="true"></i></button>
                 </div>
               </form>
             </div>
