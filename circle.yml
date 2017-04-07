@@ -8,3 +8,4 @@ dependencies:
 test:
   post:
     - if [[ -n $(git diff) ]]; then git diff > $CIRCLE_ARTIFACTS/cs-issues.patch && exit 1; fi;
+    - FILES_WITHOUT_LF_AT_EOF=$(for file in $(git grep --cached -Il ''); do test $(tail -c 1 $file) && echo $file; done); if [[ -n $FILES_WITHOUT_LF_AT_EOF ]]; then echo -e "Some files have missing LF at EOF:\n$FILES_WITHOUT_LF_AT_EOF"; fi;
