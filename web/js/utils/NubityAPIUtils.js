@@ -775,12 +775,18 @@ module.exports = {
   createTicket: function (ticket) {
     var company = getUserData('company');
     var token   = this.getToken();
-
-    request
-    .post('/company/' + company + '/ticket.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .send({department_id: ticket.department, priority_id: ticket.priority, type_id: ticket.type, subject: ticket.subject, content: ticket.content, hostname: ticket.hostname})
+    var req     = request.post('/company/' + company + '/ticket.json');
+    for (var key in ticket.files) {
+      req.attach('attachments[]', ticket.files[key]);
+    }
+    req.field('department_id', ticket.department);
+    req.field('priority_id', ticket.priority);
+    req.field('type_id', ticket.type);
+    req.field('subject', ticket.subject);
+    req.field('content', ticket.content);
+    req.field('hostname', ticket.hostname);
+    req.set('Authorization', token);
+    req.set('Accept', 'aplication/json')
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
@@ -792,15 +798,17 @@ module.exports = {
     }.bind(this));
   },
 
-  replyTicket: function (id, content) {
+  replyTicket: function (id, content, files) {
     var company = getUserData('company');
     var token   = this.getToken();
 
-    request
-    .post('/company/' + company + '/ticket/' + id + '/reply.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .send({content: content})
+    var req = request.post('/company/' + company + '/ticket/' + id + '/reply.json');
+    for (var key in files) {
+      req.attach('attachments[]', files[key]);
+    }
+    req.field('content', content);
+    req.set('Accept', 'aplication/json');
+    req.set('Authorization', token)
     .end(function (res) {
       this.validateToken(res).then(function (status) {
         if (!status) {
@@ -1210,6 +1218,18 @@ module.exports = {
           this.getInstanceConfiguration(instanceId);
         }
       }.bind(this));
+    }.bind(this));
+  },
+
+  openAttachment: function (ticketId, attachmentId, attachmentName) {
+    var token   = this.getToken();
+    var company = getUserData('company');
+    var url     = '/company/'+ company + '/ticket/' + ticketId + '/attachment/' + attachmentId + '.json';
+    var req     = request.get(url);
+    req.set('Authorization', token);
+    req.type('blob');
+    req.end(function (res) {
+      download('' + res.text + '', attachmentName, res.xhr.getResponseHeader('Content-Type'));
     }.bind(this));
   },
 

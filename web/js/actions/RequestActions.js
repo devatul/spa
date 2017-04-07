@@ -104,8 +104,8 @@ module.exports = {
     NubityAPIUtils.closeTicket(ticket);
   },
 
-  replyTicket: function (ticketId, content) {
-    NubityAPIUtils.replyTicket(ticketId, content);
+  replyTicket: function (ticketId, content, files) {
+    NubityAPIUtils.replyTicket(ticketId, content, files);
   },
 
   createAlertTicket: function (alert) {
@@ -206,5 +206,9 @@ module.exports = {
 
   updateCompanyInfo: function (companyInfo) {
     return NubityAPIUtils.updateCompanyInfo(companyInfo);
+  },
+
+  openAttachment: function (ticketId, attachmentId, attachmentName) {
+    NubityAPIUtils.openAttachment(ticketId, attachmentId, attachmentName);
   },
 };

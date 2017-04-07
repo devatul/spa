@@ -60,3 +60,4 @@ globals:
   require: false
   define: false
   module: false
+  download: true

@@ -6,6 +6,7 @@ var AlertsStore                = require('../stores/AlertsStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var search                     = require('../actions/RequestActions').search;
 var CreateTicketAction         = require('../actions/RequestActions').createTicket;
+var Dropzone                   = require('react-dropzone');
 
 module.exports = React.createClass({
 
@@ -15,6 +16,8 @@ module.exports = React.createClass({
       search: search,
       instances: search.instances,
       clouds: search.clouds,
+      files: [],
+      dropzone: 'hidden',
     };
   },
 
@@ -66,6 +69,7 @@ module.exports = React.createClass({
     ticket.subject    = this.refs.subject.getDOMNode().value;
     ticket.content    = this.refs.content.getDOMNode().value;
     ticket.hostname   = this.refs.hostname.getDOMNode().value;
+    ticket.files      = this.state.files;
     CreateTicketAction(ticket);
   },
 
@@ -77,6 +81,32 @@ module.exports = React.createClass({
     redirect('live_chat');
   },
 
+  onDrop: function (acceptedFiles, rejectedFiles) {
+    this.setState({
+      files: acceptedFiles,
+    });
+  },
+
+  _createPreview: function (file) {
+    var newFile, reader = new FileReader();
+
+    reader.onloadend = function (e) {
+      newFile = {file:file, imageUrl:e.target.result};
+      var files = this.state.files;
+      files.push(newFile);
+      this.setState({
+        files: files,
+      });
+
+    };
+    reader.readAsDataURL(file);
+  },
+  showDropZone: function (e) {
+    e.preventDefault();
+    this.setState({
+      dropzone: 'dropzone',
+    });
+  },
   render: function () {
     var search = this.state.search;
     var instances = this.state.instances;
@@ -161,6 +191,19 @@ module.exports = React.createClass({
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
+    var filesPreview = (<p>Try dropping some files here, or click to select files to upload.</p>);
+    var preview = [];
+    if (0 < this.state.files.length) {
+      for (var cont in this.state.files) {
+        preview.push(<div className="col-xs-2"><object className="pdfPreview" data={this.state.files[cont].preview}></object><p>{this.state.files[cont].name}</p></div>);
+      }
+      filesPreview = (
+        <div>
+          <p>Uploading {this.state.files.length} files...</p>
+          <div>{preview}</div>
+        </div>
+      );
+    } 
 
     return (
       <div className="principal-section">
@@ -191,8 +234,16 @@ module.exports = React.createClass({
             <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject" defaultValue={subject}/>
           </div>
           <div className="col-xs-12">
-            <textarea className="form-control" rows="8" placeholder="Message" ref="content" required></textarea>
-            <button className="margin-tops blue-button" onClick={this._onSubmit}>Send</button>
+            <form onSubmit={this._onSubmit}>
+              <textarea className="form-control" rows="8" placeholder="Message" ref="content" required></textarea>
+              <div>
+                <Dropzone onDrop={this.onDrop} className={this.state.dropzone}>
+                  {filesPreview}
+                </Dropzone>
+              </div>
+              <button type="submit" className="margin-tops blue-button">Send</button>
+              <button className="attachmentFile" onClick={this.showDropZone}><i className="fa fa-paperclip" aria-hidden="true"></i></button>
+            </form>
           </div>
         </div>
       </div>
