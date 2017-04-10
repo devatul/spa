@@ -8,7 +8,7 @@ var redirect              = require('../actions/RouteActions').redirect;
 module.exports = React.createClass({
 
   getInitialState: function () {
-    var stats      = AlertsStore.getDashboardStats();
+    var stats       = AlertsStore.getDashboardStats();
     var url = window.location.href;
     if (0 <= url.search('infrastructure')) {
       return {
@@ -218,7 +218,7 @@ module.exports = React.createClass({
             <a onClick={this._ninjaSupport} className={this.state.ninjaSupportClass}>
               <div className="menu-button">
                 <div className="icon nb-ninja-support medium"></div>
-                <p className="menu-text">Ninja Support</p>
+                <p className="menu-text">Support</p>
               </div>
             </a>
           </div>

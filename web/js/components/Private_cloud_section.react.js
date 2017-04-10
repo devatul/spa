@@ -100,7 +100,7 @@ module.exports = React.createClass({
               <i className="fa fa-play-circle-o play-tutorial" aria-hidden="true"></i>
             </a>
             <p className="aws-text">Watch the video tutorial or</p>
-            <p className="aws-text">start live chat with Ninja Support</p>
+            <p className="aws-text">start live chat with Support</p>
           </div>
         </div>
         <hr/>

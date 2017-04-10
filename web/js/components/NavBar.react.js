@@ -13,16 +13,20 @@ var CompanySection        = require('./Company_section.react');
 var AccountStatusSection  = require('./Account_status_section.react');
 var Tooltip               = require('react-bootstrap').Tooltip;
 var OverlayTrigger        = require('react-bootstrap').OverlayTrigger;
+var getCompanyInfo        = require('../actions/RequestActions').getCompanyInfo;
 
 var NavBar = React.createClass({
 
   getInitialState: function () {
+    var companyInfo = SessionStore.getCompanyInfo();
     return {
       isLoggedIn: SessionStore.isLoggedIn(),
+      companyInfo: companyInfo,
     };
   },
 
   componentDidMount: function () {
+    getCompanyInfo();
     SessionStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
     $('.nav a').on('click', function () {
@@ -38,8 +42,10 @@ var NavBar = React.createClass({
 
   _onChange: function () {
     if (this.isMounted()) {
+      var companyInfo = SessionStore.getCompanyInfo();
       this.setState({
         isLoggedIn: SessionStore.isLoggedIn(),
+        companyInfo: companyInfo,
       });
     }
   },
@@ -130,6 +136,7 @@ var NavBar = React.createClass({
             <div className="navbar-header">
               <a onClick={this._redirectHome}>
                 <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+                <span className="navbar-company-name">{this.state.companyInfo.name}</span>
               </a>
             </div>
             <div>

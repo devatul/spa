@@ -77,7 +77,7 @@ module.exports = React.createClass({
         break;
       case 'managementStart':
         warn = (
-          <span><i className="icon nb-ninja-support yellow-text large"></i> Start Ninja Support</span>
+          <span><i className="icon nb-ninja-support yellow-text large"></i> Start Support</span>
         );
         notice = (
           <span>

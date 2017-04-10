@@ -81,7 +81,7 @@ module.exports = React.createClass({
               <th className="fix">Prev. Value</th>
               <th className="fix">State</th>
               <th className="fix">Condition</th>
-              <th className="fix">Treshold</th>
+              <th className="fix">Threshold</th>
               <th className="fix">Priority</th>
             </tr>
           </thead>
