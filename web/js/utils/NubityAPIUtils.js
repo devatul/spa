@@ -16,6 +16,8 @@ var showDashboards                 = require('../actions/ServerActions').showDas
 var createAlertTicket              = require('../actions/ServerActions').createAlertTicket;
 var showDashboard                  = require('../actions/ServerActions').showDashboard;
 var showProviders                  = require('../actions/ServerActions').showProviders;
+var showProviderCredential         = require('../actions/ServerActions').showProviderCredential;
+var showCredentialDetails          = require('../actions/ServerActions').showCredentialDetails;
 var showNinja                      = require('../actions/ServerActions').showNinja;
 var showSignupMessage              = require('../actions/ServerActions').showSignupMessage;
 var showConfirmMessage             = require('../actions/ServerActions').showConfirmMessage;
@@ -1009,6 +1011,29 @@ module.exports = {
     }.bind(this));
   },
 
+  submitCloudData: function (cloudData) {
+    var company = getUserData('company');
+    var token   = this.getToken();
+    var _SELF = this;
+
+    return new Promise( function ( resolve, reject ) {
+      request
+      .post('/company/'+company+'/cloud.json')
+      .type('form')
+      .set('Authorization', token)
+      .send(cloudData)
+      .end(function (res) {
+        _SELF.validateToken(res).then(function (status) {
+          if (!status) {
+            _SELF.submitCloudData(cloudData);
+          } else {
+            resolve();
+          }
+        }.bind(_SELF));
+      }.bind(_SELF));
+    });
+  },
+
   getInstanceForMonitoring: function (id) {
     var token   = this.getToken();
     var company = getUserData('company');
@@ -1027,6 +1052,27 @@ module.exports = {
           if (-1 != url.indexOf('monitoring')) {
             showInstanceForMonitoring(text);
           }
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  getProviderCredential: function (tab, page, limit) {
+    var company = getUserData('company');
+    var token = this.getToken();
+
+    request
+    .get('/company/'+company+'/cloud.json')
+    .query({page: page, limit: limit})
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      var text = JSON.parse(res.text);
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.getProviderCredential();
+        } else {
+          showProviderCredential(text, tab);
         }
       }.bind(this));
     }.bind(this));
@@ -1327,6 +1373,74 @@ module.exports = {
           }
         }.bind(this));
       }.bind(this));
+  },
+
+  deleteProviderCredential: function (id) {
+    var company = getUserData('company');
+    var token = this.getToken();
+    var _SELF = this;
+    return new Promise(function (resolve) {
+      request
+        .get('/company/'+company+'/cloud/'+id+'.json')
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          _SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              _SELF.deleteProviderCredential(id);
+            } else {
+              resolve();
+            }
+          }.bind(_SELF));
+        }.bind(_SELF));
+    });
+  },
+
+  getCredentialDetails: function (credetialId) {
+    var company = getUserData('company');
+    var token = this.getToken();
+    var _SELF = this;
+    return new Promise(function (resolve) {
+      request
+        .get('/company/'+company+'/cloud/'+credetialId+'.json')
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          _SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              _SELF.getCredentialDetails(credetialId);
+            } else {
+              showCredentialDetails(text);
+              resolve();
+            }
+          }.bind(_SELF));
+        }.bind(_SELF));
+    });
+  },
+
+  updateNewCredentials: function (credetialId, newCredential) {
+    var company = getUserData('company');
+    var token = this.getToken();
+    var _SELF = this;
+
+    return new Promise(function (resolve) {
+      request
+      .put('/company/'+company+'/cloud/'+credetialId+'.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        _SELF.validateToken(res).then(function (status) {
+          if (!status) {
+            _SELF.updateNewCredentials(credetialId, newCredential);
+          } else {
+            showCredentialDetails(text);
+            resolve();
+          }
+        }.bind(_SELF));
+      }.bind(_SELF));
+    });
   },
 
   hasToRefresh: function () {

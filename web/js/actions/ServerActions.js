@@ -181,24 +181,54 @@ module.exports = {
       res: companyInfo,
     });
   },
+
+  showProviderCredential: function (providerCredentials, tab) {
+    if ('_PUBLIC' == tab) {
+      Dispatcher.handleServerAction({
+        actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PUBLIC,
+        res: providerCredentials,
+      });
+    } else if ('_PRIVATE' == tab) {
+      Dispatcher.handleServerAction({
+        actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PRIVATE,
+        res: providerCredentials,
+      });
+    } else if ('_ONPREMISE' == tab) {
+      Dispatcher.handleServerAction({
+        actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_ONPREMISE,
+        res: providerCredentials,
+      });
+    }
+  },
+
+  showCredentialDetails: function (credentialDetails) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_CREDENTIAL_DETAILS,
+      res: credentialDetails,
+    });
+  },
+
   showCustomDashboards: function (dashboards) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CUSTOM_DASHBOARDS,
       res: dashboards,
     });
   },
+
   showCustomSlots: function (slots) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CUSTOM_SLOTS,
       res: slots,
     });
   },
+
   showTimezone: function (timezone) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.STORE_TIMEZONE,
       res: timezone,
     });
   },
+
   showLocales: function (locales) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.STORE_LOCALES,

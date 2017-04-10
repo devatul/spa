@@ -1,5 +1,5 @@
 var keyMirror = require('keymirror');
-var Root      = 'https://api.nubity.com';
+var Root      = 'http://api.pricing.nubity.com';
 var APIRoot   = Root;
 
 module.exports = {
@@ -20,6 +20,10 @@ module.exports = {
     SHOW_DASHBOARD_ALERTS: null,
     SHOW_CONFIRM_MESSAGE: null,
     SHOW_PROVIDERS: null,
+    SHOW_PROPVIDER_CREDENTIAL_PUBLIC: null,
+    SHOW_PROPVIDER_CREDENTIAL_PRIVATE: null,
+    SHOW_PROPVIDER_CREDENTIAL_ONPREMISE: null,
+    SHOW_CREDENTIAL_DETAILS: null,
     SHOW_NINJA: null,
     SHOW_DASHBOARDS: null,
     SHOW_DASHBOARD: null,

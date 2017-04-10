@@ -22,6 +22,8 @@ var _loginError   = '';
 var _locales      = '';
 var _timezones    = '';
 
+EventEmitter.prototype.setMaxListeners(50);
+
 var SessionStore  = assign({}, EventEmitter.prototype, {
 
   emitChange: function () {

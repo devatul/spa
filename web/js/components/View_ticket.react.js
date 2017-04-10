@@ -1,5 +1,6 @@
 var React                      = require('react');
 var redirect                   = require('../actions/RouteActions').redirect;
+var saveURI                    = require('../actions/RequestActions').saveURI;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaStore                 = require('../stores/NinjaStore');
 var getTicket                  = require('../actions/RequestActions').getTicket;
@@ -43,6 +44,7 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },
