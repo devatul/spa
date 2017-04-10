@@ -19,7 +19,11 @@ module.exports = React.createClass({
     }
   },
   componentDidMount: function () {
-    getCompanyInfo();
+    if (SessionStore.isLoggedIn()) {
+      getCompanyInfo();
+    } else {
+      redirect('login');
+    }
     SessionStore.addChangeListener(this._onChange);
     $('#intercom-container').removeClass('hidden');
   },
@@ -49,15 +53,15 @@ module.exports = React.createClass({
   render: function () {
     var name = localStorage.getItem('nubity-firstname') + ' ' + localStorage.getItem('nubity-lastname');
     var email = localStorage.getItem('nubity-user-email');
-    
+
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
 
     window.Intercom('boot', {
       app_id: 'xs6j43ab',
-      name: name, 
-      email: email, 
+      name: name,
+      email: email,
       created_at: Math.ceil(Date.now()/1000),
       'company_name': this.state.companyName,
     });

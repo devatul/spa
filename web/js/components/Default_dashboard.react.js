@@ -44,12 +44,6 @@ module.exports = React.createClass({
     SessionStore.addChangeListener(this._onChange);
   },
 
-  componentWillMount: function () {
-    if (!SessionStore.isLoggedIn()) {
-      redirect('login');
-    }
-  },
-
   componentWillUnmount: function () {
     AlertsStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);

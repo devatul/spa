@@ -22,7 +22,11 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
-    search();
+    if (SessionStore.isLoggedIn()) {
+      search();
+    } else {
+      redirect('login');
+    }
     SessionStore.addChangeListener(this._onChange);
   },
 
@@ -203,7 +207,7 @@ module.exports = React.createClass({
           <div>{preview}</div>
         </div>
       );
-    } 
+    }
 
     return (
       <div className="principal-section">

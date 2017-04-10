@@ -19,17 +19,15 @@ module.exports = React.createClass({
     };
   },
 
-  componentWillMount: function () {
-    if (!SessionStore.isLoggedIn()) {
+  componentDidMount: function () {
+    if (SessionStore.isLoggedIn()) {
+      var url = window.location.href.split('#');
+      var position = url[1].indexOf('configure') + 10;
+      var id = url[1].slice(position);
+      getInstanceConfiguration(id);
+    } else {
       redirect('login');
     }
-  },
-
-  componentDidMount: function () {
-    var url = window.location.href.split('#');
-    var position = url[1].indexOf('configure') + 10;
-    var id = url[1].slice(position);
-    getInstanceConfiguration(id);
     InfrastructureStore.addChangeListener(this._onChange);
   },
 
@@ -108,7 +106,7 @@ module.exports = React.createClass({
       section = '';
     } else {
       section = id[1];
-    } 
+    }
     var _SELF = this;
 
     return (
