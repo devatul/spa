@@ -92,7 +92,6 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var companyName = this.state.companyInfo.name;
     var dashboardsTabs;
     var customDashboardsTabs = [];
     if (this.state.customDashboards) {
@@ -107,7 +106,7 @@ module.exports = React.createClass({
       if (3 > this.state.customDashboards.length) {
         dashboardsTabs = (
           <div className="section-title">
-            <span className="item title" onClick={this._goToDefaultDashboard}>{companyName}&#39;s dashboard</span>
+            <span className="item title" onClick={this._goToDefaultDashboard}>Main dashboard</span>
             {customDashboardsTabs}
             <span className="item" onClick={this._warning}>
               <i className="icon nb-plus icon-state"></i> Add a custom dashboard
@@ -117,7 +116,7 @@ module.exports = React.createClass({
       } else {
         dashboardsTabs = (
           <div className="section-title">
-            <span className="item title" onClick={this._goToDefaultDashboard}>{companyName}&#39;s dashboard</span>
+            <span className="item title" onClick={this._goToDefaultDashboard}>Main dashboard</span>
             {customDashboardsTabs}
           </div>
         );
@@ -125,7 +124,7 @@ module.exports = React.createClass({
     } else {
       dashboardsTabs = (
         <div className="section-title">
-          <span className="item title" onClick={this._goToDefaultDashboard}>{companyName}&#39;s dashboard</span>
+          <span className="item title" onClick={this._goToDefaultDashboard}>Main dashboard</span>
           {customDashboardsTabs}
           <span className="item" onClick={this._warning}>
             <i className="icon nb-plus icon-state"></i> Add a custom dashboard

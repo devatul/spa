@@ -31,6 +31,7 @@ module.exports = React.createClass({
         ticket: '',
         files: [],
         dropzone: 'dropzone',
+        button: (<button type="submit" className="margin-tops blue-button">Send</button>),
       };
     }
 
@@ -62,6 +63,7 @@ module.exports = React.createClass({
       this.setState({
         ticket: NinjaStore.getViewTicket(),
         files: [],
+        button: (<button type="submit" className="margin-tops blue-button">Send</button>),
       });
     }
   },
@@ -72,8 +74,12 @@ module.exports = React.createClass({
     var ticketReply = this.refs.content.getDOMNode().value;
 
     this.refs.content.getDOMNode().value = '';
+    this.setState({
+      button: (<Preloader size="mini" preloaderClass="custom-loader" />),
+    });
 
     ReplyTicketAction(id, ticketReply, this.state.files);
+    
   },
 
   _closeTicket: function () {
@@ -107,7 +113,6 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var ticketName    = '';
     var subject       = '';
     var ticket        = '';
     var replies;
@@ -116,7 +121,6 @@ module.exports = React.createClass({
     //Form
     if (NinjaStore.isViewingTicket()) {
       ticket     = this.state.ticket;
-      ticketName = ticket.name;
       subject    = ticket.subject;
     }
 
@@ -149,7 +153,7 @@ module.exports = React.createClass({
     var priority = '';
     if ('' != this.state.ticket && undefined !== this.state.ticket) {
       if ('closed' != this.state.ticket.status) {
-        closeTicket = (<Button onClick={this._closeTicket} bsSize="small"><i className="icon nb-close-circle small"></i> <span className="hidden-md hidden-sm hidden-xs">Close ticket</span></Button>);
+        closeTicket = (<Button className="button-ticket-header" onClick={this._closeTicket} bsSize="small"><i className="icon nb-close-circle small"></i> <span className="hidden-md hidden-sm hidden-xs">Close ticket</span></Button>);
       }
       switch (this.state.ticket.priority) {
         case 'low' :
@@ -203,7 +207,7 @@ module.exports = React.createClass({
     var preview = [];
     if (0 < this.state.files.length) {
       for (var cont in this.state.files) {
-        preview.push(<div className="col-xs-2"><object className="pdfPreview" data={this.state.files[cont].preview}></object><p>{this.state.files[key].name}</p></div>);
+        preview.push(<div className="col-xs-2"><object className="preview" data={this.state.files[cont].preview}></object><p>{this.state.files[cont].name}</p></div>);
       }
       filesPreview = (
         <div>
@@ -216,22 +220,25 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">View your ticket {ticketName}</h2>
+          <h2 className="align-center">View your ticket - {this.state.ticket.name}</h2>
         </div>
         <div className="centered hidden">
           <a onClick={this._liveChat}>
             <button className="large-green-button hidden">Start Live Chat</button>
           </a>
         </div>
-        <div className="ticket-container">
+        <div className="ticket-header-container">
+          <div className="col-xs-12">
+            <div className="ticket-user-info">
+              <i className="icon nb-user small"></i> <strong>{username}</strong>
+            </div>
+            <div className="ticket-date pull-right reply-date">
+              <i className="icon nb-date-time small"></i> {from}
+            </div>
+          </div>
           <div className="ticket-header">
             <div className="col-xs-10">
               <span className={state}></span> <span className="ticket-title">{subject}</span>
-            </div>
-            <div className="col-xs-2">
-              <div className="pull-right">
-                {priority}
-              </div>
             </div>
           </div>
           <div className="ticket-body">
@@ -246,17 +253,12 @@ module.exports = React.createClass({
           </div>
           <div className="ticket-footer">
             <div className="col-xs-7">
-              <div className="ticket-date">
-                <i className="icon nb-date-time small"></i> {from}
-              </div>
-              <div className="ticket-user-info">
-                <i className="icon nb-user small"></i> <strong>{username}</strong> | Service Request
-              </div>
+              {priority}
             </div>
             <div className="col-xs-5">
               <div className="right">
                 <ButtonToolbar>
-                  <Dropdown id="dropdown-custom-1">
+                  <Dropdown id="dropdown-custom-1" className="button-ticket-header">
                     <Dropdown.Toggle bsSize="small">
                       <i className={department}></i> <span className="hidden-md hidden-sm hidden-xs">Change Department</span>
                     </Dropdown.Toggle>
@@ -271,28 +273,28 @@ module.exports = React.createClass({
               </div>
             </div>
           </div>
-          <div className="ticket-replies-container">
-            {allReplies}
-            <div className="ticket-reply add-reply">
-              <div className="ticket-reply-header">
-                <div className="col-md-6">
-                  <i className="icon nb-send small"></i> Add reply
-                </div>
-              </div>
-              <form className="row" onSubmit={this._onSubmit}>
-                <div className="col-xs-12">
-                  <textarea className="form-control" rows="8" placeholder={'Write your reply'} ref="content" required></textarea>
-                  <div>
-                    <Dropzone onDrop={this.onDrop} className={this.state.dropzone}>
-                      {filesPreview}
-                    </Dropzone>
-                  </div>
-                  <button type="submit" className="margin-tops blue-button">Send</button>
-                  <button className="attachmentFile hidden" onClick={this.showDropZone}><i className="fa fa-paperclip" aria-hidden="true"></i></button>
-                </div>
-              </form>
+        </div>
+        <div className="replies-container">
+          {allReplies}
+        </div>
+        <div className="ticket-container">
+          <div className="ticket-reply-header">
+            <div className="col-md-6">
+              <i className="icon nb-send small"></i> Add reply
             </div>
           </div>
+          <form className="row" onSubmit={this._onSubmit}>
+            <div className="col-xs-12">
+              <textarea className="form-control" rows="8" placeholder={'Write your reply'} ref="content" required></textarea>
+              <div>
+                <Dropzone onDrop={this.onDrop} className={this.state.dropzone}>
+                  {filesPreview}
+                </Dropzone>
+              </div>
+              {this.state.button}
+              <button className="attachmentFile hidden" onClick={this.showDropZone}><i className="fa fa-paperclip" aria-hidden="true"></i></button>
+            </div>
+          </form>
         </div>
       </div>
     );

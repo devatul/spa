@@ -127,7 +127,7 @@ module.exports = React.createClass({
         <select className="form-control" ref="department" defaultValue="support" onChange={this._onChange}>
           <option value="billing">Billing</option>
           <option value="sales">Sales</option>
-          <option value="support">Ninja Support</option>
+          <option value="support">Support</option>
         </select>,
       ];
       type = [
@@ -165,7 +165,7 @@ module.exports = React.createClass({
         <select className="form-control" ref="department" onChange={this._onChange}>
           <option value="billing">Billing</option>
           <option value="sales">Sales</option>
-          <option value="support">Ninja Support</option>
+          <option value="support">Support</option>
         </select>,
       ];
 

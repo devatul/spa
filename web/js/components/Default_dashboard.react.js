@@ -372,7 +372,6 @@ module.exports = React.createClass({
                 </tbody>
               </table>
             </div>
-            {notice}
           </div>
         );
       }
@@ -384,8 +383,11 @@ module.exports = React.createClass({
 
     return (
       <div className="default-dashboard">
+        <h2 className="dashboard-title">Alerts resume</h2>
         {stats}
         {alertTable}
+        <br/>
+        <h2 className="dashboard-title">Graphs</h2>
         <div className="margin-sides row">
           <Graphs/>
         </div>

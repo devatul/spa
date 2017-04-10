@@ -63,7 +63,7 @@ module.exports = React.createClass({
                 <span className="margin-sides">
                   <time datetime="">YYYY/MM/DD - 00:00:00 am</time>
                 </span>
-                <span className="margin-sides">Ninja Support</span>
+                <span className="margin-sides">Support</span>
                 <span className="margin-sides">fede@nubity.com</span>
               </p>
             </div>

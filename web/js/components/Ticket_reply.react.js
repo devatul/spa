@@ -28,6 +28,8 @@ module.exports = React.createClass({
         <div className="ticket-reply-header">
           <div className="col-md-6">
             <i className="icon nb-ninja-support small"></i> <strong>{firstname}&nbsp;</strong>
+          </div>
+          <div className="pull-right reply-date">
             <i className="icon nb-calendar small"></i> {from}
           </div>
         </div>

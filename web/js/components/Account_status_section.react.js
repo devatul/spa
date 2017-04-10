@@ -19,7 +19,7 @@ module.exports = React.createClass({
               <th className="light-grey-background">Server</th>
               <th className="light-grey-background">Memory</th>
               <th className="light-grey-background">Monitoring</th>
-              <th className="light-grey-background">Ninja Support</th>
+              <th className="light-grey-background">Support</th>
               <th className="light-grey-background">Monthly price</th>
             </tr>
             <tr>

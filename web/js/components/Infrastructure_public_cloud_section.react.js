@@ -347,7 +347,7 @@ module.exports = React.createClass({
                 <th className="hidden-xs hidden-sm">Memory</th>
                 <th className="column-icon">Health</th>
                 <th className="column-button hidden-xs hidden-sm">Monitoring</th>
-                <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
+                <th className="column-button hidden-xs hidden-sm">Support</th>
               </tr>
             </thead>
           </table>
@@ -374,7 +374,7 @@ module.exports = React.createClass({
                 <th className="hidden-xs hidden-sm">Memory</th>
                 <th className="column-icon">Health</th>
                 <th className="column-button hidden-xs hidden-sm">Monitoring</th>
-                <th className="column-button hidden-xs hidden-sm">Ninja Support</th>
+                <th className="column-button hidden-xs hidden-sm">Support</th>
               </tr>
             </thead>
             <tbody>

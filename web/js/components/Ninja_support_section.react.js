@@ -69,7 +69,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <span className="item title">Ninja Support</span>
+          <span className="item title">Support</span>
         </div>
         <div className="centered">
           <a onClick={this._createTicket}>
