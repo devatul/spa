@@ -18,7 +18,11 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
-    search();
+    if (SessionStore.isLoggedIn()) {
+      search();
+    } else {
+      redirect('login');
+    }
     SessionStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
   },

@@ -33,15 +33,13 @@ module.exports = React.createClass({
     };
   },
 
-  componentWillMount: function () {
-    if (!SessionStore.isLoggedIn()) {
+  componentDidMount: function () {
+    if (SessionStore.isLoggedIn()) {
+      getAlerts(0);
+      getHistoryAlerts(0);
+    } else {
       redirect('login');
     }
-  },
-
-  componentDidMount: function () {
-    getAlerts(0);
-    getHistoryAlerts(0);
     AlertsStore.addChangeListener(this._onChange);
   },
 

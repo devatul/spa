@@ -28,16 +28,14 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
-    getCompanyInfo();
-    getCustomDashboards();
-    GraphStore.addChangeListener(this._onChange);
-    SessionStore.addChangeListener(this._onChange);
-  },
-
-  componentWillMount: function () {
-    if (!SessionStore.isLoggedIn()) {
+    if (SessionStore.isLoggedIn()) {
+      getCompanyInfo();
+      getCustomDashboards();
+    } else {
       redirect('login');
     }
+    GraphStore.addChangeListener(this._onChange);
+    SessionStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
@@ -54,7 +52,7 @@ module.exports = React.createClass({
       });
     }
   },
-  
+
   close: function () {
     this.setState({
       showModal: false,
@@ -105,7 +103,7 @@ module.exports = React.createClass({
           </span>
         );
       }
-      
+
       if (3 > this.state.customDashboards.length) {
         dashboardsTabs = (
           <div className="section-title">
@@ -194,6 +192,10 @@ module.exports = React.createClass({
         </Modal.Body>
       </Modal>
     );
+
+    if (!SessionStore.isLoggedIn()) {
+      return (<div></div>);
+    }
 
     return (
       <div className="principal-section">

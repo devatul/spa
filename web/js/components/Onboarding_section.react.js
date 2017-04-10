@@ -22,7 +22,11 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
-    getProviders();
+    if (SessionStore.isLoggedIn()) {
+      getProviders();
+    } else {
+      redirect('login');
+    }
     OnBoardingStore.addChangeListener(this._onChange);
   },
 
@@ -65,7 +69,7 @@ module.exports = React.createClass({
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">
