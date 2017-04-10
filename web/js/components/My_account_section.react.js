@@ -59,7 +59,7 @@ module.exports = React.createClass({
     var user = JSON.parse(localStorage.getItem('nubity-user'));
     var notificationLevel = null;
     if (user && user.notification_severity_level) {
-      notificationLevel = user.notification_severity_level[0].name;
+      notificationLevel = user.notification_severity_level[0] && user.notification_severity_level[0].name;
     }
     return notificationLevel;
   },
@@ -233,7 +233,7 @@ module.exports = React.createClass({
                 SELF.setState({
                   notificationLevel: 'none',
                 });
-              }} checked={'undefined' === notificationLevel || 'none' === notificationLevel} />
+              }} checked={undefined === notificationLevel || 'none' === notificationLevel || null === notificationLevel} />
             </span>
             <div className="form-control">
               <i className="icon nb-mute-on grey-text small"></i> Mute
