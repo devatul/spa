@@ -112,31 +112,33 @@ module.exports = React.createClass({
     var endpoint = $('input[name="privateEndpoint"]').prop('value') || null;
     var apiSecret = $('input[name="privateApiSecret"]').prop('value') || null;
     var certificate = $('#privateCertificate').prop('files');
-    var company = localStorage.getItem('nubity-company') || null;
     certificate = certificate && certificate[0] || null;
 
-    var cloudData = new FormData();
+    var cloudData = {};
 
     if (null !== integrationName) {
-      cloudData.append('name', integrationName);
+      cloudData.name = integrationName;
     }
     if (null !== apiKey) {
-      cloudData.append('api_key', apiKey);
+      cloudData.api_key = apiKey;
     }
     if (null !== endpoint) {
-      cloudData.append('endpoint', endpoint);
+      cloudData.endpoint = endpoint;
     }
     if (null !== apiSecret) {
-      cloudData.append('api_secret', apiSecret);
+      cloudData.api_secret = apiSecret;
     }
     if (null !== certificate) {
-      cloudData.append('certificate', certificate);
+      var reader = new FileReader();
+      reader.readAsBinaryString(certificate);
+      reader.onload = function () {
+        cloudData.certificate = {
+          binaryContent: reader.result,
+        };
+      };
     }
     if (null !== providerId) {
-      cloudData.append('provider_id', providerId);
-    }
-    if (null !== company) {
-      cloudData.append('company_id', company);
+      cloudData.provider_id = providerId;
     }
     submitCloudData(cloudData).then(function () {
       $('input[name="privateIntegrationName"]').val('');
@@ -161,7 +163,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-    if (credetials['api-key']) {
+    if (-1 < _.indexOf(credetials, 'api-key')) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -171,7 +173,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials['endpoint']) {
+    if (-1 < _.indexOf(credetials, 'endpoint')) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -181,7 +183,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials['api-secret']) {
+    if (-1 < _.indexOf(credetials, 'api-secret')) {
       input.push(
         <div className="form-group">
           <div className="input-group">
@@ -191,7 +193,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (credetials['certificate']) {
+    if (-1 < _.indexOf(credetials, 'certificate')) {
       input.push(
         <div className="input-group image-preview">
           <span className="input-group-btn">

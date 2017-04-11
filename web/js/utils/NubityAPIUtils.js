@@ -62,7 +62,7 @@ module.exports = {
             }, 100);
           }
         },0);
-      } else if (300 <= code && 401 >= code) {
+      } else if ((300 <= code && 400 > code) || 401 === code) {
         _SELF.saveURI();
         routes.redirectLogin();
       } else if (200 <= code && 300 > code) {
@@ -1014,12 +1014,13 @@ module.exports = {
   submitCloudData: function (cloudData) {
     var company = getUserData('company');
     var token   = this.getToken();
+    cloudData.company = company;
     var _SELF = this;
 
     return new Promise( function ( resolve, reject ) {
       request
       .post('/company/'+company+'/cloud.json')
-      .type('form')
+      .type('application/json')
       .set('Authorization', token)
       .send(cloudData)
       .end(function (res) {
