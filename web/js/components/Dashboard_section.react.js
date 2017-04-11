@@ -24,6 +24,7 @@ module.exports = React.createClass({
     return {
       companyInfo: companyInfo,
       currentDashboard: (<DefaultDashboard/>),
+      currentDashboardIndex: '0',
     };
   },
 
@@ -82,12 +83,14 @@ module.exports = React.createClass({
   _goToDashboard: function (dashboard) {
     this.setState({
       currentDashboard: (<CustomPerformanceDashboard dashboard={dashboard}/>),
+      currentDashboardIndex: dashboard,
     });
   },
 
   _goToDefaultDashboard: function () {
     this.setState({
       currentDashboard: (<DefaultDashboard/>),
+      currentDashboardIndex: '0',
     });
   },
 
@@ -97,7 +100,7 @@ module.exports = React.createClass({
     if (this.state.customDashboards) {
       for (var key in this.state.customDashboards) {
         customDashboardsTabs.push(
-          <span key={key} className="item title" onClick={this._goToDashboard.bind(this, this.state.customDashboards[key])}>
+          <span key={key} className={this.state.customDashboards[key] == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDashboard.bind(this, this.state.customDashboards[key])}>
             {this.state.customDashboards[key].name}
           </span>
         );
@@ -106,9 +109,9 @@ module.exports = React.createClass({
       if (3 > this.state.customDashboards.length) {
         dashboardsTabs = (
           <div className="section-title">
-            <span className="item title" onClick={this._goToDefaultDashboard}>Main dashboard</span>
+            <span className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}>Main dashboard</span>
             {customDashboardsTabs}
-            <span className="item" onClick={this._warning}>
+            <span className="item-tab" onClick={this._warning}>
               <i className="icon nb-plus icon-state"></i> Add a custom dashboard
             </span>
           </div>
@@ -116,7 +119,7 @@ module.exports = React.createClass({
       } else {
         dashboardsTabs = (
           <div className="section-title">
-            <span className="item title" onClick={this._goToDefaultDashboard}>Main dashboard</span>
+            <span className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}>Main dashboard</span>
             {customDashboardsTabs}
           </div>
         );
@@ -124,9 +127,9 @@ module.exports = React.createClass({
     } else {
       dashboardsTabs = (
         <div className="section-title">
-          <span className="item title" onClick={this._goToDefaultDashboard}>Main dashboard</span>
+          <span className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}>Main dashboard</span>
           {customDashboardsTabs}
-          <span className="item" onClick={this._warning}>
+          <span className="item-tab" onClick={this._warning}>
             <i className="icon nb-plus icon-state"></i> Add a custom dashboard
           </span>
         </div>
