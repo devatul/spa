@@ -6,16 +6,37 @@ var Link                          = require('react-router').Link;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 var Linux                         = require('./Linux_setup.react');
 var Windows                       = require('./Windows_setup.react');
+var InfrastructureStore           = require('../stores/InfrastructureStore');
 
 module.exports = React.createClass({
   getInitialState: function () {
     return {
+      title: 'Start monitoring now!',
     };
   },
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
       redirect('login');
+    }
+  },
+
+  componentDidMount: function () {
+    InfrastructureStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    InfrastructureStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function () {
+    if (this.isMounted()) {
+      if (InfrastructureStore.instanceForMonitoring()) {
+        this.setState({
+          title: 'Start monitoring for ' + InfrastructureStore.instanceForMonitoring().hostname,  
+        });
+      }
+      
     }
   },
 
@@ -28,7 +49,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">Start monitoring now!</h2>
+          <h2 className="align-center">{this.state.title}</h2>
         </div>
         <div className="section-tabs">Select OS for agent installation</div>
         <div>

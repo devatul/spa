@@ -112,7 +112,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">Configure monitoring</h2>
+          <h2 className="align-center">Configure monitoring for {this.state.instanceConfiguration.hostname}</h2>
         </div>
         <div className="large-section-tabs">
           <ul className="nav nav-tabs section-tabs">

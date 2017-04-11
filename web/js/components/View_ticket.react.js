@@ -220,7 +220,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">View your ticket - {this.state.ticket.name}</h2>
+          <h2 className="align-center">Ticket - {this.state.ticket.name}</h2>
         </div>
         <div className="centered hidden">
           <a onClick={this._liveChat}>
