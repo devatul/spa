@@ -44,7 +44,7 @@ module.exports = {
     var _SELF = this;
     var interval = false;
     var code = JSON.parse(res.status);
-    return new Promise( function ( resolve, reject ) {
+    return new Promise(function (resolve, reject) {
       if (401 === code && _SELF.hasToRefresh()) {
         setTimeout( function () {
           if (!_SELF.isTokenValidating) {
@@ -86,7 +86,7 @@ module.exports = {
     var uri = localStorage.getItem('nubity-uri');
     var path = window.location.href;
     var route = path.split('/#/')[1];
-    if (null == uri
+    if (null === uri
       && 'login' !== route
       && 'signup' !== route
       && 'forgot-password' !== route
@@ -117,7 +117,7 @@ module.exports = {
   },
 
   signup: function (user) {
-    return new Promise( function ( resolve, reject ) {
+    return new Promise(function (resolve, reject) {
       request
         .post('/signup.json')
         .send({firstname: user.firstname, lastname: user.lastname, email: user.email,  password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
@@ -151,7 +151,7 @@ module.exports = {
   },
 
   forgotPassword: function (email) {
-    return new Promise( function ( resolve, reject ) {
+    return new Promise(function (resolve, reject) {
       request
         .post('/password/request-reset.json')
         .send({_username: email})
@@ -182,7 +182,7 @@ module.exports = {
 
   refreshToken: function () {
     var _SELF = this;
-    return new Promise( function ( resolve, reject ) {
+    return new Promise(function (resolve, reject) {
       request
         .post('/token/refresh.json')
         .accept('application/json')
@@ -190,7 +190,7 @@ module.exports = {
         .end(function (res) {
           var text = JSON.parse(res.text);
           var code = JSON.parse(res.status);
-          if (401 == code) {
+          if (401 === code) {
             localStorage.removeItem('nubity-token');
             localStorage.removeItem('nubity-refresh-token');
             _SELF.saveURI();
@@ -211,7 +211,7 @@ module.exports = {
   getUser: function () {
     var token = this.getToken();
     var SELF = this;
-    return new Promise( function (resolve) {
+    return new Promise(function (resolve) {
       request
         .get('/user.json')
         .accept('application/json')
@@ -321,7 +321,7 @@ module.exports = {
         } else {
           showDashboards(text);
           for (var key in text.member) {
-            if ('dashboard' == text.member[key].scope) {
+            if ('dashboard' === text.member[key].scope) {
               localStorage.setItem('dashboardId', text.member[key].dashboard);
               this.getDashboardSlots(text.member[key].dashboard);
             }
@@ -1017,13 +1017,18 @@ module.exports = {
     cloudData.company = company;
     var _SELF = this;
 
-    return new Promise( function ( resolve, reject ) {
-      request
-      .post('/company/'+company+'/cloud.json')
-      .type('application/json')
-      .set('Authorization', token)
-      .send(cloudData)
-      .end(function (res) {
+    return new Promise(function (resolve, reject) {
+      var req = request
+        .post('/company/'+company+'/cloud.json')
+        .set('Authorization', token);
+      for (var key in cloudData) {
+        if ('certificate' !== key) {
+          req.field(key, cloudData[key]);
+        } else {
+          req.attach(key, cloudData[key]);
+        }
+      }
+      req.end(function (res) {
         _SELF.validateToken(res).then(function (status) {
           if (!status) {
             _SELF.submitCloudData(cloudData);

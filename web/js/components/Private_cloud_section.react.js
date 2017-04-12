@@ -70,7 +70,7 @@ module.exports = React.createClass({
     var move = '100px';
     var sliderLimit = -(width-700);
     var currentPosition = parseInt(view.css('left'));
-    if ('leftArrow' == arrow) {
+    if ('leftArrow' === arrow) {
       if (0 > currentPosition) {
         view.stop (false,true).animate ({left:'+='+move}, { duration: 400});
       }
@@ -277,7 +277,7 @@ module.exports = React.createClass({
     var key = 0;
     for (key; key < pages ; key++) {
       var page = key + 1;
-      navpages[navpages.length] = <li className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
+      navpages[navpages.length] = <li className={this.state.pageNo === page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
     var paginatorClass;
@@ -292,14 +292,14 @@ module.exports = React.createClass({
       var statusClass = 'fa fa-check-circle green-text';
       var statusLable = 'OK';
 
-      if ('Failed' == data.status) {
+      if ('Failed' === data.status) {
         statusClass = 'fa fa-times-circle red-text';
         statusLable = 'Fail';
-      } else if ('Disabled' == data.status) {
+      } else if ('Disabled' === data.status) {
         statusClass = 'fa fa-ban grey-text';
         statusLable = 'Disabled';
       }
-      var provider = _.find(allProviders, function (o) { return o.provider == data.provider; });
+      var provider = _.find(allProviders, function (o) { return o.provider === data.provider; });
 
       if ('undefined' !== typeof provider)
         connectionTableRow.push(

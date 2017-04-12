@@ -19,7 +19,7 @@ module.exports = React.createClass({
     if (props.open
       && !_.isEmpty(credentialDetails)
       && credetialInfo
-      && credentialDetails.provider_credential == credetialInfo.provider_credential) {
+      && credentialDetails.provider_credential === credetialInfo.provider_credential) {
       this.setState({
         credetialInfo: props.credetialInfo,
         name: credentialDetails.name,
@@ -86,7 +86,7 @@ module.exports = React.createClass({
     var credetialInfo = this.state.credetialInfo;
     var input = [];
     if (credetialInfo) {
-      var provider = _.find(providers, function (o) { return o.provider == credetialInfo.provider; });
+      var provider = _.find(providers, function (o) { return o.provider === credetialInfo.provider; });
       if ('undefined' !== typeof provider) {
         var credetials = provider.requirements;
 
@@ -99,7 +99,7 @@ module.exports = React.createClass({
             </div>
           </div>
         );
-        if (credetials['api-key']) {
+        if (-1 < _.indexOf(credetials, 'api-key')) {
           input.push(
             <div className="form-group">
               <label>Api Key</label>
@@ -110,7 +110,7 @@ module.exports = React.createClass({
             </div>
           );
         }
-        if (credetials['endpoint']) {
+        if (-1 < _.indexOf(credetials, 'endpoint')) {
           input.push(
             <div className="form-group">
               <label>End Point</label>
@@ -121,7 +121,7 @@ module.exports = React.createClass({
             </div>
           );
         }
-        if (credetials['api-secret']) {
+        if (-1 < _.indexOf(credetials, 'api-secret')) {
           input.push(
             <div className="form-group">
               <label>Api Secret</label>
@@ -132,7 +132,7 @@ module.exports = React.createClass({
             </div>
           );
         }
-        if (credetials['certificate']) {
+        if (-1 < _.indexOf(credetials, 'certificate')) {
           input.push(
             <div className="input-group image-preview">
               <span className="input-group-btn">

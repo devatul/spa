@@ -46,9 +46,9 @@ module.exports = React.createClass({
       var providers = OnBoardingStore.getProviders();
       this.setState({
         providers: providers,
-        publicCloudProviders: _.filter(providers, function (o) {return 'public' == o.classification;}),
-        privateCloudProviders: _.filter(providers, function (o) {return 'private' == o.classification;}),
-        onPremiseProviders: _.filter(providers, function (o) {return 'on-premise' == o.classification;}),
+        publicCloudProviders: _.filter(providers, function (o) {return 'public' === o.classification;}),
+        privateCloudProviders: _.filter(providers, function (o) {return 'private' === o.classification;}),
+        onPremiseProviders: _.filter(providers, function (o) {return 'on-premise' === o.classification;}),
       });
     }
   },
@@ -80,7 +80,7 @@ module.exports = React.createClass({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/onboarding');
-    window.location.href = hash[0]+'/onboarding'+sectionId+'#page='+pageNo;
+    window.location.href = hash[0] + '/onboarding' + sectionId + '#page=' + pageNo;
   },
 
   _getURI: function () {
@@ -111,17 +111,17 @@ module.exports = React.createClass({
         </div>
         <div role="navigation">
           <ul className="nav nav-tabs section-tabs">
-            <li role="presentation" className={'#public' == hash || '' == hash ? 'active' : ''} onClick={this.publicCloud}>
+            <li role="presentation" className={'#public' === hash || '' === hash ? 'active' : ''} onClick={this.publicCloud}>
               <a className="grey-color" data-toggle="tab" href="#public" onClick={function () {_SELF.updateURL('#public', 1);}}>
                 <i className="fa fa-cloud" aria-hidden="true"></i> Public Cloud
               </a>
             </li>
-            <li role="presentation" className={'#private' == hash ? 'active' : ''} onClick={this.privateCloud}>
+            <li role="presentation" className={'#private' === hash ? 'active' : ''} onClick={this.privateCloud}>
               <a className="grey-color" data-toggle="tab" href="#private" onClick={function () {_SELF.updateURL('#private', 1);}}>
                 <i className="fa fa-cloud" aria-hidden="true"></i> Private Cloud
               </a>
             </li>
-            <li role="presentation" className={'#onPremise' == hash ? 'active' : ''} onClick={this.onPremise}>
+            <li role="presentation" className={'#onPremise' === hash ? 'active' : ''} onClick={this.onPremise}>
               <a className="grey-color" data-toggle="tab" href="#onPremise" onClick={function () {_SELF.updateURL('#onPremise', 1);}}>
                 <i className="fa fa-server" aria-hidden="true"></i> On-premise servers
               </a>
@@ -144,7 +144,7 @@ module.exports = React.createClass({
           </ul>
         </div>
         <div className="tab-content section-content">
-          <div id="public" className={'tab-pane fade ' + ('#public' == hash || '' == hash ? 'in active' : '')}>
+          <div id="public" className={'tab-pane fade ' + ('#public' === hash || '' === hash ? 'in active' : '')}>
             <PublicCloudSection
               allProviders={this.state.providers}
               providers={this.state.publicCloudProviders}
@@ -152,7 +152,7 @@ module.exports = React.createClass({
               callUpdateURL={function (page) {_SELF.updateURL('#public', page);}}
             />
           </div>
-          <div id="private" className={'tab-pane fade ' + ('#private' == hash ? 'in active' : '')}>
+          <div id="private" className={'tab-pane fade ' + ('#private' === hash ? 'in active' : '')}>
             <PrivateCloudSection
               allProviders={this.state.providers}
               providers={this.state.privateCloudProviders}
@@ -160,7 +160,7 @@ module.exports = React.createClass({
               callUpdateURL={function (page) {_SELF.updateURL('#private', page);}}
             />
           </div>
-          <div id="onPremise" className={'tab-pane fade ' + ('#onPremise' == hash ? 'in active' : '')}>
+          <div id="onPremise" className={'tab-pane fade ' + ('#onPremise' === hash ? 'in active' : '')}>
             <OnPremiseCloudSection
               allProviders={this.state.providers}
               providers={this.state.onPremiseProviders}
