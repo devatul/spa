@@ -8,8 +8,12 @@ var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _providers = '';
-var _errorCode    = '';
-var _textError    = '';
+var _textError = '';
+var _errorCode = '';
+var _credetials_public = '';
+var _credetials_private = '';
+var _credetials_onpremise = '';
+var _credetial_details = '';
 
 var OnBoardingStore = assign({}, EventEmitter.prototype, {
 
@@ -36,6 +40,22 @@ var OnBoardingStore = assign({}, EventEmitter.prototype, {
   getTextError: function () {
     return _textError;
   },
+
+  getProviderCredentialPublic: function () {
+    return _credetials_public;
+  },
+
+  getProviderCredentialPrivate: function () {
+    return _credetials_private;
+  },
+
+  getProviderCredentialOnpremise: function () {
+    return _credetials_onpremise;
+  },
+
+  getCredentialDetails: function () {
+    return _credetial_details;
+  },
 });
 
 OnBoardingStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -45,6 +65,34 @@ OnBoardingStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.SHOW_PROVIDERS:
       _providers = action.res;
+      _textError = '';
+      _errorCode = '';
+      OnBoardingStore.emitChange();
+      break;
+
+    case ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PUBLIC:
+      _credetials_public = action.res;
+      _textError = '';
+      _errorCode = '';
+      OnBoardingStore.emitChange();
+      break;
+
+    case ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PRIVATE:
+      _credetials_private = action.res;
+      _textError = '';
+      _errorCode = '';
+      OnBoardingStore.emitChange();
+      break;
+
+    case ActionTypes.SHOW_PROPVIDER_CREDENTIAL_ONPREMISE:
+      _credetials_onpremise = action.res;
+      _textError = '';
+      _errorCode = '';
+      OnBoardingStore.emitChange();
+      break;
+
+    case ActionTypes.SHOW_CREDENTIAL_DETAILS:
+      _credetial_details = action.res;
       _textError = '';
       _errorCode = '';
       OnBoardingStore.emitChange();

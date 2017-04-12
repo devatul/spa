@@ -250,13 +250,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous">
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo-1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next">
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>

@@ -2,10 +2,12 @@ var React                      = require('react');
 var CustomPerformance          = require('./Custom_performance.react');
 var SessionStore               = require('../stores/SessionStore');
 var redirect                   = require('../actions/RouteActions').redirect;
+var saveURI                    = require('../actions/RequestActions').saveURI;
 
 module.exports = React.createClass({
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },
@@ -14,7 +16,7 @@ module.exports = React.createClass({
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
-    
+
     return (
       <div className="principal-section">
         <div className="section-title">
