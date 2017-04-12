@@ -1,6 +1,7 @@
 var React                         = require('react');
 var Router                        = require('../router');
 var redirect                      = require('../actions/RouteActions').redirect;
+var saveURI                       = require('../actions/RequestActions').saveURI;
 var SessionStore                  = require('../stores/SessionStore');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var InfrastructureOverview        = require('./Infrastructure_overview.react');
@@ -20,6 +21,7 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     if (!SessionStore.isLoggedIn()) {
+      saveURI();
       redirect('login');
     }
   },

@@ -446,7 +446,6 @@ button.action-button:hover {
   margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
-  position: fixed;
 }
 .principal-section-loggedout {
   margin-top: 100px;
@@ -659,10 +658,10 @@ button.action-button:hover {
   margin: 10px 10px 0px 30px;
 }
 .number-1 {
-  padding: 4px 5px 6px 10px;
+  padding: 2px 5px 6px 9px;
 }
 .number-2 {
-  padding: 4px 5px 6px 8px;
+  padding: 2px 5px 6px 8px;
 }
 .public-cloud-form {
   padding-left: 30px!important;
@@ -684,11 +683,13 @@ button.action-button:hover {
   color: #407fb5;
 }
 .public-cloud-selector-div {
-  height: 100px;
+  height: 200px;
 }
 .clouds-icons-button {
   text-align: center;
   cursor: pointer;
+  width: 150px;
+  float: left;
 }
 .clouds-icons {
   height: 66px;
@@ -2222,4 +2223,118 @@ a.link-login:hover {
   cursor: pointer;
   display: inline;
   margin-right: 10px;
+}
+.image-preview-input {
+  position: relative;
+  overflow: hidden;
+  margin: 0px;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.image-preview-input input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+  margin-left:5px;
+}
+.scroll-step1 {
+  display: inline-block;
+  width: 3%;
+  height: 100%;
+  padding: 40px 5px;
+  text-align: center;
+  cursor: pointer;
+}
+.scroll-step1:hover {
+  background: rgba(144, 120, 120, 0.25);
+}
+#viewContainer {
+  overflow:hidden;
+  margin: 0px 8px;
+}
+.list-providers {
+  position:absolute;
+  left:0;
+  width:100%;
+}
+.selected-provider-step1 {
+  border: 1px solid rgba(204, 204, 204, 0.79);
+  border-radius: 7px;
+  font-weight: 600;
+}
+.non-selected-provider-step1 {
+  opacity: 0.5;
+}
+.add-cloud-table-container {
+  border: 1px solid #ccc;
+  padding: 1px 0px;
+  margin-top: 20px;
+}
+.add-cloud-table th, td {
+  text-align: left !important;
+  padding-left: 25px !important;
+}
+.add-cloud-table .column-action {
+  width: 33%;
+}
+.connection-name-container, .status-container {
+  display: inline-table;
+}
+.status-container i {
+  font-size:20pt;
+  margin-right: 10px;
+}
+.label-inline {
+  vertical-align: middle;
+  display: table-cell;
+}
+.logo-max-size {
+  max-width: 50px;
+  max-height: 50px;
+}
+.m-l-10 {
+  margin-right: 10px !important;
+}
+.m-t-15 {
+  margin-top: 15px !important;
+}
+.add-cloud-btn-disabled {
+  background-color: #CECECE;
+}
+.add-cloud-btn-deleted {
+  background-color: #DD4A4A;
+}
+.custom-modal-ovarlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 990;
+  background-color: #CECECE;
+}
+label {
+  font-weight: 400;
+}
+.dialog-body {
+  border: 1px solid #DDDDDD;
+  padding: 10px;
+  margin: 0px auto 10px;
+  overflow: hidden;
+  height: 100%;
+  width: 90%;
+}
+.edit-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
 }
