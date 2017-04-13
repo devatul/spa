@@ -45,7 +45,6 @@ var NubityApp  = React.createClass({
     } else {
       dashboard =
         <span>
-          <NavBar/>
           <RouteHandler/>
         </span>
       ;

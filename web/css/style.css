@@ -2289,7 +2289,7 @@ a.link-login:hover {
 .connection-name-container, .status-container {
   display: inline-table;
 }
-.status-container i {
+.status-container .onboard-status {
   font-size:20pt;
   margin-right: 10px;
 }

@@ -307,7 +307,7 @@ module.exports = React.createClass({
         <tr>
          <td>
            <div className="status-container">
-             <i className={statusClass} aria-hidden="true"></i>
+             <i className={statusClass + ' onboard-status'} aria-hidden="true"></i>
              <span className="label-inline">{statusLable}</span>
            </div>
          </td>
