@@ -134,14 +134,14 @@ module.exports = React.createClass({
       message = (<Preloader/>);
     } else {
       replies = this.state.ticket.replies;
-      message = this.state.ticket.replies[(this.state.ticket.replies).length-1].content;
+      message = this.state.ticket.replies[(this.state.ticket.replies).length - 1].content;
       message = $('<textarea />').html(message).text();
-      var body = this.state.ticket.replies[(this.state.ticket.replies).length-1];
+      var body = this.state.ticket.replies[(this.state.ticket.replies).length - 1];
       for (var key in body.ticket_attachments) {
         attachments.push(<div className="attachments-link" onClick={this._openAttachment.bind(this, body.ticket_attachments[key].ticket_id, body.ticket_attachments[key].ticketAttachment, body.ticket_attachments[key].filename)}>{body.ticket_attachments[key].filename}</div>);
       }
       subject = this.state.ticket.subject;
-      var index = replies.length-1;
+      var index = replies.length - 1;
       if (-1 < index) {
         replies.splice(index, 1);
       }

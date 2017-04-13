@@ -31,7 +31,7 @@ module.exports = React.createClass({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/infrastructure');
-    window.location.href = hash[0]+'/infrastructure'+sectionId+'#page='+pageNo;
+    window.location.href = hash[0] + '/infrastructure' + sectionId + '#page=' + pageNo;
   },
   render: function () {
     var overviewTooltip = (<Tooltip id="tooltip">Overview</Tooltip>);
@@ -48,7 +48,7 @@ module.exports = React.createClass({
       hash = arr[0];
       pageNo = parseInt(arr[1]);
     }
-    var _SELF=this;
+    var _SELF = this;
 
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
@@ -61,7 +61,7 @@ module.exports = React.createClass({
         </div>
         <div>
           <ul className="nav nav-tabs section-tabs">
-            <li role="presentation" className={('#overview' == hash || '' == hash)? 'active' : ''}>
+            <li role="presentation" className={('#overview' == hash || '' == hash) ? 'active' : ''}>
               <OverlayTrigger placement="top" overlay={overviewTooltip}>
                 <Link to="/infrastructure#overview" className="grey-color" data-toggle="tab" onClick={function () {_SELF.updateURL('#overview', 1);}}>
                   <i className="icon nb-eye small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Overview</span>

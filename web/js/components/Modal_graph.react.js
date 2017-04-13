@@ -60,14 +60,14 @@ module.exports = React.createClass({
         var pointStart = new Date();
 
         if (undefined !== data1[0] && undefined !== data1[0][0]) {
-          pointStart = data1[0][0]*1000;
+          pointStart = data1[0][0] * 1000;
         }
         var legend = graph.content.series[i].legend;
         var color = graph.content.series[i].color;
         var suffix = graph.content.series[i].unit;
         var coords = [];
         for (var key = 0; key < data1.length; key++) {
-          coords[key] = [new Date(data1[key][0]*1000), data1[key][1]];
+          coords[key] = [new Date(data1[key][0] * 1000), data1[key][1]];
         }
 
         var chartSerie = {
@@ -90,7 +90,7 @@ module.exports = React.createClass({
 
       Highcharts.setOptions({
         global: {
-          timezoneOffset: this.getUserTimeZoneOffset()*60,
+          timezoneOffset: this.getUserTimeZoneOffset() * 60,
         },
       });
 
