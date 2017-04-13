@@ -56,6 +56,7 @@ rules:
     - always
   global-require: error
   space-before-blocks: error
+  space-infix-ops: error
 globals:
   require: false
   define: false

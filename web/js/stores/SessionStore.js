@@ -188,7 +188,7 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       break;
 
     default:
-      if (null != action.res && null!= action.code && (401 == action.code)) {
+      if (null != action.res && null != action.code && (401 == action.code)) {
         router.transitionTo('login');
       }
       SessionStore.emitChange();

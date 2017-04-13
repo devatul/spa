@@ -47,7 +47,7 @@ module.exports = React.createClass({
   _updatePage: function (newSection) {
     var hash = window.location.href.split('/configure');
     var id = hash[1].split('#');
-    window.location.href = hash[0]+'/configure'+ id[0] + newSection;
+    window.location.href = hash[0] + '/configure' + id[0] + newSection;
   },
 
   render: function () {

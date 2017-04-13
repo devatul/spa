@@ -77,8 +77,8 @@ module.exports = React.createClass({
         historyAlerts: historyAlerts,
         totalHistoryItems: historyAlerts.totalItems,
         totalPages: {
-          alerts: Math.ceil(parseInt(alerts.totalItems)/10),
-          history: Math.ceil(parseInt(historyAlerts.totalItems)/10),
+          alerts: Math.ceil(parseInt(alerts.totalItems) / 10),
+          history: Math.ceil(parseInt(historyAlerts.totalItems) / 10),
         },
         loading: false,
         loadingHistory: false,
@@ -109,7 +109,7 @@ module.exports = React.createClass({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/alerts');
-    window.location.href = hash[0]+'/alerts'+sectionId+'#page='+pageNo;
+    window.location.href = hash[0] + '/alerts' + sectionId + '#page=' + pageNo;
   },
 
   _newPage: function (page) {
@@ -259,12 +259,12 @@ module.exports = React.createClass({
 
       moment.locale(locale);
       var date_from_obj = moment.tz(alerts[key].started_on, userTimeZone).toDate();
-      var from = date_from_obj.toLocaleDateString()+' '+date_from_obj.toLocaleTimeString();
+      var from = date_from_obj.toLocaleDateString() + ' ' + date_from_obj.toLocaleTimeString();
       var date_to_obj = '';
       var to = '';
       if (null != alerts[key].resolved_on) {
         date_to_obj = moment.tz(alerts[key].resolved_on, userTimeZone).toDate();
-        to = date_to_obj.toLocaleDateString()+' '+date_to_obj.toLocaleTimeString();
+        to = date_to_obj.toLocaleDateString() + ' ' + date_to_obj.toLocaleTimeString();
         action = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
@@ -386,11 +386,11 @@ module.exports = React.createClass({
 
       moment.locale(locale);
       date_from_obj = moment.tz(historyAlerts[key].started_on, userTimeZone).toDate();
-      from = date_from_obj.toLocaleDateString()+' '+date_from_obj.toLocaleTimeString();
+      from = date_from_obj.toLocaleDateString() + ' ' + date_from_obj.toLocaleTimeString();
       to = '';
       if (null != historyAlerts[key].resolved_on) {
         date_to_obj = moment.tz(historyAlerts[key].resolved_on, userTimeZone).toDate();
-        to = date_to_obj.toLocaleDateString()+' '+date_to_obj.toLocaleTimeString();
+        to = date_to_obj.toLocaleDateString() + ' ' + date_to_obj.toLocaleTimeString();
         haction = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
@@ -519,13 +519,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo-1)}>
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo - 1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo+1)}>
+              <a aria-label="Next" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo + 1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -596,13 +596,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={hpaginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo-1)}>
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo - 1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {historynavpages}
             <li>
-              <a aria-label="Next" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo+1)}>
+              <a aria-label="Next" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo + 1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>

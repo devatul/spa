@@ -32,7 +32,7 @@ module.exports = React.createClass({
   },
 
   _resetDialog: function () {
-    $('#'+this.props.modalId).modal('toggle');
+    $('#' + this.props.modalId).modal('toggle');
     this.setState({
       credetialInfo: '',
       name: '',

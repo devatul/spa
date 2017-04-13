@@ -62,7 +62,7 @@ module.exports = React.createClass({
       app_id: 'xs6j43ab',
       name: name,
       email: email,
-      created_at: Math.ceil(Date.now()/1000),
+      created_at: Math.ceil(Date.now() / 1000),
       'company_name': this.state.companyName,
     });
 

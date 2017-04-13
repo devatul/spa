@@ -41,8 +41,8 @@ module.exports = React.createClass({
   },
 
   componentWillReceiveProps: function (props) {
-    var width = props.providers.length*150 || 600;
-    $('#publicCloudProvidersList').css({width: width+'px'});
+    var width = props.providers.length * 150 || 600;
+    $('#publicCloudProvidersList').css({width: width + 'px'});
 
     if (props.page_no !== this.state.pageNo) {
       this.setState({
@@ -59,25 +59,25 @@ module.exports = React.createClass({
       this.setState({
         connectedPublicCloud: publicCloud.member,
         totalItems: publicCloud.totalItems,
-        totalPages: Math.ceil(parseInt(publicCloud.totalItems)/5),
+        totalPages: Math.ceil(parseInt(publicCloud.totalItems) / 5),
         credentialDetails: credentialDetails,
       });
     }
   },
 
   _scroll: function (arrow) {
-    var width = this.props.providers.length*150;
+    var width = this.props.providers.length * 150;
     var view = $('#publicCloudProvidersList');
     var move = '100px';
-    var sliderLimit = -(width-700);
+    var sliderLimit = -(width - 700);
     var currentPosition = parseInt(view.css('left'));
     if ('leftArrow' === arrow) {
       if (0 > currentPosition) {
-        view.stop (false,true).animate ({left:'+='+move}, { duration: 400});
+        view.stop (false,true).animate ({left:'+=' + move}, { duration: 400});
       }
     } else {
       if (currentPosition >= sliderLimit) {
-        view.stop (false,true).animate ({left:'-='+move}, { duration: 400});
+        view.stop (false,true).animate ({left:'-=' + move}, { duration: 400});
       }
     }
   },
@@ -214,7 +214,7 @@ module.exports = React.createClass({
 
   _explore2step: function (provider, id) {
     $('.public-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
-    $('#'+id+'.public-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
+    $('#' + id + '.public-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
     var credetials = this.state.activeProvider;
     if (!credetials) {
       this._revealSecondStep();
@@ -252,14 +252,14 @@ module.exports = React.createClass({
     _.map(providers, function (provider, i) {
       if (null != provider.logo) {
         rows.push(
-          <div id={'pubPro_'+i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_'+i);}}>
+          <div id={'pubPro_' + i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_' + i);}}>
             <img src={provider.logo.public_path} className="logo-max-size m-t-15"/>
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       } else {
         rows.push(
-          <div  id={'pubPro_'+i} className="public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_'+i);}}>
+          <div  id={'pubPro_' + i} className="public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_' + i);}}>
             <div className="clouds-icons aws"></div>
             <p className="aws-text">{provider.name}</p>
           </div>
@@ -302,7 +302,7 @@ module.exports = React.createClass({
         <tr>
          <td>
            <div className="status-container">
-             <i className={statusClass} aria-hidden="true"></i>
+             <i className={statusClass + ' onboard-status'} aria-hidden="true"></i>
              <span className="label-inline">{statusLable}</span>
            </div>
          </td>
@@ -316,7 +316,7 @@ module.exports = React.createClass({
            <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
          </td>
          <td className="icons">
-           <div className="col-xs-4"><span className="action-button nubity-blue"  data-toggle="modal" data-target={'#'+_SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data);}}>Edit</span></div>
+           <div className="col-xs-4"><span className="action-button nubity-blue"  data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data);}}>Edit</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
            <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential);}}>Deleted</span></div>
          </td>
@@ -397,13 +397,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo-1)}>
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo - 1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo + 1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>

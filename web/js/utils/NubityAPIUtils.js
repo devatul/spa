@@ -71,9 +71,9 @@ module.exports = {
         var text = JSON.parse(res.text);
         var err = [];
         _.map(text.messages, function (errMag, i) {
-          err = parseInt(i+1) + '. ' + errMag + '\n';
+          err = parseInt(i + 1) + '. ' + errMag + '\n';
         });
-        var message = 'Error ['+ code +'] : \n' + err;
+        var message = 'Error [' + code + '] : \n' + err;
         if (window.console) {
           console.error(message);
         }
@@ -1019,7 +1019,7 @@ module.exports = {
 
     return new Promise(function (resolve, reject) {
       var req = request
-        .post('/company/'+company+'/cloud.json')
+        .post('/company/' + company + '/cloud.json')
         .set('Authorization', token);
       for (var key in cloudData) {
         if ('certificate' !== key) {
@@ -1068,7 +1068,7 @@ module.exports = {
     var token = this.getToken();
 
     request
-    .get('/company/'+company+'/cloud.json')
+    .get('/company/' + company + '/cloud.json')
     .query({page: page, limit: limit})
     .accept('application/json')
     .set('Authorization', token)
@@ -1276,7 +1276,7 @@ module.exports = {
   openAttachment: function (ticketId, attachmentId, attachmentName) {
     var token   = this.getToken();
     var company = getUserData('company');
-    var url     = '/company/'+ company + '/ticket/' + ticketId + '/attachment/' + attachmentId + '.json';
+    var url     = '/company/' + company + '/ticket/' + ticketId + '/attachment/' + attachmentId + '.json';
     var req     = request.get(url);
     req.set('Authorization', token);
     req.type('blob');
@@ -1292,7 +1292,7 @@ module.exports = {
     var SELF = this;
     return new Promise(function (resolve, reject) {
       request
-      .put('/company/'+company+'/notification-severity-level.json')
+      .put('/company/' + company + '/notification-severity-level.json')
       .type('application/json')
       .send({user_id: user, company_id: company, severity: severity})
       .set('Authorization', token)
@@ -1387,7 +1387,7 @@ module.exports = {
     var _SELF = this;
     return new Promise(function (resolve) {
       request
-        .get('/company/'+company+'/cloud/'+id+'.json')
+        .get('/company/' + company + '/cloud/' + id + '.json')
         .accept('application/json')
         .set('Authorization', token)
         .end(function (res) {
@@ -1408,7 +1408,7 @@ module.exports = {
     var _SELF = this;
     return new Promise(function (resolve) {
       request
-        .get('/company/'+company+'/cloud/'+credetialId+'.json')
+        .get('/company/' + company + '/cloud/' + credetialId + '.json')
         .accept('application/json')
         .set('Authorization', token)
         .end(function (res) {
@@ -1432,7 +1432,7 @@ module.exports = {
 
     return new Promise(function (resolve) {
       request
-      .put('/company/'+company+'/cloud/'+credetialId+'.json')
+      .put('/company/' + company + '/cloud/' + credetialId + '.json')
       .accept('application/json')
       .set('Authorization', token)
       .end(function (res) {
@@ -1454,7 +1454,7 @@ module.exports = {
   },
 
   getToken: function () {
-    return ('Bearer '+ localStorage.getItem('nubity-token'));
+    return ('Bearer ' + localStorage.getItem('nubity-token'));
   },
 
   createAlertTicket: function (alert) {
