@@ -17,7 +17,7 @@ module.exports = React.createClass({
       allGraphs.push(
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <div className="widget create">
-            <CreateGraph position={i+1} dashboardId={this.props.dashboard.dashboard}/>
+            <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
           </div>
         </div>
       );
@@ -34,7 +34,7 @@ module.exports = React.createClass({
       allGraphs.push(
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <div className="widget create">
-            <CreateGraph position={i+1} dashboardId={this.props.dashboard.dashboard}/>
+            <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
           </div>
         </div>
       );
@@ -66,14 +66,14 @@ module.exports = React.createClass({
   componentWillReceiveProps: function (nextProps) {
     var allGraphs;
     var i;
-    if (nextProps.slots && 0<nextProps.slots.length) {
+    if (nextProps.slots && 0 < nextProps.slots.length) {
       var name = '';
       allGraphs = [];
       for (i = 0 ; 9 > i ; i++) {
         allGraphs.push(
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget create">
-              <CreateGraph position={i+1} dashboardId={this.props.dashboard.dashboard}/>
+              <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
             </div>
           </div>
         );
@@ -103,7 +103,7 @@ module.exports = React.createClass({
         allGraphs.push(
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget create">
-              <CreateGraph position={i+1} dashboardId={this.props.dashboard.dashboard}/>
+              <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
             </div>
           </div>
         );

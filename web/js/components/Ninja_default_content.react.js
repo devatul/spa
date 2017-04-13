@@ -58,7 +58,7 @@ module.exports = React.createClass({
         ninja: ninja.member,
         totalItems: ninja.totalItems,
         loading: false,
-        totalPages: Math.ceil(parseInt(ninja.totalItems)/10),
+        totalPages: Math.ceil(parseInt(ninja.totalItems) / 10),
       });
     }
     if (NinjaStore.isViewingTicket()) {
@@ -87,7 +87,7 @@ module.exports = React.createClass({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/ninja-support');
-    window.location.href = hash[0]+'/ninja-support#page='+pageNo;
+    window.location.href = hash[0] + '/ninja-support#page=' + pageNo;
   },
 
   _newPage: function (page) {
@@ -100,7 +100,7 @@ module.exports = React.createClass({
   render: function () {
     var ticket = this.state.ninja;
     var totalItems = this.state.totalItems;
-    var pages = Math.ceil(parseInt(totalItems)/10);
+    var pages = Math.ceil(parseInt(totalItems) / 10);
     var content;
 
     if (ticket !== undefined) {
@@ -129,7 +129,7 @@ module.exports = React.createClass({
         var tooltip = '';
         var priorityTooltip = '';
         var date_obj = moment.tz(ticket[key].created_at, userTimeZone).toDate();
-        var from = date_obj.toLocaleDateString()+' '+date_obj.toLocaleTimeString();
+        var from = date_obj.toLocaleDateString() + ' ' + date_obj.toLocaleTimeString();
 
         tooltip = <Tooltip id="tooltip" style={{textTransform: 'capitalize'}}>{ticket[key].status}</Tooltip>;
         status = 'icon nb-ticket icon-state ';
@@ -250,13 +250,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo-1)}>
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo - 1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo + 1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>

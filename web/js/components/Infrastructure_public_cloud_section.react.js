@@ -61,7 +61,7 @@ module.exports = React.createClass({
       this.setState({
         publicCloud: publicCloud.member,
         totalItems: publicCloud.totalItems,
-        totalPages: Math.ceil(parseInt(publicCloud.totalItems)/10),
+        totalPages: Math.ceil(parseInt(publicCloud.totalItems) / 10),
         isLoading: false,
       });
     }
@@ -272,7 +272,7 @@ module.exports = React.createClass({
         );
       }
 
-      num = publicCloud[key].memory/1024;
+      num = publicCloud[key].memory / 1024;
       if (0 !== num % 1) {
         num = num.toFixed(2);
       } else {
@@ -391,13 +391,13 @@ module.exports = React.createClass({
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">
             <li>
-              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo-1)}>
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo - 1)}>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {navpages}
             <li>
-              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo+1)}>
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo + 1)}>
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
