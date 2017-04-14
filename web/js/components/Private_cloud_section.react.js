@@ -129,18 +129,14 @@ module.exports = React.createClass({
       cloudData.api_secret = apiSecret;
     }
     if (null !== certificate) {
-      var reader = new FileReader();
-      reader.readAsBinaryString(certificate);
-      reader.onload = function () {
-        cloudData.certificate = {
-          binaryContent: reader.result,
-        };
-      };
+      cloudData.certificate = certificate;
     }
     if (null !== providerId) {
       cloudData.provider_id = providerId;
     }
+    var _SELF = this;
     submitCloudData(cloudData).then(function () {
+      getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
       $('input[name="privateIntegrationName"]').val('');
       $('input[name="privateApiKey"]').val('');
       $('input[name="privateEndpoint"]').val('');

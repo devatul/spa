@@ -135,8 +135,9 @@ module.exports = React.createClass({
     if (null !== providerId) {
       cloudData.provider_id = providerId;
     }
-
+    var _SELF = this;
     submitCloudData(cloudData).then(function () {
+      getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
       $('input[name="publicIntegrationName"]').val('');
       $('input[name="publicApiKey"]').val('');
       $('input[name="publicEndpoint"]').val('');
