@@ -129,19 +129,14 @@ module.exports = React.createClass({
       cloudData.api_secret = apiSecret;
     }
     if (null !== certificate) {
-      var reader = new FileReader();
-      reader.readAsBinaryString(certificate);
-      reader.onload = function () {
-        cloudData.certificate = {
-          binaryContent: reader.result,
-        };
-      };
+      cloudData.certificate = certificate;
     }
     if (null !== providerId) {
       cloudData.provider_id = providerId;
     }
-
+    var _SELF = this;
     submitCloudData(cloudData).then(function () {
+      getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
       $('input[name="onPremiseIntegrationName"]').val('');
       $('input[name="onPremiseApiKey"]').val('');
       $('input[name="onPremiseEndpoint"]').val('');
@@ -331,7 +326,7 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <button className="transparent-button" onClick={this._revealFirstStepOfPrivateCloud} id="onPremiseAddButton">
+        <button className="transparent-button hidden" onClick={this._revealFirstStepOfPrivateCloud} id="onPremiseAddButton">
           <i className="fa fa-plus-circle big-green-circle" aria-hidden="true"></i>
           <span>Add New On Premise Cloud Connection</span>
         </button>
