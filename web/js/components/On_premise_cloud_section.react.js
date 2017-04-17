@@ -9,6 +9,8 @@ var deleteProviderCredential   = require('../actions/RequestActions').deleteProv
 var EditProviderCredential     = require('./Edit_provider_credential.react');
 var _                          = require('lodash');
 var moment                     = require('moment');
+var Tooltip                    = require('react-bootstrap').Tooltip;
+var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -286,42 +288,44 @@ module.exports = React.createClass({
 
     _.map(this.state.connectedOnPremiseCloud, function (data, i) {
       var statusClass = 'fa fa-check-circle green-text';
-      var statusLable = 'OK';
+      var statusLabel = 'OK';
 
       if ('Failed' === data.status) {
         statusClass = 'fa fa-times-circle red-text';
-        statusLable = 'Fail';
+        statusLabel = 'Fail';
       } else if ('Disabled' === data.status) {
         statusClass = 'fa fa-ban grey-text';
-        statusLable = 'Disabled';
+        statusLabel = 'Disabled';
       }
       var provider = _.find(allProviders, function (o) { return o.provider === data.provider; });
-
-      if ('undefined' !== typeof provider)
+      var tooltip = (<Tooltip id="tooltip">{statusLabel}</Tooltip>);
+      if ('undefined' !== typeof provider) {
         connectionTableRow.push(
-        <tr>
-         <td>
-           <div className="status-container">
-             <i className={statusClass + ' onboard-status'} aria-hidden="true"></i>
-             <span className="label-inline">{statusLable}</span>
-           </div>
-         </td>
-         <td>
-           <div className="connection-name-container">
-             {null !== provider.logo ? <img src={provider.logo.public_path} className="logo-max-size m-l-10 m-t-15"></img> : <span className="clouds-icons aws m-l-10"></span>}
-             <span className="label-inline">{provider.name}</span>
-           </div>
-         </td>
-         <td className="">
-           <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
-         </td>
-         <td className="icons">
-           <div className="col-xs-4"><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data);}}>Edit</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-disabled">Disabled</span></div>
-           <div className="col-xs-4"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential);}}>Deleted</span></div>
-         </td>
-       </tr>
-      );
+          <tr>
+            <td>
+              <div className="status-container">
+                <OverlayTrigger placement="top" overlay={tooltip}>
+                  <i className={statusClass + ' onboard-status'} aria-hidden="true"></i>
+                </OverlayTrigger>
+              </div>
+            </td>
+            <td>
+              <div className="connection-name-container">
+                {null !== provider.logo ? <img src={provider.logo.public_path} className="logo-max-size m-l-10 m-t-15"></img> : <span className="clouds-icons aws m-l-10"></span>}
+                <span className="label-inline">{provider.name}</span>
+              </div>
+            </td>
+            <td className="">
+              <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
+            </td>
+            <td className="icons">
+              <div className=""><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data);}}>Edit</span></div>
+              <div className="hidden"><span className="action-button add-cloud-btn-disabled">Disable</span></div>
+              <div className="hidden"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential);}}>Delete</span></div>
+            </td>
+          </tr>
+        );
+      }
     });
 
     return (
@@ -377,7 +381,7 @@ module.exports = React.createClass({
         <hr/>
         <div>
           <i className="fa fa-cloud" aria-hidden="true"></i>
-          <span>Connected On Premise Cloud</span>
+          <span>Connected clouds</span>
         </div>
         <div className="add-cloud-table-container">
           <table className="add-cloud-table">

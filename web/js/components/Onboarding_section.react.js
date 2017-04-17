@@ -149,24 +149,13 @@ module.exports = React.createClass({
               allProviders={this.state.providers}
               providers={this.state.publicCloudProviders}
               page_no={pageNo}
-              callUpdateURL={function (page) {_SELF.updateURL('#public', page);}}
-            />
+              callUpdateURL={function (page) {_SELF.updateURL('#public', page);}}/>
           </div>
           <div id="private" className={'tab-pane fade ' + ('#private' === hash ? 'in active' : '')}>
-            <PrivateCloudSection
-              allProviders={this.state.providers}
-              providers={this.state.privateCloudProviders}
-              page_no={pageNo}
-              callUpdateURL={function (page) {_SELF.updateURL('#private', page);}}
-            />
+            <PrivateCloudSection allProviders={this.state.providers} providers={this.state.privateCloudProviders} page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#private', page);}}/>
           </div>
           <div id="onPremise" className={'tab-pane fade ' + ('#onPremise' === hash ? 'in active' : '')}>
-            <OnPremiseCloudSection
-              allProviders={this.state.providers}
-              providers={this.state.onPremiseProviders}
-              page_no={pageNo}
-              callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page);}}
-            />
+            <OnPremiseCloudSection allProviders={this.state.providers} providers={this.state.onPremiseProviders} page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page);}}/>
           </div>
         </div>
       </div>

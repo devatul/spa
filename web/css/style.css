@@ -446,6 +446,7 @@ button.action-button:hover {
   margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
+  position: fixed;
 }
 .principal-section-loggedout {
   margin-top: 100px;
@@ -2020,6 +2021,8 @@ a.link-login:hover {
 }
 .thumbnail {
   min-height: 82px;
+  height: 124px!important;
+  overflow: hidden;
 }
 .valign-wrapper {
   display: -webkit-flex;
@@ -2275,8 +2278,6 @@ a.link-login:hover {
   opacity: 0.5;
 }
 .add-cloud-table-container {
-  border: 1px solid #ccc;
-  padding: 1px 0px;
   margin-top: 20px;
 }
 .add-cloud-table th, td {
