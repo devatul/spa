@@ -50,8 +50,11 @@ var InfrastructureStore = assign({}, EventEmitter.prototype, {
     return _instanceForMonitoring;
   },
 
-  instanceConfiguration: function () {
-    return _instanceConfiguration;
+  instanceConfiguration: function (id) {
+    if (_instanceConfiguration.instance == id) {
+      return _instanceConfiguration;
+    } 
+    return '';
   },
 
   getCodeError: function () {

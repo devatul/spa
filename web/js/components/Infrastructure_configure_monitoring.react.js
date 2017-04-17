@@ -9,13 +9,14 @@ var redirect                      = require('../actions/RouteActions').redirect;
 module.exports = React.createClass({
 
   getInitialState: function () {
-    var instanceConfiguration = InfrastructureStore.instanceConfiguration();
     var url = window.location.href.split('#');
     var position = url[1].indexOf('configure') + 10;
     var id = url[1].slice(position);
+    var instanceConfiguration = InfrastructureStore.instanceConfiguration(id);
     return {
       instanceConfiguration: instanceConfiguration,
       idInstance: id,
+      title: '',
     };
   },
 
@@ -32,14 +33,19 @@ module.exports = React.createClass({
   },
 
   componentWillUnmount: function () {
+    this.setState({
+      title: '',
+    });
     InfrastructureStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function () {
-    if (this.isMounted()) {
-      var instanceConfiguration = InfrastructureStore.instanceConfiguration();
+    if (this.isMounted() && InfrastructureStore.instanceConfiguration(this.state.idInstance)) {
+      var instanceConfiguration = InfrastructureStore.instanceConfiguration(this.state.idInstance);
+      var title = 'Configure monitoring for ' + instanceConfiguration.hostname;
       this.setState({
         instanceConfiguration: instanceConfiguration,
+        title: title,
       });
     }
   },
@@ -112,7 +118,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">Configure monitoring for {this.state.instanceConfiguration.hostname}</h2>
+          <h2 className="align-center">{this.state.title}</h2>
         </div>
         <div className="large-section-tabs">
           <ul className="nav nav-tabs section-tabs">

@@ -100,9 +100,23 @@ module.exports = React.createClass({
         );
         notice = (
           <span>
-            Stopping the management services will be effective in billing as well as technical at the end of the 
-            current billing cicle. In any moment during this period, you can dismiss the stop and the service will 
-            continue normally.
+            Cancelling this management product will impact the billing and management at the end of the current billing cycle. In any moment during this period, you can dismiss this cancellation request and the service will continue normally.
+          </span>
+        );
+        confirmButtons = (
+          <div className="pull-right">
+            <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
+            <span className="action-button nubity-red" onClick={this.execute}>OK</span>
+          </div>
+        );
+        break;
+      case 'monitoringStop':
+        warn = (
+          <span><i className="icon nb-warning yellow-text large"></i> Are you sure?</span>
+        );
+        notice = (
+          <span>
+            Cancelling this monitoring product will impact the billing and monitoring at the end of the current billing cycle. In any moment during this period, you can dismiss this cancellation request and the service will continue normally.
           </span>
         );
         confirmButtons = (

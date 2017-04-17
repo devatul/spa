@@ -108,27 +108,32 @@ module.exports = React.createClass({
     switch (props) {
       case 'start':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._startInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)}/>),
         });
         break;
       case 'stop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)}/>),
         });
         break;
       case 'restart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._restartInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)}/>),
         });
         break;
       case 'managementStart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._managed.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)}/>),
         });
         break;
       case 'managementStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+        });
+        break;
+      case 'monitoringStop':
+        this.setState({
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
         });
         break;
     }
@@ -228,7 +233,7 @@ module.exports = React.createClass({
           monitoring = (<Link className="action-button nubity-green" to="monitoring" params={{id: publicCloud[key].instance}}>Start</Link>);
         }
       } else if ('accepted' == monitoringStatus) {
-        monitoring = (<span className="action-button nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>);
+        monitoring = (<span className="action-button nubity-red" onClick={this._warning.bind(this, 'monitoringStop', publicCloud[key], monitoringCode)}>Stop</span>);
       } else if ('pending-cancellation' == monitoringStatus) {
         monitoring = (<span className="action-button nubity-blue" onClick={this._deleteOrderCancelation.bind(this, monitoringCode)}>Dismiss</span>);
       } else {

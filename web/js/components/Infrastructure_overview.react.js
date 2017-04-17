@@ -112,27 +112,32 @@ module.exports = React.createClass({
     switch (props) {
       case 'start':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._startInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)}/>),
         });
         break;
       case 'stop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)}/>),
         });
         break;
       case 'restart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._restartInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)}/>),
         });
         break;
       case 'managementStart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._managed.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)}/>),
         });
         break;
       case 'managementStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam}  okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+        });
+        break;
+      case 'monitoringStop':
+        this.setState({
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
         });
         break;
     }
@@ -252,7 +257,7 @@ module.exports = React.createClass({
         } else if ('accepted' == monitoringStatus) {
           monitoring = (
           <div>
-            <span className="action-button config nubity-red" onClick={this._stopOrder.bind(this, monitoringCode)}>Stop</span>
+            <span className="action-button config nubity-red" onClick={this._warning.bind(this, 'monitoringStop', overview[key], monitoringCode)}>Stop</span>
             <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
               <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>

@@ -30,6 +30,7 @@ module.exports = React.createClass({
       getTicket(id);
       return {
         ticket: '',
+        title: '',
         files: [],
         dropzone: 'dropzone',
         button: (<button type="submit" className="margin-tops blue-button">Send</button>),
@@ -64,6 +65,7 @@ module.exports = React.createClass({
     if (this.isMounted() && NinjaStore.getViewTicket() != this.state.ticket) {
       this.setState({
         ticket: NinjaStore.getViewTicket(),
+        title: 'Ticket - ' + NinjaStore.getViewTicket().name,
         files: [],
         button: (<button type="submit" className="margin-tops blue-button">Send</button>),
       });
@@ -222,7 +224,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">Ticket - {this.state.ticket.name}</h2>
+          <h2 className="align-center">{this.state.title}</h2>
         </div>
         <div className="centered hidden">
           <a onClick={this._liveChat}>
