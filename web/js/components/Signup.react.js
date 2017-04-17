@@ -8,7 +8,7 @@ module.exports = React.createClass({
   getInitialState: function () {
 
     return {
-      message: '',
+      message:      '',
       messageClass: 'hidden',
     };
   },
@@ -26,7 +26,7 @@ module.exports = React.createClass({
       var message = SessionStore.signupMessage();
       if ('' != message) {
         this.setState({
-          message: message,
+          message:      message,
           messageClass: 'alert alert-success',
         });
       }
@@ -56,14 +56,14 @@ module.exports = React.createClass({
     e.preventDefault();
     var user       = {};
     user.firstname = this.refs.firstname.getDOMNode().value;
-    user.lastname  = this.refs.lastname.getDOMNode().value;
-    user.email     = this.refs.email.getDOMNode().value;
-    user.password  = this.refs.password.getDOMNode().value;
+    user.lastname = this.refs.lastname.getDOMNode().value;
+    user.email = this.refs.email.getDOMNode().value;
+    user.password = this.refs.password.getDOMNode().value;
     user.password2 = this.refs.password2.getDOMNode().value;
-    user.phone     = this.refs.phone.getDOMNode().value;
-    user.company   = this.refs.companyName.getDOMNode().value;
+    user.phone = this.refs.phone.getDOMNode().value;
+    user.company = this.refs.companyName.getDOMNode().value;
     var locale     = navigator.language || navigator.userLanguage;
-    user.locale    = locale.replace('-', '_');
+    user.locale = locale.replace('-', '_');
 
     signupAction(user).then(function () {
       this.refs.firstname.getDOMNode().value = '';
@@ -98,7 +98,7 @@ module.exports = React.createClass({
       }
       var errorList = <ul>{error}</ul>;
       this.setState({
-        message: errorList,
+        message:      errorList,
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
@@ -109,9 +109,9 @@ module.exports = React.createClass({
     _.map(error, function (errMsg) {
       err.push(<li>{errMsg}</li>);
     });
-    return <li><strong>{lable}</strong><br/>
-        <ul>{err}</ul>
-      </li>;
+    return <li><strong>{lable}</strong><br />
+      <ul>{err}</ul>
+    </li>;
   },
 
   render: function () {
@@ -143,7 +143,7 @@ module.exports = React.createClass({
                   id="firstname"
                   ref="firstname"
                   placeholder="First name"
-                  required/>
+                  required />
               </div>
             </div>
             <div className="form-group col-xs-6">
@@ -157,7 +157,7 @@ module.exports = React.createClass({
                   id="lastname"
                   ref="lastname"
                   placeholder="Last name"
-                  required/>
+                  required />
               </div>
             </div>
             <div className="form-group col-xs-12">
@@ -171,7 +171,7 @@ module.exports = React.createClass({
                   id="email"
                   ref="email"
                   placeholder="Email"
-                  required/>
+                  required />
               </div>
             </div>
             <div className="form-group col-xs-12">
@@ -185,7 +185,7 @@ module.exports = React.createClass({
                   id="password"
                   ref="password"
                   placeholder="Password"
-                  required/>
+                  required />
               </div>
             </div>
             <div className="form-group col-xs-12">
@@ -199,7 +199,7 @@ module.exports = React.createClass({
                   id="password2"
                   ref="password2"
                   placeholder="Repeat password"
-                  required/>
+                  required />
               </div>
             </div>
             <div className="form-group col-xs-12">
@@ -213,7 +213,7 @@ module.exports = React.createClass({
                   id="phone"
                   ref="phone"
                   placeholder="Phone"
-                  title="Only valid phone numbers"/>
+                  title="Only valid phone numbers" />
               </div>
             </div>
             <div className="form-group col-xs-12">
@@ -226,7 +226,7 @@ module.exports = React.createClass({
                   className="form-control no-shadow"
                   id="companyName"
                   ref="companyName"
-                  placeholder="Company name"/>
+                  placeholder="Company name" />
               </div>
             </div>
             <button type="submit" className="action-button nubity-blue">Sign up</button>

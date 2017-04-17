@@ -9,7 +9,7 @@ var SessionStore = require('../stores/SessionStore');
 var NubityApp  = React.createClass({
   getInitialState: function () {
     return {
-      user: Auth.user,
+      user:       Auth.user,
       isLoggedIn: SessionStore.isLoggedIn(),
     };
   },
@@ -36,16 +36,16 @@ var NubityApp  = React.createClass({
     if (true == loggedIn) {
       dashboard =
         <span>
-          <NavBar/>
-          <SideBar/>
-          <RouteHandler/>
-          <Footer/>
+          <NavBar />
+          <SideBar />
+          <RouteHandler />
+          <Footer />
         </span>
       ;
     } else {
       dashboard =
         <span>
-          <RouteHandler/>
+          <RouteHandler />
         </span>
       ;
     }
@@ -57,4 +57,4 @@ var NubityApp  = React.createClass({
   },
 });
 
-module.exports   = NubityApp;
+module.exports = NubityApp;

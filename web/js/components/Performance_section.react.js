@@ -23,7 +23,7 @@ module.exports = React.createClass({
           <h2 className="align-center"><span>Customize your infrastructure&#39;s performance</span></h2>
         </div>
         <div className="section-content">
-          <CustomPerformance/>
+          <CustomPerformance />
         </div>
         <div className="col-xs-6"></div>
         <div className="col-xs-6"></div>

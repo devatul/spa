@@ -11,7 +11,7 @@ module.exports = {
   loginError: function (message) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.LOGIN_ERROR,
-      res: message,
+      res:        message,
     });
   },
 
@@ -30,155 +30,155 @@ module.exports = {
   showSignupMessage: function (message) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_SIGNUP_MESSAGE,
-      res: message,
+      res:        message,
     });
   },
 
   showConfirmMessage: function (code, message) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CONFIRM_MESSAGE,
-      res: message,
-      code: code,
+      res:        message,
+      code:       code,
     });
   },
 
   showInfrastructureOverview: function (overview) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_OVERVIEW,
-      res: overview,
+      res:        overview,
     });
   },
 
   showInfrastructurePublicCloud: function (publicCloud) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_PUBLIC_CLOUD,
-      res: publicCloud,
+      res:        publicCloud,
     });
   },
 
   showInstanceForMonitoring: function (instance) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INSTANCE_FOR_MONITORING,
-      res: instance,
+      res:        instance,
     });
   },
 
   showInstanceConfiguration: function (instance) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INSTANCE_CONFIGURATION,
-      res: instance,
+      res:        instance,
     });
   },
 
   showInfrastructurePrivateCloud: function (privateCloud) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_PRIVATE_CLOUD,
-      res: privateCloud,
+      res:        privateCloud,
     });
   },
 
   showInfrastructureOnPremise: function (onPremise) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_ON_PREMISE,
-      res: onPremise,
+      res:        onPremise,
     });
   },
 
   showAlerts: function (alerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_ALERTS,
-      res: alerts,
+      res:        alerts,
     });
   },
 
   showStats: function (stats) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_STATS,
-      res: stats,
+      res:        stats,
     });
   },
 
   showHistoryAlerts: function (alerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_HISTORY_ALERTS,
-      res: alerts,
+      res:        alerts,
     });
   },
 
   showDashboardAlerts: function (dashboardAlerts) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_DASHBOARD_ALERTS,
-      res: dashboardAlerts,
+      res:        dashboardAlerts,
     });
   },
 
   showProviders: function (providers) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_PROVIDERS,
-      res: providers,
+      res:        providers,
     });
   },
 
   showDashboards: function (dashboards) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_DASHBOARDS,
-      res: dashboards,
+      res:        dashboards,
     });
   },
 
   showNinja: function (ninja) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_NINJA,
-      res: ninja,
+      res:        ninja,
     });
   },
 
   showDashboard: function (dashboard) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_DASHBOARD,
-      res: dashboard,
+      res:        dashboard,
     });
   },
 
   search: function (search) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SEARCH,
-      res: search,
+      res:        search,
     });
   },
 
   showAvailableGraphTypes: function (graphTypes) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_AVAILABLE_GRAPH_TYPES,
-      res: graphTypes,
+      res:        graphTypes,
     });
   },
 
   createAlertTicket: function (alert) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.CREATE_ALERT_TICKET,
-      res: alert,
+      res:        alert,
     });
   },
 
   viewTicket: function (ticket) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.VIEW_TICKET,
-      res: ticket,
+      res:        ticket,
     });
   },
 
   showTicket: function (ticket) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_TICKET,
-      res: ticket,
+      res:        ticket,
     });
   },
 
   showCompany: function (companyInfo) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_COMPANY,
-      res: companyInfo,
+      res:        companyInfo,
     });
   },
 
@@ -186,17 +186,17 @@ module.exports = {
     if ('_PUBLIC' === tab) {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PUBLIC,
-        res: providerCredentials,
+        res:        providerCredentials,
       });
     } else if ('_PRIVATE' === tab) {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_PRIVATE,
-        res: providerCredentials,
+        res:        providerCredentials,
       });
     } else if ('_ONPREMISE' === tab) {
       Dispatcher.handleServerAction({
         actionType: ActionTypes.SHOW_PROPVIDER_CREDENTIAL_ONPREMISE,
-        res: providerCredentials,
+        res:        providerCredentials,
       });
     }
   },
@@ -204,35 +204,35 @@ module.exports = {
   showCredentialDetails: function (credentialDetails) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CREDENTIAL_DETAILS,
-      res: credentialDetails,
+      res:        credentialDetails,
     });
   },
 
   showCustomDashboards: function (dashboards) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CUSTOM_DASHBOARDS,
-      res: dashboards,
+      res:        dashboards,
     });
   },
 
   showCustomSlots: function (slots) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_CUSTOM_SLOTS,
-      res: slots,
+      res:        slots,
     });
   },
 
   showTimezone: function (timezone) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.STORE_TIMEZONE,
-      res: timezone,
+      res:        timezone,
     });
   },
 
   showLocales: function (locales) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.STORE_LOCALES,
-      res: locales,
+      res:        locales,
     });
   },
 };

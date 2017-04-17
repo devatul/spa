@@ -35,7 +35,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-area-chart" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="integrationName" placeholder="New Dashboard Performance Name"/>
+                  <input type="text" className="form-control no-shadow" id="integrationName" placeholder="New Dashboard Performance Name" />
                 </div>
               </div>
             </div>
@@ -44,17 +44,17 @@ module.exports = React.createClass({
           <div className="row margin-sides">
             <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <div className="widget create">
-                <CreateGraph position={1}/>
+                <CreateGraph position={1} />
               </div>
             </div>
             <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <div className="widget create">
-                <CreateGraph position={2}/>
+                <CreateGraph position={2} />
               </div>
             </div>
             <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <div className="widget create">
-                <CreateGraph position={3}/>
+                <CreateGraph position={3} />
               </div>
             </div>
           </div>

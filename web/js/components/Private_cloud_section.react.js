@@ -18,18 +18,18 @@ module.exports = React.createClass({
     var credentialDetails = OnBoardingStore.getCredentialDetails();
     return {
       connectedPrivateCloud: connectedPrivateCloud,
-      activeProvider: false,
-      totalItems: connectedPrivateCloud.totalItems,
-      totalPages: 0,
-      pageNo: 1,
-      credentialDetails: credentialDetails,
-      credetialInfo: false,
-      open: false,
+      activeProvider:        false,
+      totalItems:            connectedPrivateCloud.totalItems,
+      totalPages:            0,
+      pageNo:                1,
+      credentialDetails:     credentialDetails,
+      credetialInfo:         false,
+      open:                  false,
     };
   },
 
-  limit: 5,
-  sectionKey: '_PRIVATE',
+  limit:       5,
+  sectionKey:  '_PRIVATE',
   editModalId: 'editModalPrivate',
 
   componentDidMount: function () {
@@ -59,9 +59,9 @@ module.exports = React.createClass({
       var credentialDetails = OnBoardingStore.getCredentialDetails();
       this.setState({
         connectedPrivateCloud: privateCloud.member,
-        totalItems: privateCloud.totalItems,
-        totalPages: Math.ceil(parseInt(privateCloud.totalItems) / 5),
-        credentialDetails: credentialDetails,
+        totalItems:            privateCloud.totalItems,
+        totalPages:            Math.ceil(parseInt(privateCloud.totalItems) / 5),
+        credentialDetails:     credentialDetails,
       });
     }
   },
@@ -74,11 +74,11 @@ module.exports = React.createClass({
     var currentPosition = parseInt(view.css('left'));
     if ('leftArrow' === arrow) {
       if (0 > currentPosition) {
-        view.stop (false,true).animate ({left:'+=' + move}, { duration: 400});
+        view.stop (false,true).animate ({left: '+=' + move}, { duration: 400});
       }
     } else {
       if (currentPosition >= sliderLimit) {
-        view.stop (false,true).animate ({left:'-=' + move}, { duration: 400});
+        view.stop (false,true).animate ({left: '-=' + move}, { duration: 400});
       }
     }
   },
@@ -157,7 +157,7 @@ module.exports = React.createClass({
       <div className="form-group">
         <div className="input-group">
           <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
-          <input type="text" className="form-control" name="privateIntegrationName" placeholder="Integration Name"/>
+          <input type="text" className="form-control" name="privateIntegrationName" placeholder="Integration Name" />
         </div>
       </div>
     );
@@ -166,7 +166,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" name="privateApiKey" placeholder="API Key"/>
+            <input type="text" className="form-control" name="privateApiKey" placeholder="API Key" />
           </div>
         </div>
       );
@@ -176,7 +176,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" name="privateEndpoint" placeholder="Access Key ID"/>
+            <input type="text" className="form-control" name="privateEndpoint" placeholder="Access Key ID" />
           </div>
         </div>
       );
@@ -186,7 +186,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" name="privateApiSecret" placeholder="Secret Access Key"/>
+            <input type="text" className="form-control" name="privateApiSecret" placeholder="Secret Access Key" />
           </div>
         </div>
       );
@@ -196,9 +196,9 @@ module.exports = React.createClass({
         <div className="input-group image-preview">
           <span className="input-group-btn">
             <div className="btn btn-default image-preview-input">
-                <span className="glyphicon glyphicon-folder-open"></span>
-                <span className="image-preview-input-title">Upload Certificate</span>
-                <input type="file" name="certificate" id="privateCertificate" onChange={function () {_SELF._onFileChange();}} />
+              <span className="glyphicon glyphicon-folder-open"></span>
+              <span className="image-preview-input-title">Upload Certificate</span>
+              <input type="file" name="certificate" id="privateCertificate" onChange={function () {_SELF._onFileChange();}} />
             </div>
           </span>
           <span className="form-control image-preview-filename hidden"></span>
@@ -234,7 +234,7 @@ module.exports = React.createClass({
 
   _editProviderCredential: function (credetialInfo) {
     this.setState({
-      open: true,
+      open:          true,
       credetialInfo: credetialInfo,
     });
     getCredentialDetails(credetialInfo.provider_credential);
@@ -255,7 +255,7 @@ module.exports = React.createClass({
       if (null != provider.logo) {
         rows.push(
           <div id={'pvtPro_' + i} className="col-md-2 private-cloud-provider clouds-icons-button" onClick={function () {_SELF._explorePrivateStep2(provider, 'pvtPro_' + i);}}>
-            <img src={provider.logo.public_path} className="logo-max-size m-t-15"/>
+            <img src={provider.logo.public_path} className="logo-max-size m-t-15" />
             <p className="aws-text">{provider.name}</p>
           </div>
         );
@@ -335,7 +335,7 @@ module.exports = React.createClass({
           <span id="privateTextToClick">Add New Private Cloud Connection</span>
         </button>
         <button className="transparent-button hidden" onClick={this._revertPrivateSteps} id="privateCancelButton">
-          <i  className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
+          <i className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
           <span>Cancel Private Cloud Connection</span>
         </button>
         <div className="hidden" id="private1StepTitle">
@@ -347,11 +347,11 @@ module.exports = React.createClass({
             <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('leftArrow');}}>
               <i className="fa fa-chevron-left" aria-hidden="true"></i>
             </div>
-              <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
-                <div id="privateCloudProvidersList" className="list-providers">
-                  {rows}
-                </div>
+            <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
+              <div id="privateCloudProvidersList" className="list-providers">
+                {rows}
               </div>
+            </div>
             <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('rightArrow');}}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </div>
@@ -378,54 +378,54 @@ module.exports = React.createClass({
             <p className="aws-text">start live chat with Support</p>
           </div>
         </div>
-        <hr/>
-          <div>
-            <i className="fa fa-cloud" aria-hidden="true"></i>
-            <span>Connected clouds</span>
-          </div>
-          <div className="add-cloud-table-container">
-            <table className="add-cloud-table">
-              <thead>
-                <tr>
-                  <th className="">Status</th>
-                  <th className="">Connection name</th>
-                  <th className="">Last Sync</th>
-                  <th className="column-action">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {connectionTableRow}
-              </tbody>
-            </table>
-          </div>
-          <nav aria-label="Page navigation" className={paginatorClass}>
-            <ul className="pagination">
-              <li>
-                <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo - 1)}>
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              {navpages}
-              <li>
-                <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo + 1)}>
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div>
-            <EditProviderCredential
-              modalId={this.editModalId}
-              open={this.state.open}
-              credentialDetails={this.state.credentialDetails}
-              credetialInfo={this.state.credetialInfo}
-              updateCredentials={function (credetialId, newCredential) {return updateNewCredentials(credetialId, newCredential);}}
-              refreshTable={function () {
-                _SELF.setState({open: false});
-                getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
-              }}
-              {...this.props}/>
-          </div>
+        <hr />
+        <div>
+          <i className="fa fa-cloud" aria-hidden="true"></i>
+          <span>Connected clouds</span>
+        </div>
+        <div className="add-cloud-table-container">
+          <table className="add-cloud-table">
+            <thead>
+              <tr>
+                <th className="">Status</th>
+                <th className="">Connection name</th>
+                <th className="">Last Sync</th>
+                <th className="column-action">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {connectionTableRow}
+            </tbody>
+          </table>
+        </div>
+        <nav aria-label="Page navigation" className={paginatorClass}>
+          <ul className="pagination">
+            <li>
+              <a aria-label="Previous" onClick={this._updatePage.bind(this, this.state.pageNo - 1)}>
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {navpages}
+            <li>
+              <a aria-label="Next" onClick={this._updatePage.bind(this, this.state.pageNo + 1)}>
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div>
+          <EditProviderCredential
+            modalId={this.editModalId}
+            open={this.state.open}
+            credentialDetails={this.state.credentialDetails}
+            credetialInfo={this.state.credetialInfo}
+            updateCredentials={function (credetialId, newCredential) {return updateNewCredentials(credetialId, newCredential);}}
+            refreshTable={function () {
+              _SELF.setState({open: false});
+              getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
+            }}
+            {...this.props} />
+        </div>
       </div>
     );
   },

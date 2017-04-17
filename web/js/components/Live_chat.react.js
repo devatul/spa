@@ -56,14 +56,14 @@ module.exports = React.createClass({
           </div>
           <div className="col-xs-12 margin-tops">
             <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="65" alt="..." className="img-circle"/>
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="65" alt="..." className="img-circle" />
             </div>
             <div className="col-xs-8">
               <p>Federico Palladoro (@fede)</p>
               <p>
                 <span className="margin-sides">Available</span>
                 <span className="margin-sides">
-                  <time datetime="">YYYY/MM/DD - 00:00:00 am</time>
+                  <time dateTime="">YYYY/MM/DD - 00:00:00 am</time>
                 </span>
                 <span className="margin-sides">Support</span>
                 <span className="margin-sides">fede@nubity.com</span>

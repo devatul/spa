@@ -17,7 +17,7 @@ module.exports = React.createClass({
       allGraphs.push(
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <div className="widget create">
-            <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
+            <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
           </div>
         </div>
       );
@@ -34,7 +34,7 @@ module.exports = React.createClass({
       allGraphs.push(
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <div className="widget create">
-            <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
+            <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
           </div>
         </div>
       );
@@ -53,7 +53,7 @@ module.exports = React.createClass({
                 <i className="fa fa-arrows-alt" aria-hidden="true"></i>
               </button>
               <div className="valign-wrapper allHeight">
-                <Graph graph={this.props.slots[key]} name={name} dashboardId={this.props.dashboard.dashboard}/>
+                <Graph graph={this.props.slots[key]} name={name} dashboardId={this.props.dashboard.dashboard} />
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@ module.exports = React.createClass({
         allGraphs.push(
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget create">
-              <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
+              <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
             </div>
           </div>
         );
@@ -90,7 +90,7 @@ module.exports = React.createClass({
                 <i className="fa fa-arrows-alt" aria-hidden="true"></i>
               </button>
               <div className="valign-wrapper allHeight">
-                <Graph graph={nextProps.slots[key]} name={name} dashboardId={nextProps.dashboard.dashboard}/>
+                <Graph graph={nextProps.slots[key]} name={name} dashboardId={nextProps.dashboard.dashboard} />
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ module.exports = React.createClass({
         allGraphs.push(
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget create">
-              <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard}/>
+              <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
             </div>
           </div>
         );
@@ -118,9 +118,9 @@ module.exports = React.createClass({
 
   _modalGraph: function (dashboard) {
     var name = 'container' + moment().format('MMMMDoYYYYh:mm:ss');
-    var graph = (<Graph graph={dashboard} name={name} dashboardId={dashboard.dashboard}/>);
+    var graph = (<Graph graph={dashboard} name={name} dashboardId={dashboard.dashboard} />);
     this.setState({
-      showModal: true,
+      showModal:          true,
       graphToShowInModal: graph,
     });
   },
@@ -132,7 +132,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    
+
     return (
       <div className="container">
         <div className="row">

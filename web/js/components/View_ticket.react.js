@@ -29,11 +29,11 @@ module.exports = React.createClass({
     if (undefined !== id && id) {
       getTicket(id);
       return {
-        ticket: '',
-        title: '',
-        files: [],
+        ticket:   '',
+        title:    '',
+        files:    [],
         dropzone: 'dropzone',
-        button: (<button type="submit" className="margin-tops blue-button">Send</button>),
+        button:   (<button type="submit" className="margin-tops blue-button">Send</button>),
       };
     }
 
@@ -65,8 +65,8 @@ module.exports = React.createClass({
     if (this.isMounted() && NinjaStore.getViewTicket() != this.state.ticket) {
       this.setState({
         ticket: NinjaStore.getViewTicket(),
-        title: 'Ticket - ' + NinjaStore.getViewTicket().name,
-        files: [],
+        title:  'Ticket - ' + NinjaStore.getViewTicket().name,
+        files:  [],
         button: (<button type="submit" className="margin-tops blue-button">Send</button>),
       });
     }
@@ -83,7 +83,7 @@ module.exports = React.createClass({
     });
 
     ReplyTicketAction(id, ticketReply, this.state.files);
-    
+
   },
 
   _closeTicket: function () {
@@ -108,7 +108,7 @@ module.exports = React.createClass({
     e.preventDefault();
     this.setState({
       dropzone: 'dropzone',
-      ticket: NinjaStore.getViewTicket(),
+      ticket:   NinjaStore.getViewTicket(),
     });
   },
 
@@ -124,21 +124,21 @@ module.exports = React.createClass({
 
     //Form
     if (NinjaStore.isViewingTicket()) {
-      ticket     = this.state.ticket;
-      subject    = ticket.subject;
+      ticket = this.state.ticket;
+      subject = ticket.subject;
     }
 
     //Replies
     var message = '';
     var attachments = [];
-    if (undefined === this.state.ticket.replies || 1 > (this.state.ticket.replies).length) {
-      replies = (<Preloader/>);
-      message = (<Preloader/>);
+    if (undefined === this.state.ticket.replies || 1 > this.state.ticket.replies.length) {
+      replies = (<Preloader />);
+      message = (<Preloader />);
     } else {
       replies = this.state.ticket.replies;
-      message = this.state.ticket.replies[(this.state.ticket.replies).length - 1].content;
+      message = this.state.ticket.replies[this.state.ticket.replies.length - 1].content;
       message = $('<textarea />').html(message).text();
-      var body = this.state.ticket.replies[(this.state.ticket.replies).length - 1];
+      var body = this.state.ticket.replies[this.state.ticket.replies.length - 1];
       for (var key in body.ticket_attachments) {
         attachments.push(<div className="attachments-link" onClick={this._openAttachment.bind(this, body.ticket_attachments[key].ticket_id, body.ticket_attachments[key].ticketAttachment, body.ticket_attachments[key].filename)}>{body.ticket_attachments[key].filename}</div>);
       }
@@ -150,7 +150,7 @@ module.exports = React.createClass({
 
       var allReplies = [];
       for (var i in replies) {
-        allReplies.push(<Reply reply={replies[i]}/>);
+        allReplies.push(<Reply reply={replies[i]} />);
       }
     }
 
@@ -219,7 +219,7 @@ module.exports = React.createClass({
           <div>{preview}</div>
         </div>
       );
-    } 
+    }
 
     return (
       <div className="principal-section">
@@ -248,7 +248,7 @@ module.exports = React.createClass({
           <div className="ticket-body">
             <div className="ticket-message">
               {message}
-              <br/>
+              <br />
               {attachments}
             </div>
             <span className="ticket-attachment hidden">

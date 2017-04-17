@@ -16,21 +16,21 @@ module.exports = React.createClass({
     var notificationLevel = this._getNotificationLevel();
 
     return {
-      timezones: timezones,
-      locales: locales,
-      firstname: getUserData('firstname'),
-      lastname: getUserData('lastname'),
-      email: getUserData('username'),
-      language: getUserData('locale'),
+      timezones:         timezones,
+      locales:           locales,
+      firstname:         getUserData('firstname'),
+      lastname:          getUserData('lastname'),
+      email:             getUserData('username'),
+      language:          getUserData('locale'),
       notificationLevel: notificationLevel,
-      timezone: getUserData('timezone'),
-      password: '',
-      cmfPassword: '',
-      avatar: false,
-      message: '',
-      messageClass: 'hidden',
-      n_message: '',
-      n_messageClass: 'hidden',
+      timezone:          getUserData('timezone'),
+      password:          '',
+      cmfPassword:       '',
+      avatar:            false,
+      message:           '',
+      messageClass:      'hidden',
+      n_message:         '',
+      n_messageClass:    'hidden',
     };
   },
 
@@ -50,7 +50,7 @@ module.exports = React.createClass({
       var locales = SessionStore.getLocales();
       this.setState({
         timezones: timezones,
-        locales: locales,
+        locales:   locales,
       });
     }
   },
@@ -67,44 +67,44 @@ module.exports = React.createClass({
   _submit: function () {
     var userData = {
       firstname: this.state.firstname,
-      lastname: this.state.lastname,
-      email: this.state.email,
-      locale: this.state.language,
-      timezone: this.state.timezone,
-      password: {
-        password: this.state.password,
+      lastname:  this.state.lastname,
+      email:     this.state.email,
+      locale:    this.state.language,
+      timezone:  this.state.timezone,
+      password:  {
+        password:        this.state.password,
         password_repeat: this.state.cmfPassword,
       },
     };
 
     updateUserData(userData).then(function (msg) {
       this.setState({
-        message: msg,
+        message:      msg,
         messageClass: 'alert alert-success',
-        firstname: getUserData('firstname'),
-        lastname: getUserData('lastname'),
-        email: getUserData('username'),
-        language: getUserData('locale'),
-        timezone: getUserData('timezone'),
+        firstname:    getUserData('firstname'),
+        lastname:     getUserData('lastname'),
+        email:        getUserData('username'),
+        language:     getUserData('locale'),
+        timezone:     getUserData('timezone'),
       });
     }.bind(this)).catch(function (message) {
       var err = this._showError(message);
       this.setState({
-        message: err,
+        message:      err,
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
 
     updateNotificationLevel(this.state.notificationLevel).then(function (msg) {
       this.setState({
-        n_message: msg,
-        n_messageClass: 'alert alert-success',
+        n_message:         msg,
+        n_messageClass:    'alert alert-success',
         notificationLevel: this._getNotificationLevel(),
       });
     }.bind(this)).catch(function (message) {
       var err = this._showError(message);
       this.setState({
-        n_message: err,
+        n_message:      err,
         n_messageClass: 'alert alert-danger',
       });
     }.bind(this));
@@ -132,7 +132,7 @@ module.exports = React.createClass({
     return (
       <li>
         <strong>{lable}</strong>
-        <br/>
+        <br />
         <ul>{err}</ul>
       </li>);
   },
@@ -147,13 +147,13 @@ module.exports = React.createClass({
   _closeAlert: function (alertToken) {
     if ('formAlert' === alertToken) {
       this.setState({
-        message: '',
+        message:      '',
         messageClass: 'hidden',
       });
     }
     if ('severityAlert' === alertToken) {
       this.setState({
-        n_message: '',
+        n_message:      '',
         n_messageClass: 'hidden',
       });
     }
@@ -219,7 +219,7 @@ module.exports = React.createClass({
                 SELF.setState({
                   notificationLevel: 'critical',
                 });
-              }} checked={'critical' === notificationLevel}  />
+              }} checked={'critical' === notificationLevel} />
             </span>
             <div className="form-control">
               <i className="icon nb-critical red-text small"></i> Critical
@@ -250,32 +250,32 @@ module.exports = React.createClass({
           <h2>My Account</h2>
         </div>
         <form encType="multipart/form-data">
-        <div className="row">
-          <div className="col-xs-12 col-sm-1 col-md-1 centered enable-change-option">
-            <img src={avatar} height="65" alt={this.state.firstname} title={this.state.firstname} className="img-circle"/>
-            <div className="change-avatar">
-              <input type="file" name="changeAvatar" id="changeAvatar" onChange={function (e) {
-                SELF._onChangeAvatar(e);
-              }} />
-              <i className="fa fa-camera cam-icon" aria-hidden="true"></i>
+          <div className="row">
+            <div className="col-xs-12 col-sm-1 col-md-1 centered enable-change-option">
+              <img src={avatar} height="65" alt={this.state.firstname} title={this.state.firstname} className="img-circle" />
+              <div className="change-avatar">
+                <input type="file" name="changeAvatar" id="changeAvatar" onChange={function (e) {
+                  SELF._onChangeAvatar(e);
+                }} />
+                <i className="fa fa-camera cam-icon" aria-hidden="true"></i>
+              </div>
             </div>
+            <div className="col-xs-12 col-sm-1 col-md-1 my-account-data">
+              <p className="my-account-title">{this.state.firstname} {this.state.lastname} </p>
+              <p className="my-account-email">{this.state.email}</p>
+            </div>
+            <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>Avatar Slected</span>
           </div>
-          <div className="col-xs-12 col-sm-1 col-md-1 my-account-data">
-            <p className="my-account-title">{this.state.firstname} {this.state.lastname} </p>
-            <p className="my-account-email">{this.state.email}</p>
-          </div>
-          <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>Avatar Slected</span>
-        </div>
-      </form>
-        <hr/>
+        </form>
+        <hr />
         <div className={this.state.messageClass + ' signup-error-show'} >
-          <button type="button" className="close" onClick={ function () { SELF._closeAlert('formAlert'); }}>
+          <button type="button" className="close" onClick={function () { SELF._closeAlert('formAlert'); }}>
             <span aria-hidden="true">&times;</span>
           </button>
           {this.state.message}
         </div>
         <div className={this.state.n_messageClass + ' signup-error-show'} >
-          <button type="button" className="close" onClick={ function () { SELF._closeAlert('severityAlert'); }}>
+          <button type="button" className="close" onClick={function () { SELF._closeAlert('severityAlert'); }}>
             <span aria-hidden="true">&times;</span>
           </button>
           {this.state.n_message}
@@ -315,7 +315,7 @@ module.exports = React.createClass({
                   SELF.setState({
                     email: e.target.value,
                   });
-                }} ref="email" placeholder="Email" value={this.state.email} readOnly/>
+                }} ref="email" placeholder="Email" value={this.state.email} readOnly />
               </div>
             </div>
             <div className="form-group">
@@ -349,7 +349,7 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-skype small" aria-hidden="true"></i>
                 </span>
-                <input type="text" className="form-control no-shadow" ref="skype" placeholder="Skype"/>
+                <input type="text" className="form-control no-shadow" ref="skype" placeholder="Skype" />
               </div>
             </div>
             <div className="form-group">
@@ -376,7 +376,7 @@ module.exports = React.createClass({
                     timezone: e.target.value,
                   });
                 }} >
-                {timezones}
+                  {timezones}
                 </select>
               </div>
             </div>
@@ -385,14 +385,14 @@ module.exports = React.createClass({
                 <span className="input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </span>
-                <input type="text" className="form-control no-shadow" ref="contactType" placeholder="Contact Type"/>
+                <input type="text" className="form-control no-shadow" ref="contactType" placeholder="Contact Type" />
               </div>
             </div>
           </div>
           <div className="col-sm-12 light-grey-background">
             <h3><i className="medium icon nb-notification" aria-hidden="true"></i><span className="padding-left">Alert level notification</span></h3>
           </div>
-            {alertCheck}
+          {alertCheck}
           <div className="col-sm-12">
             <button type="button" onClick={this._submit} className="btn btn-success pull-right public-cloud-button">Save</button>
           </div>

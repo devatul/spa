@@ -9,7 +9,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       message: '',
-      code: '',
+      code:    '',
     };
   },
 
@@ -30,8 +30,8 @@ module.exports = React.createClass({
       if ('' != SessionStore.getConfirmMessage() && '' != SessionStore.getConfirmCode()) {
         this.setState({
           message: SessionStore.getConfirmMessage(),
-          code: SessionStore.getConfirmCode(),
-          icon: '',
+          code:    SessionStore.getConfirmCode(),
+          icon:    '',
         });
       }
     }
@@ -50,7 +50,7 @@ module.exports = React.createClass({
     var legend = '';
 
     if (null == this.state.message.key) {
-      icon = (<Preloader/>);
+      icon = (<Preloader />);
     }
 
     if (400 <= this.state.code) {
@@ -64,7 +64,7 @@ module.exports = React.createClass({
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
           <div className="verification-logo">
-            <img src="./images/logo-nubity_380.png"/>
+            <img src="./images/logo-nubity_380.png" />
           </div>
           <div className="verification-legend">
             {legend}
@@ -73,13 +73,13 @@ module.exports = React.createClass({
             {icon}
           </div>
           <div>
-              <div className="col-sm-12 light-grey-background">
-                <div className="pull-left">
-                  <i className="input-icon icon nb-information icon-state" aria-hidden="true"></i>
-                  {this.state.message}
-                </div>
+            <div className="col-sm-12 light-grey-background">
+              <div className="pull-left">
+                <i className="input-icon icon nb-information icon-state" aria-hidden="true"></i>
+                {this.state.message}
               </div>
-              <div className="min"></div>
+            </div>
+            <div className="min"></div>
           </div>
         </div>
       </section>

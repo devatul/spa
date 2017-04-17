@@ -28,13 +28,13 @@ module.exports = React.createClass({
     var token     = url.slice(parseInt(start));
 
     if (password != password2) {
-      this.setState({ 
+      this.setState({
         codeClass: 'alert alert-danger',
         textError: 'Las contraseñas ingresadas son distintas',
       });
     } else {
-      ChangePasswordAction(token, password, password2);   
-    }   
+      ChangePasswordAction(token, password, password2);
+    }
   },
 
   render: function () {
@@ -57,7 +57,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <input type="password" className="form-control no-shadow" id="password" placeholder="Password" ref="password"  name="password" required/>
+                <input type="password" className="form-control no-shadow" id="password" placeholder="Password" ref="password" name="password" required />
               </div>
             </div>
             <div className="form-group row">
@@ -65,7 +65,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <input type="password" className="form-control no-shadow" id="password" placeholder="Confirm Password" ref="password2"  name="password2" required/>
+                <input type="password" className="form-control no-shadow" id="password" placeholder="Confirm Password" ref="password2" name="password2" required />
               </div>
             </div>
             <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Cambiar contraseña</button>

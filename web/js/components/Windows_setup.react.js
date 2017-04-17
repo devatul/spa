@@ -8,7 +8,7 @@ module.exports = React.createClass({
     var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
     var token = (
       <div id="loading-message" className="col-sm-offset-1">
-        <div className="row centered"><Preloader size="mini"/></div>
+        <div className="row centered"><Preloader size="mini" /></div>
       </div>
     );
     var report = (<div><Preloader size="mini" /> <p className="notice">Waiting for the first Nubity Agent report.</p></div>);
@@ -17,10 +17,10 @@ module.exports = React.createClass({
     }
     return {
       instanceForMonitoring: instanceForMonitoring,
-      token: token,
-      report: report,
-      tokenFlag: true,
-      reportFlag: false,
+      token:                 token,
+      report:                report,
+      tokenFlag:             true,
+      reportFlag:            false,
     };
   },
 
@@ -38,7 +38,7 @@ module.exports = React.createClass({
       if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
         var token = instanceForMonitoring.monitoring_agent.name;
         this.setState({
-          token: token,
+          token:     token,
           tokenFlag: false,
         });
       }
@@ -47,7 +47,7 @@ module.exports = React.createClass({
         if (instanceForMonitoring.monitoring_agent.isActive) {
           this.setState({
             reportFlag: true,
-            report: 'Report done',
+            report:     'Report done',
           });
         }
       }

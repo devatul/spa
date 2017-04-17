@@ -22,8 +22,8 @@ module.exports = React.createClass({
   getInitialState: function () {
     var companyInfo = SessionStore.getCompanyInfo();
     return {
-      companyInfo: companyInfo,
-      currentDashboard: (<DefaultDashboard/>),
+      companyInfo:           companyInfo,
+      currentDashboard:      (<DefaultDashboard />),
       currentDashboardIndex: '0',
     };
   },
@@ -48,7 +48,7 @@ module.exports = React.createClass({
     if (this.isMounted()) {
       var companyInfo = SessionStore.getCompanyInfo();
       this.setState({
-        companyInfo: companyInfo,
+        companyInfo:      companyInfo,
         customDashboards: GraphStore.getCustomDashboards(),
       });
     }
@@ -82,14 +82,14 @@ module.exports = React.createClass({
 
   _goToDashboard: function (dashboard) {
     this.setState({
-      currentDashboard: (<CustomPerformanceDashboard dashboard={dashboard}/>),
+      currentDashboard:      (<CustomPerformanceDashboard dashboard={dashboard} />),
       currentDashboardIndex: dashboard,
     });
   },
 
   _goToDefaultDashboard: function () {
     this.setState({
-      currentDashboard: (<DefaultDashboard/>),
+      currentDashboard:      (<DefaultDashboard />),
       currentDashboardIndex: '0',
     });
   },
@@ -164,7 +164,7 @@ module.exports = React.createClass({
                     <div className="input-group-addon">
                       <i className="fa fa-area-chart" aria-hidden="true"></i>
                     </div>
-                    <input type="text" className="form-control no-shadow" id="integrationName" ref="integrationName" placeholder="New Dashboard Performance Name" required/>
+                    <input type="text" className="form-control no-shadow" id="integrationName" ref="integrationName" placeholder="New Dashboard Performance Name" required />
                   </div>
                 </div>
               </div>

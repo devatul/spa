@@ -15,8 +15,8 @@ module.exports = React.createClass({
       install = (<button type="submit" className="action-button nubity-green">Install</button>);
     }
     return {
-      install: install,
-      action: action,
+      install:    install,
+      action:     action,
       idTemplate: this.props.template.template,
     };
   },
@@ -32,8 +32,8 @@ module.exports = React.createClass({
       install = (<button type="submit" className="action-button nubity-green">Install</button>);
     }
     this.setState({
-      install: install,
-      action: action,
+      install:    install,
+      action:     action,
       idTemplate: nextProps.template.template,
     });
   },
@@ -62,8 +62,8 @@ module.exports = React.createClass({
           macros.push(
             <div className="form-group row">
               <div className="col-xs-offset-2">
-                <label for={key}>{this.props.template.user_macros[key].name}</label>
-                <input type={this.props.template.user_macros[key].is_password ? 'password' : 'text'} className="form-control col-xs-4" id={key} defaultValue={(null !== this.props.template.user_macros[key].value) ? this.props.template.user_macros[key].value : ''} placeholder={this.props.template.user_macros[key].default_value}/>
+                <label htmlFor={key}>{this.props.template.user_macros[key].name}</label>
+                <input type={this.props.template.user_macros[key].is_password ? 'password' : 'text'} className="form-control col-xs-4" id={key} defaultValue={null !== this.props.template.user_macros[key].value ? this.props.template.user_macros[key].value : ''} placeholder={this.props.template.user_macros[key].default_value} />
               </div>
             </div>
           );

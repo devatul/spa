@@ -15,7 +15,7 @@ module.exports = React.createClass({
     var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
     var token = (
       <div id="loading-message" className="col-sm-offset-1">
-        <div className="row centered"><Preloader size="mini"/></div>
+        <div className="row centered"><Preloader size="mini" /></div>
       </div>
     );
     var report = (<div><Preloader size="mini" /> <p className="notice">Waiting for the first Nubity Agent report.</p></div>);
@@ -24,11 +24,11 @@ module.exports = React.createClass({
     }
     return {
       instanceForMonitoring: instanceForMonitoring,
-      token: token,
-      report: report,
-      tokenFlag: true,
-      reportFlag: false,
-      interval: true,
+      token:                 token,
+      report:                report,
+      tokenFlag:             true,
+      reportFlag:            false,
+      interval:              true,
     };
   },
 
@@ -44,8 +44,9 @@ module.exports = React.createClass({
   },
 
   componentWillUnmount: function () {
-    for (var i = 1; 99999 > i; i++)
+    for (var i = 1; 99999 > i; i++) {
       window.clearInterval(i);
+    }
 
     InfrastructureStore.removeChangeListener(this._onChange);
   },
@@ -71,7 +72,7 @@ module.exports = React.createClass({
       if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
         var token = instanceForMonitoring.monitoring_agent.name;
         this.setState({
-          token: token,
+          token:     token,
           tokenFlag: false,
         });
       }
@@ -80,7 +81,7 @@ module.exports = React.createClass({
         if (instanceForMonitoring.monitoring_agent.is_active) {
           this.setState({
             reportFlag: true,
-            report: 'Report done',
+            report:     'Report done',
           });
           clearInterval(loop);
         }
@@ -101,10 +102,10 @@ module.exports = React.createClass({
             <p className="rounded-list-title"><span>Run this script</span></p>
             <p className="col-sm-offset-1 col-sm-10 notice">{script}</p>
             <div className="col-sm-1 clipboard-div">
-              <ClipboardButton className="clipboard-button" data-clipboard-text={script}><img className="clippy" src="./images/clippy.png" width="17" alt="Copy to clipboard"/></ClipboardButton>
+              <ClipboardButton className="clipboard-button" data-clipboard-text={script}><img className="clippy" src="./images/clippy.png" width="17" alt="Copy to clipboard" /></ClipboardButton>
             </div>
           </div>
-          <br/>
+          <br />
         </li>
         <li>
           <p className="rounded-list-title"><span>Monitor your server</span></p>

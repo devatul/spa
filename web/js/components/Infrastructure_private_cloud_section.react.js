@@ -27,17 +27,17 @@ module.exports = React.createClass({
     var rows = [];
     return {
       privateCloud: privateCloud,
-      rows: rows,
-      totalItems: privateCloud.totalItems,
-      totalpages:0,
-      pageNo: 1,
-      isLoading: false,
-      warning: (<Warning modalType=''/>),
+      rows:         rows,
+      totalItems:   privateCloud.totalItems,
+      totalpages:   0,
+      pageNo:       1,
+      isLoading:    false,
+      warning:      (<Warning modalType='' />),
     };
   },
 
   componentWillReceiveProps: function (props) {
-    if (props.page_no !== this.state.pageNo  && '#private' === props.sectionId) {
+    if (props.page_no !== this.state.pageNo && '#private' === props.sectionId) {
       this.setState({
         pageNo: props.page_no,
       });
@@ -59,9 +59,9 @@ module.exports = React.createClass({
       var privateCloud = InfrastructureStore.getInfrastructurePrivateCloud();
       this.setState({
         privateCloud: privateCloud.member,
-        totalItems: privateCloud.totalItems,
-        totalPages: Math.ceil(parseInt(privateCloud.totalItems) / 10),
-        isLoading: false,
+        totalItems:   privateCloud.totalItems,
+        totalPages:   Math.ceil(parseInt(privateCloud.totalItems) / 10),
+        isLoading:    false,
       });
     }
   },
@@ -107,32 +107,32 @@ module.exports = React.createClass({
     switch (props) {
       case 'start':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)} />),
         });
         break;
       case 'stop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)} />),
         });
         break;
       case 'restart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)} />),
         });
         break;
       case 'managementStart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)} />),
         });
         break;
       case 'managementStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)} />),
         });
         break;
       case 'monitoringStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)} />),
         });
         break;
     }
@@ -356,7 +356,7 @@ module.exports = React.createClass({
               </tr>
             </thead>
           </table>
-          <Preloader/>
+          <Preloader />
         </div>
       );
     } else {
@@ -383,7 +383,7 @@ module.exports = React.createClass({
               </tr>
             </thead>
             <tbody>
-            {rows}
+              {rows}
             </tbody>
           </table>
         );

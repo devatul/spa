@@ -7,7 +7,7 @@ var Preloader                  = require('./Preloader.react');
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      pluginForm: 'hola',
+      pluginForm:  'hola',
       pluginModal: '',
     };
   },
@@ -21,7 +21,7 @@ module.exports = React.createClass({
   },
 
   _configure: function (template) {
-    var modal = (<PluginModal macros={template.user_macros} instanceId={this.props.idInstance} templateId={template.template}/>);
+    var modal = (<PluginModal macros={template.user_macros} instanceId={this.props.idInstance} templateId={template.template} />);
     this.setState({
       pluginModal: modal,
     });
@@ -46,7 +46,7 @@ module.exports = React.createClass({
       );
     }
     if (0 >= rows.length) {
-      return (<Preloader/>);
+      return (<Preloader />);
     }
     return (
       <div className="container">

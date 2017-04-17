@@ -18,18 +18,18 @@ module.exports = React.createClass({
     var credentialDetails = OnBoardingStore.getCredentialDetails();
     return {
       connectedOnPremiseCloud: connectedOnPremiseCloud,
-      activeProvider: false,
-      totalItems: connectedOnPremiseCloud.totalItems,
-      totalPages: 0,
-      pageNo: 1,
-      credentialDetails: credentialDetails,
-      credetialInfo: false,
-      open: false,
+      activeProvider:          false,
+      totalItems:              connectedOnPremiseCloud.totalItems,
+      totalPages:              0,
+      pageNo:                  1,
+      credentialDetails:       credentialDetails,
+      credetialInfo:           false,
+      open:                    false,
     };
   },
 
-  limit: 5,
-  sectionKey: '_ONPREMISE',
+  limit:       5,
+  sectionKey:  '_ONPREMISE',
   editModalId: 'editModalPremise',
 
   componentDidMount: function () {
@@ -59,9 +59,9 @@ module.exports = React.createClass({
       var credentialDetails = OnBoardingStore.getCredentialDetails();
       this.setState({
         connectedOnPremiseCloud: premiseCloud.member,
-        totalItems: premiseCloud.totalItems,
-        totalPages: Math.ceil(parseInt(premiseCloud.totalItems) / 5),
-        credentialDetails: credentialDetails,
+        totalItems:              premiseCloud.totalItems,
+        totalPages:              Math.ceil(parseInt(premiseCloud.totalItems) / 5),
+        credentialDetails:       credentialDetails,
       });
     }
   },
@@ -74,11 +74,11 @@ module.exports = React.createClass({
     var currentPosition = parseInt(view.css('left'));
     if ('leftArrow' === arrow) {
       if (0 > currentPosition) {
-        view.stop (false,true).animate ({left:'+=' + move}, { duration: 400});
+        view.stop (false,true).animate ({left: '+=' + move}, { duration: 400});
       }
     } else {
       if (currentPosition >= sliderLimit) {
-        view.stop (false,true).animate ({left:'-=' + move}, { duration: 400});
+        view.stop (false,true).animate ({left: '-=' + move}, { duration: 400});
       }
     }
   },
@@ -157,7 +157,7 @@ module.exports = React.createClass({
       <div className="form-group">
         <div className="input-group">
           <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
-          <input type="text" className="form-control" name="onPremiseIntegrationName" placeholder="Integration Name"/>
+          <input type="text" className="form-control" name="onPremiseIntegrationName" placeholder="Integration Name" />
         </div>
       </div>
     );
@@ -166,7 +166,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" name="onPremiseApiKey" placeholder="API Key"/>
+            <input type="text" className="form-control" name="onPremiseApiKey" placeholder="API Key" />
           </div>
         </div>
       );
@@ -176,7 +176,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" name="onPremiseEndpoint" placeholder="Access Key ID"/>
+            <input type="text" className="form-control" name="onPremiseEndpoint" placeholder="Access Key ID" />
           </div>
         </div>
       );
@@ -186,7 +186,7 @@ module.exports = React.createClass({
         <div className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
-            <input type="text" className="form-control" name="onPremiseApiSecret" placeholder="Secret Access Key"/>
+            <input type="text" className="form-control" name="onPremiseApiSecret" placeholder="Secret Access Key" />
           </div>
         </div>
       );
@@ -196,9 +196,9 @@ module.exports = React.createClass({
         <div className="input-group image-preview">
           <span className="input-group-btn">
             <div className="btn btn-default image-preview-input">
-                <span className="glyphicon glyphicon-folder-open"></span>
-                <span className="image-preview-input-title">Upload Certificate</span>
-                <input type="file" name="certificate" id="onPremiseCertificate" onChange={function () {_SELF._onFileChange();}} />
+              <span className="glyphicon glyphicon-folder-open"></span>
+              <span className="image-preview-input-title">Upload Certificate</span>
+              <input type="file" name="certificate" id="onPremiseCertificate" onChange={function () {_SELF._onFileChange();}} />
             </div>
           </span>
           <span className="form-control image-preview-filename hidden"></span>
@@ -234,7 +234,7 @@ module.exports = React.createClass({
 
   _editProviderCredential: function (credetialInfo) {
     this.setState({
-      open: true,
+      open:          true,
       credetialInfo: credetialInfo,
     });
     getCredentialDetails(credetialInfo.provider_credential);
@@ -255,7 +255,7 @@ module.exports = React.createClass({
       if (null != provider.logo) {
         rows.push(
           <div id={'prePro_' + i} className="col-md-2 onPremise-cloud-provider clouds-icons-button" onClick={function () {_SELF._exploreOnPremiseStep2(provider, 'prePro_' + i);}}>
-            <img src={provider.logo.public_path} className="logo-max-size m-t-15"/>
+            <img src={provider.logo.public_path} className="logo-max-size m-t-15" />
             <p className="aws-text">{provider.name}</p>
           </div>
         );
@@ -335,7 +335,7 @@ module.exports = React.createClass({
           <span>Add New On Premise Cloud Connection</span>
         </button>
         <button className="transparent-button hidden" onClick={this._revertPrivateSteps} id="onPremiseCancelButton">
-          <i  className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
+          <i className="fa fa-minus-circle big-red-circle" aria-hidden="true"></i>
           <span>Cancel On Premise Cloud Connection</span>
         </button>
         <div className="hidden" id="onPremise1StepTitle">
@@ -347,11 +347,11 @@ module.exports = React.createClass({
             <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('leftArrow');}}>
               <i className="fa fa-chevron-left" aria-hidden="true"></i>
             </div>
-              <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
-                <div id="premiseCloudProvidersList" className="list-providers">
-                  {rows}
-                </div>
+            <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
+              <div id="premiseCloudProvidersList" className="list-providers">
+                {rows}
               </div>
+            </div>
             <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('rightArrow');}}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </div>
@@ -378,7 +378,7 @@ module.exports = React.createClass({
             <p className="aws-text">start live chat with Ninja Support</p>
           </div>
         </div>
-        <hr/>
+        <hr />
         <div>
           <i className="fa fa-cloud" aria-hidden="true"></i>
           <span>Connected clouds</span>
@@ -424,7 +424,7 @@ module.exports = React.createClass({
               _SELF.setState({open: false});
               getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
             }}
-            {...this.props}/>
+            {...this.props} />
         </div>
       </div>
     );

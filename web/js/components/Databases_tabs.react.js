@@ -7,8 +7,8 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      tabs: 'hidden',
-      content: '',
+      tabs:            'hidden',
+      content:         '',
       templateContent: '',
     };
   },
@@ -19,18 +19,18 @@ module.exports = React.createClass({
         var content = (
           <div className="tab-content section-content">
             <div id="pluginMonitoring" className="tab-pane fade in active">
-              <PluginMonitoring template={nextProps.templates[key]} idInstance={nextProps.idInstance}/>
+              <PluginMonitoring template={nextProps.templates[key]} idInstance={nextProps.idInstance} />
             </div>
             <div id="pluginConfigure" className={0 < nextProps.templates[key].triggers.length ? 'tab-pane fade' : 'hidden'}>
-              <PluginConfigure template={nextProps.templates[key]} idInstance={nextProps.idInstance}/>
+              <PluginConfigure template={nextProps.templates[key]} idInstance={nextProps.idInstance} />
             </div>
           </div>
         );
         this.setState({
-          tabs: 'nav nav-tabs section-tabs',
-          content: content,
+          tabs:            'nav nav-tabs section-tabs',
+          content:         content,
           templateContent: nextProps.templates[key],
-          configureClass: 0 < nextProps.templates[key].triggers.length ? '' : 'hidden',
+          configureClass:  0 < nextProps.templates[key].triggers.length ? '' : 'hidden',
         });
       }
     }
@@ -44,18 +44,18 @@ module.exports = React.createClass({
           urlContent = (
             <div className="tab-content section-content">
               <div id="pluginMonitoring" className="tab-pane fade in active">
-                <PluginMonitoring template={nextProps.templates[cont]} idInstance={nextProps.idInstance}/>
+                <PluginMonitoring template={nextProps.templates[cont]} idInstance={nextProps.idInstance} />
               </div>
               <div id="pluginConfigure" className={0 < nextProps.templates[cont].triggers.length ? 'tab-pane fade' : 'hidden'}>
-                <PluginConfigure template={nextProps.templates[cont]} idInstance={nextProps.idInstance}/>
+                <PluginConfigure template={nextProps.templates[cont]} idInstance={nextProps.idInstance} />
               </div>
             </div>
           );
           this.setState({
-            tabs: 'nav nav-tabs section-tabs',
-            content: urlContent,
+            tabs:            'nav nav-tabs section-tabs',
+            content:         urlContent,
             templateContent: nextProps.templates[cont],
-            configureClass: 0 < nextProps.templates[cont].triggers.length ? '' : 'hidden',
+            configureClass:  0 < nextProps.templates[cont].triggers.length ? '' : 'hidden',
           });
         }
       }
@@ -66,25 +66,25 @@ module.exports = React.createClass({
     var content = (
       <div className="tab-content section-content">
         <div id="pluginMonitoring" className="tab-pane fade in active">
-          <PluginMonitoring template={template} idInstance={this.props.idInstance}/>
+          <PluginMonitoring template={template} idInstance={this.props.idInstance} />
         </div>
         <div id="pluginConfigure" className={0 < template.triggers.length ? 'tab-pane fade' : 'hidden'}>
-          <PluginConfigure template={template} idInstance={this.props.idInstance}/>
+          <PluginConfigure template={template} idInstance={this.props.idInstance} />
         </div>
       </div>
     );
     this.setState({
-      tabs: 'nav nav-tabs section-tabs',
-      content: content,
+      tabs:            'nav nav-tabs section-tabs',
+      content:         content,
       templateContent: template,
-      configureClass: 0 < template.triggers.length ? '' : 'hidden',
+      configureClass:  0 < template.triggers.length ? '' : 'hidden',
     });
   },
 
   render: function () {
     return (
       <div>
-        <PluginsCarousel templates={this.props.templates} clickTemplate={this.clickTemplate}/>
+        <PluginsCarousel templates={this.props.templates} clickTemplate={this.clickTemplate} />
         <div>
           <ul className={this.state.tabs}>
             <li role="presentation" className="active">

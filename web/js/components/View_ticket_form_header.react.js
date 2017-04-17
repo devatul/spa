@@ -37,7 +37,7 @@ module.exports = React.createClass({
           </select>
         </div>
         <div className="col-xs-6 margin-tops">
-          <input type="text" className="form-control" id="subject" placeholder="Subject" ref="subject" value={this.props.subject} disabled/>
+          <input type="text" className="form-control" id="subject" placeholder="Subject" ref="subject" value={this.props.subject} disabled />
         </div>
       </div>
     );

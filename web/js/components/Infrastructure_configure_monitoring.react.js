@@ -15,8 +15,8 @@ module.exports = React.createClass({
     var instanceConfiguration = InfrastructureStore.instanceConfiguration(id);
     return {
       instanceConfiguration: instanceConfiguration,
-      idInstance: id,
-      title: '',
+      idInstance:            id,
+      title:                 '',
     };
   },
 
@@ -45,7 +45,7 @@ module.exports = React.createClass({
       var title = 'Configure monitoring for ' + instanceConfiguration.hostname;
       this.setState({
         instanceConfiguration: instanceConfiguration,
-        title: title,
+        title:                 title,
       });
     }
   },
@@ -171,31 +171,31 @@ module.exports = React.createClass({
         </div>
         <div className="tab-content section-content">
           <div id="overview" className={'tab-pane fade ' + ('overview' == section || '' == section ? 'in active' : '')}>
-            <PluginsTable plugins={installedTemplates} idInstance={this.state.idInstance}/>
+            <PluginsTable plugins={installedTemplates} idInstance={this.state.idInstance} />
           </div>
           <div id="basicSystem" className={'tab-pane fade ' + ('basic-systems' == section ? 'in active' : '')}>
-            <GroupView templates={basicSystems} idInstance={this.state.idInstance}/>
+            <GroupView templates={basicSystems} idInstance={this.state.idInstance} />
           </div>
           <div id="webServer" className={'tab-pane fade ' + ('web-servers' == section ? 'in active' : '')}>
-            <GroupView templates={webServers} idInstance={this.state.idInstance}/>
+            <GroupView templates={webServers} idInstance={this.state.idInstance} />
           </div>
           <div id="appServer" className={'tab-pane fade ' + ('app-servers' == section ? 'in active' : '')}>
-            <GroupView templates={appServers} idInstance={this.state.idInstance}/>
+            <GroupView templates={appServers} idInstance={this.state.idInstance} />
           </div>
           <div id="databases" className={'tab-pane fade ' + ('databases' == section ? 'in active' : '')}>
-            <GroupView templates={databases} idInstance={this.state.idInstance}/>
+            <GroupView templates={databases} idInstance={this.state.idInstance} />
           </div>
           <div id="caching" className={'tab-pane fade ' + ('caching' == section ? 'in active' : '')}>
-            <GroupView templates={cachings} idInstance={this.state.idInstance}/>
+            <GroupView templates={cachings} idInstance={this.state.idInstance} />
           </div>
           <div id="website" className={'tab-pane fade ' + ('websites' == section ? 'in active' : '')}>
-            <GroupView templates={websites} idInstance={this.state.idInstance}/>
+            <GroupView templates={websites} idInstance={this.state.idInstance} />
           </div>
           <div id="service" className={'tab-pane fade ' + ('services' == section ? 'in active' : '')}>
-            <GroupView templates={services} idInstance={this.state.idInstance}/>
+            <GroupView templates={services} idInstance={this.state.idInstance} />
           </div>
           <div id="webApp" className={'tab-pane fade ' + ('web-apps' == section ? 'in active' : '')}>
-            <GroupView templates={webApps} idInstance={this.state.idInstance}/>
+            <GroupView templates={webApps} idInstance={this.state.idInstance} />
           </div>
         </div>
       </div>

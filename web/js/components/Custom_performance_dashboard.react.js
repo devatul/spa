@@ -28,12 +28,12 @@ module.exports = React.createClass({
       });
     }
   },
-  
+
 
   render: function () {
     return (
       <div className="default-dashboard">
-        <Graphs dashboard={this.props.dashboard} slots={this.state.slots}/>
+        <Graphs dashboard={this.props.dashboard} slots={this.state.slots} />
       </div>
     );
   },

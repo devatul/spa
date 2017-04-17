@@ -15,19 +15,19 @@ module.exports = React.createClass({
     var timezones = SessionStore.getTimezones();
     var locales = SessionStore.getLocales();
     return {
-      timezones: timezones,
-      locales: locales,
-      name: companyInfo.name,
-      tradeName: companyInfo.trade_name,
-      tin: companyInfo.tin,
-      address: companyInfo.address,
-      country: companyInfo.country,
-      state: companyInfo.state,
-      city: companyInfo.city,
-      language: companyInfo.locale,
-      postalCode: companyInfo.postal_code,
-      timezone: companyInfo.timezone,
-      message: '',
+      timezones:    timezones,
+      locales:      locales,
+      name:         companyInfo.name,
+      tradeName:    companyInfo.trade_name,
+      tin:          companyInfo.tin,
+      address:      companyInfo.address,
+      country:      companyInfo.country,
+      state:        companyInfo.state,
+      city:         companyInfo.city,
+      language:     companyInfo.locale,
+      postalCode:   companyInfo.postal_code,
+      timezone:     companyInfo.timezone,
+      message:      '',
       messageClass: 'hidden',
     };
   },
@@ -49,45 +49,45 @@ module.exports = React.createClass({
       var timezones = SessionStore.getTimezones();
       var locales = SessionStore.getLocales();
       this.setState({
-        timezones: timezones,
-        locales: locales,
-        name: companyInfo.name,
-        tradeName: companyInfo.trade_name,
-        tin: companyInfo.tin,
-        address: companyInfo.address,
-        country: companyInfo.country,
-        state: companyInfo.state,
-        city: companyInfo.city,
-        language: companyInfo.locale,
+        timezones:  timezones,
+        locales:    locales,
+        name:       companyInfo.name,
+        tradeName:  companyInfo.trade_name,
+        tin:        companyInfo.tin,
+        address:    companyInfo.address,
+        country:    companyInfo.country,
+        state:      companyInfo.state,
+        city:       companyInfo.city,
+        language:   companyInfo.locale,
         postalCode: companyInfo.postal_code,
-        timezone: companyInfo.timezone,
+        timezone:   companyInfo.timezone,
       });
     }
   },
 
   _submit: function () {
     var companyInfo = {
-      name: this.state.name,
-      trade_name: this.state.tradeName,
-      tin: this.state.tin,
-      address: this.state.address,
-      country: this.state.country,
-      state: this.state.state,
-      city: this.state.city,
-      locale: this.state.language,
-      timezone: this.state.timezone,
+      name:        this.state.name,
+      trade_name:  this.state.tradeName,
+      tin:         this.state.tin,
+      address:     this.state.address,
+      country:     this.state.country,
+      state:       this.state.state,
+      city:        this.state.city,
+      locale:      this.state.language,
+      timezone:    this.state.timezone,
       postal_code: this.state.postalCode,
     };
 
     updateCompanyInfo(companyInfo).then(function (msg) {
       this.setState({
-        message: msg,
+        message:      msg,
         messageClass: 'alert alert-success',
       });
     }.bind(this)).catch(function (message) {
       var err = this._showError(message);
       this.setState({
-        message: err,
+        message:      err,
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
@@ -115,14 +115,14 @@ module.exports = React.createClass({
     return (
       <li>
         <strong>{lable}</strong>
-        <br/>
+        <br />
         <ul>{err}</ul>
       </li>);
   },
 
   _closeAlert: function () {
     this.setState({
-      message: '',
+      message:      '',
       messageClass: 'hidden',
     });
   },
@@ -147,9 +147,9 @@ module.exports = React.createClass({
           <div className="section-title">
             <h2>Company</h2>
           </div>
-          <hr/>
+          <hr />
           <div className={this.state.messageClass + ' signup-error-show'} >
-            <button type="button" className="close" onClick={ function () { SELF._closeAlert(); }}>
+            <button type="button" className="close" onClick={function () { SELF._closeAlert(); }}>
               <span aria-hidden="true">&times;</span>
             </button>
             {this.state.message}

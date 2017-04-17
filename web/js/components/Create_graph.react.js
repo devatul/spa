@@ -11,9 +11,9 @@ module.exports = React.createClass({
   getInitialState: function () {
     var search = SessionStore.search();
     return {
-      search: search,
+      search:    search,
       instances: search.instances,
-      clouds: search.clouds,
+      clouds:    search.clouds,
     };
   },
 
@@ -37,9 +37,9 @@ module.exports = React.createClass({
       var search = SessionStore.search();
       var graphTypes = GraphStore.getGraphTypes();
       this.setState({
-        search: search,
-        instances: search.instances,
-        clouds: search.clouds,
+        search:     search,
+        instances:  search.instances,
+        clouds:     search.clouds,
         graphTypes: graphTypes.member,
       });
     }

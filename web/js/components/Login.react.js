@@ -11,7 +11,7 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      loading: false,
+      loading:      false,
       messageClass: 'hidden',
     };
   },
@@ -51,8 +51,8 @@ module.exports = React.createClass({
       var message = SessionStore.getLoginError();
       if ('' != message) {
         this.setState({
-          message: message,
-          loading: false,
+          message:      message,
+          loading:      false,
           messageClass: 'alert alert-danger alert-margin',
         });
       }
@@ -61,7 +61,7 @@ module.exports = React.createClass({
 
   closeAlert: function (argument) {
     this.setState({
-      message: '',
+      message:      '',
       messageClass: 'hidden',
     });
   },
@@ -72,7 +72,7 @@ module.exports = React.createClass({
     });
     e.preventDefault();
     var user      = {};
-    user.email    = this.refs.email.getDOMNode().value;
+    user.email = this.refs.email.getDOMNode().value;
     user.password = this.refs.password.getDOMNode().value;
 
     loginAction(user);
@@ -100,7 +100,7 @@ module.exports = React.createClass({
     if (true == this.state.loading) {
       login = (
         <div className="login-load">
-          <Preloader size="medium"/>
+          <Preloader size="medium" />
         </div>
       );
     } else {
@@ -131,7 +131,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-envelope" aria-hidden="true"></i>
                 </div>
-                <input type="email" className="form-control no-shadow" id="email" placeholder="Email" ref="email" name="email" required/>
+                <input type="email" className="form-control no-shadow" id="email" placeholder="Email" ref="email" name="email" required />
               </div>
             </div>
             <div className="form-group row">
@@ -139,7 +139,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <input type="password" className="form-control no-shadow" id="password" placeholder="Password" ref="password"  name="password" required/>
+                <input type="password" className="form-control no-shadow" id="password" placeholder="Password" ref="password" name="password" required />
               </div>
             </div>
             <div className="row">

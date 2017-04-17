@@ -38,9 +38,9 @@ var _                              = require('lodash');
 request.use(prefix(APIEndpoints.PUBLIC));
 
 module.exports = {
-  fromLogin: false,
+  fromLogin:         false,
   isTokenValidating: false,
-  validateToken: function (res) {
+  validateToken:     function (res) {
     var _SELF = this;
     var interval = false;
     var code = JSON.parse(res.status);
@@ -62,7 +62,7 @@ module.exports = {
             }, 100);
           }
         },0);
-      } else if ((300 <= code && 400 > code) || 401 === code) {
+      } else if (300 <= code && 400 > code || 401 === code) {
         _SELF.saveURI();
         routes.redirectLogin();
       } else if (200 <= code && 300 > code) {
@@ -120,7 +120,7 @@ module.exports = {
     return new Promise(function (resolve, reject) {
       request
         .post('/signup.json')
-        .send({firstname: user.firstname, lastname: user.lastname, email: user.email,  password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
+        .send({firstname: user.firstname, lastname: user.lastname, email: user.email, password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
         .accept('application/json')
         .end(function (res) {
           var text = JSON.parse(res.text);
@@ -1450,11 +1450,11 @@ module.exports = {
   },
 
   hasToRefresh: function () {
-    return (null != localStorage.getItem('nubity-token') && null != localStorage.getItem('nubity-refresh-token'));
+    return null != localStorage.getItem('nubity-token') && null != localStorage.getItem('nubity-refresh-token');
   },
 
   getToken: function () {
-    return ('Bearer ' + localStorage.getItem('nubity-token'));
+    return 'Bearer ' + localStorage.getItem('nubity-token');
   },
 
   createAlertTicket: function (alert) {

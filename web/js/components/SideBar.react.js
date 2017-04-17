@@ -12,52 +12,52 @@ module.exports = React.createClass({
     var url = window.location.href;
     if (0 <= url.search('infrastructure')) {
       return {
-        stats: stats,
+        stats:               stats,
         infrastructureClass: 'nb-active',
-        dashboardClass: '',
-        alertsClass: '',
-        performanceClass: '',
-        ninjaSupportClass: '',
+        dashboardClass:      '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   '',
       };
     }
     if (0 <= url.search('ticket')) {
       return {
-        stats: stats,
+        stats:               stats,
         infrastructureClass: '',
-        dashboardClass: '',
-        alertsClass: '',
-        performanceClass: '',
-        ninjaSupportClass: 'nb-active',
+        dashboardClass:      '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   'nb-active',
       };
     }
     if (0 <= url.search('ninja-support')) {
       return {
-        stats: stats,
+        stats:               stats,
         infrastructureClass: '',
-        dashboardClass: '',
-        alertsClass: '',
-        performanceClass: '',
-        ninjaSupportClass: 'nb-active',
+        dashboardClass:      '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   'nb-active',
       };
     }
     if (0 <= url.search('alerts')) {
       return {
-        stats: stats,
+        stats:               stats,
         infrastructureClass: '',
-        dashboardClass: '',
-        alertsClass: 'nb-active',
-        performanceClass: '',
-        ninjaSupportClass: '',
+        dashboardClass:      '',
+        alertsClass:         'nb-active',
+        performanceClass:    '',
+        ninjaSupportClass:   '',
       };
     }
 
     return {
-      stats: stats,
-      dashboardClass: 'nb-active',
+      stats:               stats,
+      dashboardClass:      'nb-active',
       infrastructureClass: '',
-      alertsClass: '',
-      performanceClass: '',
-      ninjaSupportClass: '',
+      alertsClass:         '',
+      performanceClass:    '',
+      ninjaSupportClass:   '',
     };
   },
 
@@ -77,19 +77,19 @@ module.exports = React.createClass({
     if (0 <= url.search('infrastructure')) {
       this.setState({
         infrastructureClass: 'nb-active',
-        dashboardClass: '',
-        alertsClass: '',
-        performanceClass: '',
-        ninjaSupportClass: '',
+        dashboardClass:      '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   '',
       });
     }
     if (0 <= url.search('ticket')) {
       this.setState({
         infrastructureClass: '',
-        dashboardClass: '',
-        alertsClass: '',
-        performanceClass: '',
-        ninjaSupportClass: 'nb-active',
+        dashboardClass:      '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   'nb-active',
       });
     }
     if (this.isMounted()) {
@@ -103,22 +103,22 @@ module.exports = React.createClass({
   _dashboard: function () {
     redirect('dashboard');
     this.setState({
-      dashboardClass: 'nb-active',
+      dashboardClass:      'nb-active',
       infrastructureClass: '',
-      alertsClass: '',
-      performanceClass: '',
-      ninjaSupportClass: '',
+      alertsClass:         '',
+      performanceClass:    '',
+      ninjaSupportClass:   '',
     });
   },
 
   _alerts: function () {
     redirect('alerts');
     this.setState({
-      alertsClass: 'nb-active',
-      dashboardClass: '',
+      alertsClass:         'nb-active',
+      dashboardClass:      '',
       infrastructureClass: '',
-      performanceClass: '',
-      ninjaSupportClass: '',
+      performanceClass:    '',
+      ninjaSupportClass:   '',
     });
   },
 
@@ -126,32 +126,32 @@ module.exports = React.createClass({
     redirect('infrastructure');
     this.setState({
       infrastructureClass: 'nb-active',
-      dashboardClass: '',
-      alertsClass: '',
-      performanceClass: '',
-      ninjaSupportClass: '',
+      dashboardClass:      '',
+      alertsClass:         '',
+      performanceClass:    '',
+      ninjaSupportClass:   '',
     });
   },
 
   _performance: function () {
     redirect('performance');
     this.setState({
-      performanceClass: 'nb-active',
-      dashboardClass: '',
+      performanceClass:    'nb-active',
+      dashboardClass:      '',
       infrastructureClass: '',
-      alertsClass: '',
-      ninjaSupportClass: '',
+      alertsClass:         '',
+      ninjaSupportClass:   '',
     });
   },
 
   _ninjaSupport: function () {
     redirect('ninja');
     this.setState({
-      ninjaSupportClass: 'nb-active',
-      dashboardClass: '',
+      ninjaSupportClass:   'nb-active',
+      dashboardClass:      '',
       infrastructureClass: '',
-      alertsClass: '',
-      performanceClass: '',
+      alertsClass:         '',
+      performanceClass:    '',
     });
   },
 

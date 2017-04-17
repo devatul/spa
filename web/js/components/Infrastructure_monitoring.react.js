@@ -35,10 +35,10 @@ module.exports = React.createClass({
     if (this.isMounted()) {
       if (InfrastructureStore.instanceForMonitoring()) {
         this.setState({
-          title: 'Start monitoring for ' + InfrastructureStore.instanceForMonitoring().hostname,  
+          title: 'Start monitoring for ' + InfrastructureStore.instanceForMonitoring().hostname,
         });
       }
-      
+
     }
   },
 
@@ -70,10 +70,10 @@ module.exports = React.createClass({
         </div>
         <div className="tab-content section-content">
           <div id="linux" className="tab-pane fade in active">
-            <Linux/>
+            <Linux />
           </div>
           <div id="windows" className="tab-pane fade">
-            <Windows/>
+            <Windows />
           </div>
         </div>
       </div>

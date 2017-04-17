@@ -27,13 +27,13 @@ module.exports = React.createClass({
     var rows = [];
     return {
       publicCloud: publicCloud,
-      rows: rows,
-      totalItems: publicCloud.totalItems,
-      totalpages:0,
-      pageNo: 1,
-      isLoading: false,
-      showModal: false,
-      warning: (<Warning modalType=''/>),
+      rows:        rows,
+      totalItems:  publicCloud.totalItems,
+      totalpages:  0,
+      pageNo:      1,
+      isLoading:   false,
+      showModal:   false,
+      warning:     (<Warning modalType='' />),
     };
   },
 
@@ -60,9 +60,9 @@ module.exports = React.createClass({
       var publicCloud = InfrastructureStore.getInfrastructurePublicCloud();
       this.setState({
         publicCloud: publicCloud.member,
-        totalItems: publicCloud.totalItems,
-        totalPages: Math.ceil(parseInt(publicCloud.totalItems) / 10),
-        isLoading: false,
+        totalItems:  publicCloud.totalItems,
+        totalPages:  Math.ceil(parseInt(publicCloud.totalItems) / 10),
+        isLoading:   false,
       });
     }
   },
@@ -108,32 +108,32 @@ module.exports = React.createClass({
     switch (props) {
       case 'start':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)} />),
         });
         break;
       case 'stop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)} />),
         });
         break;
       case 'restart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)} />),
         });
         break;
       case 'managementStart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)} />),
         });
         break;
       case 'managementStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)} />),
         });
         break;
       case 'monitoringStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)} />),
         });
         break;
     }
@@ -356,7 +356,7 @@ module.exports = React.createClass({
               </tr>
             </thead>
           </table>
-          <Preloader/>
+          <Preloader />
         </div>
       );
     } else {
@@ -383,7 +383,7 @@ module.exports = React.createClass({
               </tr>
             </thead>
             <tbody>
-            {rows}
+              {rows}
             </tbody>
           </table>
         );

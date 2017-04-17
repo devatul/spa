@@ -81,9 +81,9 @@ module.exports = React.createClass({
         );
         notice = (
           <span>
-            You are activating management services for device {this.props.hostname}.<br/>
-            The server takeover process may take from 4 to 6 hours depending on the server complexity.<br/>
-            This action will create a charge in the user's account.<br/><br/>
+            You are activating management services for device {this.props.hostname}.<br />
+            The server takeover process may take from 4 to 6 hours depending on the server complexity.<br />
+            This action will create a charge in the user's account.<br /><br />
             By clicking the button "I Accept" you agree the <a>Nubity's Terms and Conditions & Privacy Policy</a>.
           </span>
         );

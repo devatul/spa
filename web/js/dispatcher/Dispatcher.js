@@ -3,7 +3,7 @@ var Dispatcher     = require('flux').Dispatcher;
 var assign         = require('object-assign');
 var PayloadSources = Constants.PayloadSources;
 
-Dispatcher     = assign(new Dispatcher(), {
+Dispatcher = assign(new Dispatcher(), {
 
   handleServerAction: function (action) {
     var payload = {

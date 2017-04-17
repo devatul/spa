@@ -8,7 +8,7 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      message: '',
+      message:      '',
       messageClass: 'hidden',
     };
   },
@@ -19,18 +19,18 @@ module.exports = React.createClass({
     if ('' !== email) {
       ForgotPasswordAction(email).then( function (res) {
         this.setState({
-          message: res,
+          message:      res,
           messageClass: 'alert alert-success alert-margin',
         });
       }.bind(this)).catch( function (res) {
         this.setState({
-          message: res.message,
+          message:      res.message,
           messageClass: 'alert alert-danger alert-margin',
         });
       }.bind(this));
     } else {
       this.setState({
-        message: 'Please enter email',
+        message:      'Please enter email',
         messageClass: 'alert alert-danger alert-margin',
       });
     }
@@ -38,7 +38,7 @@ module.exports = React.createClass({
 
   closeAlert: function (argument) {
     this.setState({
-      message: '',
+      message:      '',
       messageClass: 'hidden',
     });
   },
@@ -69,7 +69,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-envelope" aria-hidden="true"></i>
                 </div>
-                <input type="email" className="form-control no-shadow" id="email" placeholder="Email" ref="email" name="email" required/>
+                <input type="email" className="form-control no-shadow" id="email" placeholder="Email" ref="email" name="email" required />
               </div>
             </div>
             <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Reset Password</button>

@@ -58,7 +58,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <input type="password" className="form-control no-shadow" id="password" placeholder="Password" ref="password"  name="password" required/>
+                <input type="password" className="form-control no-shadow" id="password" placeholder="Password" ref="password" name="password" required />
               </div>
             </div>
             <div className="form-group row">
@@ -66,7 +66,7 @@ module.exports = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <input type="password" className="form-control no-shadow" id="confirmation" placeholder="Confirm Password" ref="password2"  name="password2" required/>
+                <input type="password" className="form-control no-shadow" id="confirmation" placeholder="Confirm Password" ref="password2" name="password2" required />
               </div>
             </div>
             <button className="col-xs-12 login-button" type="submit" onClick={this._onSubmit}>Change Password</button>

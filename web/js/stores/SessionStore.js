@@ -39,7 +39,7 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
   },
 
   isLoggedIn: function () {
-    return (!('' == localStorage.getItem('nubity-token') || !localStorage.getItem('nubity-token') || 'undefined' === typeof(localStorage.getItem('nubity-token'))));
+    return !('' == localStorage.getItem('nubity-token') || !localStorage.getItem('nubity-token') || 'undefined' === typeof localStorage.getItem('nubity-token'));
   },
 
   getErrors: function () {
@@ -188,7 +188,7 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
       break;
 
     default:
-      if (null != action.res && null != action.code && (401 == action.code)) {
+      if (null != action.res && null != action.code && 401 == action.code) {
         router.transitionTo('login');
       }
       SessionStore.emitChange();
