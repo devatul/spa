@@ -2,6 +2,7 @@ var React                      = require('react');
 var uninstallPlugin            = require('../actions/RequestActions').uninstallPlugin;
 var installPlugin              = require('../actions/RequestActions').installPlugin;
 var PluginModal                = require('./PluginModal.react');
+var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -44,7 +45,9 @@ module.exports = React.createClass({
         </tr>
       );
     }
-
+    if (0 >= rows.length) {
+      return (<Preloader/>);
+    }
     return (
       <div className="container">
         <div className="col-md-10 col-md-offset-1">
