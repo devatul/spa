@@ -8,6 +8,7 @@ var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _dashboards        = '';
+var _deletedDashboard  = false;
 var _customDashboards  = '';
 var _customSlots       = '';
 var _dashboard         = '';
@@ -56,6 +57,12 @@ var GraphStore = assign({}, EventEmitter.prototype, {
   getCustomSlots: function () {
     return _customSlots.member;
   },
+  deletedDashboard: function () {
+    return _deletedDashboard;
+  },
+  resetDeletedDashboard: function () {
+    _deletedDashboard = false;
+  },
 });
 
 GraphStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -70,10 +77,8 @@ GraphStore.dispatchToken = Dispatcher.register(function (payload) {
       GraphStore.emitChange();
       break;
 
-    case ActionTypes.SHOW_DASHBOARD:
-      _dashboard = action.res;
-      _textError = '';
-      _errorCode = '';
+    case ActionTypes.DELETED_DASHBOARD:
+      _deletedDashboard = true;
       GraphStore.emitChange();
       break;
 

@@ -46,6 +46,14 @@ module.exports = React.createClass({
 
   _onChange: function () {
     if (this.isMounted()) {
+      if (GraphStore.deletedDashboard()) {
+        getCustomDashboards();
+        this.setState({
+          currentDashboard:      (<DefaultDashboard />),
+          currentDashboardIndex: '0',
+        });
+        GraphStore.resetDeletedDashboard();
+      }
       var companyInfo = SessionStore.getCompanyInfo();
       this.setState({
         companyInfo:      companyInfo,
