@@ -35,6 +35,7 @@ var deletedDashboard               = require('../actions/ServerActions').deleted
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
+var moment                         = require('moment');
 
 request.use(prefix(APIEndpoints.PUBLIC));
 
@@ -118,10 +119,11 @@ module.exports = {
   },
 
   signup: function (user) {
+    var timezone = moment.tz.guess();
     return new Promise(function (resolve, reject) {
       request
         .post('/signup.json')
-        .send({firstname: user.firstname, lastname: user.lastname, email: user.email, password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale})
+        .send({firstname: user.firstname, lastname: user.lastname, email: user.email, password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale, timezone: timezone})
         .accept('application/json')
         .end(function (res) {
           var text = JSON.parse(res.text);
