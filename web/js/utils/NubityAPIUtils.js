@@ -1408,7 +1408,7 @@ module.exports = {
     var _SELF = this;
     return new Promise(function (resolve) {
       request
-        .get('/company/' + company + '/cloud/' + id + '.json')
+        .del('/company/' + company + '/cloud/' + id + '.json')
         .accept('application/json')
         .set('Authorization', token)
         .end(function (res) {
@@ -1451,22 +1451,33 @@ module.exports = {
     var token = this.getToken();
     var _SELF = this;
 
-    return new Promise(function (resolve) {
-      request
+    return new Promise(function (resolve, reject) {
+      var req = request
         .put('/company/' + company + '/cloud/' + credetialId + '.json')
-        .accept('application/json')
-        .set('Authorization', token)
-        .end(function (res) {
-          var text = JSON.parse(res.text);
+        .set('Authorization', token);
+      for (var key in newCredential) {
+        if ('certificate' !== key) {
+          req.field(key, newCredential[key]);
+        } else {
+          req.attach(key, newCredential[key]);
+        }
+      }
+      req.end(function (res) {
+        var code = JSON.parse(res.status);
+        var text = JSON.parse(res.text);
+        if (200 <= code && 300 > code) {
+          showCredentialDetails(text);
+          resolve();
+        } else if (401 === code) {
           _SELF.validateToken(res).then(function (status) {
             if (!status) {
               _SELF.updateNewCredentials(credetialId, newCredential);
-            } else {
-              showCredentialDetails(text);
-              resolve();
             }
           }.bind(_SELF));
-        }.bind(_SELF));
+        } else {
+          reject(text);
+        }
+      }.bind(_SELF));
     });
   },
 
