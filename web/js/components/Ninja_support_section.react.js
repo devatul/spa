@@ -59,10 +59,10 @@ module.exports = React.createClass({
     }
 
     window.Intercom('boot', {
-      app_id: 'xs6j43ab',
-      name: name,
-      email: email,
-      created_at: Math.ceil(Date.now() / 1000),
+      app_id:         'xs6j43ab',
+      name:           name,
+      email:          email,
+      created_at:     Math.ceil(Date.now() / 1000),
       'company_name': this.state.companyName,
     });
 
@@ -80,7 +80,7 @@ module.exports = React.createClass({
           </a>
         </div>
         <div className="margin-sides min-height-subsection">
-          <NinjaDefaultContent/>
+          <NinjaDefaultContent />
         </div>
       </div>
     );

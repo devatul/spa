@@ -27,15 +27,15 @@ module.exports = React.createClass({
     var rows = [];
     var loaded = false;
     return {
-      overview: overview,
-      rows: rows,
-      loaded: loaded,
+      overview:   overview,
+      rows:       rows,
+      loaded:     loaded,
       totalItems: overview.totalItems,
-      totalPages:0,
-      pageNo: 1,
-      isLoading: false,
-      showModal: false,
-      warning: (<Warning modalType=''/>),
+      totalPages: 0,
+      pageNo:     1,
+      isLoading:  false,
+      showModal:  false,
+      warning:    (<Warning modalType='' />),
     };
   },
 
@@ -62,11 +62,11 @@ module.exports = React.createClass({
       var overview = InfrastructureStore.getInfrastructureOverview();
       var loaded = true;
       this.setState({
-        overview: overview.member,
-        loaded: loaded,
+        overview:   overview.member,
+        loaded:     loaded,
         totalItems: overview.totalItems,
         totalPages: Math.ceil(parseInt(overview.totalItems) / 10),
-        isLoading: false,
+        isLoading:  false,
       });
     }
   },
@@ -112,32 +112,32 @@ module.exports = React.createClass({
     switch (props) {
       case 'start':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._startInstance.bind(this)} />),
         });
         break;
       case 'stop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopInstance.bind(this)} />),
         });
         break;
       case 'restart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._restartInstance.bind(this)} />),
         });
         break;
       case 'managementStart':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._managed.bind(this)} />),
         });
         break;
       case 'managementStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)} />),
         });
         break;
       case 'monitoringStop':
         this.setState({
-          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)}/>),
+          warning: (<Warning modalType={props} hostname={instance.hostname} functionParam={functionParam} okAction={this._stopOrder.bind(this)} />),
         });
         break;
     }
@@ -256,21 +256,21 @@ module.exports = React.createClass({
           }
         } else if ('accepted' == monitoringStatus) {
           monitoring = (
-          <div>
-            <span className="action-button config nubity-red" onClick={this._warning.bind(this, 'monitoringStop', overview[key], monitoringCode)}>Stop</span>
-            <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
-              <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
-            </Link>
-          </div>
+            <div>
+              <span className="action-button config nubity-red" onClick={this._warning.bind(this, 'monitoringStop', overview[key], monitoringCode)}>Stop</span>
+              <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
+                <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
+              </Link>
+            </div>
           );
         } else if ('pending-cancellation' == monitoringStatus) {
           monitoring = (
-          <div>
-            <span className="action-button config nubity-blue"  onClick={this._deleteOrderCancelation.bind(this, monitoringCode)}>Dismiss</span>
-            <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
-              <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
-            </Link>
-          </div>
+            <div>
+              <span className="action-button config nubity-blue" onClick={this._deleteOrderCancelation.bind(this, monitoringCode)}>Dismiss</span>
+              <Link className="action-button config-right nubity-grey" to="configure" params={{id: overview[key].instance}}>
+                <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
+              </Link>
+            </div>
           );
         } else {
           monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
@@ -378,7 +378,7 @@ module.exports = React.createClass({
                 </div>
                 <div className="credential-name">
                   <span className="label-inline">
-                    <strong>{overview[key].provider_credential_name}</strong><br/>
+                    <strong>{overview[key].provider_credential_name}</strong><br />
                     {overview[key].external_identifier}
                   </span>
                 </div>

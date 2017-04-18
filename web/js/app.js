@@ -1,6 +1,6 @@
 var React     = require('react');
 var router    = require('./router').getRouter();
-window.React  = React;
+window.React = React;
 var Auth      = require('j-toker');
 
 Auth.configure({
@@ -25,17 +25,17 @@ Auth.configure({
     return window.location.href;
   },
 
-  confirmationSuccessUrl:  function () {
+  confirmationSuccessUrl: function () {
     return window.location.href;
   },
 
   tokenFormat: {
     'Authorization': '{{ nubity-token }}',
-    'token-type':   'Bearer',
+    'token-type':    'Bearer',
   },
 
   parseExpiry: function (headers) {
-    return (parseInt(headers['expiry'], 10) * 1000) || null;
+    return parseInt(headers['expiry'], 10) * 1000 || null;
   },
 
   handleLoginResponse: function (resp) {
@@ -51,9 +51,9 @@ Auth.configure({
   },
 
   authProviderPaths: {
-    github:    '/auth/github',
-    facebook:  '/auth/facebook',
-    google:    '/auth/google_oauth2',
+    github:   '/auth/github',
+    facebook: '/auth/facebook',
+    google:   '/auth/google_oauth2',
   },
 });
 

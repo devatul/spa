@@ -22,15 +22,15 @@ module.exports = React.createClass({
     var alerts = AlertsStore.getAlerts();
     var historyAlerts = AlertsStore.getHistoryAlerts();
     return {
-      alerts: alerts,
-      historyAlerts: historyAlerts,
-      totalItems: alerts.totalItems,
+      alerts:            alerts,
+      historyAlerts:     historyAlerts,
+      totalItems:        alerts.totalItems,
       totalHistoryItems: historyAlerts.totalItems,
-      totalPages: {alerts: 0, history: 0},
-      pageNo: 1,
-      loading: false,
-      loadingHistory: false,
-      modalType: '',
+      totalPages:        {alerts: 0, history: 0},
+      pageNo:            1,
+      loading:           false,
+      loadingHistory:    false,
+      modalType:         '',
     };
   },
 
@@ -72,15 +72,15 @@ module.exports = React.createClass({
       var alerts = AlertsStore.getAlerts();
       var historyAlerts = AlertsStore.getHistoryAlerts();
       this.setState({
-        alerts: alerts,
-        totalItems: alerts.totalItems,
-        historyAlerts: historyAlerts,
+        alerts:            alerts,
+        totalItems:        alerts.totalItems,
+        historyAlerts:     historyAlerts,
         totalHistoryItems: historyAlerts.totalItems,
-        totalPages: {
-          alerts: Math.ceil(parseInt(alerts.totalItems) / 10),
+        totalPages:        {
+          alerts:  Math.ceil(parseInt(alerts.totalItems) / 10),
           history: Math.ceil(parseInt(historyAlerts.totalItems) / 10),
         },
-        loading: false,
+        loading:        false,
         loadingHistory: false,
       });
       if (AlertsStore.isAlertTicket()) {
@@ -133,7 +133,7 @@ module.exports = React.createClass({
   _acknowledge: function (alertId) {
     acknowledge(alertId);
     this.setState({
-      showModal: false,
+      showModal:  false,
       hshowModal: false,
     });
   },
@@ -150,7 +150,7 @@ module.exports = React.createClass({
   _hwarning: function (props) {
     if ('hmute' == props) {
       this.setState({
-        modalType: 'hmute',
+        modalType:  'hmute',
         hshowModal: true,
       });
     }
@@ -158,9 +158,9 @@ module.exports = React.createClass({
 
   close: function () {
     this.setState({
-      showModal: false,
+      showModal:  false,
       hshowModal: false,
-      modalType: '',
+      modalType:  '',
     });
   },
 
@@ -514,24 +514,24 @@ module.exports = React.createClass({
       alertTable = <Preloader />;
     } else {
       alertTable =
-      <div>
-        {content}
-        <nav aria-label="Page navigation" className={paginatorClass}>
-          <ul className="pagination">
-            <li>
-              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo - 1)}>
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            {navpages}
-            <li>
-              <a aria-label="Next" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo + 1)}>
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>;
+        <div>
+          {content}
+          <nav aria-label="Page navigation" className={paginatorClass}>
+            <ul className="pagination">
+              <li>
+                <a aria-label="Previous" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo - 1)}>
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {navpages}
+              <li>
+                <a aria-label="Next" onClick={this._updatePage.bind(this, '#activeAlerts', this.state.pageNo + 1)}>
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>;
     }
 
     var historyTable;
@@ -591,24 +591,24 @@ module.exports = React.createClass({
       historyTable = <Preloader />;
     } else {
       historyTable =
-      <div>
-        {hcontent}
-        <nav aria-label="Page navigation" className={hpaginatorClass}>
-          <ul className="pagination">
-            <li>
-              <a aria-label="Previous" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo - 1)}>
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            {historynavpages}
-            <li>
-              <a aria-label="Next" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo + 1)}>
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>;
+        <div>
+          {hcontent}
+          <nav aria-label="Page navigation" className={hpaginatorClass}>
+            <ul className="pagination">
+              <li>
+                <a aria-label="Previous" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo - 1)}>
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {historynavpages}
+              <li>
+                <a aria-label="Next" onClick={this._updatePage.bind(this, '#historyAlerts', this.state.pageNo + 1)}>
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>;
     }
 
     var hash = this._getURI().hash;

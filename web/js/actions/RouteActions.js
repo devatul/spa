@@ -6,15 +6,15 @@ module.exports = {
   redirect: function (route) {
     Dispatcher.handleViewAction({
       actionType: ActionTypes.REDIRECT,
-      route: route,
+      route:      route,
     });
   },
 
   redirectWithParams: function (route, param) {
     Dispatcher.handleViewAction({
       actionType: ActionTypes.REDIRECT_WITH_PARAMS,
-      route: route,
-      param: param,
+      route:      route,
+      param:      param,
     });
   },
 };

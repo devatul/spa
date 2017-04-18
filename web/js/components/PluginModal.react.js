@@ -47,8 +47,8 @@ module.exports = React.createClass({
       for (var key in this.props.macros) {
         inputs.push(
           <div className="form-group">
-            <label for={key}>{this.props.macros[key].name}</label>
-            <input type="text" className="form-control" id="macros" defaultValue={(null !== this.props.macros[key].value) ? this.props.macros[key].value : this.props.macros[key].default_value}/>
+            <label htmlFor={key}>{this.props.macros[key].name}</label>
+            <input type="text" className="form-control" id="macros" defaultValue={null !== this.props.macros[key].value ? this.props.macros[key].value : this.props.macros[key].default_value} />
           </div>
         );
       }

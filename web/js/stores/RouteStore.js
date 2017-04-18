@@ -43,7 +43,7 @@ RouteStore.dispatchToken = Dispatcher.register(function (payload) {
       RouteStore.emitChange();
       break;
 
-    case ActionTypes.REDIRECT_WITH_PARAMS: 
+    case ActionTypes.REDIRECT_WITH_PARAMS:
       router.transitionTo(action.route, {id: action.param});
       RouteStore.emitChange();
       break;

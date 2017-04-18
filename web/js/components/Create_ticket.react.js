@@ -14,11 +14,11 @@ module.exports = React.createClass({
   getInitialState: function () {
     var search = SessionStore.search();
     return {
-      search: search,
+      search:    search,
       instances: search.instances,
-      clouds: search.clouds,
-      files: [],
-      dropzone: 'hidden',
+      clouds:    search.clouds,
+      files:     [],
+      dropzone:  'hidden',
     };
   },
 
@@ -58,10 +58,10 @@ module.exports = React.createClass({
       }
 
       this.setState({
-        search: search,
-        instances: search.instances,
-        clouds: search.clouds,
-        serverCheck:serverCheck,
+        search:      search,
+        instances:   search.instances,
+        clouds:      search.clouds,
+        serverCheck: serverCheck,
       });
     }
   },
@@ -70,12 +70,12 @@ module.exports = React.createClass({
     e.preventDefault();
     var ticket = {};
     ticket.department = this.refs.department.getDOMNode().value;
-    ticket.priority   = this.refs.priority.getDOMNode().value;
-    ticket.type       = this.refs.type.getDOMNode().value;
-    ticket.subject    = this.refs.subject.getDOMNode().value;
-    ticket.content    = this.refs.content.getDOMNode().value;
-    ticket.hostname   = this.refs.hostname.getDOMNode().value;
-    ticket.files      = this.state.files;
+    ticket.priority = this.refs.priority.getDOMNode().value;
+    ticket.type = this.refs.type.getDOMNode().value;
+    ticket.subject = this.refs.subject.getDOMNode().value;
+    ticket.content = this.refs.content.getDOMNode().value;
+    ticket.hostname = this.refs.hostname.getDOMNode().value;
+    ticket.files = this.state.files;
     CreateTicketAction(ticket);
   },
 
@@ -97,7 +97,7 @@ module.exports = React.createClass({
     var newFile, reader = new FileReader();
 
     reader.onloadend = function (e) {
-      newFile = {file:file, imageUrl:e.target.result};
+      newFile = {file: file, imageUrl: e.target.result};
       var files = this.state.files;
       files.push(newFile);
       this.setState({
@@ -237,7 +237,7 @@ module.exports = React.createClass({
             </select>
           </div>
           <div className="col-xs-6 margin-tops">
-            <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject" defaultValue={subject}/>
+            <input type="text" className="form-control" id="inputPassword" placeholder="Subject" ref="subject" defaultValue={subject} />
           </div>
           <div className="col-xs-12">
             <form onSubmit={this._onSubmit}>

@@ -18,6 +18,6 @@ var routes = require('./routes'),
   Router = require('react-router');
 
 router = Router.create({
-  routes: routes,
+  routes:   routes,
   location: null,
 });

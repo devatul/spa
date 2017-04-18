@@ -53,7 +53,7 @@ module.exports = React.createClass({
           <td>{0 < triggers[key].items.length ? triggers[key].items[0].last_value : '-'}</td>
           <td>{0 < triggers[key].items.length ? triggers[key].items[0].prev_value : '-'}</td>
           <td>
-            <Switch checked={triggers[key].is_enabled ? true : false} onChange={this.switchTrigger.bind(this, triggers[key])}/>
+            <Switch checked={triggers[key].is_enabled ? true : false} onChange={this.switchTrigger.bind(this, triggers[key])} />
           </td>
           <td>{triggers[key].condition}</td>
           <td>{triggers[key].threshold}</td>

@@ -14,22 +14,22 @@ module.exports = React.createClass({
           </div>
           <div className="row">
             <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle"/>
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
             </div>
             <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle"/>
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
             </div>
             <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle"/>
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
             </div>
             <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle"/>
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
             </div>
             <div className="col-xs-1">
               <button className="btn-plus-circle">+</button>
             </div>
           </div>
-          <hr/>
+          <hr />
           <form >
             <div className="public-cloud-form col-lg-offset-1 col-lg-4">
               <div className="form-group">
@@ -37,7 +37,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-user" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="privateUser" placeholder="First Name"/>
+                  <input type="text" className="form-control no-shadow" id="privateUser" placeholder="First Name" />
                 </div>
               </div>
               <div className="form-group">
@@ -45,7 +45,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-user" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="privatePassword" placeholder="Last Name"/>
+                  <input type="text" className="form-control no-shadow" id="privatePassword" placeholder="Last Name" />
                 </div>
               </div>
               <div className="form-group">
@@ -53,7 +53,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-server" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="integrationName" placeholder="Email"/>
+                  <input type="text" className="form-control no-shadow" id="integrationName" placeholder="Email" />
                 </div>
               </div>
               <div className="form-group">
@@ -61,7 +61,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-lock" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="privateNubityName" placeholder="Password"/>
+                  <input type="text" className="form-control no-shadow" id="privateNubityName" placeholder="Password" />
                 </div>
               </div>
             </div>
@@ -71,7 +71,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-skype" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="skype" placeholder="Skype"/>
+                  <input type="text" className="form-control no-shadow" id="skype" placeholder="Skype" />
                 </div>
               </div>
               <div className="form-group">
@@ -93,7 +93,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-clock-o" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="timeZone" placeholder="Time Zone"/>
+                  <input type="text" className="form-control no-shadow" id="timeZone" placeholder="Time Zone" />
                 </div>
               </div>
               <div className="form-group">
@@ -101,7 +101,7 @@ module.exports = React.createClass({
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-user" aria-hidden="true"></i>
                   </div>
-                  <input type="text" className="form-control no-shadow" id="contactType" placeholder="Contact Type"/>
+                  <input type="text" className="form-control no-shadow" id="contactType" placeholder="Contact Type" />
                 </div>
               </div>
             </div>
@@ -112,25 +112,25 @@ module.exports = React.createClass({
               <div className="form-group col-sm-4">
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <div className="checkbox account-checkbox"><input type="checkbox" value=""/></div>
+                    <div className="checkbox account-checkbox"><input type="checkbox" value="" /></div>
                   </div>
-                  <div  className="form-control no-shadow" id="information">Information</div>
+                  <div className="form-control no-shadow" id="information">Information</div>
                 </div>
               </div>
               <div className="form-group col-sm-4">
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <div className="checkbox account-checkbox"><input type="checkbox" value=""/></div>
+                    <div className="checkbox account-checkbox"><input type="checkbox" value="" /></div>
                   </div>
-                  <div  className="form-control no-shadow" id="warning">Warning</div>
+                  <div className="form-control no-shadow" id="warning">Warning</div>
                 </div>
               </div>
               <div className="form-group col-sm-4">
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <div className="checkbox account-checkbox"><input type="checkbox" value=""/></div>
+                    <div className="checkbox account-checkbox"><input type="checkbox" value="" /></div>
                   </div>
-                  <div  className="form-control no-shadow" id="critical">Critical</div>
+                  <div className="form-control no-shadow" id="critical">Critical</div>
                 </div>
               </div>
             </div>

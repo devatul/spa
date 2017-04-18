@@ -48,7 +48,7 @@ var GraphStore = assign({}, EventEmitter.prototype, {
   getTextError: function () {
     return _textError;
   },
-  
+
   getCustomDashboards: function () {
     return _customDashboards.member;
   },
@@ -65,29 +65,29 @@ GraphStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.SHOW_DASHBOARDS:
       _dashboards = action.res;
-      _textError  = '';
-      _errorCode  = '';
+      _textError = '';
+      _errorCode = '';
       GraphStore.emitChange();
       break;
 
     case ActionTypes.SHOW_DASHBOARD:
       _dashboard = action.res;
-      _textError  = '';
-      _errorCode  = '';
+      _textError = '';
+      _errorCode = '';
       GraphStore.emitChange();
       break;
 
     case ActionTypes.SHOW_CUSTOM_DASHBOARDS:
       _customDashboards = action.res;
-      _textError  = '';
-      _errorCode  = '';
+      _textError = '';
+      _errorCode = '';
       GraphStore.emitChange();
       break;
 
     case ActionTypes.SHOW_CUSTOM_SLOTS:
       _customSlots = action.res;
-      _textError  = '';
-      _errorCode  = '';
+      _textError = '';
+      _errorCode = '';
       GraphStore.emitChange();
       break;
 

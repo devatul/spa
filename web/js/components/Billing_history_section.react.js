@@ -11,7 +11,7 @@ module.exports = React.createClass({
         <div className="section-title">
           <h2>Billing history</h2>
         </div>
-        <hr/>
+        <hr />
         <div className="col-xs-12">
           <table className="table table-condensed">
             <thead>

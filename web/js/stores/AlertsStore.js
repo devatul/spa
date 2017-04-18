@@ -94,7 +94,7 @@ AlertsStore.dispatchToken = Dispatcher.register(function (payload) {
       break;
 
     case ActionTypes.SHOW_HISTORY_ALERTS:
-      _history   = action.res;
+      _history = action.res;
       _textError = '';
       _errorCode = '';
       AlertsStore.emitChange();

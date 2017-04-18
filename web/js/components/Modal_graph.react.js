@@ -19,7 +19,7 @@ module.exports = React.createClass({
       name = name.replace(/\"/g, '');
       var interval = graph.custom_interval;
       var interval_name;
-      var hostname = graph.hostname;      
+      var hostname = graph.hostname;
       switch (interval) {
         case 'TODAY':
           interval_name = 'Today\'s';
@@ -71,14 +71,14 @@ module.exports = React.createClass({
         }
 
         var chartSerie = {
-          name: legend,
-          data: coords,
-          color: color,
-          pointStart: pointStart,
+          name:          legend,
+          data:          coords,
+          color:         color,
+          pointStart:    pointStart,
           pointInterval: 1 * 3600 * 24,
-          tooltip: {
+          tooltip:       {
             valueDecimals: 2,
-            valueSuffix: ' ' + suffix,
+            valueSuffix:   ' ' + suffix,
           },
         };
         chartSeries.push(chartSerie);
@@ -86,7 +86,7 @@ module.exports = React.createClass({
       var yTitle = 'Values';
       if (graph.content.series[0].unit) {
         yTitle = 'Values (' + graph.content.series[0].unit + ')';
-      }      
+      }
 
       Highcharts.setOptions({
         global: {
@@ -96,7 +96,7 @@ module.exports = React.createClass({
 
       Highcharts.chart(this.props.name, {
         chart: {
-          zoomType: 'x',
+          zoomType:  'x',
           className: 'hichart-main-container',
         },
 
@@ -117,20 +117,20 @@ module.exports = React.createClass({
         },
 
         tooltip: {
-          shared: true,
+          shared:     true,
           crosshairs: true,
         },
 
         xAxis: {
-          type: 'datetime',
+          type:                 'datetime',
           dateTimeLabelFormats: {
             second: '%H:%M:%S',
             minute: '%H:%M',
-            hour: '%H:%M',
-            day: '%e. %b',
-            week: '%e. %b',
-            month: '%b \'%y',
-            year: '%Y',
+            hour:   '%H:%M',
+            day:    '%e. %b',
+            week:   '%e. %b',
+            month:  '%b \'%y',
+            year:   '%Y',
           },
           title: {
             text: 'Date',
@@ -141,10 +141,10 @@ module.exports = React.createClass({
           title: {
             text: yTitle,
           },
-          opposite: false,
-          min: 0,
+          opposite:   false,
+          min:        0,
           maxPadding: 0.2,
-          plotLines: [{
+          plotLines:  [{
             value: 0,
             width: 1,
             color: '#808080',
@@ -152,8 +152,8 @@ module.exports = React.createClass({
         },
 
         legend: {
-          enabled: true,
-          align: 'center',
+          enabled:       true,
+          align:         'center',
           verticalAlign: 'bottom',
         },
 
@@ -186,13 +186,13 @@ module.exports = React.createClass({
   render: function () {
     if (null !== this.props.graph.content) {
       return (
-        <div id={this.props.name} style={{'width' : '100%', 'height' : '100%'}}>
+        <div id={this.props.name} style={{'width': '100%', 'height': '100%'}}>
         </div>
       );
     }
 
     return (
-      <GraphEmptyState/>
+      <GraphEmptyState />
     );
   },
 });

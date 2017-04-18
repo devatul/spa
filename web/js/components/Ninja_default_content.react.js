@@ -16,11 +16,11 @@ module.exports = React.createClass({
   getInitialState: function () {
     var ninja = NinjaStore.getNinja();
     return {
-      ninja: ninja.member,
+      ninja:      ninja.member,
       totalItems: ninja.totalItems,
-      loading: false,
+      loading:    false,
       totalPages: 0,
-      pageNo: 1,
+      pageNo:     1,
     };
   },
 
@@ -55,9 +55,9 @@ module.exports = React.createClass({
     if (this.isMounted()) {
       var ninja = NinjaStore.getNinja();
       this.setState({
-        ninja: ninja.member,
+        ninja:      ninja.member,
         totalItems: ninja.totalItems,
-        loading: false,
+        loading:    false,
         totalPages: Math.ceil(parseInt(ninja.totalItems) / 10),
       });
     }
@@ -120,7 +120,7 @@ module.exports = React.createClass({
       var rows = [];
       var userTimeZone = getUserData('timezone');
       var locale = getUserData('locale');
-      moment.locale(locale);      
+      moment.locale(locale);
       for (key in ticket) {
         var status = '';
         var department_icon = '';
@@ -179,7 +179,7 @@ module.exports = React.createClass({
               </OverlayTrigger>
             </td>
             <td className="hidden-xs">
-              <i className={department_icon} aria-hidden="true"></i>  {department_name}
+              <i className={department_icon} aria-hidden="true"></i> {department_name}
             </td>
             <td className="hidden-xs">{ticket[key].hostname}</td>
             <td className="hidden-xs hidden-sm">

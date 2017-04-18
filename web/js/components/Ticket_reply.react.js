@@ -1,23 +1,23 @@
 var React          = require('react');
 var moment         = require('moment');
 var openAttachment = require('../actions/RequestActions').openAttachment;
-        
+
 module.exports = React.createClass({
   _openAttachment: function (ticketId, attachmentId, attachmentName) {
     openAttachment (ticketId, attachmentId, attachmentName);
   },
 
   render: function () {
-    var firstname = ''; 
+    var firstname = '';
     var from = '';
 
     if (undefined !== this.props.reply.created_at && this.props.reply.created_at) {
       from = moment(this.props.reply.created_at).format('lll');
-    } 
+    }
 
     if (undefined !== this.props.reply.user && this.props.reply.user) {
       firstname = this.props.reply.user.firstname;
-    } 
+    }
     var message = $('<textarea />').html(this.props.reply.content).text();
     var attachments = [];
     for (var key in this.props.reply.ticket_attachments) {

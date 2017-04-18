@@ -20,7 +20,7 @@ var NavBar = React.createClass({
   getInitialState: function () {
     var companyInfo = SessionStore.getCompanyInfo();
     return {
-      isLoggedIn: SessionStore.isLoggedIn(),
+      isLoggedIn:  SessionStore.isLoggedIn(),
       companyInfo: companyInfo,
     };
   },
@@ -44,7 +44,7 @@ var NavBar = React.createClass({
     if (this.isMounted()) {
       var companyInfo = SessionStore.getCompanyInfo();
       this.setState({
-        isLoggedIn: SessionStore.isLoggedIn(),
+        isLoggedIn:  SessionStore.isLoggedIn(),
         companyInfo: companyInfo,
       });
     }
@@ -52,7 +52,7 @@ var NavBar = React.createClass({
 
   _onClickLogOut: function () {
     this.setState({
-      mail: '',
+      mail:       '',
       isLoggedIn: '',
     });
 
@@ -114,7 +114,7 @@ var NavBar = React.createClass({
         <nav className="navbar navbar-default nav navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
-              <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+              <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand" />
             </div>
             <div>
               <ul className="nav navbar-nav navbar-right">
@@ -135,7 +135,7 @@ var NavBar = React.createClass({
           <div className="container-fluid">
             <div className="navbar-header">
               <a onClick={this._redirectHome}>
-                <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand"/>
+                <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand" />
                 <span className="navbar-company-name">{this.state.companyInfo.name}</span>
               </a>
             </div>
@@ -214,22 +214,22 @@ var NavBar = React.createClass({
                   </div>
                   <div className="tab-content section-content menu-tab-content">
                     <div id="myAccount" className="tab-pane fade in active">
-                      <MyAccountSection/>
+                      <MyAccountSection />
                     </div>
                     <div id="billingHistory" className="tab-pane fade">
-                      <BillingHistorySection/>
+                      <BillingHistorySection />
                     </div>
                     <div id="paymentMethod" className="tab-pane fade">
-                      <PaymentMethodSection/>
+                      <PaymentMethodSection />
                     </div>
                     <div id="company" className="tab-pane fade">
-                      <CompanySection/>
+                      <CompanySection />
                     </div>
                     <div id="myTeam" className="tab-pane fade">
-                      <MyTeamSection/>
+                      <MyTeamSection />
                     </div>
                     <div id="accountStatus" className="tab-pane fade">
-                      <AccountStatusSection/>
+                      <AccountStatusSection />
                     </div>
                   </div>
                 </div>

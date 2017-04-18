@@ -5,11 +5,11 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       credetialInfo: '',
-      name: '',
-      apiKey: '',
-      endpoint: '',
-      apiSecret: '',
-      certificate: '',
+      name:          '',
+      apiKey:        '',
+      endpoint:      '',
+      apiSecret:     '',
+      certificate:   '',
     };
   },
 
@@ -22,11 +22,11 @@ module.exports = React.createClass({
       && credentialDetails.provider_credential === credetialInfo.provider_credential) {
       this.setState({
         credetialInfo: props.credetialInfo,
-        name: credentialDetails.name,
-        apiKey: credentialDetails.api_key,
-        endpoint: credentialDetails.endpoint,
-        apiSecret: credentialDetails.api_secret,
-        certificate: credentialDetails.certificate,
+        name:          credentialDetails.name,
+        apiKey:        credentialDetails.api_key,
+        endpoint:      credentialDetails.endpoint,
+        apiSecret:     credentialDetails.api_secret,
+        certificate:   credentialDetails.certificate,
       });
     }
   },
@@ -35,11 +35,11 @@ module.exports = React.createClass({
     $('#' + this.props.modalId).modal('toggle');
     this.setState({
       credetialInfo: '',
-      name: '',
-      apiKey: '',
-      endpoint: '',
-      apiSecret: '',
-      certificate: '',
+      name:          '',
+      apiKey:        '',
+      endpoint:      '',
+      apiSecret:     '',
+      certificate:   '',
     });
   },
 
@@ -95,7 +95,7 @@ module.exports = React.createClass({
             <label>Name</label>
             <div className="input-group">
               <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
-              <input type="text" className="form-control" onChange={function (e) {_SELF.setState({name: e.target.value});}} value={this.state.name} placeholder="Integration Name"/>
+              <input type="text" className="form-control" onChange={function (e) {_SELF.setState({name: e.target.value});}} value={this.state.name} placeholder="Integration Name" />
             </div>
           </div>
         );
@@ -105,7 +105,7 @@ module.exports = React.createClass({
               <label>Api Key</label>
               <div className="input-group">
                 <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
-                <input type="text" className="form-control" onChange={function (e) {_SELF.setState({apiKey: e.target.value});}} value={this.state.apiKey} placeholder="API Key"/>
+                <input type="text" className="form-control" onChange={function (e) {_SELF.setState({apiKey: e.target.value});}} value={this.state.apiKey} placeholder="API Key" />
               </div>
             </div>
           );
@@ -116,7 +116,7 @@ module.exports = React.createClass({
               <label>End Point</label>
               <div className="input-group">
                 <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-                <input type="text" className="form-control" onChange={function (e) {_SELF.setState({endpoint: e.target.value});}} value={this.state.endpoint} placeholder="Access Key ID"/>
+                <input type="text" className="form-control" onChange={function (e) {_SELF.setState({endpoint: e.target.value});}} value={this.state.endpoint} placeholder="Access Key ID" />
               </div>
             </div>
           );
@@ -127,7 +127,7 @@ module.exports = React.createClass({
               <label>Api Secret</label>
               <div className="input-group">
                 <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
-                <input type="text" className="form-control" onChange={function (e) {_SELF.setState({apiSecret: e.target.value});}} value={this.state.apiSecret} placeholder="Secret Access Key"/>
+                <input type="text" className="form-control" onChange={function (e) {_SELF.setState({apiSecret: e.target.value});}} value={this.state.apiSecret} placeholder="Secret Access Key" />
               </div>
             </div>
           );
@@ -137,9 +137,9 @@ module.exports = React.createClass({
             <div className="input-group image-preview">
               <span className="input-group-btn">
                 <div className="btn btn-default image-preview-input">
-                    <span className="glyphicon glyphicon-folder-open"></span>
-                    <span className="image-preview-input-title">Upload Certificate</span>
-                    <input type="file" name="editCertificate" id="editCertificate" onChange={function (e) {_SELF._onFileChange(e);}}/>
+                  <span className="glyphicon glyphicon-folder-open"></span>
+                  <span className="image-preview-input-title">Upload Certificate</span>
+                  <input type="file" name="editCertificate" id="editCertificate" onChange={function (e) {_SELF._onFileChange(e);}} />
                 </div>
               </span>
               <span className="form-control image-preview-filename hidden"></span>
@@ -156,13 +156,13 @@ module.exports = React.createClass({
             <div className="modal-content">
               <div className="modal-body">
                 <button type="button" className="modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <div className="dialog-body">
-                    <div className="edit-title">Edit Credential</div>
-                    <hr />
-                      {input}
-                    <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF._updateCredentials();}}>Update</button>
-                    <button type="button" className="btn btn-default pull-right public-cloud-button grey-background" data-dismiss="modal">Cancel</button>
-                  </div>
+                <div className="dialog-body">
+                  <div className="edit-title">Edit Credential</div>
+                  <hr />
+                  {input}
+                  <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF._updateCredentials();}}>Update</button>
+                  <button type="button" className="btn btn-default pull-right public-cloud-button grey-background" data-dismiss="modal">Cancel</button>
+                </div>
               </div>
             </div>
           </div>

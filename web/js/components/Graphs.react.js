@@ -15,8 +15,8 @@ module.exports = React.createClass({
   getInitialState: function () {
     var dashboard = GraphStore.getDashboard();
     return {
-      dashboard: dashboard,
-      showModal: false,
+      dashboard:          dashboard,
+      showModal:          false,
       graphToShowInModal: '',
     };
   },
@@ -44,9 +44,9 @@ module.exports = React.createClass({
 
   _modalGraph: function (dashboard) {
     var name = 'container' + moment().format('MMMMDoYYYYh:mm:ss');
-    var graph = (<Graph graph={dashboard} name={name} dashboardId={localStorage.getItem('dashboardId')}/>);
+    var graph = (<Graph graph={dashboard} name={name} dashboardId={localStorage.getItem('dashboardId')} />);
     this.setState({
-      showModal: true,
+      showModal:          true,
       graphToShowInModal: graph,
     });
   },
@@ -64,28 +64,28 @@ module.exports = React.createClass({
     allGraphs[0] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
-          <CreateGraph position={1}/>
+          <CreateGraph position={1} />
         </div>
       </div>
     );
     allGraphs[1] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
-          <CreateGraph position={2}/>
+          <CreateGraph position={2} />
         </div>
       </div>
     );
     allGraphs[2] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
-          <CreateGraph position={3}/>
+          <CreateGraph position={3} />
         </div>
       </div>
     );
     allGraphs[3] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create">
-          <CreateGraph position={4}/>
+          <CreateGraph position={4} />
         </div>
       </div>
     );
@@ -105,7 +105,7 @@ module.exports = React.createClass({
                 <i className="fa fa-arrows-alt" aria-hidden="true"></i>
               </button>
               <div className="valign-wrapper allHeight">
-                <Graph graph={dashboard[key]} name={name} dashboardId={localStorage.getItem('dashboardId')}/>
+                <Graph graph={dashboard[key]} name={name} dashboardId={localStorage.getItem('dashboardId')} />
               </div>
             </div>
           </div>

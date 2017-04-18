@@ -29,9 +29,9 @@ module.exports = React.createClass({
     return {
       mainAlerts: mainAlerts.member,
       dashboards: '',
-      dashboard: '',
-      stats: stats,
-      modalType: '',
+      dashboard:  '',
+      stats:      stats,
+      modalType:  '',
     };
   },
 
@@ -59,8 +59,8 @@ module.exports = React.createClass({
       this.setState({
         mainAlerts: mainAlerts.member,
         dashboards: dashboards,
-        dashboard: dashboard,
-        stats: stats,
+        dashboard:  dashboard,
+        stats:      stats,
       });
 
       if (AlertsStore.isAlertTicket()) {
@@ -136,7 +136,7 @@ module.exports = React.createClass({
               </div>
               <div className="right">
                 <div className="dashboard-icons-counter">{this.state.stats.info}</div>
-                <span className="dashboard-icons-info">Information <br/>alerts</span>
+                <span className="dashboard-icons-info">Information <br />alerts</span>
               </div>
             </div>
           </div>
@@ -147,7 +147,7 @@ module.exports = React.createClass({
               </div>
               <div className="right">
                 <div className="dashboard-icons-counter">{this.state.stats.warning}</div>
-                <span className="dashboard-icons-info">Warning <br/>alerts</span>
+                <span className="dashboard-icons-info">Warning <br />alerts</span>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ module.exports = React.createClass({
               </div>
               <div className="right">
                 <div className="dashboard-icons-counter">{this.state.stats.critical}</div>
-                <span className="dashboard-icons-info">Critical <br/>alerts</span>
+                <span className="dashboard-icons-info">Critical <br />alerts</span>
               </div>
             </div>
           </div>
@@ -270,7 +270,7 @@ module.exports = React.createClass({
                       <div className="input-group-addon">
                         <i className="fa fa-area-chart" aria-hidden="true"></i>
                       </div>
-                      <input type="text" className="form-control no-shadow" id="integrationName" ref="integrationName" placeholder="New Dashboard Performance Name" required/>
+                      <input type="text" className="form-control no-shadow" id="integrationName" ref="integrationName" placeholder="New Dashboard Performance Name" required />
                     </div>
                   </div>
                 </div>
@@ -378,7 +378,7 @@ module.exports = React.createClass({
     }
 
     if (!mainAlerts) {
-      return (<Preloader/>);
+      return (<Preloader />);
     }
 
     return (
@@ -386,10 +386,10 @@ module.exports = React.createClass({
         <h2 className="dashboard-title">Alerts resume</h2>
         {stats}
         {alertTable}
-        <br/>
+        <br />
         <h2 className="dashboard-title">Graphs</h2>
         <div className="margin-sides row">
-          <Graphs/>
+          <Graphs />
         </div>
         {warning}
       </div>
