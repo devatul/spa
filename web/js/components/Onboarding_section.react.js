@@ -46,9 +46,9 @@ module.exports = React.createClass({
       var providers = OnBoardingStore.getProviders();
       this.setState({
         providers:             providers,
-        publicCloudProviders:  _.filter(providers, function (o) {return 'public' === o.classification;}),
-        privateCloudProviders: _.filter(providers, function (o) {return 'private' === o.classification;}),
-        onPremiseProviders:    _.filter(providers, function (o) {return 'on-premise' === o.classification;}),
+        publicCloudProviders:  _.filter(providers, function (o) { return 'public' === o.classification; }),
+        privateCloudProviders: _.filter(providers, function (o) { return 'private' === o.classification; }),
+        onPremiseProviders:    _.filter(providers, function (o) { return 'on-premise' === o.classification; }),
       });
     }
   },
@@ -112,17 +112,17 @@ module.exports = React.createClass({
         <div role="navigation">
           <ul className="nav nav-tabs section-tabs">
             <li role="presentation" className={'#public' === hash || '' === hash ? 'active' : ''} onClick={this.publicCloud}>
-              <a className="grey-color" data-toggle="tab" href="#public" onClick={function () {_SELF.updateURL('#public', 1);}}>
+              <a className="grey-color" data-toggle="tab" href="#public" onClick={function () { _SELF.updateURL('#public', 1); }}>
                 <i className="fa fa-cloud" aria-hidden="true"></i> Public Cloud
               </a>
             </li>
             <li role="presentation" className={'#private' === hash ? 'active' : ''} onClick={this.privateCloud}>
-              <a className="grey-color" data-toggle="tab" href="#private" onClick={function () {_SELF.updateURL('#private', 1);}}>
+              <a className="grey-color" data-toggle="tab" href="#private" onClick={function () { _SELF.updateURL('#private', 1); }}>
                 <i className="fa fa-cloud" aria-hidden="true"></i> Private Cloud
               </a>
             </li>
             <li role="presentation" className={'#onPremise' === hash ? 'active' : ''} onClick={this.onPremise}>
-              <a className="grey-color" data-toggle="tab" href="#onPremise" onClick={function () {_SELF.updateURL('#onPremise', 1);}}>
+              <a className="grey-color" data-toggle="tab" href="#onPremise" onClick={function () { _SELF.updateURL('#onPremise', 1); }}>
                 <i className="fa fa-server" aria-hidden="true"></i> On-premise servers
               </a>
             </li>
@@ -149,13 +149,13 @@ module.exports = React.createClass({
               allProviders={this.state.providers}
               providers={this.state.publicCloudProviders}
               page_no={pageNo}
-              callUpdateURL={function (page) {_SELF.updateURL('#public', page);}} />
+              callUpdateURL={function (page) { _SELF.updateURL('#public', page); }} />
           </div>
           <div id="private" className={'tab-pane fade ' + ('#private' === hash ? 'in active' : '')}>
-            <PrivateCloudSection allProviders={this.state.providers} providers={this.state.privateCloudProviders} page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#private', page);}} />
+            <PrivateCloudSection allProviders={this.state.providers} providers={this.state.privateCloudProviders} page_no={pageNo} callUpdateURL={function (page) { _SELF.updateURL('#private', page); }} />
           </div>
           <div id="onPremise" className={'tab-pane fade ' + ('#onPremise' === hash ? 'in active' : '')}>
-            <OnPremiseCloudSection allProviders={this.state.providers} providers={this.state.onPremiseProviders} page_no={pageNo} callUpdateURL={function (page) {_SELF.updateURL('#onPremise', page);}} />
+            <OnPremiseCloudSection allProviders={this.state.providers} providers={this.state.onPremiseProviders} page_no={pageNo} callUpdateURL={function (page) { _SELF.updateURL('#onPremise', page); }} />
           </div>
         </div>
       </div>

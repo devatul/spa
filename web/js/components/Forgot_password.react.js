@@ -17,12 +17,12 @@ module.exports = React.createClass({
     e.preventDefault();
     var email = this.refs.email.getDOMNode().value;
     if ('' !== email) {
-      ForgotPasswordAction(email).then( function (res) {
+      ForgotPasswordAction(email).then(function (res) {
         this.setState({
           message:      res,
           messageClass: 'alert alert-success alert-margin',
         });
-      }.bind(this)).catch( function (res) {
+      }.bind(this)).catch(function (res) {
         this.setState({
           message:      res.message,
           messageClass: 'alert alert-danger alert-margin',

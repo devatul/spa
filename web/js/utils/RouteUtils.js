@@ -1,16 +1,16 @@
-var redirect        = require ('../actions/RouteActions').redirect;
+var redirect        = require('../actions/RouteActions').redirect;
 
 module.exports = {
   redirectLogin: function () {
-    redirect ('login');
+    redirect('login');
   },
   redirectDashboard: function () {
-    redirect ('dashboard');
+    redirect('dashboard');
   },
   redirectNinja: function () {
-    redirect ('ninja');
+    redirect('ninja');
   },
   redirectTo: function (to) {
-    redirect (to);
+    redirect(to);
   },
 };

@@ -209,34 +209,32 @@ module.exports = React.createClass({
           <Preloader />
         </div>
       );
+    } else if (0 == totalItems) {
+      content = (
+        <div className="empty-table">
+          <i className="icon nb-ticket x-large grey-text"></i>
+          <h1 className="grey-text">There are no Support tickets yet.</h1>
+        </div>
+        );
     } else {
-      if (0 == totalItems) {
-        content = (
-          <div className="empty-table">
-            <i className="icon nb-ticket x-large grey-text"></i>
-            <h1 className="grey-text">There are no Support tickets yet.</h1>
-          </div>
+      content = (
+        <table>
+          <thead>
+            <tr>
+              <th className="column-icon">Status</th>
+              <th>Ticket Id</th>
+              <th>Subject</th>
+              <th className="column-icon">Priority</th>
+              <th className="column-button hidden-xs">Department</th>
+              <th className="hidden-xs">Device</th>
+              <th className="hidden-xs hidden-sm">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
         );
-      } else {
-        content = (
-          <table>
-            <thead>
-              <tr>
-                <th className="column-icon">Status</th>
-                <th>Ticket Id</th>
-                <th>Subject</th>
-                <th className="column-icon">Priority</th>
-                <th className="column-button hidden-xs">Department</th>
-                <th className="hidden-xs">Device</th>
-                <th className="hidden-xs hidden-sm">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-        );
-      }
     }
 
     if (!ticket) {

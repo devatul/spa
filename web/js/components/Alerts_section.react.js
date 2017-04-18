@@ -479,35 +479,33 @@ module.exports = React.createClass({
           <Preloader />
         </div>
       );
+    } else if (0 == totalItems) {
+      content = (
+        <div className="empty-table">
+          <i className="icon nb-thick-circle x-large grey-text"></i>
+          <h1 className="grey-text">There are no Active alerts right now.</h1>
+        </div>
+        );
     } else {
-      if (0 == totalItems) {
-        content = (
-          <div className="empty-table">
-            <i className="icon nb-thick-circle x-large grey-text"></i>
-            <h1 className="grey-text">There are no Active alerts right now.</h1>
-          </div>
+      content = (
+        <table>
+          <thead>
+            <tr>
+              <th className="column-icon">Severity</th>
+              <th>Description</th>
+              <th>Device</th>
+              <th className="hidden-xs hidden-sm">Integration</th>
+              <th className="hidden-xs hidden-sm">Started</th>
+              <th className="hidden-xs hidden-sm">Resolved</th>
+              <th className="column-button hidden-xs">Notifications</th>
+              <th className="column-button">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
         );
-      } else {
-        content = (
-          <table>
-            <thead>
-              <tr>
-                <th className="column-icon">Severity</th>
-                <th>Description</th>
-                <th>Device</th>
-                <th className="hidden-xs hidden-sm">Integration</th>
-                <th className="hidden-xs hidden-sm">Started</th>
-                <th className="hidden-xs hidden-sm">Resolved</th>
-                <th className="column-button hidden-xs">Notifications</th>
-                <th className="column-button">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-        );
-      }
     }
 
     if (!alerts) {
@@ -556,35 +554,33 @@ module.exports = React.createClass({
           <Preloader />
         </div>
       );
+    } else if (0 == totalHistoryItems) {
+      hcontent = (
+        <div className="empty-table">
+          <i className="icon nb-thick-circle x-large grey-text"></i>
+          <h1 className="grey-text">There are no History alerts yet.</h1>
+        </div>
+        );
     } else {
-      if (0 == totalHistoryItems) {
-        hcontent = (
-          <div className="empty-table">
-            <i className="icon nb-thick-circle x-large grey-text"></i>
-            <h1 className="grey-text">There are no History alerts yet.</h1>
-          </div>
+      hcontent = (
+        <table>
+          <thead>
+            <tr>
+              <th className="column-icon">Severity</th>
+              <th>Description</th>
+              <th>Device</th>
+              <th className="hidden-xs hidden-sm">Integration</th>
+              <th className="hidden-xs hidden-sm">Started on</th>
+              <th className="hidden-xs hidden-sm">Resolved on</th>
+              <th className="column-button hidden-xs">Notifications</th>
+              <th className="column-button">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {historyRows}
+          </tbody>
+        </table>
         );
-      } else {
-        hcontent = (
-          <table>
-            <thead>
-              <tr>
-                <th className="column-icon">Severity</th>
-                <th>Description</th>
-                <th>Device</th>
-                <th className="hidden-xs hidden-sm">Integration</th>
-                <th className="hidden-xs hidden-sm">Started on</th>
-                <th className="hidden-xs hidden-sm">Resolved on</th>
-                <th className="column-button hidden-xs">Notifications</th>
-                <th className="column-button">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {historyRows}
-            </tbody>
-          </table>
-        );
-      }
     }
 
     if (!historyAlerts) {
@@ -626,12 +622,12 @@ module.exports = React.createClass({
         <div>
           <ul className="nav nav-tabs section-tabs">
             <li role="presentation" className={'#activeAlerts' == hash || '' == hash ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#activeAlerts" onClick={function () {_SELF._updatePage('#activeAlerts', 1);}}>
+              <a className="grey-color" data-toggle="tab" href="#activeAlerts" onClick={function () { _SELF._updatePage('#activeAlerts', 1); }}>
                 Active alerts
               </a>
             </li>
             <li role="presentation" className={'#historyAlerts' == hash ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#historyAlerts" onClick={function () {_SELF._updatePage('#historyAlerts', 1);}}>
+              <a className="grey-color" data-toggle="tab" href="#historyAlerts" onClick={function () { _SELF._updatePage('#historyAlerts', 1); }}>
                 History alerts
               </a>
             </li>

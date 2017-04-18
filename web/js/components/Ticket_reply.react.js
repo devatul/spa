@@ -4,7 +4,7 @@ var openAttachment = require('../actions/RequestActions').openAttachment;
 
 module.exports = React.createClass({
   _openAttachment: function (ticketId, attachmentId, attachmentName) {
-    openAttachment (ticketId, attachmentId, attachmentName);
+    openAttachment(ticketId, attachmentId, attachmentName);
   },
 
   render: function () {

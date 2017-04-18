@@ -12,10 +12,10 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.modalType !== this.state.modalType) {
-      this.setState({ modalType: nextProps.modalType });
+      this.setState({modalType: nextProps.modalType});
     }
     if ('' != nextProps.modalType) {
-      this.setState({ showModal: true });
+      this.setState({showModal: true});
     }
   },
 

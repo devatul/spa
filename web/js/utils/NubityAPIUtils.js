@@ -47,7 +47,7 @@ module.exports = {
     var code = JSON.parse(res.status);
     return new Promise(function (resolve, reject) {
       if (401 === code && _SELF.hasToRefresh()) {
-        setTimeout( function () {
+        setTimeout(function () {
           if (!_SELF.isTokenValidating) {
             _SELF.isTokenValidating = true;
             _SELF.refreshToken().then(function (msg) {
@@ -62,7 +62,7 @@ module.exports = {
               }
             }, 100);
           }
-        },0);
+        }, 0);
       } else if (300 <= code && 400 > code || 401 === code) {
         _SELF.saveURI();
         routes.redirectLogin();
@@ -206,7 +206,7 @@ module.exports = {
   },
 
   setUserData: function (text) {
-    localStorage.setItem('nubity-user',JSON.stringify(text));
+    localStorage.setItem('nubity-user', JSON.stringify(text));
   },
 
   getUser: function () {
@@ -267,20 +267,20 @@ module.exports = {
     var company = getUserData('company');
     var token = this.getToken();
     request
-    .get('/company/' + company)
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getCompanyInfo();
-        } else {
-          showCompany(text);
-          this.getUser();
-        }
+      .get('/company/' + company)
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getCompanyInfo();
+          } else {
+            showCompany(text);
+            this.getUser();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getDashboardSlots: function (id) {
@@ -288,38 +288,38 @@ module.exports = {
     var token   = this.getToken();
     var user    = getUserData('user');
     request
-    .get('/slot' )
-    .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getDashboard();
-        } else {
-          showDashboard(text);
-        }
+      .get('/slot')
+      .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getDashboard();
+          } else {
+            showDashboard(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   removeDashboard: function (dashboardId) {
     var token   = this.getToken();
 
     request
-    .del('/dashboard/' + dashboardId + '.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.removeDashboard(dashboardId);
-        } else {
-          deletedDashboard();
-        }
+      .del('/dashboard/' + dashboardId + '.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.removeDashboard(dashboardId);
+          } else {
+            deletedDashboard();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getDashboards: function () {
@@ -328,81 +328,81 @@ module.exports = {
     var user    = getUserData('user');
 
     request
-    .get('/company/' + company + '/user/' + user + '/dashboard')
-    .query({scope: 'dashboard'})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getDashboards();
-        } else {
-          showDashboards(text);
-          for (var key in text.member) {
-            if ('dashboard' === text.member[key].scope) {
-              localStorage.setItem('dashboardId', text.member[key].dashboard);
-              this.getDashboardSlots(text.member[key].dashboard);
+      .get('/company/' + company + '/user/' + user + '/dashboard')
+      .query({scope: 'dashboard'})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getDashboards();
+          } else {
+            showDashboards(text);
+            for (var key in text.member) {
+              if ('dashboard' === text.member[key].scope) {
+                localStorage.setItem('dashboardId', text.member[key].dashboard);
+                this.getDashboardSlots(text.member[key].dashboard);
+              }
             }
           }
-        }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getAvailableGraphTypes: function (id) {
     var token   = this.getToken();
 
     request
-    .get('/instance/' + id + '/graph.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getDashboard();
-        } else {
-          showAvailableGraphTypes(text);
-        }
+      .get('/instance/' + id + '/graph.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getDashboard();
+          } else {
+            showAvailableGraphTypes(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   createGraph: function (widget, instance, chart, dashboardId, position) {
     var token   = this.getToken();
     request
-    .post('/slot.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: 'TODAY'})
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.createGraph(widget, instance, chart, dashboardId, position);
-        } else {
-          this.getDashboards();
-        }
+      .post('/slot.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: 'TODAY'})
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.createGraph(widget, instance, chart, dashboardId, position);
+          } else {
+            this.getDashboards();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   deleteSlot: function (slot) {
     var token   = this.getToken();
     request
-    .del('/slot/' + slot + '.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (err, res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.deleteSlot(slot);
-        } else {
-          this.getDashboards();
-          this.getCustomDashboards();
-        }
+      .del('/slot/' + slot + '.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (err, res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.deleteSlot(slot);
+          } else {
+            this.getDashboards();
+            this.getCustomDashboards();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getInfrastructureOverview: function (page) {
@@ -410,37 +410,37 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get('/company/' + company + '/instances')
-      .query({page: page, include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructureOverview(page);
-          } else {
-            showInfrastructureOverview(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({page: page, include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructureOverview(page);
+            } else {
+              showInfrastructureOverview(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
 
     } else {
       request
-      .get('/company/' + company + '/instances')
-      .query({include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructureOverview(page);
-          } else {
-            showInfrastructureOverview(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructureOverview(page);
+            } else {
+              showInfrastructureOverview(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     }
   },
 
@@ -449,37 +449,37 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get('/company/' + company + '/instances')
-      .query({provider_classification: 'public', page: page, include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructurePublicCloud();
-          } else {
-            showInfrastructurePublicCloud(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({provider_classification: 'public', page: page, include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructurePublicCloud();
+            } else {
+              showInfrastructurePublicCloud(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
 
     } else {
       request
-      .get('/company/' + company + '/instances')
-      .query({provider_classification: 'public', include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructurePublicCloud();
-          } else {
-            showInfrastructurePublicCloud(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({provider_classification: 'public', include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructurePublicCloud();
+            } else {
+              showInfrastructurePublicCloud(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     }
   },
 
@@ -488,37 +488,37 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get('/company/' + company + '/instances')
-      .query({provider_classification: 'private', page: page, include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructurePrivateCloud();
-          } else {
-            showInfrastructurePrivateCloud(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({provider_classification: 'private', page: page, include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructurePrivateCloud();
+            } else {
+              showInfrastructurePrivateCloud(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
 
     } else {
       request
-      .get('/company/' + company + '/instances')
-      .query({provider_classification: 'private', include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructurePrivateCloud();
-          } else {
-            showInfrastructurePrivateCloud(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({provider_classification: 'private', include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructurePrivateCloud();
+            } else {
+              showInfrastructurePrivateCloud(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     }
   },
 
@@ -527,37 +527,37 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get('/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', page: page, include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructureOnPremise(page);
-          } else {
-            showInfrastructureOnPremise(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({provider_classification: 'on-premise', page: page, include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructureOnPremise(page);
+            } else {
+              showInfrastructureOnPremise(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
 
     } else {
       request
-      .get('/company/' + company + '/instances')
-      .query({provider_classification: 'on-premise', include_health: true, include_products: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getInfrastructureOnPremise(page);
-          } else {
-            showInfrastructureOnPremise(text);
-          }
+        .get('/company/' + company + '/instances')
+        .query({provider_classification: 'on-premise', include_health: true, include_products: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getInfrastructureOnPremise(page);
+            } else {
+              showInfrastructureOnPremise(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     }
   },
 
@@ -566,35 +566,35 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get('/company/' + company + '/alerts')
-      .query({page: page})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getAlerts(page);
-          } else {
-            showAlerts(text);
-          }
+        .get('/company/' + company + '/alerts')
+        .query({page: page})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getAlerts(page);
+            } else {
+              showAlerts(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     } else {
       request
-      .get('/company/' + company + '/alerts')
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getAlerts(page);
-          } else {
-            showAlerts(text);
-          }
+        .get('/company/' + company + '/alerts')
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getAlerts(page);
+            } else {
+              showAlerts(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     }
   },
 
@@ -622,36 +622,36 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get('/company/' + company + '/alerts')
-      .query({page: page, include_history: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getHistoryAlerts(page);
-          } else {
-            showHistoryAlerts(text);
-          }
+        .get('/company/' + company + '/alerts')
+        .query({page: page, include_history: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getHistoryAlerts(page);
+            } else {
+              showHistoryAlerts(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     } else {
       request
-      .get('/company/' + company + '/alerts')
-      .query({include_history: true})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getHistoryAlerts(page);
-          } else {
-            showHistoryAlerts(text);
-          }
+        .get('/company/' + company + '/alerts')
+        .query({include_history: true})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getHistoryAlerts(page);
+            } else {
+              showHistoryAlerts(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     }
   },
 
@@ -660,19 +660,19 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put('/company/' + company + '/alerts/' + alertId + '/acknowledge.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (err, res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.acknowledge();
-        } else {
-          this.getAlerts();
-          this.getDashboardAlerts();
-        }
+      .put('/company/' + company + '/alerts/' + alertId + '/acknowledge.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (err, res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.acknowledge();
+          } else {
+            this.getAlerts();
+            this.getDashboardAlerts();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
 
   },
 
@@ -680,39 +680,39 @@ module.exports = {
     var company = getUserData('company');
     var token   = this.getToken();
     request
-    .get('/company/' + company + '/alerts')
-    .query({limit: 5})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getDashboardAlerts();
-        } else {
-          showDashboardAlerts(text);
-        }
+      .get('/company/' + company + '/alerts')
+      .query({limit: 5})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getDashboardAlerts();
+          } else {
+            showDashboardAlerts(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getProviders: function () {
     var token = this.getToken();
 
     request
-    .get('/provider.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getProviders();
-        } else {
-          showProviders(text);
-        }
+      .get('/provider.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getProviders();
+          } else {
+            showProviders(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   createDasboard: function (widget, server, chart) {
@@ -721,39 +721,39 @@ module.exports = {
     var user    = getUserData('user');
 
     request
-    .post('/dashboard') //Changed to createDasboard
-    .accept('application/json')
-    .set('Authorization', token)
-    .send({user_id: user, company_id: company, scope: 'dashboard'})
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getDashboards();
-        } else {
-          showDashboards(text);
-        }
+      .post('/dashboard') // Changed to createDasboard
+      .accept('application/json')
+      .set('Authorization', token)
+      .send({user_id: user, company_id: company, scope: 'dashboard'})
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getDashboards();
+          } else {
+            showDashboards(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   search: function () {
     var company = getUserData('company');
     var token = this.getToken();
     request
-    .get('/company/' + company + '/search.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.search();
-        } else {
-          search(text);
-        }
+      .get('/company/' + company + '/search.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.search();
+          } else {
+            search(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getNinja: function (page) {
@@ -761,35 +761,35 @@ module.exports = {
     var token = this.getToken();
     if (0 != page) {
       request
-      .get('/company/' + company + '/ticket')
-      .query({page: page})
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getNinja(page);
-          } else {
-            showNinja(text);
-          }
+        .get('/company/' + company + '/ticket')
+        .query({page: page})
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getNinja(page);
+            } else {
+              showNinja(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     } else {
       request
-      .get('/company/' + company + '/ticket')
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getNinja(page);
-          } else {
-            showNinja(text);
-          }
+        .get('/company/' + company + '/ticket')
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          this.validateToken(res).then(function (status) {
+            if (!status) {
+              this.getNinja(page);
+            } else {
+              showNinja(text);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
     }
   },
 
@@ -808,15 +808,15 @@ module.exports = {
     req.field('hostname', ticket.hostname);
     req.set('Authorization', token);
     req.set('Accept', 'aplication/json')
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.createTicket(ticket);
-        } else {
-          routes.redirectNinja();
-        }
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.createTicket(ticket);
+          } else {
+            routes.redirectNinja();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   replyTicket: function (id, content, files) {
@@ -830,15 +830,15 @@ module.exports = {
     req.field('content', content);
     req.set('Accept', 'aplication/json');
     req.set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.replyTicket(id, content);
-        } else {
-          this.getTicket(id);
-        }
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.replyTicket(id, content);
+          } else {
+            this.getTicket(id);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   closeTicket: function (id) {
@@ -846,123 +846,123 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put('/company/' + company + '/ticket/' + id + '/close.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.closeTicket(id);
-        } else {
-          routes.redirectNinja();
-        }
+      .put('/company/' + company + '/ticket/' + id + '/close.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.closeTicket(id);
+          } else {
+            routes.redirectNinja();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getTicket: function (ticketId) {
     var company = getUserData('company');
     var token   = this.getToken();
     request
-    .get('/company/' + company + '/ticket/' + ticketId)
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getTicket(ticketId);
-        } else {
-          showTicket(text);
-        }
+      .get('/company/' + company + '/ticket/' + ticketId)
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getTicket(ticketId);
+          } else {
+            showTicket(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getMonitored: function (instanceId) {
     var token   = this.getToken();
 
     request
-    .post('/order.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .send({instance_id: instanceId, product_type_id: 2})
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getMonitored(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
+      .post('/order.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .send({instance_id: instanceId, product_type_id: 2})
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getMonitored(instanceId);
+          } else {
+            this.getInfrastructureOverview();
+            this.getInfrastructureOnPremise();
+            this.getInfrastructurePrivateCloud();
+            this.getInfrastructurePublicCloud();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getManaged: function (instanceId) {
     var token   = this.getToken();
 
     request
-    .post('/order.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .send({instance_id: instanceId, product_type_id: 1})
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getManaged(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
+      .post('/order.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .send({instance_id: instanceId, product_type_id: 1})
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getManaged(instanceId);
+          } else {
+            this.getInfrastructureOverview();
+            this.getInfrastructureOnPremise();
+            this.getInfrastructurePrivateCloud();
+            this.getInfrastructurePublicCloud();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   stopOrder: function (orderId) {
     var token   = this.getToken();
 
     request
-    .del('/order/' + orderId + '.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.stopOrder(orderId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
+      .del('/order/' + orderId + '.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.stopOrder(orderId);
+          } else {
+            this.getInfrastructureOverview();
+            this.getInfrastructureOnPremise();
+            this.getInfrastructurePrivateCloud();
+            this.getInfrastructurePublicCloud();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   stopInstance: function (instanceId) {
     var company = getUserData('company');
     var token   = this.getToken();
     request
-    .put('/company/' + company + '/instance/' + instanceId + '/stop.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.startInstance(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
+      .put('/company/' + company + '/instance/' + instanceId + '/stop.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.startInstance(instanceId);
+          } else {
+            this.getInfrastructureOverview();
+            this.getInfrastructureOnPremise();
+            this.getInfrastructurePrivateCloud();
+            this.getInfrastructurePublicCloud();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   startInstance: function (instanceId) {
@@ -970,21 +970,21 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put('/company/' + company + '/instance/' + instanceId + '/start.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.restartInstance(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
+      .put('/company/' + company + '/instance/' + instanceId + '/start.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.restartInstance(instanceId);
+          } else {
+            this.getInfrastructureOverview();
+            this.getInfrastructureOnPremise();
+            this.getInfrastructurePrivateCloud();
+            this.getInfrastructurePublicCloud();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   restartInstance: function (instanceId) {
@@ -992,42 +992,42 @@ module.exports = {
     var token   = this.getToken();
 
     request
-    .put('/company/' + company + '/instance/' + instanceId + '/reboot.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.stopInstance(instanceId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
+      .put('/company/' + company + '/instance/' + instanceId + '/reboot.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.stopInstance(instanceId);
+          } else {
+            this.getInfrastructureOverview();
+            this.getInfrastructureOnPremise();
+            this.getInfrastructurePrivateCloud();
+            this.getInfrastructurePublicCloud();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   deleteOrderCancelation: function (orderId) {
     var token   = this.getToken();
 
     request
-    .del('/order/' + orderId + '/cancellation-request.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.deleteOrderCancelation(orderId);
-        } else {
-          this.getInfrastructureOverview();
-          this.getInfrastructureOnPremise();
-          this.getInfrastructurePrivateCloud();
-          this.getInfrastructurePublicCloud();
-        }
+      .del('/order/' + orderId + '/cancellation-request.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.deleteOrderCancelation(orderId);
+          } else {
+            this.getInfrastructureOverview();
+            this.getInfrastructureOnPremise();
+            this.getInfrastructurePrivateCloud();
+            this.getInfrastructurePublicCloud();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   submitCloudData: function (cloudData) {
@@ -1063,23 +1063,23 @@ module.exports = {
     var token   = this.getToken();
     var company = getUserData('company');
     request
-    .get('/company/' + company + '/instance/' + id + '.json')
-    .query({include_products: true})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getInstanceForMonitoring(id);
-        } else {
-          var url = window.location.href;
-          if (-1 != url.indexOf('monitoring')) {
-            showInstanceForMonitoring(text);
+      .get('/company/' + company + '/instance/' + id + '.json')
+      .query({include_products: true})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInstanceForMonitoring(id);
+          } else {
+            var url = window.location.href;
+            if (-1 != url.indexOf('monitoring')) {
+              showInstanceForMonitoring(text);
+            }
           }
-        }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getProviderCredential: function (tab, page, limit) {
@@ -1087,95 +1087,95 @@ module.exports = {
     var token = this.getToken();
 
     request
-    .get('/company/' + company + '/cloud.json')
-    .query({page: page, limit: limit})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getProviderCredential();
-        } else {
-          showProviderCredential(text, tab);
-        }
+      .get('/company/' + company + '/cloud.json')
+      .query({page: page, limit: limit})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getProviderCredential();
+          } else {
+            showProviderCredential(text, tab);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getInstanceConfiguration: function (id) {
     var token = this.getToken();
     request
-    .get('/instance/' + id + '/monitoring/configuration.json')
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getInstanceConfiguration(id);
-        } else {
-          showInstanceConfiguration(text);
-        }
+      .get('/instance/' + id + '/monitoring/configuration.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getInstanceConfiguration(id);
+          } else {
+            showInstanceConfiguration(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   configureTemplate: function (id, macros, templateId) {
     var token   = this.getToken();
 
     request
-    .put('/instance/' + id + '/monitoring/configure-template.json')
-    .accept('application/json')
-    .send({user_macros: macros, template_id: templateId})
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.configureTemplate(id, macros);
-        } else {
-          this.getInstanceConfiguration(id);
-        }
+      .put('/instance/' + id + '/monitoring/configure-template.json')
+      .accept('application/json')
+      .send({user_macros: macros, template_id: templateId})
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.configureTemplate(id, macros);
+          } else {
+            this.getInstanceConfiguration(id);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   uninstallPlugin: function (idPlugin, id) {
     var token   = this.getToken();
 
     request
-    .del('/instance/' + id + '/monitoring/uninstall-template.json')
-    .send({template_id: idPlugin})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.uninstallPlugin(idPlugin, id);
-        } else {
-          this.getInstanceConfiguration(id);
-        }
+      .del('/instance/' + id + '/monitoring/uninstall-template.json')
+      .send({template_id: idPlugin})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.uninstallPlugin(idPlugin, id);
+          } else {
+            this.getInstanceConfiguration(id);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   installPlugin: function (idPlugin, id) {
     var token   = this.getToken();
 
     request
-    .post('/instance/' + id + '/monitoring/install-template.json')
-    .send({template_id: idPlugin})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.installPlugin(idPlugin, id);
-        } else {
-          this.getInstanceConfiguration(id);
-        }
+      .post('/instance/' + id + '/monitoring/install-template.json')
+      .send({template_id: idPlugin})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.installPlugin(idPlugin, id);
+          } else {
+            this.getInstanceConfiguration(id);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   createCustomDashboard: function (title, icon) {
@@ -1184,19 +1184,19 @@ module.exports = {
     var user    = getUserData('user');
 
     request
-    .post('/dashboard')
-    .accept('application/json')
-    .set('Authorization', token)
-    .send({user_id: user, company_id: company, scope: 'performance', name: title})
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.createCustomDashboard(title, icon);
-        } else {
-          this.getCustomDashboards();
-        }
+      .post('/dashboard')
+      .accept('application/json')
+      .set('Authorization', token)
+      .send({user_id: user, company_id: company, scope: 'performance', name: title})
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.createCustomDashboard(title, icon);
+          } else {
+            this.getCustomDashboards();
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getCustomDashboards: function () {
@@ -1205,20 +1205,20 @@ module.exports = {
     var user    = getUserData('user');
 
     request
-    .get('/company/' + company + '/user/' + user + '/dashboard')
-    .query({scope: 'performance'})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getCustomDashboards();
-        } else {
-          showCustomDashboards(text);
-        }
+      .get('/company/' + company + '/user/' + user + '/dashboard')
+      .query({scope: 'performance'})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getCustomDashboards();
+          } else {
+            showCustomDashboards(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   getCustomSlots: function (id) {
@@ -1227,20 +1227,20 @@ module.exports = {
     var user    = getUserData('user');
 
     request
-    .get('/slot.json')
-    .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
-    .accept('application/json')
-    .set('Authorization', token)
-    .end(function (res) {
-      var text = JSON.parse(res.text);
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.getCustomSlots(id);
-        } else {
-          showCustomSlots(text);
-        }
+      .get('/slot.json')
+      .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getCustomSlots(id);
+          } else {
+            showCustomSlots(text);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   updateUserData: function (userData) {
@@ -1250,46 +1250,46 @@ module.exports = {
 
     return new Promise(function (resolve, reject) {
       request
-      .put('/user/' + user + '.json')
-      .type('application/json')
-      .send(userData)
-      .set('Authorization', token)
-      .end(function (res) {
-        var code = JSON.parse(res.status);
-        var text = JSON.parse(res.text);
-        if (200 <= code && 300 > code) {
-          SELF.setUserData(text);
-          resolve('Data updated successfully');
-        } else if (401 === code) {
-          SELF.validateToken(res).then(function (status) {
-            if (!status) {
-              SELF.updateUserData(userData);
-            }
-          }.bind(SELF));
-        } else {
-          reject(text);
-        }
-      }.bind(SELF));
+        .put('/user/' + user + '.json')
+        .type('application/json')
+        .send(userData)
+        .set('Authorization', token)
+        .end(function (res) {
+          var code = JSON.parse(res.status);
+          var text = JSON.parse(res.text);
+          if (200 <= code && 300 > code) {
+            SELF.setUserData(text);
+            resolve('Data updated successfully');
+          } else if (401 === code) {
+            SELF.validateToken(res).then(function (status) {
+              if (!status) {
+                SELF.updateUserData(userData);
+              }
+            }.bind(SELF));
+          } else {
+            reject(text);
+          }
+        }.bind(SELF));
     });
   },
 
   modifyingTrigger: function (instanceId, triggerId, status) {
     var token   = this.getToken();
     request
-    .put('/instance/' + instanceId + '/monitoring/trigger-status.json')
-    .accept('application/json')
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .set('Authorization', token)
-    .send({trigger_id: triggerId, status: status})
-    .end(function (res) {
-      this.validateToken(res).then(function (status) {
-        if (!status) {
-          this.modifyingTrigger(instanceId, triggerId, status);
-        } else {
-          this.getInstanceConfiguration(instanceId);
-        }
+      .put('/instance/' + instanceId + '/monitoring/trigger-status.json')
+      .accept('application/json')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', token)
+      .send({trigger_id: triggerId, status: status})
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.modifyingTrigger(instanceId, triggerId, status);
+          } else {
+            this.getInstanceConfiguration(instanceId);
+          }
+        }.bind(this));
       }.bind(this));
-    }.bind(this));
   },
 
   openAttachment: function (ticketId, attachmentId, attachmentName) {
@@ -1311,26 +1311,26 @@ module.exports = {
     var SELF = this;
     return new Promise(function (resolve, reject) {
       request
-      .put('/company/' + company + '/notification-severity-level.json')
-      .type('application/json')
-      .send({user_id: user, company_id: company, severity: severity})
-      .set('Authorization', token)
-      .end(function (res) {
-        var code = JSON.parse(res.status);
-        if (200 <= code && 300 > code) {
-          SELF.getUser().then(function () {
-            resolve('Severity updated successfully');
-          });
-        } else if (401 === code) {
-          SELF.validateToken(res).then(function (status) {
-            if (!status) {
-              SELF.updateNotificationLevel(severity);
-            }
-          }.bind(SELF));
-        } else {
-          reject('Error updating severity');
-        }
-      }.bind(SELF));
+        .put('/company/' + company + '/notification-severity-level.json')
+        .type('application/json')
+        .send({user_id: user, company_id: company, severity: severity})
+        .set('Authorization', token)
+        .end(function (res) {
+          var code = JSON.parse(res.status);
+          if (200 <= code && 300 > code) {
+            SELF.getUser().then(function () {
+              resolve('Severity updated successfully');
+            });
+          } else if (401 === code) {
+            SELF.validateToken(res).then(function (status) {
+              if (!status) {
+                SELF.updateNotificationLevel(severity);
+              }
+            }.bind(SELF));
+          } else {
+            reject('Error updating severity');
+          }
+        }.bind(SELF));
     });
   },
 
@@ -1341,26 +1341,26 @@ module.exports = {
 
     return new Promise(function (resolve, reject) {
       request
-      .put('/company/' + company + '.json')
-      .type('application/json')
-      .send(companyInfo)
-      .set('Authorization', token)
-      .end(function (res) {
-        var code = JSON.parse(res.status);
-        var text = JSON.parse(res.text);
-        if (200 === code) {
-          showCompany(text);
-          resolve('Company info updated successfully');
-        } else if (401 === code) {
-          SELF.validateToken(res).then(function (status) {
-            if (!status) {
-              SELF.updateCompanyInfo(companyInfo);
-            }
-          }.bind(SELF));
-        } else {
-          reject(text);
-        }
-      }.bind(SELF));
+        .put('/company/' + company + '.json')
+        .type('application/json')
+        .send(companyInfo)
+        .set('Authorization', token)
+        .end(function (res) {
+          var code = JSON.parse(res.status);
+          var text = JSON.parse(res.text);
+          if (200 === code) {
+            showCompany(text);
+            resolve('Company info updated successfully');
+          } else if (401 === code) {
+            SELF.validateToken(res).then(function (status) {
+              if (!status) {
+                SELF.updateCompanyInfo(companyInfo);
+              }
+            }.bind(SELF));
+          } else {
+            reject(text);
+          }
+        }.bind(SELF));
     });
   },
 
@@ -1451,20 +1451,20 @@ module.exports = {
 
     return new Promise(function (resolve) {
       request
-      .put('/company/' + company + '/cloud/' + credetialId + '.json')
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        _SELF.validateToken(res).then(function (status) {
-          if (!status) {
-            _SELF.updateNewCredentials(credetialId, newCredential);
-          } else {
-            showCredentialDetails(text);
-            resolve();
-          }
+        .put('/company/' + company + '/cloud/' + credetialId + '.json')
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (res) {
+          var text = JSON.parse(res.text);
+          _SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              _SELF.updateNewCredentials(credetialId, newCredential);
+            } else {
+              showCredentialDetails(text);
+              resolve();
+            }
+          }.bind(_SELF));
         }.bind(_SELF));
-      }.bind(_SELF));
     });
   },
 

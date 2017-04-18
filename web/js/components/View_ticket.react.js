@@ -113,7 +113,7 @@ module.exports = React.createClass({
   },
 
   _openAttachment: function (ticketId, attachmentId, attachmentName) {
-    openAttachment (ticketId, attachmentId, attachmentName);
+    openAttachment(ticketId, attachmentId, attachmentName);
   },
 
   render: function () {
@@ -122,13 +122,13 @@ module.exports = React.createClass({
     var replies;
     var closeTicket   = '';
 
-    //Form
+    // Form
     if (NinjaStore.isViewingTicket()) {
       ticket = this.state.ticket;
       subject = ticket.subject;
     }
 
-    //Replies
+    // Replies
     var message = '';
     var attachments = [];
     if (undefined === this.state.ticket.replies || 1 > this.state.ticket.replies.length) {

@@ -60,7 +60,7 @@ module.exports = React.createClass({
         );
       }
     }
-    this.setState({ allGraphs: allGraphs });
+    this.setState({allGraphs: allGraphs});
   },
 
   componentWillReceiveProps: function (nextProps) {
@@ -96,7 +96,7 @@ module.exports = React.createClass({
           </div>
         );
       }
-      this.setState({ allGraphs: allGraphs });
+      this.setState({allGraphs: allGraphs});
     } else {
       allGraphs = [];
       for (i = 0 ; 9 > i ; i++) {
@@ -108,7 +108,7 @@ module.exports = React.createClass({
           </div>
         );
       }
-      this.setState({ allGraphs: allGraphs });
+      this.setState({allGraphs: allGraphs});
     }
   },
 
