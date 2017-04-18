@@ -75,12 +75,10 @@ module.exports = React.createClass({
     var currentPosition = parseInt(view.css('left'));
     if ('leftArrow' === arrow) {
       if (0 > currentPosition) {
-        view.stop (false,true).animate ({left: '+=' + move}, { duration: 400});
+        view.stop(false, true).animate({left: '+=' + move}, {duration: 400});
       }
-    } else {
-      if (currentPosition >= sliderLimit) {
-        view.stop (false,true).animate ({left: '-=' + move}, { duration: 400});
-      }
+    } else if (currentPosition >= sliderLimit) {
+      view.stop(false, true).animate({left: '-=' + move}, {duration: 400});
     }
   },
 
@@ -199,7 +197,7 @@ module.exports = React.createClass({
             <div className="btn btn-default image-preview-input">
               <span className="glyphicon glyphicon-folder-open"></span>
               <span className="image-preview-input-title">Upload Certificate</span>
-              <input type="file" name="certificate" id="publicCertificate" onChange={function () {_SELF._onFileChange();}} />
+              <input type="file" name="certificate" id="publicCertificate" onChange={function () { _SELF._onFileChange(); }} />
             </div>
           </span>
           <span className="form-control image-preview-filename hidden"></span>
@@ -255,14 +253,14 @@ module.exports = React.createClass({
     _.map(providers, function (provider, i) {
       if (null != provider.logo) {
         rows.push(
-          <div id={'pubPro_' + i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_' + i);}}>
+          <div id={'pubPro_' + i} className="col-md-2 public-cloud-provider clouds-icons-button" onClick={function () { _SELF._explore2step(provider, 'pubPro_' + i); }}>
             <img src={provider.logo.public_path} className="logo-max-size m-t-15" />
             <p className="aws-text">{provider.name}</p>
           </div>
         );
       } else {
         rows.push(
-          <div id={'pubPro_' + i} className="public-cloud-provider clouds-icons-button" onClick={function () {_SELF._explore2step(provider, 'pubPro_' + i);}}>
+          <div id={'pubPro_' + i} className="public-cloud-provider clouds-icons-button" onClick={function () { _SELF._explore2step(provider, 'pubPro_' + i); }}>
             <div className="clouds-icons aws"></div>
             <p className="aws-text">{provider.name}</p>
           </div>
@@ -320,9 +318,9 @@ module.exports = React.createClass({
               <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
             </td>
             <td className="icons">
-              <div className=""><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data);}}>Edit</span></div>
+              <div className=""><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () { _SELF._editProviderCredential(data); }}>Edit</span></div>
               <div className="hidden"><span className="action-button add-cloud-btn-disabled">Disable</span></div>
-              <div className="hidden"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential);}}>Delete</span></div>
+              <div className="hidden"><span className="action-button add-cloud-btn-deleted" onClick={function () { _SELF._deleteCredential(data.provider_credential); }}>Delete</span></div>
             </td>
           </tr>
         );
@@ -345,7 +343,7 @@ module.exports = React.createClass({
         </div>
         <div className="row hidden" id="onBoarding1StepContent">
           <div className="col-lg-8 col-lg-offset-2">
-            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('leftArrow');}}>
+            <div className="col-lg-1 scroll-step1" onClick={function () { _SELF._scroll('leftArrow'); }}>
               <i className="fa fa-chevron-left" aria-hidden="true"></i>
             </div>
             <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
@@ -353,7 +351,7 @@ module.exports = React.createClass({
                 {rows}
               </div>
             </div>
-            <div className="col-lg-1 scroll-step1" onClick={function () {_SELF._scroll('rightArrow');}}>
+            <div className="col-lg-1 scroll-step1" onClick={function () { _SELF._scroll('rightArrow'); }}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </div>
           </div>
@@ -366,7 +364,7 @@ module.exports = React.createClass({
           <form className="public-cloud-form col-lg-offset-1 col-lg-5" method="post" encType="multipart/form-data">
             <div style={{paddingTop: '10px'}}>
               {this._getCloudInputField()}
-              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () {_SELF._submitData();}}>Save</button>
+              <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () { _SELF._submitData(); }}>Save</button>
               <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
             </div>
           </form>
@@ -420,7 +418,7 @@ module.exports = React.createClass({
             open={this.state.open}
             credentialDetails={this.state.credentialDetails}
             credetialInfo={this.state.credetialInfo}
-            updateCredentials={function (credetialId, newCredential) {return updateNewCredentials(credetialId, newCredential);}}
+            updateCredentials={function (credetialId, newCredential) { return updateNewCredentials(credetialId, newCredential); }}
             refreshTable={function () {
               _SELF.setState({open: false});
               getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);

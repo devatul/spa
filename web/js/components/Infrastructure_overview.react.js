@@ -195,14 +195,12 @@ module.exports = React.createClass({
           } else {
             state = 'icon nb-servers grey-text icon-state';
           }
+        } else if ('running' == overview[key].status) {
+          state = 'icon nb-eye green-text icon-state';
+        } else if ('stopped' == overview[key].status) {
+          state = 'icon nb-eye red-text icon-state';
         } else {
-          if ('running' == overview[key].status) {
-            state = 'icon nb-eye green-text icon-state';
-          } else if ('stopped' == overview[key].status) {
-            state = 'icon nb-eye red-text icon-state';
-          } else {
-            state = 'icon nb-eye grey-text icon-state';
-          }
+          state = 'icon nb-eye grey-text icon-state';
         }
 
         tooltip = '';
@@ -420,35 +418,33 @@ module.exports = React.createClass({
           <Preloader />
         </div>
       );
+    } else if (0 == totalItems) {
+      content = (
+        <div className="empty-table">
+          <i className="icon nb-connection x-large grey-text"></i>
+          <h1 className="grey-text">There are no integrations yet.</h1>
+        </div>
+        );
     } else {
-      if (0 == totalItems) {
-        content = (
-          <div className="empty-table">
-            <i className="icon nb-connection x-large grey-text"></i>
-            <h1 className="grey-text">There are no integrations yet.</h1>
-          </div>
+      content = (
+        <table className="overview-table">
+          <thead>
+            <tr>
+              <th className="column-icon">State</th>
+              <th>Description</th>
+              <th className="hidden-xs">Integration</th>
+              <th className="column-button hidden-xs hidden-sm">Actions</th>
+              <th className="hidden-xs hidden-sm">Memory</th>
+              <th className="column-icon">Health</th>
+              <th className="column-button hidden-xs hidden-sm">Monitoring</th>
+              <th className="column-button hidden-xs hidden-sm">Support</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
         );
-      } else {
-        content = (
-          <table className="overview-table">
-            <thead>
-              <tr>
-                <th className="column-icon">State</th>
-                <th>Description</th>
-                <th className="hidden-xs">Integration</th>
-                <th className="column-button hidden-xs hidden-sm">Actions</th>
-                <th className="hidden-xs hidden-sm">Memory</th>
-                <th className="column-icon">Health</th>
-                <th className="column-button hidden-xs hidden-sm">Monitoring</th>
-                <th className="column-button hidden-xs hidden-sm">Support</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-        );
-      }
     }
 
     if (!overview) {

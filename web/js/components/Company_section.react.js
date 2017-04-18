@@ -132,7 +132,7 @@ module.exports = React.createClass({
     var locale = this.state.locales;
 
     var timezones = [];
-    _.map(this.state.timezones,function (timezone, i) {
+    _.map(this.state.timezones, function (timezone, i) {
       timezones.push(<option key={i} value={timezone}>{timezone}</option>);
     });
 

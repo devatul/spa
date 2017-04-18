@@ -332,49 +332,47 @@ module.exports = React.createClass({
 
     if (!mainAlerts) {
       alertTable = <Preloader />;
+    } else if (0 == totalItems) {
+      alertTable = (
+        <div className="alert-table">
+          <div className="margin-sides">
+            <div className="clear"></div>
+            <div className="empty-table">
+              <i className="icon nb-thick-circle x-large grey-text"></i>
+              <h1 className="grey-text">There are no Active alerts right now.</h1>
+            </div>
+          </div>
+        </div>
+        );
     } else {
-      if (0 == totalItems) {
-        alertTable = (
-          <div className="alert-table">
-            <div className="margin-sides">
-              <div className="clear"></div>
-              <div className="empty-table">
-                <i className="icon nb-thick-circle x-large grey-text"></i>
-                <h1 className="grey-text">There are no Active alerts right now.</h1>
-              </div>
-            </div>
+      alertTable = (
+        <div className="alert-table">
+          <div className="margin-sides">
+            <table>
+              <thead>
+                <tr>
+                  <th className="column-icon">Severity</th>
+                  <th>Description</th>
+                  <th>Device</th>
+                  <th className="hidden-xs hidden-sm">Integration</th>
+                  <th className="hidden-xs hidden-sm">Started on</th>
+                  <th className="hidden-xs hidden-sm">Resolved on</th>
+                  <th className="column-button hidden-xs">Notifications</th>
+                  <th className="column-button">Report a problem</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows}
+                <tr>
+                  <td className="centered" colSpan={8}>
+                    {notice}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
         );
-      } else {
-        alertTable = (
-          <div className="alert-table">
-            <div className="margin-sides">
-              <table>
-                <thead>
-                  <tr>
-                    <th className="column-icon">Severity</th>
-                    <th>Description</th>
-                    <th>Device</th>
-                    <th className="hidden-xs hidden-sm">Integration</th>
-                    <th className="hidden-xs hidden-sm">Started on</th>
-                    <th className="hidden-xs hidden-sm">Resolved on</th>
-                    <th className="column-button hidden-xs">Notifications</th>
-                    <th className="column-button">Report a problem</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows}
-                  <tr>
-                    <td className="centered" colSpan={8}>
-                      {notice}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
-      }
     }
 
     if (!mainAlerts) {

@@ -8,23 +8,23 @@ var configureAction = require('../actions/RequestActions').configureTemplate;
 
 module.exports = React.createClass({
   getInitialState: function () {
-    return { showModal: true };
+    return {showModal: true};
   },
 
   componentDidMount: function () {
-    this.setState({ showModal: true });
+    this.setState({showModal: true});
   },
 
   componentWillReceiveProps: function (nextProps) {
-    this.setState({ showModal: true });
+    this.setState({showModal: true});
   },
 
   close: function () {
-    this.setState({ showModal: false });
+    this.setState({showModal: false});
   },
 
   open: function () {
-    this.setState({ showModal: true });
+    this.setState({showModal: true});
   },
 
   _onSubmit: function (e) {
@@ -36,7 +36,7 @@ module.exports = React.createClass({
       newMacros[key] = {value: form.macros[key].value};
     }
     configureAction(this.props.instanceId, newMacros, this.props.templateId);
-    this.setState({ showModal: false });
+    this.setState({showModal: false});
 
   },
 

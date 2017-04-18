@@ -1,4 +1,4 @@
-var NubityAPIUtils = require ('../utils/NubityAPIUtils');
+var NubityAPIUtils = require('../utils/NubityAPIUtils');
 
 module.exports = {
   login: function (user) {

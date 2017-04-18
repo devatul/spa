@@ -17,9 +17,9 @@ module.exports = React.createClass({
 
   switchTrigger: function (trigger) {
     if (trigger.is_enabled) {
-      modifyingTrigger(this.props.idInstance ,trigger.trigger, false);
+      modifyingTrigger(this.props.idInstance, trigger.trigger, false);
     } else {
-      modifyingTrigger(this.props.idInstance ,trigger.trigger, true);
+      modifyingTrigger(this.props.idInstance, trigger.trigger, true);
     }
   },
 

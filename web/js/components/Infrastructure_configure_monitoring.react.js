@@ -123,47 +123,47 @@ module.exports = React.createClass({
         <div className="large-section-tabs">
           <ul className="nav nav-tabs section-tabs">
             <li role="presentation" className={'overview' == section || '' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#overview" onClick={function () {_SELF._updatePage('#overview');}}>
+              <a className="grey-color" data-toggle="tab" href="#overview" onClick={function () { _SELF._updatePage('#overview'); }}>
                 <i className="icon nb-eye small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Overview</span>
               </a>
             </li>
             <li role="presentation" className={'basic-systems' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#basicSystem" onClick={function () {_SELF._updatePage('#basic-systems');}}>
+              <a className="grey-color" data-toggle="tab" href="#basicSystem" onClick={function () { _SELF._updatePage('#basic-systems'); }}>
                 <i className="icon nb-window small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Basic Systems</span>
               </a>
             </li>
             <li role="presentation" className={'web-servers' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#webServer" onClick={function () {_SELF._updatePage('#web-servers');}}>
+              <a className="grey-color" data-toggle="tab" href="#webServer" onClick={function () { _SELF._updatePage('#web-servers'); }}>
                 <i className="icon nb-servers small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Web servers</span>
               </a>
             </li>
             <li role="presentation" className={'app-servers' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#appServer" onClick={function () {_SELF._updatePage('#app-servers');}}>
+              <a className="grey-color" data-toggle="tab" href="#appServer" onClick={function () { _SELF._updatePage('#app-servers'); }}>
                 <i className="icon nb-servers-apps small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> App servers</span>
               </a>
             </li>
             <li role="presentation" className={'databases' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#databases" onClick={function () {_SELF._updatePage('#databases');}}>
+              <a className="grey-color" data-toggle="tab" href="#databases" onClick={function () { _SELF._updatePage('#databases'); }}>
                 <i className="icon nb-databases small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Databases</span>
               </a>
             </li>
             <li role="presentation" className={'caching' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#caching" onClick={function () {_SELF._updatePage('#caching');}}>
+              <a className="grey-color" data-toggle="tab" href="#caching" onClick={function () { _SELF._updatePage('#caching'); }}>
                 <i className="icon nb-code small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Caching</span>
               </a>
             </li>
             <li role="presentation" className={'websites' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#website" onClick={function () {_SELF._updatePage('#websites');}}>
+              <a className="grey-color" data-toggle="tab" href="#website" onClick={function () { _SELF._updatePage('#websites'); }}>
                 <i className="icon nb-code small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Websites</span>
               </a>
             </li>
             <li role="presentation" className={'services' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#service" onClick={function () {_SELF._updatePage('#services');}}>
+              <a className="grey-color" data-toggle="tab" href="#service" onClick={function () { _SELF._updatePage('#services'); }}>
                 <i className="icon nb-code small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Services</span>
               </a>
             </li>
             <li role="presentation" className={'web-apps' == section ? 'active' : ''}>
-              <a className="grey-color" data-toggle="tab" href="#webApp" onClick={function () {_SELF._updatePage('#web-apps');}}>
+              <a className="grey-color" data-toggle="tab" href="#webApp" onClick={function () { _SELF._updatePage('#web-apps'); }}>
                 <i className="icon nb-webapps small" aria-hidden="true"></i><span className="hidden-xs hidden-sm"> Web apps</span>
               </a>
             </li>

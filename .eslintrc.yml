@@ -40,18 +40,57 @@ rules:
     -
       vars: local
       args: none
+  no-self-compare:
+    - error
+  space-unary-ops:
+    - error
+    -
+      words: true
+      nonwords: false
+  space-in-parens:
+    - error
+    - never
+  spaced-comment:
+    - error
+    - always
+  no-tabs:
+    - error
   indent:
     - error
     - 2
-    - SwitchCase: 1
+    -
+      SwitchCase: 1
+      MemberExpression: 1
   linebreak-style:
     - error
     - unix
+  eol-last:
+    - error
+    - always
+  unicode-bom:
+    - error
+    - never
   no-trailing-spaces:
     - error
+  array-bracket-spacing:
+    - error
+    - never
+  object-curly-spacing:
+    - error
+    - never
   key-spacing:
     - error
     - align: value
+  comma-spacing:
+    - error
+  block-spacing:
+    - error
+  computed-property-spacing:
+    - error
+    - never
+  func-call-spacing:
+    - error
+    - never
   no-multi-spaces:
     - error
     - exceptions:
@@ -67,10 +106,10 @@ rules:
     - error
     - single
   comma-dangle:
-    - 2
+    - error
     - always-multiline
   no-multiple-empty-lines:
-    - 2
+    - error
     - max: 2
   semi:
     - error
@@ -79,7 +118,7 @@ rules:
     - error
     - before: true
   space-before-function-paren:
-    - 2
+    - error
     -
       anonymous: always
       named: never
@@ -87,8 +126,10 @@ rules:
     - error
     - all
     - ignoreJSX: all
+  no-lonely-if:
+    - error
   yoda:
-    - 2
+    - error
     - always
   global-require: error
   space-before-blocks: error
