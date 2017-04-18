@@ -235,4 +235,8 @@ module.exports = {
   saveURI: function () {
     return NubityAPIUtils.saveURI();
   },
+
+  removeDashboard: function (dashboardId) {
+    return NubityAPIUtils.removeDashboard(dashboardId);
+  },
 };

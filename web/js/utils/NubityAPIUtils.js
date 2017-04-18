@@ -31,6 +31,7 @@ var showCustomDashboards           = require('../actions/ServerActions').showCus
 var showCustomSlots                = require('../actions/ServerActions').showCustomSlots;
 var showTimezone                   = require('../actions/ServerActions').showTimezone;
 var showLocales                    = require('../actions/ServerActions').showLocales;
+var deletedDashboard               = require('../actions/ServerActions').deletedDashboard;
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
@@ -298,6 +299,24 @@ module.exports = {
           this.getDashboard();
         } else {
           showDashboard(text);
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+
+  removeDashboard: function (dashboardId) {
+    var token   = this.getToken();
+
+    request
+    .del('/dashboard/' + dashboardId + '.json')
+    .accept('application/json')
+    .set('Authorization', token)
+    .end(function (res) {
+      this.validateToken(res).then(function (status) {
+        if (!status) {
+          this.removeDashboard(dashboardId);
+        } else {
+          deletedDashboard();
         }
       }.bind(this));
     }.bind(this));

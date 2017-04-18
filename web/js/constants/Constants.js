@@ -40,6 +40,7 @@ module.exports = {
     SHOW_CUSTOM_SLOTS:                   null,
     STORE_TIMEZONE:                      null,
     STORE_LOCALES:                       null,
+    DELETED_DASHBOARD:                   null,
   }),
 
   PayloadSources: keyMirror({

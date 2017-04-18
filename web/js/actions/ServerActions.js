@@ -235,4 +235,9 @@ module.exports = {
       res:        locales,
     });
   },
+  deletedDashboard: function () {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.DELETED_DASHBOARD,
+    });
+  },
 };
