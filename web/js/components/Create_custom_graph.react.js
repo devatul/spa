@@ -6,14 +6,18 @@ var GraphStore                 = require('../stores/GraphStore');
 var CreateDashboardAction      = require('../actions/RequestActions').createDashboard;
 var search                     = require('../actions/RequestActions').search;
 var getAvailableGraphTypes     = require('../actions/RequestActions').getAvailableGraphTypes;
+var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
     var search = SessionStore.search();
     return {
-      search:    search,
-      instances: search.instances,
-      clouds:    search.clouds,
+      search:     search,
+      instances:  search.instances,
+      clouds:     search.clouds,
+      graphTypes: '',
+      displaying: '',
+      loading:    'hidden',
     };
   },
 
@@ -42,11 +46,21 @@ module.exports = React.createClass({
         clouds:     search.clouds,
         graphTypes: graphTypes.member,
       });
+      if (graphTypes) {
+        this.setState({
+          loading:    'hidden',
+          displaying: '',
+        });
+      }
     }
   },
 
   _selectInstance: function () {
     getAvailableGraphTypes(this.refs.server.getDOMNode().value);
+    this.setState({
+      loading:    '',
+      displaying: 'hidden',
+    });
   },
 
   _onSubmit: function (e) {
@@ -74,22 +88,27 @@ module.exports = React.createClass({
 
     return (
       <form onSubmit={this._onSubmit}>
-        <div className="title-div">
-          <p className="widget-p">Widget</p>
+        <div className={this.state.loading}>
+          <Preloader />
         </div>
-        <select className="hide-it form-control select-margin" id="widgetType" name="widgetType" ref="widgetType">
-          <option>Select Widget Type</option>
-          <option>2</option>
-        </select>
-        <select className="form-control select-margin" id="server" name="server" ref="server" onChange={this._selectInstance}>
-          <option>Select an instance</option>
-          {instanceOptions}
-        </select>
-        <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType">
-          <option>Select Chart Type</option>
-          {graphTypeOptions}
-        </select>
-        <button type="submit" className="action-button nubity-blue">Save</button>
+        <div className={this.state.displaying}>
+          <div className="title-div">
+            <p className="widget-p">Widget</p>
+          </div>
+          <select className="hide-it form-control select-margin" id="widgetType" name="widgetType" ref="widgetType">
+            <option>Select Widget Type</option>
+            <option>2</option>
+          </select>
+          <select className="form-control select-margin" id="server" name="server" ref="server" onChange={this._selectInstance}>
+            <option>Select an instance</option>
+            {instanceOptions}
+          </select>
+          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType">
+            <option>Select Chart Type</option>
+            {graphTypeOptions}
+          </select>
+          <button type="submit" className="action-button nubity-blue">Save</button>
+        </div>
       </form>
     );
   },

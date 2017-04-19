@@ -16,7 +16,7 @@ module.exports = React.createClass({
     for (var i = 0 ; 9 > i ; i++) {
       allGraphs.push(
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <div className="widget create">
+          <div className="widget create valign-wrapper">
             <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
           </div>
         </div>
@@ -33,7 +33,7 @@ module.exports = React.createClass({
     for (var i = 0 ; 9 > i ; i++) {
       allGraphs.push(
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <div className="widget create">
+          <div className="widget create valign-wrapper">
             <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
           </div>
         </div>
@@ -72,7 +72,7 @@ module.exports = React.createClass({
       for (i = 0 ; 9 > i ; i++) {
         allGraphs.push(
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <div className="widget create">
+            <div className="widget create valign-wrapper">
               <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
             </div>
           </div>
@@ -102,7 +102,7 @@ module.exports = React.createClass({
       for (i = 0 ; 9 > i ; i++) {
         allGraphs.push(
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <div className="widget create">
+            <div className="widget create valign-wrapper">
               <CreateGraph position={i + 1} dashboardId={this.props.dashboard.dashboard} />
             </div>
           </div>
