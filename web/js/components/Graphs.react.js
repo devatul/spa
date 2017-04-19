@@ -63,28 +63,28 @@ module.exports = React.createClass({
 
     allGraphs[0] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <div className="widget create">
+        <div className="widget create valign-wrapper">
           <CreateGraph position={1} />
         </div>
       </div>
     );
     allGraphs[1] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <div className="widget create">
+        <div className="widget create valign-wrapper">
           <CreateGraph position={2} />
         </div>
       </div>
     );
     allGraphs[2] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <div className="widget create">
+        <div className="widget create valign-wrapper">
           <CreateGraph position={3} />
         </div>
       </div>
     );
     allGraphs[3] = (
       <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <div className="widget create">
+        <div className="widget create valign-wrapper">
           <CreateGraph position={4} />
         </div>
       </div>

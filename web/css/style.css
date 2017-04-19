@@ -2031,6 +2031,7 @@ a.link-login:hover {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  justify-content: center;
 }
 .valign-wrapper .valign {
   display: block;
