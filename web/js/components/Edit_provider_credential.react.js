@@ -128,9 +128,14 @@ module.exports = React.createClass({
 
   _onFileChange: function (e) {
     var file = e.target.files[0];
-    this.setState({
-      certificate: file,
-    });
+    var reader = new FileReader();
+    var SELF = this;
+    reader.onload = function (event) {
+      SELF.setState({
+        certificate: event.target.result,
+      });
+    };
+    reader.readAsBinaryString(file);
     $('.image-preview-input-title').text('Change Certificate');
     $('.image-preview-filename').text(file.name).removeClass('hidden');
   },

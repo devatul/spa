@@ -446,7 +446,7 @@ button.action-button:hover {
   margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
-  /*position: fixed;*/
+  position: fixed;
 }
 .principal-section-loggedout {
   margin-top: 100px;
@@ -2342,4 +2342,12 @@ label {
 .action-btn-container {
   width: 25%;
   float: left;
+}
+.main-section-cloud {
+  height: calc(100% - 90px);
+  width: calc(100% - 100px);
+  margin-left: 100px;
+  margin-top: 50px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
