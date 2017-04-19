@@ -105,7 +105,7 @@ module.exports = React.createClass({
     var _SELF = this;
 
     return (
-      <div className="principal-section">
+      <div className="main-section-cloud">
         <div className="section-title">
           <h2 className="align-center">{this.state.title}</h2>
         </div>
