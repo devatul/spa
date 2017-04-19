@@ -74,7 +74,7 @@ module.exports = React.createClass({
       newCredential.certificate = certificate;
     }
     if (null !== company) {
-      newCredential.company = company;
+      newCredential.company_id = company;
     }
     if (null !== providerId) {
       newCredential.provider_id = providerId;

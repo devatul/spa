@@ -1454,14 +1454,9 @@ module.exports = {
     return new Promise(function (resolve, reject) {
       var req = request
         .put('/company/' + company + '/cloud/' + credetialId + '.json')
-        .set('Authorization', token);
-      for (var key in newCredential) {
-        if ('certificate' !== key) {
-          req.field(key, newCredential[key]);
-        } else {
-          req.attach(key, newCredential[key]);
-        }
-      }
+        .set('Authorization', token)
+        .type('application/json')
+        .send(newCredential);
       req.end(function (res) {
         var code = JSON.parse(res.status);
         var text = JSON.parse(res.text);

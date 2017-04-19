@@ -317,9 +317,9 @@ module.exports = React.createClass({
               <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
             </td>
             <td className="icons">
-              <div className="action-btn-container"><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () {_SELF._editProviderCredential(data);}}>Edit</span></div>
+              <div className="action-btn-container"><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () { _SELF._editProviderCredential(data); }}>Edit</span></div>
               <div className="action-btn-container hidden"><span className="action-button add-cloud-btn-disabled">Disable</span></div>
-              <div className="action-btn-container"><span className="action-button add-cloud-btn-deleted" onClick={function () {_SELF._deleteCredential(data.provider_credential);}}>Delete</span></div>
+              <div className="action-btn-container"><span className="action-button add-cloud-btn-deleted" onClick={function () { _SELF._deleteCredential(data.provider_credential); }}>Delete</span></div>
             </td>
           </tr>
         );
