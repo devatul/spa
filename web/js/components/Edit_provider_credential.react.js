@@ -10,6 +10,8 @@ module.exports = React.createClass({
       endpoint:      '',
       apiSecret:     '',
       certificate:   '',
+      message:       '',
+      messageClass:  'hidden',
     };
   },
 
@@ -54,28 +56,86 @@ module.exports = React.createClass({
     var company = this.state.credetialInfo.company || null;
     var certificate = this.state.certificate || null;
 
-    var newCredential = new FormData();
+    var newCredential = {};
 
-    newCredential.append('name', integrationName);
-    newCredential.append('api_key', apiKey);
-    newCredential.append('endpoint', endpoint);
-    newCredential.append('api_secret', apiSecret);
-    newCredential.append('certificate', certificate);
-    newCredential.append('provider_id', providerId);
-    newCredential.append('company_id', company);
+    if (null !== integrationName) {
+      newCredential.name = integrationName;
+    }
+    if (null !== apiKey) {
+      newCredential.api_key = apiKey;
+    }
+    if (null !== endpoint) {
+      newCredential.endpoint = endpoint;
+    }
+    if (null !== apiSecret) {
+      newCredential.api_secret = apiSecret;
+    }
+    if (null !== certificate) {
+      newCredential.certificate = certificate;
+    }
+    if (null !== company) {
+      newCredential.company_id = company;
+    }
+    if (null !== providerId) {
+      newCredential.provider_id = providerId;
+    }
 
-    this.props.updateCredentials(credetialId, newCredential)
-      .then(function () {
-        _SELF.props.refreshTable();
-        _SELF._resetDialog();
+    this.props.updateCredentials(credetialId, newCredential).then(function (msg) {
+      _SELF.props.refreshTable();
+      _SELF._resetDialog();
+    }.bind(this)).catch(function (message) {
+      var err = this._showError(message);
+      this.setState({
+        message:      err,
+        messageClass: 'alert alert-danger',
       });
+    }.bind(this));
+  },
+
+  _showError: function (message) {
+    var errorList = '';
+    if ('string' !== typeof message[0]) {
+      var error = [];
+      for (var key in message) {
+        error.push(this._listErrors(message[key], key + ' errors :'));
+      }
+      errorList = <ul>{error}</ul>;
+    } else {
+      errorList = message[0];
+    }
+    return errorList;
+  },
+
+  _listErrors: function (error, lable) {
+    var err = [];
+    _.map(error, function (errMsg) {
+      err.push(<li>{errMsg}</li>);
+    });
+    return (
+      <li>
+        <strong>{lable}</strong>
+        <br />
+        <ul>{err}</ul>
+      </li>);
+  },
+
+  _closeAlert: function () {
+    this.setState({
+      message:      '',
+      messageClass: 'hidden',
+    });
   },
 
   _onFileChange: function (e) {
     var file = e.target.files[0];
-    this.setState({
-      certificate: file,
-    });
+    var reader = new FileReader();
+    var SELF = this;
+    reader.onload = function (event) {
+      SELF.setState({
+        certificate: event.target.result,
+      });
+    };
+    reader.readAsBinaryString(file);
     $('.image-preview-input-title').text('Change Certificate');
     $('.image-preview-filename').text(file.name).removeClass('hidden');
   },
@@ -159,6 +219,12 @@ module.exports = React.createClass({
                 <div className="dialog-body">
                   <div className="edit-title">Edit Credential</div>
                   <hr />
+                  <div className={this.state.messageClass + ' signup-error-show'} >
+                    <button type="button" className="close" onClick={function () { this._closeAlert(); }.bind(this)}>
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    {this.state.message}
+                  </div>
                   {input}
                   <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () { _SELF._updateCredentials(); }}>Update</button>
                   <button type="button" className="btn btn-default pull-right public-cloud-button grey-background" data-dismiss="modal">Cancel</button>
