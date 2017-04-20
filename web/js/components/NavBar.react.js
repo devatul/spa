@@ -14,6 +14,8 @@ var AccountStatusSection  = require('./Account_status_section.react');
 var Tooltip               = require('react-bootstrap').Tooltip;
 var OverlayTrigger        = require('react-bootstrap').OverlayTrigger;
 var getCompanyInfo        = require('../actions/RequestActions').getCompanyInfo;
+var getTimezone           = require('../actions/RequestActions').getTimezone;
+var getLocales            = require('../actions/RequestActions').getLocales;
 
 var NavBar = React.createClass({
 
@@ -26,7 +28,6 @@ var NavBar = React.createClass({
   },
 
   componentDidMount: function () {
-    getCompanyInfo();
     SessionStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
     $('.nav a').on('click', function () {
@@ -48,6 +49,12 @@ var NavBar = React.createClass({
         companyInfo: companyInfo,
       });
     }
+  },
+
+  _openAccount: function () {
+    getTimezone();
+    getLocales();
+    getCompanyInfo();
   },
 
   _onClickLogOut: function () {
