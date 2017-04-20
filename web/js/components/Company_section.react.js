@@ -4,8 +4,6 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 var getUserData                = require('../actions/StorageActions').getUserData;
-var getTimezone                = require('../actions/RequestActions').getTimezone;
-var getLocales                 = require('../actions/RequestActions').getLocales;
 var updateCompanyInfo          = require('../actions/RequestActions').updateCompanyInfo;
 var _                          = require('lodash');
 
@@ -33,9 +31,6 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
-    getTimezone();
-    getLocales();
-    getCompanyInfo();
     SessionStore.addChangeListener(this._onChange);
   },
 

@@ -3,8 +3,6 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var updateUserData             = require('../actions/RequestActions').updateUserData;
 var updateNotificationLevel    = require('../actions/RequestActions').updateNotificationLevel;
-var getTimezone                = require('../actions/RequestActions').getTimezone;
-var getLocales                 = require('../actions/RequestActions').getLocales;
 var getUserData                = require('../actions/StorageActions').getUserData;
 var SessionStore               = require('../stores/SessionStore');
 var _                          = require('lodash');
@@ -35,8 +33,6 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
-    getTimezone();
-    getLocales();
     SessionStore.addChangeListener(this._onChange);
   },
 
