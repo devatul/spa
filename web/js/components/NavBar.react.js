@@ -28,9 +28,6 @@ var NavBar = React.createClass({
   },
 
   componentDidMount: function () {
-    getTimezone();
-    getLocales();
-    getCompanyInfo();
     SessionStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
     $('.nav a').on('click', function () {
@@ -52,6 +49,12 @@ var NavBar = React.createClass({
         companyInfo: companyInfo,
       });
     }
+  },
+
+  _openAccount: function () {
+    getTimezone();
+    getLocales();
+    getCompanyInfo();
   },
 
   _onClickLogOut: function () {
