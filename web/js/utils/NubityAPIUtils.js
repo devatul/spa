@@ -36,6 +36,7 @@ var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
 var moment                         = require('moment');
+var alertify                       = require('alertify.js');
 
 request.use(prefix(APIEndpoints.PUBLIC));
 
@@ -79,7 +80,7 @@ module.exports = {
         if (window.console) {
           console.error(message);
         }
-        alert(message);
+        alertify.alert(message);
       }
     });
   },

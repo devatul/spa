@@ -16,7 +16,6 @@ module.exports = React.createClass({
       instances:  search.instances,
       clouds:     search.clouds,
       graphTypes: '',
-      displaying: '',
       loading:    'hidden',
     };
   },
@@ -48,8 +47,7 @@ module.exports = React.createClass({
       });
       if (graphTypes) {
         this.setState({
-          loading:    'hidden',
-          displaying: '',
+          loading: 'hidden',
         });
       }
     }
@@ -58,8 +56,7 @@ module.exports = React.createClass({
   _selectInstance: function () {
     getAvailableGraphTypes(this.refs.server.getDOMNode().value);
     this.setState({
-      loading:    '',
-      displaying: 'hidden',
+      loading: 'widget-preloader-div',
     });
   },
 
@@ -89,9 +86,9 @@ module.exports = React.createClass({
     return (
       <form onSubmit={this._onSubmit}>
         <div className={this.state.loading}>
-          <Preloader />
+          <Preloader preloaderClass="widget-preloader" />
         </div>
-        <div className={this.state.displaying}>
+        <div>
           <div className="title-div">
             <p className="widget-p">Widget</p>
           </div>
