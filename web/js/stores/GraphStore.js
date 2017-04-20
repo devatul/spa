@@ -77,6 +77,13 @@ GraphStore.dispatchToken = Dispatcher.register(function (payload) {
       GraphStore.emitChange();
       break;
 
+    case ActionTypes.SHOW_DASHBOARD:
+      _dashboard = action.res;
+      _textError = '';
+      _errorCode = '';
+      GraphStore.emitChange();
+      break;
+
     case ActionTypes.DELETED_DASHBOARD:
       _deletedDashboard = true;
       GraphStore.emitChange();
