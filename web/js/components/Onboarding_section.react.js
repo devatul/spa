@@ -107,7 +107,7 @@ module.exports = React.createClass({
     return (
       <div className="main-section-cloud">
         <div className="section-title">
-          <h2 className="align-center">{this.state.title}</h2>
+          <span className="item title">{this.state.title}</span>
         </div>
         <div role="navigation">
           <ul className="nav nav-tabs section-tabs">

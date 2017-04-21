@@ -520,6 +520,18 @@ button.action-button:hover {
   text-align: center;
   overflow: hidden;
 }
+.section-title .item-tab-button {
+  font-family: 'Open Sans', sans-serif;
+  color: #9e9e9e;
+  position: relative;
+  height: 75px!important;
+  width: 16%!important;
+  line-height: 79px;
+  display: inline-flex;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+}
 .section-title .item-short.title {
   font-family: 'neosansregular', sans-serif;
   font-size: 18pt;
@@ -552,6 +564,10 @@ button.action-button:hover {
   cursor: pointer;
 }
 .section-title .item-tab:hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
+.section-title .item-tab-button:hover {
   background-color: #e2e2e2;
   cursor: pointer;
 }

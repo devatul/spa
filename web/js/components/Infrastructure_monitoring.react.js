@@ -51,7 +51,7 @@ module.exports = React.createClass({
     return (
       <div className="principal-section">
         <div className="section-title">
-          <h2 className="align-center">{this.state.title}</h2>
+          <span className="item title">{this.state.title}</span>
         </div>
         <div className="section-tabs">Select OS for agent installation</div>
         <div>
