@@ -108,26 +108,26 @@ module.exports = React.createClass({
     if (this.state.customDashboards) {
       for (var key in this.state.customDashboards) {
         customDashboardsTabs.push(
-          <span key={key} className={this.state.customDashboards[key] == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDashboard.bind(this, this.state.customDashboards[key])}>
-            {this.state.customDashboards[key].name}
-          </span>
+          <div key={key} className={this.state.customDashboards[key] == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDashboard.bind(this, this.state.customDashboards[key])}>
+            <span className="auto-margin">{this.state.customDashboards[key].name}</span>
+          </div>
         );
       }
 
       if (3 > this.state.customDashboards.length) {
         dashboardsTabs = (
           <div className="section-title">
-            <span className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}>Main dashboard</span>
+            <div className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}><span className="auto-margin">Main dashboard</span></div>
             {customDashboardsTabs}
-            <span className="item-tab" onClick={this._warning}>
-              <i className="icon nb-plus icon-state"></i> Add a custom dashboard
-            </span>
+            <div className="item-tab" onClick={this._warning}>
+              <span className="auto-margin"><i className="icon nb-plus icon-state"></i> Add a custom dashboard</span>
+            </div>
           </div>
         );
       } else {
         dashboardsTabs = (
           <div className="section-title">
-            <span className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}>Main dashboard</span>
+            <div className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}><span className="auto-margin">Main dashboard</span></div>
             {customDashboardsTabs}
           </div>
         );
@@ -135,18 +135,17 @@ module.exports = React.createClass({
     } else {
       dashboardsTabs = (
         <div className="section-title">
-          <span className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}>Main dashboard</span>
+          <div className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}><span className="auto-margin">Main dashboard</span></div>
           {customDashboardsTabs}
-          <span className="item-tab" onClick={this._warning}>
-            <i className="icon nb-plus icon-state"></i> Add a custom dashboard
-          </span>
+          <div className="item-tab" onClick={this._warning}>
+            <span className="auto-margin"><i className="icon nb-plus icon-state"></i> Add a custom dashboard</span>
+          </div>
         </div>
       );
     }
 
     var warn;
     var form;
-    var confirmButtons;
 
     switch (this.state.modalType) {
       case 'newDashboard':
@@ -156,7 +155,7 @@ module.exports = React.createClass({
         form = (
           <div className="row margin-tops">
             <form onSubmit={this._newDashboard}>
-              <div className="col-xs-3 centered">
+              <div className="col-xs-3 centered hidden">
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="fa fa-cubes" aria-hidden="true"></i>
@@ -166,23 +165,21 @@ module.exports = React.createClass({
                   </select>
                 </div>
               </div>
-              <div className="col-xs-4">
+              <div className="col-xs-12">
                 <div className="form-group">
                   <div className="input-group">
                     <div className="input-group-addon">
                       <i className="fa fa-area-chart" aria-hidden="true"></i>
                     </div>
-                    <input type="text" className="form-control no-shadow" id="integrationName" ref="integrationName" placeholder="New Dashboard Performance Name" required />
+                    <input type="text" className="form-control no-shadow" id="integrationName" ref="integrationName" placeholder="New Performance Dashboard Name" required />
                   </div>
                 </div>
               </div>
-              <button type="submit" className="green-button">Save</button>
+              <div className="col-xs-12">
+                <button type="submit" className="green-button">Save</button>
+                <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
+              </div>
             </form>
-          </div>
-        );
-        confirmButtons = (
-          <div className="pull-right">
-            <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
           </div>
         );
         break;
@@ -195,8 +192,6 @@ module.exports = React.createClass({
             <div className="col-xs-12 warn-message">
               <h1>{warn}</h1>
               {form}
-              <div className="med"></div>
-              {confirmButtons}
             </div>
           </div>
         </Modal.Body>

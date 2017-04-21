@@ -152,6 +152,7 @@ module.exports = React.createClass({
           <form >
             <div className="public-cloud-form col-sm-12">
               <div className="form-group">
+                <label className="company-labels">Company name</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-suitcase" aria-hidden="true"></i>
@@ -164,6 +165,7 @@ module.exports = React.createClass({
                 </div>
               </div>
               <div className="form-group">
+                <label className="company-labels">Comercial name</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-area-chart" aria-hidden="true"></i>
@@ -176,6 +178,7 @@ module.exports = React.createClass({
                 </div>
               </div>
               <div className="form-group">
+                <label className="company-labels">Taxpayer Identification Number</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-suitcase" aria-hidden="true"></i>
@@ -188,8 +191,9 @@ module.exports = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="public-cloud-form col-sm-offset-1 col-sm-4">
+            <div className="public-cloud-form col-xs-4 hidden">
               <div className="form-group">
+                <label className="company-labels">Country</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-flag" aria-hidden="true"></i>
@@ -201,7 +205,10 @@ module.exports = React.createClass({
                   }} value={this.state.country} />
                 </div>
               </div>
+            </div>
+            <div className="public-cloud-form col-xs-4 hidden">
               <div className="form-group">
+                <label className="company-labels">State</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-flag" aria-hidden="true"></i>
@@ -213,7 +220,10 @@ module.exports = React.createClass({
                   }} value={this.state.state} />
                 </div>
               </div>
+            </div>
+            <div className="public-cloud-form col-xs-4 hidden">
               <div className="form-group">
+                <label className="company-labels">City</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-flag" aria-hidden="true"></i>
@@ -226,8 +236,9 @@ module.exports = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="public-cloud-form col-sm-offset-1 col-sm-4">
+            <div className="public-cloud-form col-xs-12">
               <div className="form-group">
+                <label className="company-labels">Address</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-map-marker" aria-hidden="true"></i>
@@ -240,9 +251,10 @@ module.exports = React.createClass({
                 </div>
               </div>
               <div className="form-group">
+                <label className="company-labels">Language</label>
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <i className="input-icon icon nb-language small" aria-hidden="true"></i>
+                    <i className="input-icon icon fa fa-language small" aria-hidden="true"></i>
                   </div>
                   <select className="form-control no-shadow" id="language" onChange={function (e) {
                     SELF.setState({
@@ -253,7 +265,10 @@ module.exports = React.createClass({
                   </select>
                 </div>
               </div>
+            </div>
+            <div className="public-cloud-form col-xs-6">
               <div className="form-group">
+                <label className="company-labels">Timezone</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon icon nb-time small" aria-hidden="true"></i>
@@ -267,7 +282,10 @@ module.exports = React.createClass({
                   </select>
                 </div>
               </div>
+            </div>
+            <div className="public-cloud-form col-xs-6">
               <div className="form-group">
+                <label className="company-labels">Postal code</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-envelope" aria-hidden="true"></i>

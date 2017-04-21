@@ -82,13 +82,6 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-    allGraphs[3] = (
-      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <div className="widget create valign-wrapper">
-          <CreateGraph position={4} />
-        </div>
-      </div>
-    );
 
     if (undefined != dashboard) {
       var name = '';
@@ -111,6 +104,7 @@ module.exports = React.createClass({
           </div>
         );
       }
+      allGraphs = allGraphs.slice(0, 3);
     }
 
     return (
