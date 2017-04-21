@@ -8,6 +8,6 @@ rsync:
  - ' "node_modules"'
 host: 'deploy@127.0.0.1:22'
 src: '../web/*'
-dest: public_html/spa/web/test/
-baseURL: 'http://api.mobile-apps.nubity.com'
-defaultBaseURL: 'http://api.mobile-apps.nubity.com'
+dest: /var/www/html/spa
+baseURL: 'http://api.pricing.nubity.com'
+defaultBaseURL: 'http://api.pricing.nubity.com'
