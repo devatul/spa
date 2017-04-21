@@ -46,7 +46,7 @@ module.exports = React.createClass({
         allGraphs[parseInt(this.props.slots[key].position) - 1] = (
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget" id="widget">
-              <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, this.props.slots[key])}>
+              <button type="button" className="modal-close pull-left" aria-label="Close" onClick={this._deleteGraph.bind(this, this.props.slots[key])}>
                 <span aria-hidden="true">&times;</span>
               </button>
               <button type="button" className="pull-right open-modal-graph" onClick={this._modalGraph.bind(this, this.props.slots[key])}>
@@ -83,7 +83,7 @@ module.exports = React.createClass({
         allGraphs[parseInt(nextProps.slots[key].position) - 1] = (
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget" id="widget">
-              <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, nextProps.slots[key])}>
+              <button type="button" className="modal-close pull-left" aria-label="Close" onClick={this._deleteGraph.bind(this, nextProps.slots[key])}>
                 <span aria-hidden="true">&times;</span>
               </button>
               <button type="button" className="pull-right open-modal-graph" onClick={this._modalGraph.bind(this, nextProps.slots[key])}>

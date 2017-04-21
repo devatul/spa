@@ -51,7 +51,10 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var name = localStorage.getItem('nubity-firstname') + ' ' + localStorage.getItem('nubity-lastname');
+    var user     = localStorage.getItem('nubity-user');
+    var jsonUser = JSON.parse(user);
+
+    var name  = jsonUser.firstname + ' ' + jsonUser.lastname;
     var email = localStorage.getItem('nubity-user-email');
 
     if (!SessionStore.isLoggedIn()) {

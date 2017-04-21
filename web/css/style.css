@@ -322,6 +322,9 @@ a:hover, a:active, a:focus {
   height: 70%;
   width: 100px;
 }
+.disabled {
+  cursor: not-allowed!important;
+}
 .menu-button {
   width: 100px;
   height: 75px;
