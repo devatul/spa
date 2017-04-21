@@ -3,6 +3,7 @@ var uninstallPlugin            = require('../actions/RequestActions').uninstallP
 var installPlugin              = require('../actions/RequestActions').installPlugin;
 var PluginModal                = require('./PluginModal.react');
 var Preloader                  = require('./Preloader.react');
+var alertify                   = require('alertify.js');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -21,10 +22,12 @@ module.exports = React.createClass({
   },
 
   _configure: function (template) {
-    var modal = (<PluginModal macros={template.user_macros} instanceId={this.props.idInstance} templateId={template.template} />);
-    this.setState({
-      pluginModal: modal,
-    });
+    if (0 < template.user_macros.length) {
+      var modal = (<PluginModal macros={template.user_macros} instanceId={this.props.idInstance} templateId={template.template} />);
+      this.setState({
+        pluginModal: modal,
+      });
+    }
   },
 
   render: function () {
@@ -40,7 +43,7 @@ module.exports = React.createClass({
         <tr key={key} className="content">
           <td>{this.props.plugins[key].name}</td>
           <td>Web Apps</td>
-          <td className="icons"><span className="action-button nubity-blue" onClick={this._configure.bind(this, this.props.plugins[key])}>Configure</span></td>
+          <td className="icons"><span className={0 < this.props.plugins[key].user_macros.length ? 'action-button nubity-blue' : 'action-button nubity-grey disabled'} onClick={this._configure.bind(this, this.props.plugins[key])}>Configure</span></td>
           <td className="icons">{install}</td>
         </tr>
       );

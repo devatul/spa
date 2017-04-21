@@ -2,6 +2,7 @@ var React           = require('react');
 var uninstallPlugin = require('../actions/RequestActions').uninstallPlugin;
 var installPlugin   = require('../actions/RequestActions').installPlugin;
 var configureAction = require('../actions/RequestActions').configureTemplate;
+var Preloader       = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -47,6 +48,9 @@ module.exports = React.createClass({
       newMacros[key] = {value: form.macros[key].value};
     }
     configureAction(this.props.idInstance, newMacros, this.state.idTemplate);
+    this.setState({
+      install: (<div className="col-xs-offset-4"><Preloader size="mini" preloaderClass="custom-loader" /><br /><br /></div>),
+    });
     if ('install' == this.state.action) {
       installPlugin(this.state.idTemplate, this.props.idInstance);
     } else {
