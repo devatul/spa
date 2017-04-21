@@ -88,8 +88,8 @@ module.exports = React.createClass({
         for (var cont = 0; cont < templates.length; cont++) {
           templatesItems.push(
             <div className={templates[cont] !== undefined ? 'carousel-item' : 'hidden'}>
-              <a className={templates[cont] !== undefined && this.state.active == templates[cont].template ? 'carousel-active thumbnail' : 'thumbnail'} >
-                <img src={templates[cont] !== undefined ? templates[cont].logo : ''} alt="Image" className="img-responsive" onClick={this.clickTemplate.bind(this, templates[cont])} />
+              <a className={templates[cont] !== undefined && this.state.active == templates[cont].template ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickTemplate.bind(this, templates[cont])}>
+                <img src={templates[cont] !== undefined ? templates[cont].logo : ''} alt="Image" className="img-responsive" />
                 <div className="centered"><span>{templates[cont] !== undefined ? templates[cont].name : ''}</span></div>
                 <div className="is-installed-container"><span className={templates[cont] !== undefined && true == templates[cont].is_installed ? 'is-installed' : 'hidden'}></span></div>
               </a>
