@@ -210,6 +210,8 @@ module.exports = React.createClass({
         level = 'icon nb-warning icon-state yellow-text';
       } else if ('info' == publicCloud[key].health) {
         level = 'icon nb-information icon-state blue-text';
+      } else if ('running' == publicCloud[key].status) {
+        level = 'icon nb-thick-circle icon-state green-text';
       } else {
         level = 'icon nb-help icon-state grey-text';
       }

@@ -179,7 +179,7 @@ module.exports = React.createClass({
     var SELF = this;
 
     var alertCheck = (
-      <div className="col-sm-12 light-grey-background">
+      <div className="col-sm-12">
         <div className="col-lg-3 col-md-6 col-xs-12">
           <label className="input-group">
             <span className="input-group-addon">
@@ -189,7 +189,7 @@ module.exports = React.createClass({
                 });
               }} checked={'info' === notificationLevel} />
             </span>
-            <div className="form-control">
+            <div className="form-control inline-flex">
               <i className="icon nb-information blue-text small"></i> Information
             </div>
           </label>
@@ -203,7 +203,7 @@ module.exports = React.createClass({
                 });
               }} checked={'warning' === notificationLevel} />
             </span>
-            <div className="form-control">
+            <div className="form-control inline-flex">
               <i className="icon nb-warning yellow-text small"></i> Warning
             </div>
           </label>
@@ -217,7 +217,7 @@ module.exports = React.createClass({
                 });
               }} checked={'critical' === notificationLevel} />
             </span>
-            <div className="form-control">
+            <div className="form-control inline-flex">
               <i className="icon nb-critical red-text small"></i> Critical
             </div>
           </label>
@@ -231,7 +231,7 @@ module.exports = React.createClass({
                 });
               }} checked={undefined === notificationLevel || 'none' === notificationLevel || null === notificationLevel} />
             </span>
-            <div className="form-control">
+            <div className="form-control inline-flex">
               <i className="icon nb-mute-on grey-text small"></i> Mute
              </div>
           </label>
@@ -279,8 +279,9 @@ module.exports = React.createClass({
         <form>
           <div className="public-cloud-form col-sm-6">
             <div className="form-group">
+              <label className="company-labels">First name</label>
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </span>
                 <input type="text" className="form-control no-shadow" onChange={function (e) {
@@ -290,9 +291,12 @@ module.exports = React.createClass({
                 }} id="firstname" placeholder="First Name" value={this.state.firstname} />
               </div>
             </div>
+          </div>
+          <div className="public-cloud-form col-sm-6">
             <div className="form-group">
+              <label className="company-labels">Last name</label>
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </span>
                 <input type="text" className="form-control no-shadow" onChange={function (e) {
@@ -302,9 +306,12 @@ module.exports = React.createClass({
                 }} ref="lastname" placeholder="Last Name" value={this.state.lastname} />
               </div>
             </div>
+          </div>
+          <div className="public-cloud-form col-sm-12">
             <div className="form-group">
+              <label className="company-labels">Email</label>
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-servers small" aria-hidden="true"></i>
                 </span>
                 <input type="email" className="form-control no-shadow" onChange={function (e) {
@@ -314,9 +321,12 @@ module.exports = React.createClass({
                 }} ref="email" placeholder="Email" value={this.state.email} readOnly />
               </div>
             </div>
+          </div>
+          <div className="public-cloud-form col-sm-6">
             <div className="form-group">
+              <label className="company-labels">Password</label>
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-lock small" aria-hidden="true"></i>
                 </span>
                 <input type="password" className="form-control no-shadow" ref="password" placeholder="Password" onChange={function (e) {
@@ -326,12 +336,15 @@ module.exports = React.createClass({
                 }} value={this.state.password} />
               </div>
             </div>
+          </div>
+          <div className="public-cloud-form col-sm-6">
             <div className="form-group">
+              <label className="company-labels">Confirm password</label>
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-lock small" aria-hidden="true"></i>
                 </span>
-                <input type="password" className="form-control no-shadow" ref="cmfPassword" placeholder="confirm Password" onChange={function (e) {
+                <input type="password" className="form-control no-shadow" ref="cmfPassword" placeholder="Confirm password" onChange={function (e) {
                   SELF.setState({
                     cmfPassword: e.target.value,
                   });
@@ -341,17 +354,19 @@ module.exports = React.createClass({
           </div>
           <div className="public-cloud-form col-sm-6">
             <div className="form-group hidden">
+              <label className="company-labels">Skype</label>
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-skype small" aria-hidden="true"></i>
                 </span>
                 <input type="text" className="form-control no-shadow" ref="skype" placeholder="Skype" />
               </div>
             </div>
             <div className="form-group">
+              <label className="company-labels">Language</label>
               <div className="input-group">
-                <span className="input-group-addon">
-                  <i className="input-icon icon nb-language small" aria-hidden="true"></i>
+                <span className="my-account-icons input-group-addon">
+                  <i className="input-icon icon fa fa-language small" aria-hidden="true"></i>
                 </span>
                 <select className="form-control no-shadow" ref="language" value={this.state.language} onChange={function (e) {
                   SELF.setState({
@@ -362,9 +377,12 @@ module.exports = React.createClass({
                 </select>
               </div>
             </div>
+          </div>
+          <div className="public-cloud-form col-sm-6">
             <div className="form-group">
+              <label className="company-labels">Timezone</label>
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-time small" aria-hidden="true"></i>
                 </span>
                 <select className="form-control no-shadow" ref="timezone" value={this.state.timezone} onChange={function (e) {
@@ -378,14 +396,17 @@ module.exports = React.createClass({
             </div>
             <div className="form-group hidden">
               <div className="input-group">
-                <span className="input-group-addon">
+                <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
                 </span>
                 <input type="text" className="form-control no-shadow" ref="contactType" placeholder="Contact Type" />
               </div>
             </div>
           </div>
-          <div className="col-sm-12 light-grey-background">
+          <div className="col-xs-12">
+            <hr />
+          </div>
+          <div className="col-sm-12">
             <h3><i className="medium icon nb-notification" aria-hidden="true"></i><span className="padding-left">Alert level notification</span></h3>
           </div>
           {alertCheck}
