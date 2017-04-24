@@ -207,7 +207,7 @@ var NavBar = React.createClass({
                           <i className="icon nb-billing small" aria-hidden="true"></i> Account Status
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link">
+                      <li role="presentation" className="tab-link hidden">
                         <a className="grey-color" data-toggle="tab" href="#billingHistory">
                           <i className="icon nb-billing small" aria-hidden="true"></i> Billing History
                         </a>

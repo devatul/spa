@@ -35,7 +35,7 @@ module.exports = React.createClass({
     if (0 >= this.state.history.length) {
       return (
         <div className="centered">
-          <h3 className="grey-text">There is no data in this table.</h3>
+          <h3 className="grey-text">There are no invoices.</h3>
         </div>
       );
     }
