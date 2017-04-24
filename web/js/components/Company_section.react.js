@@ -139,10 +139,6 @@ module.exports = React.createClass({
     return (
       <div>
         <div>
-          <div className="section-title">
-            <h2>Company</h2>
-          </div>
-          <hr />
           <div className={this.state.messageClass + ' signup-error-show'} >
             <button type="button" className="close" onClick={function () { SELF._closeAlert(); }}>
               <span aria-hidden="true">&times;</span>
@@ -150,7 +146,7 @@ module.exports = React.createClass({
             {this.state.message}
           </div>
           <form >
-            <div className="public-cloud-form col-sm-12">
+            <div className="public-cloud-form col-sm-6">
               <div className="form-group">
                 <label className="company-labels">Company name</label>
                 <div className="input-group">
@@ -164,6 +160,8 @@ module.exports = React.createClass({
                   }} value={this.state.name} />
                 </div>
               </div>
+            </div>
+            <div className="public-cloud-form col-sm-6">
               <div className="form-group">
                 <label className="company-labels">Comercial name</label>
                 <div className="input-group">
@@ -177,6 +175,8 @@ module.exports = React.createClass({
                   }} value={this.state.tradeName} />
                 </div>
               </div>
+            </div>
+            <div className="public-cloud-form col-sm-12">
               <div className="form-group">
                 <label className="company-labels">Taxpayer Identification Number</label>
                 <div className="input-group">
