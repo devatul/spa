@@ -42,6 +42,13 @@ module.exports = {
     });
   },
 
+  showBillingHistory: function (billing) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_BILLING_HISTORY,
+      res:        billing,
+    });
+  },
+
   showInfrastructureOverview: function (overview) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_INFRASTRUCTURE_OVERVIEW,

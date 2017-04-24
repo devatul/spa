@@ -7,13 +7,14 @@ var assign       = require('object-assign');
 var ActionTypes  = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _providers = '';
-var _textError = '';
-var _errorCode = '';
-var _credetials_public = '';
-var _credetials_private = '';
+var _providers            = '';
+var _textError            = '';
+var _errorCode            = '';
+var _credetials_public    = '';
+var _credetials_private   = '';
 var _credetials_onpremise = '';
-var _credetial_details = '';
+var _credetial_details    = '';
+var _billingHistory       = [];
 
 var OnBoardingStore = assign({}, EventEmitter.prototype, {
 
@@ -56,6 +57,9 @@ var OnBoardingStore = assign({}, EventEmitter.prototype, {
   getCredentialDetails: function () {
     return _credetial_details;
   },
+  getBillingHistory: function () {
+    return _billingHistory.member;
+  },
 });
 
 OnBoardingStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -65,6 +69,13 @@ OnBoardingStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.SHOW_PROVIDERS:
       _providers = action.res;
+      _textError = '';
+      _errorCode = '';
+      OnBoardingStore.emitChange();
+      break;
+
+    case ActionTypes.SHOW_BILLING_HISTORY:
+      _billingHistory = action.res;
       _textError = '';
       _errorCode = '';
       OnBoardingStore.emitChange();

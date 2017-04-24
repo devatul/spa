@@ -239,4 +239,8 @@ module.exports = {
   removeDashboard: function (dashboardId) {
     return NubityAPIUtils.removeDashboard(dashboardId);
   },
+
+  getBillingHistory: function () {
+    return NubityAPIUtils.getBillingHistory();
+  },
 };

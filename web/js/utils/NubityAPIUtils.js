@@ -32,6 +32,7 @@ var showCustomSlots                = require('../actions/ServerActions').showCus
 var showTimezone                   = require('../actions/ServerActions').showTimezone;
 var showLocales                    = require('../actions/ServerActions').showLocales;
 var deletedDashboard               = require('../actions/ServerActions').deletedDashboard;
+var showBillingHistory             = require('../actions/ServerActions').showBillingHistory;
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
@@ -1475,6 +1476,24 @@ module.exports = {
         }
       }.bind(_SELF));
     });
+  },
+
+  getBillingHistory: function () {
+    var company = getUserData('company');
+    var token   = this.getToken();
+
+    request
+      .get('/company/' + company + '/invoice.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        this.validateToken(res).then(function (status) {
+          if (status) {
+            var text = JSON.parse(res.text);
+            showBillingHistory(text);
+          }
+        }.bind(this));
+      }.bind(this));
   },
 
   hasToRefresh: function () {
