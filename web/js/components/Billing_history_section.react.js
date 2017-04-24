@@ -3,7 +3,7 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var getBillingHistory          = require('../actions/RequestActions').getBillingHistory;
 var SessionStore               = require('../stores/SessionStore');
-var OnboardingStore            = require('../stores/OnboardingStore');
+var OnboardingStore            = require('../stores/OnBoardingStore');
 
 module.exports = React.createClass({
   getInitialState: function () {
