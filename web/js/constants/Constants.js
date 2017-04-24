@@ -1,6 +1,6 @@
 var keyMirror = require('keymirror');
 var YAML      = require('yamljs');
-var config    = YAML.load('parameters.dist.yml');
+var config    = YAML.load('js/config.yml');
 var Root      = config.baseURL;
 var APIRoot   = Root;
 
