@@ -242,9 +242,6 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <div className="section-title">
-          <h2>My Account</h2>
-        </div>
         <form encType="multipart/form-data">
           <div className="row">
             <div className="col-xs-12 col-sm-1 col-md-1 centered enable-change-option">
@@ -278,7 +275,7 @@ module.exports = React.createClass({
         </div>
         <form>
           <div className="public-cloud-form col-sm-6">
-            <div className="form-group">
+            <div className="form-group my-account-form-group">
               <label className="company-labels">First name</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -293,7 +290,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="public-cloud-form col-sm-6">
-            <div className="form-group">
+            <div className="form-group my-account-form-group">
               <label className="company-labels">Last name</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -308,7 +305,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="public-cloud-form col-sm-12">
-            <div className="form-group">
+            <div className="form-group my-account-form-group">
               <label className="company-labels">Email</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -323,7 +320,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="public-cloud-form col-sm-6">
-            <div className="form-group">
+            <div className="form-group my-account-form-group">
               <label className="company-labels">Password</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -338,7 +335,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="public-cloud-form col-sm-6">
-            <div className="form-group">
+            <div className="form-group my-account-form-group">
               <label className="company-labels">Confirm password</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -353,7 +350,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="public-cloud-form col-sm-6">
-            <div className="form-group hidden">
+            <div className="form-group my-account-form-group hidden">
               <label className="company-labels">Skype</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -362,7 +359,7 @@ module.exports = React.createClass({
                 <input type="text" className="form-control no-shadow" ref="skype" placeholder="Skype" />
               </div>
             </div>
-            <div className="form-group">
+            <div className="form-group my-account-form-group">
               <label className="company-labels">Language</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -379,7 +376,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="public-cloud-form col-sm-6">
-            <div className="form-group">
+            <div className="form-group my-account-form-group">
               <label className="company-labels">Timezone</label>
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
@@ -394,7 +391,7 @@ module.exports = React.createClass({
                 </select>
               </div>
             </div>
-            <div className="form-group hidden">
+            <div className="form-group my-account-form-group hidden">
               <div className="input-group">
                 <span className="my-account-icons input-group-addon">
                   <i className="input-icon icon nb-user small" aria-hidden="true"></i>
@@ -407,7 +404,7 @@ module.exports = React.createClass({
             <hr />
           </div>
           <div className="col-sm-12">
-            <h3><i className="medium icon nb-notification" aria-hidden="true"></i><span className="padding-left">Alert level notification</span></h3>
+            <h3 className="my-account-alert-title"><i className="medium icon nb-notification" aria-hidden="true"></i><span className="padding-left">Alert level notification</span></h3>
           </div>
           {alertCheck}
           <div className="col-sm-12">
