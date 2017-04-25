@@ -32,7 +32,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    if (0 >= this.state.history.length) {
+    if (this.state.history && 0 >= this.state.history.length) {
       return (
         <div className="centered">
           <h3 className="grey-text">There are no invoices.</h3>

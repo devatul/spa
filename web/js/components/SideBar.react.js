@@ -30,7 +30,7 @@ module.exports = React.createClass({
         ninjaSupportClass:   'nb-active',
       };
     }
-    if (0 <= url.search('ninja-support')) {
+    if (0 <= url.search('support')) {
       return {
         stats:               stats,
         infrastructureClass: '',
@@ -82,8 +82,7 @@ module.exports = React.createClass({
         performanceClass:    '',
         ninjaSupportClass:   '',
       });
-    }
-    if (0 <= url.search('ticket')) {
+    } else if (0 <= url.search('ticket')) {
       this.setState({
         infrastructureClass: '',
         dashboardClass:      '',
@@ -91,7 +90,32 @@ module.exports = React.createClass({
         performanceClass:    '',
         ninjaSupportClass:   'nb-active',
       });
+    } else if (0 <= url.search('support')) {
+      this.setState({
+        infrastructureClass: '',
+        dashboardClass:      '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   'nb-active',
+      });
+    } else if (0 <= url.search('alerts')) {
+      this.setState({
+        infrastructureClass: '',
+        dashboardClass:      '',
+        alertsClass:         'nb-active',
+        performanceClass:    '',
+        ninjaSupportClass:   '',
+      });
+    } else {
+      this.setState({
+        dashboardClass:      'nb-active',
+        infrastructureClass: '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   '',
+      });
     }
+
     if (this.isMounted()) {
       var stats      = AlertsStore.getDashboardStats();
       this.setState({

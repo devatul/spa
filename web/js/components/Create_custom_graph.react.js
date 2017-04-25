@@ -90,7 +90,7 @@ module.exports = React.createClass({
         </div>
         <div>
           <div className="title-div">
-            <p className="widget-p">Widget</p>
+            <p className="widget-p">Create a graph</p>
           </div>
           <select className="hide-it form-control select-margin" id="widgetType" name="widgetType" ref="widgetType">
             <option>Select Widget Type</option>
@@ -104,7 +104,7 @@ module.exports = React.createClass({
             <option>Select Chart Type</option>
             {graphTypeOptions}
           </select>
-          <button type="submit" className="action-button nubity-blue">Save</button>
+          <button type="submit" className="action-button nubity-blue">Create</button>
         </div>
       </form>
     );

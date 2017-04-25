@@ -34,7 +34,7 @@
     "rc-switch": "^1.4.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.26.4",
-    "react-clipboard.js": "^1.0.1",
+    "react-clipboard.js": "1.0.1",
     "react-dropzone": "^2.2.4",
     "react-router": "^0.13.0",
     "string.prototype.repeat": "^0.2.0",
