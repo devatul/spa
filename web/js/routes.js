@@ -35,14 +35,14 @@ var routes = (
     <Route name="configure" path='/infrastructure/configure/:id' handler={InfrastructureConfigure} />
     <Route name="monitoring" path='/infrastructure/monitoring/:id' handler={InfrastructureMonitoring} />
     <Route name="infrastructure" path='/infrastructure' handler={Infrastructure} />
-    <Route name="dashboard" path='/dashboard' handler={Dashboard} />
+    <Route name="dashboard" path='/' handler={Dashboard} />
     <Route name="alerts" path='/alerts' handler={Alerts} />
     <Route name="performance" path='/performance' handler={Performance} />
-    <Route name="ninja" path='/ninja-support' handler={Ninja} />
-    <Route name="create_ticket" path='/ninja-support/create-ticket' handler={CreateTicket} />
-    <Route name="live_chat" path='/ninja-support/live-chat' handler={LiveChat} />
-    <Route name="view_ticket" path='/ninja-support/view-ticket/' handler={ViewTicket} />
-    <Route name="view_ticket_params" path='/ninja-support/view-ticket/:id' handler={ViewTicket} />
+    <Route name="ninja" path='/support' handler={Ninja} />
+    <Route name="create_ticket" path='/support/create-ticket' handler={CreateTicket} />
+    <Route name="live_chat" path='/support/live-chat' handler={LiveChat} />
+    <Route name="view_ticket" path='/support/view-ticket/' handler={ViewTicket} />
+    <Route name="view_ticket_params" path='/support/view-ticket/:id' handler={ViewTicket} />
     <Route name="terms_and_conditions" path='/terms-and-conditions' handler={TermsAndConditions} />
     <Route name="privacy_policies" path='/privacy-policies' handler={PrivacyPolicies} />
     <Route name="reset_password" path='/reset-password/:token' handler={ResetPassword} />

@@ -146,6 +146,12 @@ a:hover, a:active, a:focus {
   background-color: #d4d4d4;
   margin: 10px;
 }
+button.close {
+  margin: 10px;
+}
+.padding-20 {
+  padding: 20px!important;
+}
 .modal-close:hover {
   background-color: #adadad;
 }
@@ -315,7 +321,7 @@ a:hover, a:active, a:focus {
   background-color: #eee;
   position:fixed;
   top: 0;
-  box-shadow: 1px 0px 3px #ccc;
+  box-shadow: 1px -2px 3px #ccc;
   z-index: 500;
 }
 .menu-buttons {
@@ -339,6 +345,7 @@ a.nb-active, a.nb-active p.menu-text {
 }
 a.nb-active > .menu-button {
   background-color: grey;
+  box-shadow: 1.5px -1.5px 3px #ccc!important;
 }
 .menu-text {
   text-align: center;
@@ -366,6 +373,19 @@ p.menu-text {
   border-radius: .30em;
   cursor: pointer;
   border: none;
+}
+button.action-button-xs {
+  border: transparent;
+  color: white;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: 14px;
+  padding: 7px 17px;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 }
 .action-button:hover, a.action-button:hover {
   filter: brightness(110%);
@@ -459,7 +479,7 @@ button.action-button:hover {
   cursor: pointer;
 }
 .principal-section {
-  height: calc(100% - 90px);
+  height: calc(100% - 71px);
   width: calc(100% - 100px);
   margin-left: 100px;
   margin-top: 50px;

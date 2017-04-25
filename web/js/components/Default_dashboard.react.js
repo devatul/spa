@@ -136,7 +136,7 @@ module.exports = React.createClass({
               </div>
               <div className="right">
                 <div className="dashboard-icons-counter">{this.state.stats.info}</div>
-                <span className="dashboard-icons-info">Information <br />alerts</span>
+                <span className="dashboard-icons-info">Information</span>
               </div>
             </div>
           </div>
@@ -147,7 +147,7 @@ module.exports = React.createClass({
               </div>
               <div className="right">
                 <div className="dashboard-icons-counter">{this.state.stats.warning}</div>
-                <span className="dashboard-icons-info">Warning <br />alerts</span>
+                <span className="dashboard-icons-info">Warning</span>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ module.exports = React.createClass({
               </div>
               <div className="right">
                 <div className="dashboard-icons-counter">{this.state.stats.critical}</div>
-                <span className="dashboard-icons-info">Critical <br />alerts</span>
+                <span className="dashboard-icons-info">Critical</span>
               </div>
             </div>
           </div>

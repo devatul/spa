@@ -274,6 +274,7 @@ module.exports = React.createClass({
           monitoring = (<span className="action-button nubity-blue no-button">Monitoring</span>);
         }
 
+
         var managementStatus = '';
         var management = '';
         var managementCode = '';
@@ -317,7 +318,7 @@ module.exports = React.createClass({
           level = 'icon nb-warning icon-state yellow-text';
         } else if ('info' == overview[key].health) {
           level = 'icon nb-information icon-state blue-text';
-        } else if ('running' == overview[key].status) {
+        } else if ('accepted' == monitoringStatus || 'pending-cancellation' == monitoringStatus) {
           level = 'icon nb-thick-circle icon-state green-text';
         } else {
           level = 'icon nb-help icon-state grey-text';

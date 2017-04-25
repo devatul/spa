@@ -53,9 +53,9 @@ module.exports = React.createClass({
         );
       }
       form = (
-        <form onSubmit={this._onSubmit}>
+        <form onSubmit={this._onSubmit} className="padding-20">
           {inputs}
-          <button type="submit" >Editar</button>
+          <button type="submit" className="action-button-xs nubity-green">Editar</button>
         </form>
       );
     }
