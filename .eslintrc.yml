@@ -11,6 +11,9 @@ parserOptions:
     jsx: true
 plugins:
   - react
+settings:
+  react:
+    version: '0.13.3'
 rules:
   react/jsx-uses-vars: 1
   react/jsx-uses-react: 1
@@ -29,6 +32,8 @@ rules:
   react/jsx-space-before-closing:
     - error
     - always
+  react/no-deprecated:
+    - error
   no-console:
     - error
     -
@@ -61,6 +66,9 @@ rules:
     -
       SwitchCase: 1
       MemberExpression: 1
+      ObjectExpression: 1
+      VariableDeclarator: 1
+      outerIIFEBody: 0
   linebreak-style:
     - error
     - unix
