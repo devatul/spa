@@ -135,6 +135,8 @@ a:hover, a:active, a:focus {
   width: 100%!important;
   height: 100%!important;
   overflow: auto;
+}
+.my-account-modal {
   padding: 0px!important;
 }
 .modal-close {

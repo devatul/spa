@@ -183,7 +183,7 @@ var NavBar = React.createClass({
           <div className="modal fade" tabIndex="-1" id="myModal" role="dialog">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
-                <div className="modal-body">
+                <div className="modal-body my-account-modal">
                   <button type="button" className="modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <div role="navigation" className="modal-title">
                     <ul className="nav nav-tabs section-tabs">
@@ -194,7 +194,7 @@ var NavBar = React.createClass({
                       </li>
                       <li role="presentation" className="tab-link">
                         <a className="grey-color" data-toggle="tab" href="#company">
-                          <i className="icon nb-company small"></i> Comany
+                          <i className="icon nb-company small"></i> Company
                         </a>
                       </li>
                       <li role="presentation" className="tab-link hidden">
