@@ -1905,6 +1905,15 @@ a.link-login:hover {
   position: relative;
   margin: 35px 50%;
 }
+.not-found p {
+  font-size: 16px;
+  color: grey;
+}
+.not-found a {
+  font-size: 16px;
+  cursor: pointer;
+  color: #555;
+}
 @media (max-width: 1468px) {
   .modal-content {
     width: 100%!important;
