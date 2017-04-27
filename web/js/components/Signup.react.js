@@ -2,18 +2,20 @@ var React                      = require('react');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var signupAction               = require('../actions/RequestActions').signup;
+var getLocales                 = require('../actions/RequestActions').getLocales;
 var _                          = require('lodash');
 
 module.exports = React.createClass({
   getInitialState: function () {
-
     return {
       message:      '',
+      locales:      '',
       messageClass: 'hidden',
     };
   },
 
   componentDidMount: function () {
+    getLocales();
     SessionStore.addChangeListener(this._onChange);
   },
 
@@ -23,6 +25,9 @@ module.exports = React.createClass({
 
   _onChange: function () {
     if (this.isMounted()) {
+      this.setState({
+        locales: SessionStore.getLocales(),
+      });
       var message = SessionStore.signupMessage();
       if ('' != message) {
         this.setState({
@@ -62,8 +67,8 @@ module.exports = React.createClass({
     user.password2 = this.refs.password2.getDOMNode().value;
     user.phone = this.refs.phone.getDOMNode().value;
     user.company = this.refs.companyName.getDOMNode().value;
-    var locale     = navigator.language || navigator.userLanguage;
-    user.locale = locale.replace('-', '_');
+    user.locale = this.refs.locales.getDOMNode().value;
+
 
     signupAction(user).then(function () {
       this.refs.firstname.getDOMNode().value = '';
@@ -115,6 +120,19 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    var locale  = this.state.locales;
+    var locales = [];
+    for (var key in locale) {
+      var nav = [''];
+      if (navigator.language) {
+        nav = navigator.language.split('-');
+      }
+      if (navigator.language == key || navigator.userLanguage == key || nav[0] == key) {
+        locales.push(<option key={key} value={key} selected>{locale[key]}</option>);
+      } else {
+        locales.push(<option key={key} value={key} >{locale[key]}</option>);
+      }
+    }
     return (
       <section className="login-div">
         <div className="login-box">
@@ -229,6 +247,18 @@ module.exports = React.createClass({
                   placeholder="Company name" />
               </div>
             </div>
+            <div className="form-group col-xs-12">
+              <div className="input-group">
+                <div className="input-group-addon">
+                  <i className="fa fa-language" aria-hidden="true"></i>
+                </div>
+                <select className="form-control no-shadow signup-select" id="locales" name="locales" ref="locales" required>
+                  <option value="">Select Locale</option>
+                  {locales}
+                </select>
+              </div>
+            </div>
+
             <button type="submit" className="action-button nubity-blue">Sign up</button>
           </form>
           <div className="login-footer">

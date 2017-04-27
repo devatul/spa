@@ -173,7 +173,7 @@ module.exports = React.createClass({
 
     var locales = [];
     for (var key in locale) {
-      locales.push(<option key={key} value={key} >{locale[key]}</option>);
+      locales.push(<option key={key} value={key}>{locale[key]}</option>);
     }
 
     var SELF = this;
