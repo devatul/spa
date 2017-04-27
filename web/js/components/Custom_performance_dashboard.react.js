@@ -5,6 +5,7 @@ var getCustomSlots             = require('../actions/RequestActions').getCustomS
 var removeDashboard            = require('../actions/RequestActions').removeDashboard;
 var Graphs                     = require('./Custom_graphs.react');
 var Modal                      = require('react-bootstrap').Modal;
+var Preloader                  = require('./Preloader.react');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -51,6 +52,11 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    if (!this.state.slots) {
+      return (
+        <Preloader />
+      );
+    }
     return (
       <div className="default-dashboard centered">
         <Graphs dashboard={this.props.dashboard} slots={this.state.slots} />

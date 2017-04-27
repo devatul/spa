@@ -17,6 +17,7 @@ module.exports = React.createClass({
       clouds:     search.clouds,
       graphTypes: '',
       loading:    'hidden',
+      bloqued:    'true',
     };
   },
 
@@ -46,8 +47,10 @@ module.exports = React.createClass({
         graphTypes: graphTypes.member,
       });
       if (graphTypes) {
+        $('#chartType').removeAttr('disabled');
         this.setState({
           loading: 'hidden',
+          bloqued: 'false',
         });
       }
     }
@@ -95,11 +98,11 @@ module.exports = React.createClass({
             <option>Select Widget Type</option>
             <option>2</option>
           </select>
-          <select className="form-control select-margin" id="server" name="server" ref="server" onChange={this._selectInstance}>
+          <select className="form-control select-margin" id="server" name="server" ref="server" onChange={this._selectInstance} required>
             <option>Select an instance</option>
             {rows}
           </select>
-          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType">
+          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType" disabled required>
             <option>Select Chart Type</option>
             {graphRows}
           </select>

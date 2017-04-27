@@ -1,9 +1,10 @@
-var React                   = require('react');
-var Router                  = require('react-router');
-var Route                   = Router.Route;
-var DefaultRoute            = Router.DefaultRoute;
+var React                    = require('react');
+var Router                   = require('react-router');
+var Route                    = Router.Route;
+var DefaultRoute             = Router.DefaultRoute;
 var NubityApp                = require('./components/NubityApp.react');
 var Login                    = require('./components/Login.react');
+var NotFound                 = require('./components/Not_found.react');
 var ForgotPassword           = require('./components/Forgot_password.react');
 var ChangePassword           = require('./components/Change_password.react');
 var ResetPassword            = require('./components/Reset_password.react');
@@ -47,6 +48,7 @@ var routes = (
     <Route name="privacy_policies" path='/privacy-policies' handler={PrivacyPolicies} />
     <Route name="reset_password" path='/reset-password/:token' handler={ResetPassword} />
     <Route name="home" path='/' handler={Home} />
+    <Route name="not-found" path='*' handler={NotFound} />
     <DefaultRoute handler={Login} />
   </Route>
 );
