@@ -46,7 +46,7 @@ module.exports = React.createClass({
         graphTypes: graphTypes.member,
       });
       if (graphTypes) {
-        $("#chartType").removeAttr("disabled");
+        $('#chartType').removeAttr('disabled');
         this.setState({
           loading: 'hidden',
         });
