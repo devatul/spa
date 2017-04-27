@@ -120,6 +120,24 @@ module.exports = {
       }.bind(this));
   },
 
+  getLocales: function () {
+    var token = this.getToken();
+    request
+      .get('/locales.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getLocales();
+          } else {
+            showLocales(text);
+          }
+        }.bind(this));
+      }.bind(this));
+  },
+
   signup: function (user) {
     var timezone = moment.tz.guess();
     return new Promise(function (resolve, reject) {
@@ -149,8 +167,6 @@ module.exports = {
         var code = JSON.parse(res.status);
         if (400 <= code) {
           showConfirmMessage(text.code, text.message);
-        } else {
-          showConfirmMessage(200, 'Salio todo bien');
         }
       }.bind(this));
   },
@@ -1381,24 +1397,6 @@ module.exports = {
             this.getTimezone();
           } else {
             showTimezone(text);
-          }
-        }.bind(this));
-      }.bind(this));
-  },
-
-  getLocales: function () {
-    var token = this.getToken();
-    request
-      .get('/locales.json')
-      .accept('application/json')
-      .set('Authorization', token)
-      .end(function (res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getLocales();
-          } else {
-            showLocales(text);
           }
         }.bind(this));
       }.bind(this));

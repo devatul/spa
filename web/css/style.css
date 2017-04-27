@@ -1816,6 +1816,12 @@ tr.content:hover {
   position: absolute;
   top: 5%;
 }
+.signup-select {
+  background-color: rgba(255, 255, 255, 0.3);
+  background-image: none;
+  border: none;
+  color: white;
+}
 .login-title {
   text-align: center;
   font-weight: bold;
