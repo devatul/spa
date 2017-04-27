@@ -266,6 +266,13 @@ module.exports = React.createClass({
         );
       }
 
+      num = onPremise[key].memory / 1024;
+      if (0 !== num % 1) {
+        num = num.toFixed(2);
+      } else {
+        num = num.toString();
+      }
+
       var level = '';
       if ('critical' == onPremise[key].health) {
         level = 'icon nb-critical icon-state red-text';
@@ -273,17 +280,10 @@ module.exports = React.createClass({
         level = 'icon nb-warning icon-state yellow-text';
       } else if ('info' == onPremise[key].health) {
         level = 'icon nb-information icon-state blue-text';
-      } else if ('running' == onPremise[key].status) {
+      } else if ('accepted' == monitoringStatus || 'pending-cancellation' == monitoringStatus) {
         level = 'icon nb-thick-circle icon-state green-text';
       } else {
         level = 'icon nb-help icon-state grey-text';
-      }
-
-      num = onPremise[key].memory / 1024;
-      if (0 !== num % 1) {
-        num = num.toFixed(2);
-      } else {
-        num = num.toString();
       }
 
       var actionButtons;
