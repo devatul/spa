@@ -203,18 +203,6 @@ module.exports = React.createClass({
         }
       }
 
-      var level = '';
-      if ('critical' == publicCloud[key].health) {
-        level = 'icon nb-critical icon-state red-text';
-      } else if ('warning' == publicCloud[key].health) {
-        level = 'icon nb-warning icon-state yellow-text';
-      } else if ('info' == publicCloud[key].health) {
-        level = 'icon nb-information icon-state blue-text';
-      } else if ('running' == publicCloud[key].status) {
-        level = 'icon nb-thick-circle icon-state green-text';
-      } else {
-        level = 'icon nb-help icon-state grey-text';
-      }
 
       var monitoringStatus = '';
       var monitoring = '';
@@ -284,6 +272,19 @@ module.exports = React.createClass({
         num = num.toFixed(2);
       } else {
         num = num.toString();
+      }
+
+      var level = '';
+      if ('critical' == publicCloud[key].health) {
+        level = 'icon nb-critical icon-state red-text';
+      } else if ('warning' == publicCloud[key].health) {
+        level = 'icon nb-warning icon-state yellow-text';
+      } else if ('info' == publicCloud[key].health) {
+        level = 'icon nb-information icon-state blue-text';
+      } else if ('accepted' == monitoringStatus || 'pending-cancellation' == monitoringStatus) {
+        level = 'icon nb-thick-circle icon-state green-text';
+      } else {
+        level = 'icon nb-help icon-state grey-text';
       }
 
       var actionButtons;

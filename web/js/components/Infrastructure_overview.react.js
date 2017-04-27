@@ -311,6 +311,13 @@ module.exports = React.createClass({
           );
         }
 
+        num = overview[key].memory / 1024;
+        if (0 !== num % 1) {
+          num = num.toFixed(2);
+        } else {
+          num = num.toString();
+        }
+
         var level = '';
         if ('critical' == overview[key].health) {
           level = 'icon nb-critical icon-state red-text';
@@ -322,13 +329,6 @@ module.exports = React.createClass({
           level = 'icon nb-thick-circle icon-state green-text';
         } else {
           level = 'icon nb-help icon-state grey-text';
-        }
-
-        num = overview[key].memory / 1024;
-        if (0 !== num % 1) {
-          num = num.toFixed(2);
-        } else {
-          num = num.toString();
         }
 
         var actionButtons;
