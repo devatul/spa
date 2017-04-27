@@ -46,6 +46,7 @@ module.exports = React.createClass({
         graphTypes: graphTypes.member,
       });
       if (graphTypes) {
+        $("#chartType").removeAttr("disabled");
         this.setState({
           loading: 'hidden',
         });
@@ -100,7 +101,7 @@ module.exports = React.createClass({
             <option>Select an instance</option>
             {instanceOptions}
           </select>
-          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType">
+          <select className="form-control select-margin" id="chartType" name="chartType" ref="chartType" disabled required>
             <option>Select Chart Type</option>
             {graphTypeOptions}
           </select>

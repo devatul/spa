@@ -1555,8 +1555,9 @@ tr.content:hover {
 /*HighCharts Fix*/
 .highcharts-title {
   font-family: 'neosanslight', sans-serif;
-  font-size: 14pt;
-  margin-bottom: 10px;
+  font-size: 13pt;
+  margin-bottom: 2px;
+  margin-top: 30px;
 }
 .highcharts-legend-item {
   font-family: 'Open Sans', sans-serif;
@@ -1567,6 +1568,7 @@ tr.content:hover {
 }
 .highcharts-root {
   height: 300px;
+  width: 100%;
 }
 .hichart-main-container {
   width: 100%;
@@ -2423,7 +2425,7 @@ a.link-login:hover {
 .add-cloud-table-container {
   margin-top: 20px;
 }
-.add-cloud-table th, td {
+.add-cloud-table th, .add-cloud-table td {
   text-align: left !important;
   padding-left: 25px !important;
 }

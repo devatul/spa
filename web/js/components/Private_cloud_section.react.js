@@ -342,7 +342,7 @@ module.exports = React.createClass({
         </div>
         <div className="row hidden" id="private1StepContent">
           <div className="col-lg-8 col-lg-offset-2">
-            <div className="col-lg-1 scroll-step1" onClick={function () { _SELF._scroll('leftArrow'); }}>
+            <div className={5 >= rows.length ? 'hidden' : 'col-lg-1 scroll-step1'} onClick={function () { _SELF._scroll('leftArrow'); }}>
               <i className="fa fa-chevron-left" aria-hidden="true"></i>
             </div>
             <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
@@ -350,7 +350,7 @@ module.exports = React.createClass({
                 {rows}
               </div>
             </div>
-            <div className="col-lg-1 scroll-step1" onClick={function () { _SELF._scroll('rightArrow'); }}>
+            <div className={5 >= rows.length ? 'hidden' : 'col-lg-1 scroll-step1'} onClick={function () { _SELF._scroll('rightArrow'); }}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </div>
           </div>

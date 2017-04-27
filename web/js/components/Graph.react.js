@@ -96,8 +96,13 @@ module.exports = React.createClass({
 
       Highcharts.chart(this.props.name, {
         chart: {
-          zoomType:  'x',
-          className: 'hichart-main-container',
+          type:          'spline',
+          zoomType:      'x',
+          className:     'hichart-main-container',
+          spacingBottom: 10,
+          spacingTop:    30,
+          spacingLeft:   10,
+          spacingRight:  10,
         },
 
         exporting: {
@@ -109,11 +114,7 @@ module.exports = React.createClass({
         },
 
         title: {
-          text: slot_name,
-        },
-
-        subtitle: {
-          text: hostname,
+          text: slot_name + ' of ' + hostname,
         },
 
         tooltip: {
