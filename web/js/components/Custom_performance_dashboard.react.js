@@ -54,7 +54,7 @@ module.exports = React.createClass({
   render: function () {
     if (!this.state.slots) {
       return (
-        <Preloader/>
+        <Preloader />
       );
     }
     return (

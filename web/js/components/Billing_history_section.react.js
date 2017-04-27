@@ -14,7 +14,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
-    getBillingHistory();
+    // getBillingHistory();
     OnboardingStore.addChangeListener(this._onChange);
   },
 
@@ -23,12 +23,12 @@ module.exports = React.createClass({
   },
 
   _onChange: function () {
-    if (this.isMounted()) {
-      var history = OnboardingStore.getBillingHistory();
-      this.setState({
-        history: history,
-      });
-    }
+    // if (this.isMounted()) {
+    //   var history = OnboardingStore.getBillingHistory();
+    //   this.setState({
+    //     history: history,
+    //   });
+    // }
   },
 
   render: function () {
@@ -40,20 +40,20 @@ module.exports = React.createClass({
       );
     }
     var rows = [];
-    for (var key in this.state.history) {
-      rows.push(
-        <tr>
-          <th>
-            <time>{this.state.history[key].date}</time>
-          </th>
-          <td>
-            <time>{this.state.history[key].due_date}</time>
-          </td>
-          <td>{this.state.history[key].status}</td>
-          <td>{this.state.history[key].total}</td>
-        </tr>
-      );
-    }
+    // for (var key in this.state.history) {
+    //   rows.push(
+    //     <tr>
+    //       <th>
+    //         <time>{this.state.history[key].date}</time>
+    //       </th>
+    //       <td>
+    //         <time>{this.state.history[key].due_date}</time>
+    //       </td>
+    //       <td>{this.state.history[key].status}</td>
+    //       <td>{this.state.history[key].total}</td>
+    //     </tr>
+    //   );
+    // }
     return (
       <div className="col-xs-12">
         <table className="table table-condensed">
