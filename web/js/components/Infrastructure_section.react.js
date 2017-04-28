@@ -4,10 +4,7 @@ var redirect                      = require('../actions/RouteActions').redirect;
 var saveURI                       = require('../actions/RequestActions').saveURI;
 var SessionStore                  = require('../stores/SessionStore');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
-var InfrastructureOverview        = require('./Infrastructure_overview.react');
-var InfrastructurePublicCloud     = require('./Infrastructure_public_cloud_section.react');
-var InfrastructurePrivateCloud    = require('./Infrastructure_private_cloud_section.react');
-var InfrastructureOnPremise       = require('./Infrastructure_on_premise_section.react');
+var Infrastructure                = require('./Infrastructure_component.react');
 var Link                          = require('react-router').Link;
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
@@ -114,16 +111,16 @@ module.exports = React.createClass({
         </div>
         <div className="tab-content section-content">
           <div id="overview" className={'tab-pane fade ' + ('#overview' == hash || '' == hash ? 'in active' : '')}>
-            <InfrastructureOverview page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#overview', page); }} />
+            <Infrastructure infrastructureType="overview" page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#overview', page); }} />
           </div>
           <div id="public" className={'tab-pane fade ' + ('#public' == hash ? 'in active' : '')}>
-            <InfrastructurePublicCloud page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#public', page); }} />
+            <Infrastructure infrastructureType="public" page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#public', page); }} />
           </div>
           <div id="private" className={'tab-pane fade ' + ('#private' == hash ? 'in active' : '')}>
-            <InfrastructurePrivateCloud page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#private', page); }} />
+            <Infrastructure infrastructureType="private" page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#private', page); }} />
           </div>
           <div id="onPremise" className={'tab-pane fade ' + ('#onPremise' == hash ? 'in active' : '')}>
-            <InfrastructureOnPremise page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#onPremise', page); }} />
+            <Infrastructure infrastructureType="onPremise" page_no={pageNo} sectionId={hash} callUpdateURL={function (page) { _SELF.updateURL('#onPremise', page); }} />
           </div>
         </div>
       </div>

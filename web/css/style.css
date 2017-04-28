@@ -2236,7 +2236,7 @@ a.link-login:hover {
   width: 25%;
   float: left;
   height: 100%;
-  display: inline-table;
+  display: inline;
 }
 .integration .credential-name {
   width: 75%;

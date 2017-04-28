@@ -64,11 +64,26 @@ var InfrastructureStore = assign({}, EventEmitter.prototype, {
   getTextError: function () {
     return _textError;
   },
+
+  resetOverview: function () {
+    _overview = '';
+  },
+
+  resetOnPremise: function () {
+    _onPremise = '';
+  },
+
+  resetPublicCloud: function () {
+    _public = '';
+  },
+
+  resetPrivateCloud: function () {
+    _private = '';
+  },
 });
 
 InfrastructureStore.dispatchToken = Dispatcher.register(function (payload) {
   var action = payload.action;
-
   switch (action.actionType) {
     case ActionTypes.SHOW_INFRASTRUCTURE_OVERVIEW:
       _overview = action.res;
