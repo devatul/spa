@@ -115,7 +115,7 @@ module.exports = React.createClass({
           break;
       }
 
-      if (infrastructure && 0 < infrastructure.member.length && this.state.infrastructure !== infrastructure.member) {
+      if (infrastructure && this.state.infrastructure !== infrastructure.member) {
         this.setState({
           infrastructure: infrastructure.member,
           totalItems:     infrastructure.totalItems,
