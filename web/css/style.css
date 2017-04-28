@@ -1822,6 +1822,9 @@ tr.content:hover {
   border: none;
   color: white;
 }
+.signup-select-option {
+  color: black!important;
+}
 .login-title {
   text-align: center;
   font-weight: bold;

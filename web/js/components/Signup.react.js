@@ -128,9 +128,9 @@ module.exports = React.createClass({
         nav = navigator.language.split('-');
       }
       if (navigator.language == key || navigator.userLanguage == key || nav[0] == key) {
-        locales.push(<option key={key} value={key} selected>{locale[key]}</option>);
+        locales.push(<option className="signup-select-option" key={key} value={key} selected><span className="signup-select-option">{locale[key]}</span></option>);
       } else {
-        locales.push(<option key={key} value={key} >{locale[key]}</option>);
+        locales.push(<option className="signup-select-option" key={key} value={key} ><span className="signup-select-option">{locale[key]}</span></option>);
       }
     }
     return (
