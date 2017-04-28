@@ -11,6 +11,8 @@ var _                          = require('lodash');
 var moment                     = require('moment');
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
+var Carousel                   = require('react-bootstrap').Carousel;
+var CarouselItem               = require('react-bootstrap').CarouselItem;
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -212,18 +214,6 @@ module.exports = React.createClass({
     $('.image-preview-filename').text(file.name).removeClass('hidden');
   },
 
-  _explorePrivateStep2: function (provider, id) {
-    $('.private-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
-    $('#' + id + '.private-cloud-provider').addClass('selected-provider-step1').removeClass('non-selected-provider-step1');
-    var credetials = this.state.activeProvider;
-    if (!credetials) {
-      this._revealSecondStepOfPrivateCloud();
-    }
-    this.setState({
-      activeProvider: provider,
-    });
-  },
-
   _updatePage: function (page) {
     if (0 < page && page <= this.state.totalPages) {
       this.props.callUpdateURL(page);
@@ -245,34 +235,91 @@ module.exports = React.createClass({
     });
   },
 
+  clickProvider: function (provider, id) {
+    this.setState({
+      active: provider.provider,
+    });
+
+    $('.private-cloud-provider').addClass('non-selected-provider-step1').removeClass('selected-provider-step1');
+    var credetials = this.state.activeProvider;
+    if (!credetials) {
+      this._revealSecondStepOfPrivateCloud();
+    }
+    this.setState({
+      activeProvider: provider,
+    });
+  },
+
   render: function () {
     var providers = this.props.providers;
     var _SELF = this;
     var rows = [];
-    _.map(providers, function (provider, i) {
-      if (null != provider.logo) {
+    if (providers !== undefined) {
+      for (var key = 0; key < providers.length; key = key + 4) {
         rows.push(
-          <div id={'pvtPro_' + i} className="col-md-2 private-cloud-provider clouds-icons-button" onClick={function () { _SELF._explorePrivateStep2(provider, 'pvtPro_' + i); }}>
-            <img src={provider.logo.public_path} className="logo-max-size m-t-15" />
-            <p className="aws-text">{provider.name}</p>
-          </div>
-        );
-      } else {
-        rows.push(
-          <div id={'pvtPro_' + i} className="col-md-2 private-cloud-provider clouds-icons-button" onClick={function () { _SELF._explorePrivateStep2(provider, 'pvtPro_' + i); }}>
-            <div className="clouds-icons aws"></div>
-            <p className="aws-text">{provider.name}</p>
-          </div>
+          <CarouselItem>
+            <div className="col-sm-8 col-sm-offset-2">
+              <div className={providers[key] !== undefined ? 'col-sm-3' : 'hidden'}>
+                <a className={providers[key] !== undefined && this.state.active == providers[key].provider ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickProvider.bind(this, providers[key], key)}>
+                  <img src={providers[key] !== undefined ? providers[key].logo.public_path : ''} alt="Image" className="img-responsive" />
+                  <div className="centered"><span>{providers[key] !== undefined ? providers[key].name : ''}</span></div>
+                </a>
+              </div>
+              <div className={providers[key + 1] !== undefined ? 'col-sm-3' : 'hidden'}>
+                <a className={providers[key + 1] !== undefined && this.state.active == providers[key + 1].provider ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickProvider.bind(this, providers[key + 1], key + 1)}>
+                  <img src={providers[key + 1] !== undefined ? providers[key + 1].logo.public_path : ''} className="img-responsive" />
+                  <div className="centered"><span>{providers[key + 1] !== undefined ? providers[key + 1].name : ''}</span></div>
+                </a>
+              </div>
+              <div className={providers[key + 2] !== undefined ? 'col-sm-3' : 'hidden'}>
+                <a className={providers[key + 2] !== undefined && this.state.active == providers[key + 2].provider ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickProvider.bind(this, providers[key + 2], key + 2)}>
+                  <img src={providers[key + 2] !== undefined ? providers[key + 2].logo.public_path : ''} alt="Image" className="img-responsive" />
+                  <div className="centered"><span>{providers[key + 2] !== undefined ? providers[key + 2].name : ''}</span></div>
+                </a>
+              </div>
+              <div className={providers[key + 3] !== undefined ? 'col-sm-3' : 'hidden'}>
+                <a className={providers[key + 3] !== undefined && this.state.active == providers[key + 3].provider ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickProvider.bind(this, providers[key + 3], key + 3)}>
+                  <img src={providers[key + 3] !== undefined ? providers[key + 3].logo.public_path : ''} alt="Image" className="img-responsive" />
+                  <div className="centered"><span>{providers[key + 3] !== undefined ? providers[key + 3].name : ''}</span></div>
+                </a>
+              </div>
+            </div>
+          </CarouselItem>
         );
       }
-    });
+    }
+    var providersView = '';
+    // if there are more than four providers, we need carousel to display them, else they fit in the screen without carousel
+    if (providers && 4 < providers.length) {
+      providersView = (
+        <div>
+          <Carousel interval={false} data-interval="false" activeIndex={this.state.index} direction={this.state.direction} onSelect={this.handleSelect}>
+            {rows}
+          </Carousel>
+        </div>
+      );
+    } else {
+      var providersItems = [];
+      if (providers !== undefined) {
+        for (var count = 0; count < providers.length; count++) {
+          providersItems.push(
+            <div className={providers[count] !== undefined ? 'carousel-item' : 'hidden'}>
+              <a className={providers[count] !== undefined && this.state.active == providers[count].provider ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickProvider.bind(this, providers[count], count)}>
+                <img src={providers[count] !== undefined ? providers[count].logo.public_path : ''} alt="Image" className="img-responsive" />
+                <div className="centered"><span>{providers[count] !== undefined ? providers[count].name : ''}</span></div>
+              </a>
+            </div>
+          );
+        }
+      }
+      providersView = (<div className="centered">{providersItems}</div>);
+    }
 
     var pages = this.state.totalPages;
 
     var navpages = [];
-    var key = 0;
-    for (key; key < pages ; key++) {
-      var page = key + 1;
+    for (var i = 0; i < pages; i++) {
+      var page = i + 1;
       navpages[navpages.length] = <li className={this.state.pageNo === page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
@@ -341,19 +388,7 @@ module.exports = React.createClass({
           <span>Select your Private Cloud</span>
         </div>
         <div className="row hidden" id="private1StepContent">
-          <div className="col-lg-8 col-lg-offset-2">
-            <div className={5 >= rows.length ? 'hidden' : 'col-lg-1 scroll-step1'} onClick={function () { _SELF._scroll('leftArrow'); }}>
-              <i className="fa fa-chevron-left" aria-hidden="true"></i>
-            </div>
-            <div id="viewContainer" className="col-lg-11 public-cloud-selector-div">
-              <div id="privateCloudProvidersList" className="list-providers">
-                {rows}
-              </div>
-            </div>
-            <div className={5 >= rows.length ? 'hidden' : 'col-lg-1 scroll-step1'} onClick={function () { _SELF._scroll('rightArrow'); }}>
-              <i className="fa fa-chevron-right" aria-hidden="true"></i>
-            </div>
-          </div>
+          {providersView}
         </div>
         <div className="hidden" id="private2StepTitle">
           <div className="round-number number-2">2</div>
@@ -367,7 +402,7 @@ module.exports = React.createClass({
               <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
             </div>
           </form>
-          <div className="col-lg-5 centered">
+          <div className="col-lg-5 centered hidden">
             <p className="aws-text">How to integrate AWS with Nubity?</p>
             <a>
               <i className="fa fa-play-circle-o play-tutorial" aria-hidden="true"></i>
