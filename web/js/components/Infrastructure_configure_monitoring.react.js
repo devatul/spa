@@ -6,21 +6,23 @@ var GroupView                     = require('./Databases_tabs.react');
 var SessionStore                  = require('../stores/SessionStore');
 var redirect                      = require('../actions/RouteActions').redirect;
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class InfrastructureConfigureMonitoring extends React.Component {
+  constructor(props) {
+    super(props);
     var url = window.location.href.split('#');
     var position = url[1].indexOf('configure') + 10;
     var id = url[1].slice(position);
     var instanceConfiguration = InfrastructureStore.instanceConfiguration(id);
-    return {
+    this.state = {
       instanceConfiguration: instanceConfiguration,
       idInstance:            id,
       title:                 '',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._updatePage = this._updatePage.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       var url = window.location.href.split('#');
       var position = url[1].indexOf('configure') + 10;
@@ -30,17 +32,17 @@ module.exports = React.createClass({
       redirect('login');
     }
     InfrastructureStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     this.setState({
       title: '',
     });
     InfrastructureStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted() && InfrastructureStore.instanceConfiguration(this.state.idInstance)) {
+  _onChange() {
+    if (InfrastructureStore.instanceConfiguration(this.state.idInstance)) {
       var instanceConfiguration = InfrastructureStore.instanceConfiguration(this.state.idInstance);
       var title = 'Configure monitoring for ' + instanceConfiguration.hostname;
       this.setState({
@@ -48,15 +50,15 @@ module.exports = React.createClass({
         title:                 title,
       });
     }
-  },
+  }
 
-  _updatePage: function (newSection) {
+  _updatePage(newSection) {
     var hash = window.location.href.split('/configure');
     var id = hash[1].split('#');
     window.location.href = hash[0] + '/configure' + id[0] + newSection;
-  },
+  }
 
-  render: function () {
+  render() {
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
@@ -200,5 +202,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = InfrastructureConfigureMonitoring;

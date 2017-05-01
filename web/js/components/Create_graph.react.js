@@ -8,10 +8,11 @@ var search                     = require('../actions/RequestActions').search;
 var getAvailableGraphTypes     = require('../actions/RequestActions').getAvailableGraphTypes;
 var Preloader                  = require('./Preloader.react');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class CreateGraph extends React.Component {
+  constructor(props) {
+    super(props);
     var search = SessionStore.search();
-    return {
+    this.state = {
       search:     search,
       instances:  search.instances,
       clouds:     search.clouds,
@@ -19,9 +20,12 @@ module.exports = React.createClass({
       loading:    'hidden',
       bloqued:    'true',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._selectInstance = this._selectInstance.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       search();
     } else {
@@ -29,15 +33,17 @@ module.exports = React.createClass({
     }
     SessionStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
-  },
+    this.setState({mounted: true});
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
-  },
+    this.setState({mounted: false});
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
+  _onChange() {
+    if (this.state.mounted) {
       var search = SessionStore.search();
       var graphTypes = GraphStore.getGraphTypes();
       this.setState({
@@ -54,35 +60,35 @@ module.exports = React.createClass({
         });
       }
     }
-  },
+  }
 
-  _selectInstance: function () {
-    getAvailableGraphTypes(this.refs.server.getDOMNode().value);
+  _selectInstance() {
+    getAvailableGraphTypes(this.refs.server.value);
     this.setState({
       loading: 'widget-preloader-div',
     });
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
-    var server       = this.refs.server.getDOMNode().value;
-    var chartType    = this.refs.chartType.getDOMNode().value;
-    this.refs.server.getDOMNode().value = '';
-    this.refs.chartType.getDOMNode().value = '';
+    var server       = this.refs.server.value;
+    var chartType    = this.refs.chartType.value;
+    this.refs.server.value = '';
+    this.refs.chartType.value = '';
     CreateDashboardAction('graph', server, chartType, localStorage.getItem('dashboardId'), this.props.position);
-  },
+  }
 
-  render: function () {
+  render() {
     var instances = this.state.instances;
     var rows = [];
     for (var key in instances) {
-      rows.push(<option value={instances[key].instance} >{instances[key].hostname}</option>);
+      rows.push(<option key={key} value={instances[key].instance} >{instances[key].hostname}</option>);
     }
 
     var graphTypes = this.state.graphTypes;
     var graphRows = [];
     for (key in graphTypes) {
-      graphRows.push(<option value={graphTypes[key].graph} >{graphTypes[key].name}</option>);
+      graphRows.push(<option key={key} value={graphTypes[key].graph} >{graphTypes[key].name}</option>);
     }
 
     return (
@@ -110,5 +116,7 @@ module.exports = React.createClass({
         </div>
       </form>
     );
-  },
-});
+  }
+}
+
+module.exports = CreateGraph;

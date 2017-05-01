@@ -4,18 +4,20 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var ForgotPasswordAction       = require('../actions/RequestActions').forgotPassword;
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
-    return {
+class ForgotPassword extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       message:      '',
       messageClass: 'hidden',
     };
-  },
+    this._onSubmit = this._onSubmit.bind(this);
+    this.closeAlert = this.closeAlert.bind(this);
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
-    var email = this.refs.email.getDOMNode().value;
+    var email = this.refs.email.value;
     if ('' !== email) {
       ForgotPasswordAction(email).then(function (res) {
         this.setState({
@@ -34,20 +36,20 @@ module.exports = React.createClass({
         messageClass: 'alert alert-danger alert-margin',
       });
     }
-  },
+  }
 
-  closeAlert: function (argument) {
+  closeAlert(argument) {
     this.setState({
       message:      '',
       messageClass: 'hidden',
     });
-  },
+  }
 
-  _redirectLogin: function () {
+  _redirectLogin() {
     redirect('login');
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
@@ -77,5 +79,7 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}
+
+module.exports = ForgotPassword;

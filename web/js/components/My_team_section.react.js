@@ -3,9 +3,9 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 
-module.exports = React.createClass({
+class MyTeamSection extends React.Component {
 
-  render: function () {
+  render() {
     return (
       <div>
         <div>
@@ -141,5 +141,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = MyTeamSection;

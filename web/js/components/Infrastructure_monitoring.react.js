@@ -9,40 +9,39 @@ var Linux                         = require('./Linux_setup.react');
 var Windows                       = require('./Windows_setup.react');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class InfrastructureMonitoring extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       title: 'Start monitoring now!',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentWillMount: function () {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     InfrastructureStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     InfrastructureStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      if (InfrastructureStore.instanceForMonitoring()) {
-        this.setState({
-          title: 'Start monitoring for ' + InfrastructureStore.instanceForMonitoring().hostname,
-        });
-      }
-
+  _onChange() {
+    if (InfrastructureStore.instanceForMonitoring()) {
+      this.setState({
+        title: 'Start monitoring for ' + InfrastructureStore.instanceForMonitoring().hostname,
+      });
     }
-  },
+  }
 
-  render: function () {
+  render() {
 
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
@@ -78,5 +77,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = InfrastructureMonitoring;

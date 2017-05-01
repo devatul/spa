@@ -1,8 +1,8 @@
 var router;
-
+var Router = require('react-router');
 module.exports = {
   transitionTo: function (to) {
-    router.transitionTo(to);
+    Router.hashHistory.push(to);
   },
 
   getRouter: function () {
@@ -13,11 +13,3 @@ module.exports = {
     router.run(render);
   },
 };
-
-var routes = require('./routes'),
-  Router = require('react-router');
-
-router = Router.create({
-  routes:   routes,
-  location: null,
-});

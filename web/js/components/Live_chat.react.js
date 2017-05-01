@@ -5,20 +5,24 @@ var saveURI                    = require('../actions/RequestActions').saveURI;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
 
-module.exports = React.createClass({
+class LiveChat extends React.Component {
+  constructor(props) {
+    super(props);
+    this.updateURL = this.updateURL.bind(this);
+  }
 
-  _createTicket: function () {
-    redirect('create_ticket');
-  },
+  _createTicket() {
+    redirect('create-ticket');
+  }
 
-  componentWillMount: function () {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
     }
-  },
+  }
 
-  render: function () {
+  render() {
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
@@ -86,5 +90,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = LiveChat;

@@ -7,30 +7,32 @@ var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var modifyingTrigger           = require('../actions/RequestActions').modifyingTrigger;
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class ConfigureTrigger extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       disabled: false,
       triggers: this.props.template.triggers,
     };
-  },
+    this.switchTrigger = this.switchTrigger.bind(this);
+  }
 
-  switchTrigger: function (trigger) {
+  switchTrigger(trigger) {
     if (trigger.is_enabled) {
       modifyingTrigger(this.props.idInstance, trigger.trigger, false);
     } else {
       modifyingTrigger(this.props.idInstance, trigger.trigger, true);
     }
-  },
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       triggers: nextProps,
     });
 
-  },
+  }
 
-  render: function () {
+  render() {
     var rows = [];
     var triggers = this.props.template.triggers;
     var priority = '';
@@ -91,5 +93,7 @@ module.exports = React.createClass({
         </table>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = ConfigureTrigger;

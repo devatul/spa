@@ -1,13 +1,17 @@
-var React          = require('react');
-var moment         = require('moment');
-var openAttachment = require('../actions/RequestActions').openAttachment;
+var React                         = require('react');
+var moment                        = require('moment');
+var openAttachment                = require('../actions/RequestActions').openAttachment;
 
-module.exports = React.createClass({
-  _openAttachment: function (ticketId, attachmentId, attachmentName) {
+class TicketReply extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  _openAttachment(ticketId, attachmentId, attachmentName) {
     openAttachment(ticketId, attachmentId, attachmentName);
-  },
+  }
 
-  render: function () {
+  render() {
     var firstname = '';
     var from = '';
 
@@ -45,5 +49,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = TicketReply;

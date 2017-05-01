@@ -1,8 +1,8 @@
-var React  = require('react');
+var React                      = require('react');
 
-module.exports = React.createClass({
+class ViewTicketFormHeader extends React.Component {
 
-  render: function () {
+  render() {
     var servers = [];
     servers.push(<option value="" disabled>Select Server</option>);
     servers.push(<option value={this.props.server} disabled>{this.props.server}</option>);
@@ -41,5 +41,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = ViewTicketFormHeader;

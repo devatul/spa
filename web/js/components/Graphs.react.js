@@ -10,73 +10,75 @@ var Graph                      = require('./Graph.react');
 var Modal                      = require('react-bootstrap').Modal;
 var moment                     = require('moment');
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class Graphs extends React.Component {
+  constructor(props) {
+    super(props);
     var dashboard = GraphStore.getDashboard();
-    return {
+    this.state = {
       dashboard:          dashboard,
       showModal:          false,
       graphToShowInModal: '',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this.close = this.close.bind(this);
+    this._deleteGraph = this._deleteGraph.bind(this);
+    this._modalGraph = this._modalGraph.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     GraphStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     GraphStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var dashboard = GraphStore.getDashboard();
-      this.setState({
-        dashboard: dashboard,
-      });
-    }
-  },
+  _onChange() {
+    var dashboard = GraphStore.getDashboard();
+    this.setState({
+      dashboard: dashboard,
+    });
+  }
 
-  _deleteGraph: function (dashboard) {
+  _deleteGraph(dashboard) {
     deleteSlot(dashboard.slot);
-  },
+  }
 
-  _modalGraph: function (dashboard) {
+  _modalGraph(dashboard) {
     var name = 'container' + moment().format('MMMMDoYYYYh:mm:ss');
     var graph = (<Graph graph={dashboard} name={name} dashboardId={localStorage.getItem('dashboardId')} />);
     this.setState({
       showModal:          true,
       graphToShowInModal: graph,
     });
-  },
+  }
 
-  close: function () {
+  close() {
     this.setState({
       showModal: false,
     });
-  },
+  }
 
-  render: function () {
+  render() {
     var dashboard = this.state.dashboard;
     var allGraphs = [];
 
     allGraphs[0] = (
-      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div key={0} className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create valign-wrapper">
           <CreateGraph position={1} />
         </div>
       </div>
     );
     allGraphs[1] = (
-      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div key={1} className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create valign-wrapper">
           <CreateGraph position={2} />
         </div>
       </div>
     );
     allGraphs[2] = (
-      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div key={2} className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div className="widget create valign-wrapper">
           <CreateGraph position={3} />
         </div>
@@ -89,7 +91,7 @@ module.exports = React.createClass({
       for (var key in dashboard) {
         name = 'container' + key;
         allGraphs[parseInt(dashboard[key].position) - 1] = (
-          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <div key={parseInt(dashboard[key].position) - 1} className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget" id="widget">
               <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
                 <span aria-hidden="true">&times;</span>
@@ -117,5 +119,7 @@ module.exports = React.createClass({
         </Modal>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = Graphs;

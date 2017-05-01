@@ -3,12 +3,12 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 
-module.exports = React.createClass({
-  redirectHome: function () {
+class NotFound extends React.Component {
+  redirectHome() {
     redirect('home');
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <section className="valign-wrapper not-found">
         <div className="valign centered">
@@ -18,5 +18,7 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}
+
+module.exports = NotFound;

@@ -2,38 +2,41 @@ var React                      = require('react');
 var Router                     = require('../router');
 var Modal                      = require('react-bootstrap').Modal;
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class Warning extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       showModal: false,
       modalType: this.props.modalType,
     };
-  },
+    this.close = this.close.bind(this);
+    this.execute = this.execute.bind(this);
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.modalType !== this.state.modalType) {
       this.setState({modalType: nextProps.modalType});
     }
     if ('' != nextProps.modalType) {
       this.setState({showModal: true});
     }
-  },
+  }
 
-  close: function () {
+  close() {
     this.setState({
       showModal: false,
     });
-  },
+  }
 
-  execute: function () {
+  execute() {
     this.setState({
       showModal: false,
     });
 
     this.props.okAction(this.props.functionParam);
-  },
+  }
 
-  render: function () {
+  render() {
     var notice;
     var warn;
     var confirmButtons;
@@ -142,5 +145,7 @@ module.exports = React.createClass({
         </Modal.Body>
       </Modal>
     );
-  },
-});
+  }
+}
+
+module.exports = Warning;

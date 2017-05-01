@@ -1,11 +1,12 @@
-var React           = require('react');
-var uninstallPlugin = require('../actions/RequestActions').uninstallPlugin;
-var installPlugin   = require('../actions/RequestActions').installPlugin;
-var configureAction = require('../actions/RequestActions').configureTemplate;
-var Preloader       = require('./Preloader.react');
+var React                      = require('react');
+var uninstallPlugin            = require('../actions/RequestActions').uninstallPlugin;
+var installPlugin              = require('../actions/RequestActions').installPlugin;
+var configureAction            = require('../actions/RequestActions').configureTemplate;
+var Preloader                  = require('./Preloader.react');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class PluginsMonitoring extends React.Component {
+  constructor(props) {
+    super(props);
     var action;
     var install;
     if (this.props.template.is_installed) {
@@ -15,14 +16,15 @@ module.exports = React.createClass({
       action = 'install';
       install = (<button type="submit" className="action-button nubity-green">Install</button>);
     }
-    return {
+    this.state = {
       install:    install,
       action:     action,
       idTemplate: this.props.template.template,
     };
-  },
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     var action;
     var install;
     if (nextProps.template.is_installed) {
@@ -37,9 +39,9 @@ module.exports = React.createClass({
       action:     action,
       idTemplate: nextProps.template.template,
     });
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
     var newMacros = [];
     var form      = e.target.elements;
@@ -56,9 +58,9 @@ module.exports = React.createClass({
     } else {
       uninstallPlugin(this.state.idTemplate, this.props.idInstance);
     }
-  },
+  }
 
-  render: function () {
+  render() {
     var macros = [];
     if (this.props.template.user_macros) {
       for (var key in this.props.template.user_macros) {
@@ -115,5 +117,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = PluginsMonitoring;

@@ -47,7 +47,7 @@ module.exports = {
   validateToken:     function (res) {
     var _SELF = this;
     var interval = false;
-    var code = JSON.parse(res.status);
+    var code = res.status;
     return new Promise(function (resolve, reject) {
       if (401 === code && _SELF.hasToRefresh()) {
         setTimeout(function () {
@@ -105,9 +105,9 @@ module.exports = {
       .post('/login.json')
       .send({_username: user.email, _password: user.password})
       .accept('application/json')
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
+        var code = res.status;
         if (300 <= code) {
           loginError('Bad credentials');
         } else {
@@ -126,7 +126,7 @@ module.exports = {
       .get('/locales.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -145,9 +145,9 @@ module.exports = {
         .post('/signup.json')
         .send({firstname: user.firstname, lastname: user.lastname, email: user.email, password: user.password, password_confirmation: user.password2, phone: user.phone, company_name: user.company, locale: user.locale, timezone: timezone})
         .accept('application/json')
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
-          var code = JSON.parse(res.status);
+          var code = res.status;
           if (200 <= code && 300 > code) {
             showSignupMessage(text.message);
             resolve();
@@ -162,9 +162,9 @@ module.exports = {
     request
       .get('/signup/email-confirm/' + token + '.json')
       .accept('application/json')
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
-        var code = JSON.parse(res.status);
+        var code = res.status;
         if (400 <= code) {
           showConfirmMessage(text.code, text.message);
         }
@@ -177,9 +177,9 @@ module.exports = {
         .post('/password/request-reset.json')
         .send({_username: email})
         .accept('application/json')
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
-          var code = JSON.parse(res.status);
+          var code = res.status;
           if (200 === code) {
             resolve('Reset link sent to your email');
           } else {
@@ -194,7 +194,7 @@ module.exports = {
       .post('/password/reset/' + token + '.json')
       .send({_password: password, _password_confirmation: confirmation_password})
       .accept('application/json')
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function () {
           routes.redirectLogin();
         }.bind(this));
@@ -208,9 +208,9 @@ module.exports = {
         .post('/token/refresh.json')
         .accept('application/json')
         .send({refresh_token: localStorage.getItem('nubity-refresh-token')})
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
-          var code = JSON.parse(res.status);
+          var code = res.status;
           if (401 === code) {
             localStorage.removeItem('nubity-token');
             localStorage.removeItem('nubity-refresh-token');
@@ -237,7 +237,7 @@ module.exports = {
         .get('/user.json')
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           SELF.validateToken(res).then(function (status) {
             if (!status) {
@@ -270,7 +270,7 @@ module.exports = {
       .get('/user.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -290,7 +290,7 @@ module.exports = {
       .get('/company/' + company)
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -312,7 +312,7 @@ module.exports = {
       .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -331,7 +331,7 @@ module.exports = {
       .del('/dashboard/' + dashboardId + '.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.removeDashboard(dashboardId);
@@ -352,7 +352,7 @@ module.exports = {
       .query({scope: 'dashboard'})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -377,7 +377,7 @@ module.exports = {
       .get('/instance/' + id + '/graph.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -396,7 +396,7 @@ module.exports = {
       .accept('application/json')
       .set('Authorization', token)
       .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: 'TODAY'})
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.createGraph(widget, instance, chart, dashboardId, position);
@@ -434,7 +434,7 @@ module.exports = {
         .query({page: page, include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -451,7 +451,7 @@ module.exports = {
         .query({include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -473,7 +473,7 @@ module.exports = {
         .query({provider_classification: 'public', page: page, include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -490,7 +490,7 @@ module.exports = {
         .query({provider_classification: 'public', include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -512,7 +512,7 @@ module.exports = {
         .query({provider_classification: 'private', page: page, include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -529,7 +529,7 @@ module.exports = {
         .query({provider_classification: 'private', include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -551,7 +551,7 @@ module.exports = {
         .query({provider_classification: 'on-premise', page: page, include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -568,7 +568,7 @@ module.exports = {
         .query({provider_classification: 'on-premise', include_health: true, include_products: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -590,7 +590,7 @@ module.exports = {
         .query({page: page})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -605,7 +605,7 @@ module.exports = {
         .get('/company/' + company + '/alerts')
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -625,7 +625,7 @@ module.exports = {
       .get('/company/' + company + '/alerts-stats.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -646,7 +646,7 @@ module.exports = {
         .query({page: page, include_history: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -662,7 +662,7 @@ module.exports = {
         .query({include_history: true})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -704,7 +704,7 @@ module.exports = {
       .query({limit: 5})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -723,7 +723,7 @@ module.exports = {
       .get('/provider.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -745,7 +745,7 @@ module.exports = {
       .accept('application/json')
       .set('Authorization', token)
       .send({user_id: user, company_id: company, scope: 'dashboard'})
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -764,7 +764,7 @@ module.exports = {
       .get('/company/' + company + '/search.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -785,7 +785,7 @@ module.exports = {
         .query({page: page})
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -800,7 +800,7 @@ module.exports = {
         .get('/company/' + company + '/ticket')
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           this.validateToken(res).then(function (status) {
             if (!status) {
@@ -828,7 +828,7 @@ module.exports = {
     req.field('hostname', ticket.hostname);
     req.set('Authorization', token);
     req.set('Accept', 'aplication/json')
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.createTicket(ticket);
@@ -850,7 +850,7 @@ module.exports = {
     req.field('content', content);
     req.set('Accept', 'aplication/json');
     req.set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.replyTicket(id, content);
@@ -869,7 +869,7 @@ module.exports = {
       .put('/company/' + company + '/ticket/' + id + '/close.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.closeTicket(id);
@@ -887,7 +887,7 @@ module.exports = {
       .get('/company/' + company + '/ticket/' + ticketId)
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -907,7 +907,7 @@ module.exports = {
       .accept('application/json')
       .set('Authorization', token)
       .send({instance_id: instanceId, product_type_id: 2})
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.getMonitored(instanceId);
@@ -929,7 +929,7 @@ module.exports = {
       .accept('application/json')
       .set('Authorization', token)
       .send({instance_id: instanceId, product_type_id: 1})
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.getManaged(instanceId);
@@ -950,7 +950,7 @@ module.exports = {
       .del('/order/' + orderId + '.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.stopOrder(orderId);
@@ -971,7 +971,7 @@ module.exports = {
       .put('/company/' + company + '/instance/' + instanceId + '/stop.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.startInstance(instanceId);
@@ -993,7 +993,7 @@ module.exports = {
       .put('/company/' + company + '/instance/' + instanceId + '/start.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.restartInstance(instanceId);
@@ -1015,7 +1015,7 @@ module.exports = {
       .put('/company/' + company + '/instance/' + instanceId + '/reboot.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.stopInstance(instanceId);
@@ -1036,7 +1036,7 @@ module.exports = {
       .del('/order/' + orderId + '/cancellation-request.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.deleteOrderCancelation(orderId);
@@ -1067,7 +1067,7 @@ module.exports = {
           req.attach(key, cloudData[key]);
         }
       }
-      req.end(function (res) {
+      req.end(function (err, res) {
         _SELF.validateToken(res).then(function (status) {
           if (!status) {
             _SELF.submitCloudData(cloudData);
@@ -1087,7 +1087,7 @@ module.exports = {
       .query({include_products: true})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -1111,7 +1111,7 @@ module.exports = {
       .query({page: page, limit: limit})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -1129,7 +1129,7 @@ module.exports = {
       .get('/instance/' + id + '/monitoring/configuration.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -1149,7 +1149,7 @@ module.exports = {
       .accept('application/json')
       .send({user_macros: macros, template_id: templateId})
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.configureTemplate(id, macros);
@@ -1168,7 +1168,7 @@ module.exports = {
       .send({template_id: idPlugin})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.uninstallPlugin(idPlugin, id);
@@ -1187,7 +1187,7 @@ module.exports = {
       .send({template_id: idPlugin})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.installPlugin(idPlugin, id);
@@ -1208,7 +1208,7 @@ module.exports = {
       .accept('application/json')
       .set('Authorization', token)
       .send({user_id: user, company_id: company, scope: 'performance', name: title})
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.createCustomDashboard(title, icon);
@@ -1229,7 +1229,7 @@ module.exports = {
       .query({scope: 'performance'})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -1251,7 +1251,7 @@ module.exports = {
       .query({user_id: user, company_id: company, dashboard_id: id, include_content: 1})
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -1274,8 +1274,8 @@ module.exports = {
         .type('application/json')
         .send(userData)
         .set('Authorization', token)
-        .end(function (res) {
-          var code = JSON.parse(res.status);
+        .end(function (err, res) {
+          var code = res.status;
           var text = JSON.parse(res.text);
           if (200 <= code && 300 > code) {
             SELF.setUserData(text);
@@ -1301,7 +1301,7 @@ module.exports = {
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', token)
       .send({trigger_id: triggerId, status: status})
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
             this.modifyingTrigger(instanceId, triggerId, status);
@@ -1319,7 +1319,7 @@ module.exports = {
     var req     = request.get(url);
     req.set('Authorization', token);
     req.type('blob');
-    req.end(function (res) {
+    req.end(function (err, res) {
       download('' + res.text + '', attachmentName, res.xhr.getResponseHeader('Content-Type'));
     }.bind(this));
   },
@@ -1335,8 +1335,8 @@ module.exports = {
         .type('application/json')
         .send({user_id: user, company_id: company, severity: severity})
         .set('Authorization', token)
-        .end(function (res) {
-          var code = JSON.parse(res.status);
+        .end(function (err, res) {
+          var code = res.status;
           if (200 <= code && 300 > code) {
             SELF.getUser().then(function () {
               resolve('Severity updated successfully');
@@ -1365,8 +1365,8 @@ module.exports = {
         .type('application/json')
         .send(companyInfo)
         .set('Authorization', token)
-        .end(function (res) {
-          var code = JSON.parse(res.status);
+        .end(function (err, res) {
+          var code = res.status;
           var text = JSON.parse(res.text);
           if (200 === code) {
             showCompany(text);
@@ -1390,7 +1390,7 @@ module.exports = {
       .get('/timezones.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -1411,7 +1411,7 @@ module.exports = {
         .del('/company/' + company + '/cloud/' + id + '.json')
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           _SELF.validateToken(res).then(function (status) {
             if (!status) {
               _SELF.deleteProviderCredential(id);
@@ -1432,7 +1432,7 @@ module.exports = {
         .get('/company/' + company + '/cloud/' + credetialId + '.json')
         .accept('application/json')
         .set('Authorization', token)
-        .end(function (res) {
+        .end(function (err, res) {
           var text = JSON.parse(res.text);
           _SELF.validateToken(res).then(function (status) {
             if (!status) {
@@ -1457,8 +1457,8 @@ module.exports = {
         .set('Authorization', token)
         .type('application/json')
         .send(newCredential);
-      req.end(function (res) {
-        var code = JSON.parse(res.status);
+      req.end(function (err, res) {
+        var code = res.status;
         var text = JSON.parse(res.text);
         if (200 <= code && 300 > code) {
           showCredentialDetails(text);
@@ -1484,7 +1484,7 @@ module.exports = {
       .get('/company/' + company + '/invoice.json')
       .accept('application/json')
       .set('Authorization', token)
-      .end(function (res) {
+      .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (status) {
             var text = JSON.parse(res.text);

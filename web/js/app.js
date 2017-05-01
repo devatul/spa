@@ -1,7 +1,8 @@
 var React     = require('react');
-var router    = require('./router').getRouter();
 window.React = React;
 var Auth      = require('j-toker');
+var ReactDOM  = require('react-dom');
+var routes    = require('./routes');
 
 Auth.configure({
   apiUrl:                'http://api.pricing.nubity.com',
@@ -57,9 +58,4 @@ Auth.configure({
   },
 });
 
-router.run(function (Handler, state) {
-  React.render(
-    <Handler />,
-    document.getElementById('nubityApp')
-  );
-});
+ReactDOM.render(routes, document.getElementById('nubityApp'));

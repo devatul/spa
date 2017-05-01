@@ -1,8 +1,7 @@
-var React                 = require('react');
+var React                      = require('react');
 
-var Preloader = React.createClass({
-
-  render: function () {
+class Preloader extends React.Component {
+  render() {
     var preloaderClass = '';
     if (this.props.preloaderClass) {
       preloaderClass = this.props.preloaderClass + ' ';
@@ -17,7 +16,7 @@ var Preloader = React.createClass({
     return (
       <div className={preloaderClass}>Loading...</div>
     );
-  },
-});
+  }
+}
 
 module.exports = Preloader;

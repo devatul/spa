@@ -1,10 +1,12 @@
-var React                      = require('react');
+var React                 = require('react');
 
-module.exports = React.createClass({
+class PaymentMethodSection extends React.Component {
 
-  render: function () {
+  render() {
     return (
       <div>Payment Method section</div>
     );
-  },
-});
+  }
+}
+
+module.exports = PaymentMethodSection;

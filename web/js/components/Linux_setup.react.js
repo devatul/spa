@@ -3,15 +3,13 @@ var Router                        = require('../router');
 var redirect                      = require('../actions/RouteActions').redirect;
 var SessionStore                  = require('../stores/SessionStore');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
-var LinuxSetup                    = require('./Linux_setup.react');
-var WindowsSetup                  = require('./Windows_setup.react');
 var Preloader                     = require('./Preloader.react');
 var getInstanceForMonitoring      = require('../actions/RequestActions').getInstanceForMonitoring;
 var ClipboardButton               = require('react-clipboard.js');
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class LinuxSetup extends React.Component {
+  constructor(props) {
+    super(props);
     var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
     var token = (
       <div id="loading-message" className="col-sm-offset-1">
@@ -22,7 +20,7 @@ module.exports = React.createClass({
     if ('' != instanceForMonitoring && undefined !== instanceForMonitoring) {
       token = instanceForMonitoring.monitoring_agent.name;
     }
-    return {
+    this.state = {
       instanceForMonitoring: instanceForMonitoring,
       token:                 token,
       report:                report,
@@ -30,9 +28,10 @@ module.exports = React.createClass({
       reportFlag:            false,
       interval:              true,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     var url = window.location.href;
 
     var position = url.indexOf('monitoring') + 11;
@@ -41,59 +40,57 @@ module.exports = React.createClass({
       getInstanceForMonitoring(id);
     }
     InfrastructureStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     for (var i = 1; 99999 > i; i++) {
       window.clearInterval(i);
     }
 
     InfrastructureStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      if (this.state.interval) {
-        var loop = setInterval(function () {
-          var url = window.location.href;
-          var position = url.indexOf('monitoring') + 11;
-          var id = url.slice(position);
-          if (-1 != url.indexOf('monitoring')) {
-            getInstanceForMonitoring(id);
-          }
-        }, 6000);
-        this.setState({
-          interval: false,
-        });
-      }
-
-      var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
-
-      if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
-        var token = instanceForMonitoring.monitoring_agent.name;
-        this.setState({
-          token:     token,
-          tokenFlag: false,
-        });
-      }
-
-      if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && !this.state.reportFlag) {
-        if (instanceForMonitoring.monitoring_agent.is_active) {
-          this.setState({
-            reportFlag: true,
-            report:     'Report done',
-          });
-          clearInterval(loop);
+  _onChange() {
+    if (this.state.interval) {
+      var loop = setInterval(function () {
+        var url = window.location.href;
+        var position = url.indexOf('monitoring') + 11;
+        var id = url.slice(position);
+        if (-1 != url.indexOf('monitoring')) {
+          getInstanceForMonitoring(id);
         }
-      }
-
+      }, 6000);
       this.setState({
-        instanceForMonitoring: instanceForMonitoring,
+        interval: false,
       });
     }
-  },
 
-  render: function () {
+    var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
+
+    if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
+      var token = instanceForMonitoring.monitoring_agent.name;
+      this.setState({
+        token:     token,
+        tokenFlag: false,
+      });
+    }
+
+    if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && !this.state.reportFlag) {
+      if (instanceForMonitoring.monitoring_agent.is_active) {
+        this.setState({
+          reportFlag: true,
+          report:     'Report done',
+        });
+        clearInterval(loop);
+      }
+    }
+
+    this.setState({
+      instanceForMonitoring: instanceForMonitoring,
+    });
+  }
+
+  render() {
     var script = 'NUBITY_TOKEN=' + this.state.token + ' bash -c "$(curl https://packages.nubity.com/installer/nubity-installer.sh)"';
     return (
       <ol className="rounded-list">
@@ -118,5 +115,7 @@ module.exports = React.createClass({
         </li>
       </ol>
     );
-  },
-});
+  }
+}
+
+module.exports = LinuxSetup;

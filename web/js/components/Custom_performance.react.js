@@ -4,9 +4,12 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var CreateGraph                = require('./Create_graph.react');
 
-module.exports = React.createClass({
+class CustomPerformance extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  render: function () {
+  render() {
     return (
       <div className="">
         <ul className="nav nav-tabs section-tabs">
@@ -61,5 +64,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = CustomPerformance;

@@ -5,32 +5,36 @@ var PluginModal                = require('./PluginModal.react');
 var Preloader                  = require('./Preloader.react');
 var alertify                   = require('alertify.js');
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class PluginsTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       pluginForm:  'hola',
       pluginModal: '',
     };
-  },
+    this._uninstall = this._uninstall.bind(this);
+    this._install = this._install.bind(this);
+    this._configure = this._configure.bind(this);
+  }
 
-  _uninstall: function (idPlugin) {
+  _uninstall(idPlugin) {
     uninstallPlugin(idPlugin, this.props.idInstance);
-  },
+  }
 
-  _install: function (idPlugin) {
+  _install(idPlugin) {
     installPlugin(idPlugin, this.props.idInstance);
-  },
+  }
 
-  _configure: function (template) {
+  _configure(template) {
     if (0 < template.user_macros.length) {
       var modal = (<PluginModal macros={template.user_macros} instanceId={this.props.idInstance} templateId={template.template} />);
       this.setState({
         pluginModal: modal,
       });
     }
-  },
+  }
 
-  render: function () {
+  render() {
     var rows = [];
     var install;
     for (var key in this.props.plugins) {
@@ -71,5 +75,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = PluginsTable;
