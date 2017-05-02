@@ -7,6 +7,38 @@ in 1.0 minor versions.
 To get the diff for a specific change, go to https://github.com/nubity/spa/commit/XXX where XXX is the change hash
 To get the diff between two versions, go to https://github.com/nubity/spa/compare/v1.0.0...v1.0.1
 
+* 1.0.0-alpha.2 (2017-05-02)
+
+ * feature #209 [SPA-109] Show only monitored instances in create graph dropdown (delfipolito)
+ * bugfix #208 [SPA-32] Changing root variable (delfipolito)
+ * refactor #197 [SPA-32] React upgrade (reactexcel)
+ * refactor #206 [SPA-20] Refactor on infrastructure section (delfipolito)
+ * bugfix #204 [SPA-11] Add cloud endpoint fix (delfipolito)
+ * bugfix #203 [SPA-59 Fix on signup select box (delfipolito)
+ * bugfix #202 [SPA-20] Infrastructure > Monitoring configuration (delfipolito)
+ * bugfix #201 [SPA-59] Normalize locale sent to `/signup` (delfipolito)
+ * bugfix #200 [SPA-82] Fix some styles and design flaws (delfipolito)
+ * feature #199 [SPA-5] Update ESLint rules (phansys)
+ * bugfix #198 [SPA-82] Modal fix (delfipolito)
+ * bugfix #196 [SPA-82] Fix some styles and design flaws (delfipolito)
+ * feature #195 [SPA-91] Billing history table (delfipolito)
+ * bugfix #194 [SPA-110] Restyling of my account modal (delfipolito)
+ * bugfix #193 [SPA-82] Fix intercom and design flaws (delfipolito)
+ * bugfix #192 [SPA-82] Fix some styles and design flaws (delfipolito)
+ * bugfix #191 [SPA-82] Fix some styles and design flaws (delfipolito)
+ * bugfix #189 [SPA-5] Remove surplus check at `circle.yml` (phansys)
+ * bugfix #190 [SPA-109] Hotfix on graphs (delfipolito)
+ * bugfix #188 [SPA-109] Fix on loading component (delfipolito)
+ * bugfix #177 [SPA-104] prevented non required request (reactexcel)
+ * bugfix #186 [SPA-109] Block the "Select Chart Type" input in widget when it has no data (delfipolito)
+ * bugfix #182 [SPA-11] bug fixed for edit credentials & table issue (reactexcel)
+ * bugfix #185 [SPA-107] Send timezone in signup request (delfipolito)
+ * refactor #184 [SPA-5] Update `ESLint` rules (phansys)
+ * bugfix #183 [SPA-82] Remove Dashboards (delfipolito)
+ * refactor #181 [SPA-5] Update `ESLint` rules (phansys)
+ * bugfix #180 [SPA-82] Fix some styles and design flaws (delfipolito)
+ * bugfix #179 [SPA-82] Fix some styles and design flaws (delfipolito)
+
 * 1.0.0-alpha.1 (2017-04-17)
 
  * feature #175 [spa-11] refresh table when adding new cloud (reactexcel)
