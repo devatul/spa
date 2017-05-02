@@ -4,12 +4,13 @@
   "description": "nubity-spa",
   "main": "js/app.js",
   "scripts": {
-    "prod": "grunt env:prod && watchify js/app.js -o js/bundle.js -v -d",
-    "dev": "grunt env:dev && watchify js/app.js -o js/bundle.js -v -d",
+    "prod": "export NODE_ENV=production && grunt env:prod && watchify js/app.js -o js/bundle.js -v -d",
+    "dev": "export NODE_ENV=development && grunt env:dev && watchify js/app.js -o js/bundle.js -v -d",
     "build": "browserify . -o js/bundle.tmp.js && uglifyjs js/bundle.tmp.js -cm > js/bundle.js && rm js/bundle.tmp.js",
     "build:prod": "grunt env:prod && npm run build",
     "build:dev": "grunt env:dev && npm run build",
-    "deploy": "npm run build:prod && shipit production deploy"
+    "deploy:prod": "npm run build:prod && shipit production deploy",
+    "deploy:dev": "npm run build:dev && shipit development deploy"
   },
   "repository": {
     "type": "git",

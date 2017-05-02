@@ -1,26 +1,25 @@
 
 module.exports = {
   gruntScript: function (grunt, YAML) {
+    var fileExists = grunt.file.exists('../parameters.yml');
+    var dist = grunt.file.readYAML('../parameters.yml.dist');
+    var parameters = grunt.file.readJSON('../parameters.json');
+    if (fileExists) {
+      var config = grunt.file.readYAML('../parameters.yml');
+    }
+
     grunt.registerTask('env', 'setup app "env"', function (env) {
-      var fileExists = grunt.file.exists('../parameters.yml');
-      var dist = grunt.file.readYAML('parameters.yml.dist');
-      var rootConfig = grunt.file.readYAML('js/config.yml');
-      if (fileExists) {
-        var config = grunt.file.readYAML('../parameters.yml');
-        if ('prod' === env) {
-          rootConfig.baseURL = config.baseURL || dist.baseURL;
-        } else if ('dev' === env) {
-          rootConfig.baseURL = dist.baseURL;
-        }
+      if ('prod' === env && fileExists) {
+        parameters.baseURL = config.baseURL || dist.baseURL;
+      } else if ('prod' === env && !fileExists) {
+        console.error('===========================================');
+        console.error('Error: Production envionment not available.\nRunning in default envionment');
+        console.error('===========================================');
+        parameters.baseURL = dist.baseURL;
       } else {
-        if ('prod' === env) {
-          console.error('===========================================');
-          console.error('Error: Production envionment not available.\nRunning in default envionment');
-          console.error('===========================================');
-        }
-        rootConfig.baseURL = dist.baseURL
+        parameters.baseURL = dist.baseURL;
       }
-      grunt.file.write('js/config.yml', YAML.stringify(rootConfig, null, 1));
+      grunt.file.write('../parameters.json', JSON.stringify(parameters, null, 1));
     });
   },
 
@@ -30,11 +29,15 @@ module.exports = {
     if (fs.existsSync(config_path)) {
       config = YAML.load(config_path);
     }
-    var dist        = YAML.load('parameters.yml.dist');
+    var dist        = YAML.load('../parameters.yml.dist');
 
     shipit.initConfig({
       default: {
         rsync: config.rsync || dist.rsync,
+      },
+      development: {
+        servers: dist.host,
+        key:     path.resolve(dist.SSH_key),
       },
       production: {
         servers: config.host || dist.host,

@@ -1,7 +1,7 @@
 var keyMirror = require('keymirror');
-var YAML      = require('yamljs');
-var config    = YAML.load('js/config.yml');
-var Root      = config.baseURL;
+var config = require('../../../parameters.json');
+
+var Root = config.baseURL;
 var APIRoot   = Root;
 
 module.exports = {
