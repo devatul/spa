@@ -49,12 +49,12 @@ RouteStore.dispatchToken = Dispatcher.register(function (payload) {
       break;
 
     case ActionTypes.CREATE_ALERT_TICKET:
-      router.transitionTo('create_ticket');
+      router.transitionTo('create-ticket');
       RouteStore.emitChange();
       break;
 
     case ActionTypes.VIEW_TICKET:
-      router.transitionTo('view_ticket');
+      router.transitionTo('view-ticket');
       RouteStore.emitChange();
       break;
 

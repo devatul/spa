@@ -1,8 +1,8 @@
 var React                      = require('react');
 
-module.exports = React.createClass({
+class TermsAndConditions extends React.Component {
 
-  render: function () {
+  render() {
     return (
       <div className="principal-section-loggedout">
         <div className="section-title">
@@ -213,5 +213,7 @@ module.exports = React.createClass({
         <div className="gra"></div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = TermsAndConditions;

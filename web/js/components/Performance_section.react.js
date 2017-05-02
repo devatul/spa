@@ -4,15 +4,15 @@ var SessionStore               = require('../stores/SessionStore');
 var redirect                   = require('../actions/RouteActions').redirect;
 var saveURI                    = require('../actions/RequestActions').saveURI;
 
-module.exports = React.createClass({
-  componentWillMount: function () {
+class PerformanceSection extends React.Component {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
     }
-  },
+  }
 
-  render: function () {
+  render() {
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
@@ -29,5 +29,7 @@ module.exports = React.createClass({
         <div className="col-xs-6"></div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = PerformanceSection;

@@ -12,35 +12,40 @@ var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Link                       = require('react-router').Link;
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class NinjaDefaultContent extends React.Component {
+  constructor(props) {
+    super(props);
     var ninja = NinjaStore.getNinja();
-    return {
+    this.state = {
       ninja:      ninja.member,
       totalItems: ninja.totalItems,
       loading:    false,
       totalPages: 0,
       pageNo:     1,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._updatePage = this._updatePage.bind(this);
+    this.updateURL = this.updateURL.bind(this);
+    this._newPage = this._newPage.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     getNinja(0);
     NinjaStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     NinjaStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  componentDidUpdate: function () {
+  componentDidUpdate() {
     var _uri = this._getURI();
     if (_uri.pageNo != this.state.pageNo) {
       this._updatePage(_uri.pageNo);
     }
-  },
+  }
 
-  _getURI: function () {
+  _getURI() {
     var hash = window.location.href.split('/ninja-support')[1] || '';
     var pageNo = 1;
     if ('' !== hash) {
@@ -49,28 +54,26 @@ module.exports = React.createClass({
       pageNo = parseInt(arr[1]);
     }
     return {hash: hash, pageNo: pageNo};
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var ninja = NinjaStore.getNinja();
-      this.setState({
-        ninja:      ninja.member,
-        totalItems: ninja.totalItems,
-        loading:    false,
-        totalPages: Math.ceil(parseInt(ninja.totalItems) / 10),
-      });
-    }
+  _onChange() {
+    var ninja = NinjaStore.getNinja();
+    this.setState({
+      ninja:      ninja.member,
+      totalItems: ninja.totalItems,
+      loading:    false,
+      totalPages: Math.ceil(parseInt(ninja.totalItems) / 10),
+    });
     if (NinjaStore.isViewingTicket()) {
-      redirect('view_ticket');
+      redirect('view-ticket');
     }
-  },
+  }
 
-  _viewTicket: function (ticket) {
+  _viewTicket(ticket) {
     viewTicket(ticket);
-  },
+  }
 
-  _updatePage: function (page) {
+  _updatePage(page) {
     var i = false;
     if (0 < page && page <= this.state.totalPages) {
       this._newPage(page);
@@ -80,24 +83,24 @@ module.exports = React.createClass({
     if (i) {
       this.updateURL(page);
     }
-  },
+  }
 
-  updateURL: function (pageNo) {
+  updateURL(pageNo) {
     this.setState({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/ninja-support');
     window.location.href = hash[0] + '/ninja-support#page=' + pageNo;
-  },
+  }
 
-  _newPage: function (page) {
+  _newPage(page) {
     this.setState({
       loading: true,
     });
     getNinja(page);
-  },
+  }
 
-  render: function () {
+  render() {
     var ticket = this.state.ninja;
     var totalItems = this.state.totalItems;
     var pages = Math.ceil(parseInt(totalItems) / 10);
@@ -107,7 +110,7 @@ module.exports = React.createClass({
       var navpages = [];
       for (var key = 0 ; key < pages ; key++) {
         var page = key + 1;
-        navpages[navpages.length] = <li className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
+        navpages[navpages.length] = <li key={navpages.length} className={this.state.pageNo == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
       }
 
       var paginatorClass;
@@ -170,7 +173,7 @@ module.exports = React.createClass({
               </OverlayTrigger>
             </td>
             <td className="ticket-id-name" title="View ticket">
-              <Link className="ticket-id-name" to="view_ticket_params" params={{id: ticket[key].ticket}}>{ticket[key].name}</Link>
+              <Link className="ticket-id-name" to={`/view-ticket/${ticket[key].ticket}`} >{ticket[key].name}</Link>
             </td>
             <td>{ticket[key].subject}</td>
             <td className="icons">
@@ -262,5 +265,7 @@ module.exports = React.createClass({
         </nav>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = NinjaDefaultContent;

@@ -3,21 +3,22 @@ var PluginMonitoring           = require('./Plugins_monitoring.react');
 var PluginConfigure            = require('./Configure_triggers.react');
 var PluginsCarousel            = require('./Plugins_carousel.react');
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
-    return {
+class DatabasesTabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       tabs:            'hidden',
       content:         '',
       templateContent: '',
     };
-  },
+    this.clickTemplate = this.clickTemplate.bind(this);
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     for (var key in nextProps.templates) {
       if (this.state.templateContent.template == nextProps.templates[key].template && this.state.templateContent.is_installed != nextProps.templates[key].is_installed) {
         var content = (
-          <div className="tab-content section-content">
+          <div key={key} className="tab-content section-content">
             <div id="pluginMonitoring" className="tab-pane fade in active">
               <PluginMonitoring template={nextProps.templates[key]} idInstance={nextProps.idInstance} />
             </div>
@@ -42,7 +43,7 @@ module.exports = React.createClass({
       for (var cont in nextProps.templates) {
         if (nextProps.templates[cont].template == id) {
           urlContent = (
-            <div className="tab-content section-content">
+            <div key={cont} className="tab-content section-content">
               <div id="pluginMonitoring" className="tab-pane fade in active">
                 <PluginMonitoring template={nextProps.templates[cont]} idInstance={nextProps.idInstance} />
               </div>
@@ -60,9 +61,9 @@ module.exports = React.createClass({
         }
       }
     }
-  },
+  }
 
-  clickTemplate: function (template) {
+  clickTemplate(template) {
     var content = (
       <div className="tab-content section-content">
         <div id="pluginMonitoring" className="tab-pane fade in active">
@@ -79,9 +80,9 @@ module.exports = React.createClass({
       templateContent: template,
       configureClass:  0 < template.triggers.length ? '' : 'hidden',
     });
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <div>
         <PluginsCarousel templates={this.props.templates} clickTemplate={this.clickTemplate} />
@@ -102,5 +103,7 @@ module.exports = React.createClass({
         {this.state.content}
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = DatabasesTabs;

@@ -9,9 +9,15 @@ var addFunnel                  = require('highcharts/modules/funnel');
 var GraphEmptyState            = require('./Graph_empty_state.react');
 var Moment                     = require('moment');
 
-module.exports = React.createClass({
+class ModalGraph extends React.Component {
+  constructor(props) {
+    super(props);
+    this._onChange = this._onChange.bind(this);
+    this.closeAlert = this.closeAlert.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     GraphStore.addChangeListener(this._onChange);
     if (null !== this.props.graph.content) {
       var graph = this.props.graph;
@@ -167,23 +173,23 @@ module.exports = React.createClass({
         series: chartSeries,
       });
     }
-  },
+  }
 
-  getUserTimeZoneOffset: function () {
+  getUserTimeZoneOffset() {
     var date = new Date();
     var timezoneOffset = date.toLocaleString('en-EN', {hour: '2-digit', hour12: false, timeZone: getUserData('timezone')});
     return parseInt(timezoneOffset);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     GraphStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
+  _onChange() {
 
-  },
+  }
 
-  render: function () {
+  render() {
     if (null !== this.props.graph.content) {
       return (
         <div id={this.props.name} style={{'width': '100%', 'height': '100%'}}>
@@ -194,5 +200,7 @@ module.exports = React.createClass({
     return (
       <GraphEmptyState />
     );
-  },
-});
+  }
+}
+
+module.exports = ModalGraph;

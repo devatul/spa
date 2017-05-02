@@ -5,20 +5,23 @@ var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class NinjaSupportSection extends React.Component {
+  constructor(props) {
+    super(props);
     var companyInfo = SessionStore.getCompanyInfo();
-    return {
+    this.state = {
       companyName: companyInfo.name,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentWillMount: function () {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       redirect('login');
     }
-  },
-  componentDidMount: function () {
+  }
+
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       getCompanyInfo();
     } else {
@@ -26,31 +29,29 @@ module.exports = React.createClass({
     }
     SessionStore.addChangeListener(this._onChange);
     $('#intercom-container').removeClass('hidden');
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
     $('#intercom-container').addClass('hidden');
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var companyInfo = SessionStore.getCompanyInfo();
-      this.setState({
-        companyName: companyInfo.name,
-      });
-    }
-  },
+  _onChange() {
+    var companyInfo = SessionStore.getCompanyInfo();
+    this.setState({
+      companyName: companyInfo.name,
+    });
+  }
 
-  _createTicket: function () {
-    redirect('create_ticket');
-  },
+  _createTicket() {
+    redirect('create-ticket');
+  }
 
-  _liveChat: function () {
-    redirect('live_chat');
-  },
+  _liveChat() {
+    redirect('live-chat');
+  }
 
-  render: function () {
+  render() {
     var user     = localStorage.getItem('nubity-user');
     var jsonUser = JSON.parse(user);
 
@@ -87,5 +88,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = NinjaSupportSection;

@@ -17,11 +17,12 @@ var Modal                      = require('react-bootstrap').Modal;
 var Button                     = require('react-bootstrap').Button;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class Alert extends React.Component {
+  constructor(props) {
+    super(props);
     var alerts = AlertsStore.getAlerts();
     var historyAlerts = AlertsStore.getHistoryAlerts();
-    return {
+    this.state = {
       alerts:            alerts,
       historyAlerts:     historyAlerts,
       totalItems:        alerts.totalItems,
@@ -32,9 +33,18 @@ module.exports = React.createClass({
       loadingHistory:    false,
       modalType:         '',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._updatePage = this._updatePage.bind(this);
+    this.updateURL = this.updateURL.bind(this);
+    this._newPage = this._newPage.bind(this);
+    this._newHistoryPage = this._newHistoryPage.bind(this);
+    this._acknowledge = this._acknowledge.bind(this);
+    this._warning = this._warning.bind(this);
+    this._hwarning = this._hwarning.bind(this);
+    this.close = this.close.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       getAlerts(0);
       getHistoryAlerts(0);
@@ -43,20 +53,20 @@ module.exports = React.createClass({
       redirect('login');
     }
     AlertsStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     AlertsStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  componentDidUpdate: function () {
+  componentDidUpdate() {
     var _uri = this._getURI();
     if (_uri.pageNo !== this.state.pageNo) {
       this._updatePage(_uri.hash, _uri.pageNo);
     }
-  },
+  }
 
-  _getURI: function () {
+  _getURI() {
     var hash = window.location.href.split('/alerts')[1] || '';
     var pageNo = 1;
     if ('' !== hash) {
@@ -65,31 +75,29 @@ module.exports = React.createClass({
       pageNo = parseInt(arr[1]);
     }
     return {hash: hash, pageNo: pageNo};
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var alerts = AlertsStore.getAlerts();
-      var historyAlerts = AlertsStore.getHistoryAlerts();
-      this.setState({
-        alerts:            alerts,
-        totalItems:        alerts.totalItems,
-        historyAlerts:     historyAlerts,
-        totalHistoryItems: historyAlerts.totalItems,
-        totalPages:        {
-          alerts:  Math.ceil(parseInt(alerts.totalItems) / 10),
-          history: Math.ceil(parseInt(historyAlerts.totalItems) / 10),
-        },
-        loading:        false,
-        loadingHistory: false,
-      });
-      if (AlertsStore.isAlertTicket()) {
-        redirect('create_ticket');
-      }
+  _onChange() {
+    var alerts = AlertsStore.getAlerts();
+    var historyAlerts = AlertsStore.getHistoryAlerts();
+    this.setState({
+      alerts:            alerts,
+      totalItems:        alerts.totalItems,
+      historyAlerts:     historyAlerts,
+      totalHistoryItems: historyAlerts.totalItems,
+      totalPages:        {
+        alerts:  Math.ceil(parseInt(alerts.totalItems) / 10),
+        history: Math.ceil(parseInt(historyAlerts.totalItems) / 10),
+      },
+      loading:        false,
+      loadingHistory: false,
+    });
+    if (AlertsStore.isAlertTicket()) {
+      redirect('create-ticket');
     }
-  },
+  }
 
-  _updatePage: function (sectionId, page) {
+  _updatePage(sectionId, page) {
     var i = false;
     if ('#activeAlerts' == sectionId && 0 < page && page <= this.state.totalPages.alerts) {
       this._newPage(page);
@@ -102,69 +110,69 @@ module.exports = React.createClass({
     if (i) {
       this.updateURL(sectionId, page);
     }
-  },
+  }
 
-  updateURL: function (sectionId, pageNo) {
+  updateURL(sectionId, pageNo) {
     this.setState({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/alerts');
     window.location.href = hash[0] + '/alerts' + sectionId + '#page=' + pageNo;
-  },
+  }
 
-  _newPage: function (page) {
+  _newPage(page) {
     this.setState({
       loading: true,
     });
     getAlerts(page);
-  },
+  }
 
-  _newHistoryPage: function (page) {
+  _newHistoryPage(page) {
     this.setState({
       loadingHistory: true,
     });
     getHistoryAlerts(page);
-  },
+  }
 
-  _createTicket: function (alert) {
+  _createTicket(alert) {
     createAlertTicket(alert);
-  },
+  }
 
-  _acknowledge: function (alertId) {
+  _acknowledge(alertId) {
     acknowledge(alertId);
     this.setState({
       showModal:  false,
       hshowModal: false,
     });
-  },
+  }
 
-  _warning: function (props) {
+  _warning(props) {
     if ('mute' == props) {
       this.setState({
         modalType: 'mute',
         showModal: true,
       });
     }
-  },
+  }
 
-  _hwarning: function (props) {
+  _hwarning(props) {
     if ('hmute' == props) {
       this.setState({
         modalType:  'hmute',
         hshowModal: true,
       });
     }
-  },
+  }
 
-  close: function () {
+  close() {
     this.setState({
       showModal:  false,
       hshowModal: false,
       modalType:  '',
     });
-  },
+  }
 
-  render: function () {
+  render() {
     var alerts = this.state.alerts.member;
     var historyAlerts = this.state.historyAlerts.member;
 
@@ -647,5 +655,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = Alert;

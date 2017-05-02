@@ -3,17 +3,20 @@ var Router                = require('../router');
 var redirect              = require('../actions/RouteActions').redirect;
 var SessionStore          = require('../stores/SessionStore');
 
-var Footer = React.createClass({
+class Footer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  _redirectTerms: function () {
-    redirect('terms_and_conditions');
-  },
+  _redirectTerms() {
+    redirect('terms-and-conditions');
+  }
 
-  _redirectPolicy: function () {
-    redirect('privacy_policies');
-  },
+  _redirectPolicy() {
+    redirect('privacy-policies');
+  }
 
-  render: function () {
+  render() {
     return (
       <footer className="footer">
         <div className="footer-text">
@@ -23,7 +26,7 @@ var Footer = React.createClass({
         </div>
       </footer>
     );
-  },
-});
+  }
+}
 
 module.exports = Footer;

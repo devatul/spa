@@ -1,33 +1,39 @@
-var React           = require('react');
-var Modal           = require('react-bootstrap').Modal;
-var Popover         = require('react-bootstrap').Popover;
-var Button          = require('react-bootstrap').Button;
-var Tooltip         = require('react-bootstrap').Tooltip;
-var OverlayTrigger  = require('react-bootstrap').OverlayTrigger;
-var configureAction = require('../actions/RequestActions').configureTemplate;
+var React                 = require('react');
+var Modal                 = require('react-bootstrap').Modal;
+var Popover               = require('react-bootstrap').Popover;
+var Button                = require('react-bootstrap').Button;
+var Tooltip               = require('react-bootstrap').Tooltip;
+var OverlayTrigger        = require('react-bootstrap').OverlayTrigger;
+var configureAction       = require('../actions/RequestActions').configureTemplate;
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {showModal: true};
-  },
+class PluginModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: true,
+    };
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     this.setState({showModal: true});
-  },
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({showModal: true});
-  },
+  }
 
-  close: function () {
+  close() {
     this.setState({showModal: false});
-  },
+  }
 
-  open: function () {
+  open() {
     this.setState({showModal: true});
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
     var newMacros = [];
     var form      = e.target.elements;
@@ -38,9 +44,9 @@ module.exports = React.createClass({
     configureAction(this.props.instanceId, newMacros, this.props.templateId);
     this.setState({showModal: false});
 
-  },
+  }
 
-  render: function () {
+  render() {
     var inputs = [];
     var form = (<form>{inputs}</form>);
     if (undefined !== this.props.macros) {
@@ -71,5 +77,7 @@ module.exports = React.createClass({
         </Modal>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = PluginModal;

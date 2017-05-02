@@ -5,33 +5,33 @@ var getBillingHistory          = require('../actions/RequestActions').getBilling
 var SessionStore               = require('../stores/SessionStore');
 var OnboardingStore            = require('../stores/OnBoardingStore');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class BillingHistorySection extends React.Component {
+  constructor(props) {
+    super(props);
     var history = OnboardingStore.getBillingHistory();
-    return {
+    this.state = {
       history: history,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     // getBillingHistory();
     OnboardingStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     OnboardingStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    // if (this.isMounted()) {
-    //   var history = OnboardingStore.getBillingHistory();
-    //   this.setState({
-    //     history: history,
-    //   });
-    // }
-  },
+  _onChange() {
+    // var history = OnboardingStore.getBillingHistory();
+    // this.setState({
+    //   history: history,
+    // });
+  }
 
-  render: function () {
+  render() {
     if (this.state.history && 0 >= this.state.history.length) {
       return (
         <div className="centered">
@@ -71,5 +71,7 @@ module.exports = React.createClass({
         </table>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = BillingHistorySection;

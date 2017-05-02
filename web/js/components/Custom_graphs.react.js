@@ -10,8 +10,9 @@ var Graph                      = require('./Graph.react');
 var Modal                      = require('react-bootstrap').Modal;
 var moment                     = require('moment');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class CustomGraphs extends React.Component {
+  constructor(props) {
+    super(props);
     var allGraphs = [];
     for (var i = 0 ; 9 > i ; i++) {
       allGraphs.push(
@@ -22,13 +23,16 @@ module.exports = React.createClass({
         </div>
       );
     }
-    return {
+    this.state = {
       allGraphs: allGraphs,
       showModal: false,
     };
-  },
+    this._deleteGraph = this._deleteGraph.bind(this);
+    this.close = this.close.bind(this);
+    this._modalGraph = this._modalGraph.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     var allGraphs = [];
     for (var i = 0 ; 9 > i ; i++) {
       allGraphs.push(
@@ -61,9 +65,9 @@ module.exports = React.createClass({
       }
     }
     this.setState({allGraphs: allGraphs});
-  },
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     var allGraphs;
     var i;
     if (nextProps.slots && 0 < nextProps.slots.length) {
@@ -110,28 +114,28 @@ module.exports = React.createClass({
       }
       this.setState({allGraphs: allGraphs});
     }
-  },
+  }
 
-  _deleteGraph: function (dashboard) {
+  _deleteGraph(dashboard) {
     deleteSlot(dashboard.slot);
-  },
+  }
 
-  _modalGraph: function (dashboard) {
+  _modalGraph(dashboard) {
     var name = 'container' + moment().format('MMMMDoYYYYh:mm:ss');
     var graph = (<Graph graph={dashboard} name={name} dashboardId={dashboard.dashboard} />);
     this.setState({
       showModal:          true,
       graphToShowInModal: graph,
     });
-  },
+  }
 
-  close: function () {
+  close() {
     this.setState({
       showModal: false,
     });
-  },
+  }
 
-  render: function () {
+  render() {
 
     return (
       <div className="container">
@@ -145,5 +149,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = CustomGraphs;

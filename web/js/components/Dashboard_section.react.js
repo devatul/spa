@@ -4,6 +4,7 @@ var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
+var AlertsStore                = require('../stores/AlertsStore');
 var Preloader                  = require('./Preloader.react');
 var DefaultDashboard           = require('./Default_dashboard.react');
 var CustomPerformanceDashboard = require('./Custom_performance_dashboard.react');
@@ -17,18 +18,24 @@ var Modal                      = require('react-bootstrap').Modal;
 var Button                     = require('react-bootstrap').Button;
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class DashboardSection extends React.Component {
+  constructor(props) {
+    super(props);
     var companyInfo = SessionStore.getCompanyInfo();
-    return {
+    this.state = {
       companyInfo:           companyInfo,
       currentDashboard:      (<DefaultDashboard />),
       currentDashboardIndex: '0',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this.close = this.close.bind(this);
+    this._warning = this._warning.bind(this);
+    this._newDashboard = this._newDashboard.bind(this);
+    this._goToDashboard = this._goToDashboard.bind(this);
+    this._goToDefaultDashboard = this._goToDefaultDashboard.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       getCompanyInfo();
       getCustomDashboards();
@@ -37,46 +44,48 @@ module.exports = React.createClass({
     }
     GraphStore.addChangeListener(this._onChange);
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     GraphStore.removeChangeListener(this._onChange);
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      if (GraphStore.deletedDashboard()) {
-        getCustomDashboards();
-        this.setState({
-          currentDashboard:      (<DefaultDashboard />),
-          currentDashboardIndex: '0',
-        });
-        GraphStore.resetDeletedDashboard();
-      }
-      var companyInfo = SessionStore.getCompanyInfo();
+  _onChange() {
+    if (GraphStore.deletedDashboard()) {
+      getCustomDashboards();
       this.setState({
-        companyInfo:      companyInfo,
-        customDashboards: GraphStore.getCustomDashboards(),
+        currentDashboard:      (<DefaultDashboard />),
+        currentDashboardIndex: '0',
       });
+      GraphStore.resetDeletedDashboard();
     }
-  },
-
-  close: function () {
+    var companyInfo = SessionStore.getCompanyInfo();
     this.setState({
-      showModal: false,
-      modalType: '',
+      companyInfo:      companyInfo,
+      customDashboards: GraphStore.getCustomDashboards(),
     });
-  },
 
-  _warning: function () {
+    if (AlertsStore.isAlertTicket()) {
+      redirect('create-ticket');
+    }
+  }
+
+  close() {
+    this.setState({
+      modalType: '',
+      showModal: false,
+    });
+  }
+
+  _warning() {
     this.setState({
       modalType: 'newDashboard',
       showModal: true,
     });
-  },
+  }
 
-  _newDashboard: function (e) {
+  _newDashboard(e) {
     e.preventDefault();
     var form  = e.target.elements;
     var title = form.integrationName.value;
@@ -85,24 +94,23 @@ module.exports = React.createClass({
       modalType: '',
       showModal: false,
     });
-  },
+  }
 
-
-  _goToDashboard: function (dashboard) {
+  _goToDashboard(dashboard) {
     this.setState({
       currentDashboard:      (<CustomPerformanceDashboard dashboard={dashboard} />),
       currentDashboardIndex: dashboard,
     });
-  },
+  }
 
-  _goToDefaultDashboard: function () {
+  _goToDefaultDashboard() {
     this.setState({
       currentDashboard:      (<DefaultDashboard />),
       currentDashboardIndex: '0',
     });
-  },
+  }
 
-  render: function () {
+  render() {
     var dashboardsTabs;
     var customDashboardsTabs = [];
     if (this.state.customDashboards) {
@@ -209,5 +217,7 @@ module.exports = React.createClass({
         {warning}
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = DashboardSection;

@@ -9,81 +9,86 @@ var saveURI                    = require('../actions/RequestActions').saveURI;
 var redirect                   = require('../actions/RouteActions').redirect;
 var _                          = require('lodash');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class OnboardingSection extends React.Component {
+  constructor(props) {
+    super(props);
     var providers = OnBoardingStore.getProviders();
-    return {
+    this.state = {
       providers:             providers,
       publicCloudProviders:  [],
       privateCloudProviders: [],
       onPremiseProviders:    [],
       title:                 'Manage your Public Cloud Connection',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this.publicCloud = this.publicCloud.bind(this);
+    this.privateCloud = this.privateCloud.bind(this);
+    this.onPremise = this.onPremise.bind(this);
+    this.updateURL = this.updateURL.bind(this);
+    this._getURI = this._getURI.bind(this);
+  }
 
-  componentWillMount: function () {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       getProviders();
     } else {
       redirect('login');
     }
     OnBoardingStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     OnBoardingStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var providers = OnBoardingStore.getProviders();
-      this.setState({
-        providers:             providers,
-        publicCloudProviders:  _.filter(providers, function (o) { return 'public' === o.classification; }),
-        privateCloudProviders: _.filter(providers, function (o) { return 'private' === o.classification; }),
-        onPremiseProviders:    _.filter(providers, function (o) { return 'on-premise' === o.classification; }),
-      });
-    }
-  },
+  _onChange() {
+    var providers = OnBoardingStore.getProviders();
+    this.setState({
+      providers:             providers,
+      publicCloudProviders:  _.filter(providers, function (o) { return 'public' === o.classification; }),
+      privateCloudProviders: _.filter(providers, function (o) { return 'private' === o.classification; }),
+      onPremiseProviders:    _.filter(providers, function (o) { return 'on-premise' === o.classification; }),
+    });
+  }
 
-  publicCloud: function () {
+  publicCloud() {
     $('#public-cloud-content').removeClass('hidden');
     $('#private-cloud-content').addClass('hidden');
     this.setState({
       title: 'Manage your Public Cloud Connection',
     });
-  },
+  }
 
-  privateCloud: function () {
+  privateCloud() {
     $('#private-cloud-content').removeClass('hidden');
     $('#public-cloud-content').addClass('hidden');
     this.setState({
       title: 'Manage your Private Cloud Connection',
     });
-  },
+  }
 
-  onPremise: function () {
+  onPremise() {
     this.setState({
       title: 'Manage your On-Premise server Connection',
     });
-  },
+  }
 
-  updateURL: function (sectionId, pageNo) {
+  updateURL(sectionId, pageNo) {
     this.setState({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/onboarding');
     window.location.href = hash[0] + '/onboarding' + sectionId + '#page=' + pageNo;
-  },
+  }
 
-  _getURI: function () {
+  _getURI() {
     var hash = window.location.href.split('/onboarding')[1] || '';
     var pageNo = 1;
     if ('' !== hash) {
@@ -92,9 +97,9 @@ module.exports = React.createClass({
       pageNo = parseInt(arr[1]);
     }
     return {hash: hash, pageNo: pageNo};
-  },
+  }
 
-  render: function () {
+  render() {
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
@@ -160,5 +165,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = OnboardingSection;

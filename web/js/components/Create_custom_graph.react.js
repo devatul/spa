@@ -8,19 +8,23 @@ var search                     = require('../actions/RequestActions').search;
 var getAvailableGraphTypes     = require('../actions/RequestActions').getAvailableGraphTypes;
 var Preloader                  = require('./Preloader.react');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class CreateCustomGraph extends React.Component {
+  constructor(props) {
+    super(props);
     var search = SessionStore.search();
-    return {
+    this.state = {
       search:     search,
       instances:  search.instances,
       clouds:     search.clouds,
       graphTypes: '',
       loading:    'hidden',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._selectInstance = this._selectInstance.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       search();
     } else {
@@ -28,49 +32,47 @@ module.exports = React.createClass({
     }
     SessionStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var search = SessionStore.search();
-      var graphTypes = GraphStore.getGraphTypes();
+  _onChange() {
+    var search = SessionStore.search();
+    var graphTypes = GraphStore.getGraphTypes();
+    this.setState({
+      search:     search,
+      instances:  search.instances,
+      clouds:     search.clouds,
+      graphTypes: graphTypes.member,
+    });
+    if (graphTypes) {
+      $('#chartType').removeAttr('disabled');
       this.setState({
-        search:     search,
-        instances:  search.instances,
-        clouds:     search.clouds,
-        graphTypes: graphTypes.member,
+        loading: 'hidden',
       });
-      if (graphTypes) {
-        $('#chartType').removeAttr('disabled');
-        this.setState({
-          loading: 'hidden',
-        });
-      }
     }
-  },
+  }
 
-  _selectInstance: function () {
+  _selectInstance() {
     getAvailableGraphTypes(this.refs.server.getDOMNode().value);
     this.setState({
       loading: 'widget-preloader-div',
     });
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
     var server       = this.refs.server.getDOMNode().value;
     var chartType    = this.refs.chartType.getDOMNode().value;
     this.refs.server.getDOMNode().value = '';
     this.refs.chartType.getDOMNode().value = '';
     CreateDashboardAction('graph', server, chartType, this.props.dashboardId, this.props.position);
-  },
+  }
 
-  render: function () {
+  render() {
     var instances = this.state.instances;
 
     var instanceOptions = [];
@@ -109,5 +111,7 @@ module.exports = React.createClass({
         </div>
       </form>
     );
-  },
-});
+  }
+}
+
+module.exports = CreateCustomGraph;

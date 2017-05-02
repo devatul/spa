@@ -1,5 +1,5 @@
 var React                      = require('react');
-var ReactPropTypes             = React.PropTypes;
+var ReactPropTypes             = require('prop-types');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var redirectWithParams         = require('../actions/RouteActions').redirectWithParams;
@@ -23,9 +23,9 @@ var Button                     = require('react-bootstrap').Button;
 var Link                       = require('react-router').Link;
 var Warning                    = require('./Warning.react');
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class Infrastructure extends React.Component {
+  constructor(props) {
+    super(props);
     var infrastructure = '';
     switch (this.props.infrastructureType) {
       case 'public':
@@ -44,7 +44,7 @@ module.exports = React.createClass({
 
     var rows = [];
     var loaded = false;
-    return {
+    this.state = {
       infrastructure: infrastructure,
       rows:           rows,
       loaded:         loaded,
@@ -55,18 +55,22 @@ module.exports = React.createClass({
       showModal:      false,
       warning:        (<Warning modalType='' />),
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._updatePage = this._updatePage.bind(this);
+    this._newPage = this._newPage.bind(this);
+    this._warning = this._warning.bind(this);
+  }
 
-  componentWillReceiveProps: function (props) {
+  componentWillReceiveProps(props) {
     if (props.page_no !== this.state.pageNo) {
       this.setState({
         pageNo: props.page_no,
       });
       this._newPage(props.page_no);
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     InfrastructureStore.addChangeListener(this._onChange);
     var pageNo  = 0;
     var hash = window.location.href.split('/infrastructure')[1] || '';
@@ -91,50 +95,47 @@ module.exports = React.createClass({
         getInfrastructureOverview(pageNo);
         break;
     }
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     InfrastructureStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var infrastructure = '';
-      switch (this.props.infrastructureType) {
-        case 'public':
-          infrastructure = InfrastructureStore.getInfrastructurePublicCloud();
-          break;
-        case 'private':
-          infrastructure = InfrastructureStore.getInfrastructurePrivateCloud();
-          break;
-        case 'onPremise':
-          infrastructure = InfrastructureStore.getInfrastructureOnPremise();
-          break;
-        default:
-          infrastructure = InfrastructureStore.getInfrastructureOverview();
-          break;
-      }
-
-      if (infrastructure && this.state.infrastructure !== infrastructure.member) {
-        this.setState({
-          infrastructure: infrastructure.member,
-          totalItems:     infrastructure.totalItems,
-          totalPages:     Math.ceil(parseInt(infrastructure.totalItems) / 10),
-          loaded:         true,
-          isLoading:      false,
-        });
-      }
-
+  _onChange() {
+    var infrastructure = '';
+    switch (this.props.infrastructureType) {
+      case 'public':
+        infrastructure = InfrastructureStore.getInfrastructurePublicCloud();
+        break;
+      case 'private':
+        infrastructure = InfrastructureStore.getInfrastructurePrivateCloud();
+        break;
+      case 'onPremise':
+        infrastructure = InfrastructureStore.getInfrastructureOnPremise();
+        break;
+      default:
+        infrastructure = InfrastructureStore.getInfrastructureOverview();
+        break;
     }
-  },
 
-  _updatePage: function (page) {
+    if (infrastructure && this.state.infrastructure !== infrastructure.member) {
+      this.setState({
+        infrastructure: infrastructure.member,
+        totalItems:     infrastructure.totalItems,
+        totalPages:     Math.ceil(parseInt(infrastructure.totalItems) / 10),
+        loaded:         true,
+        isLoading:      false,
+      });
+    }
+  }
+
+  _updatePage(page) {
     if (0 < page && page <= this.state.totalPages) {
       this.props.callUpdateURL(page);
     }
-  },
+  }
 
-  _newPage: function (page) {
+  _newPage(page) {
     this.setState({
       isLoading: true,
     });
@@ -152,33 +153,33 @@ module.exports = React.createClass({
         getInfrastructureOverview(page);
         break;
     }
-  },
+  }
 
-  _startInstance: function (instance) {
+  _startInstance(instance) {
     startInstance(instance.instance);
-  },
+  }
 
-  _stopInstance: function (instance) {
+  _stopInstance(instance) {
     stopInstance(instance.instance);
-  },
+  }
 
-  _restartInstance: function (instance) {
+  _restartInstance(instance) {
     restartInstance(instance.instance);
-  },
+  }
 
-  _managed: function (instance) {
+  _managed(instance) {
     getManaged(instance.instance);
-  },
+  }
 
-  _stopOrder: function (orderCode) {
+  _stopOrder(orderCode) {
     stopOrder(orderCode);
-  },
+  }
 
-  _deleteOrderCancelation: function (orderCode) {
+  _deleteOrderCancelation(orderCode) {
     deleteOrderCancelation(orderCode);
-  },
+  }
 
-  _warning: function (props, instance, functionParam) {
+  _warning(props, instance, functionParam) {
     switch (props) {
       case 'start':
         this.setState({
@@ -211,9 +212,9 @@ module.exports = React.createClass({
         });
         break;
     }
-  },
+  }
 
-  render: function () {
+  render() {
     var infrastructure   = this.state.infrastructure;
     var totalItems = this.state.totalItems;
     var pages      = this.state.totalPages;
@@ -228,7 +229,7 @@ module.exports = React.createClass({
     var navpages = [];
     for (var key = 0 ; key < pages ; key++) {
       var page = key + 1;
-      navpages[navpages.length] = <li className={this.props.page_no == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
+      navpages[navpages.length] = <li key={key} className={this.props.page_no == page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
     var paginatorClass;
@@ -324,13 +325,13 @@ module.exports = React.createClass({
         monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
       } else if ('' == monitoringStatus) {
         if (undefined !== infrastructure[key].instance) {
-          monitoring = (<Link className="action-button nubity-green" to="monitoring" params={{id: infrastructure[key].instance}}>Start</Link>);
+          monitoring = (<Link className="action-button nubity-green" to={`/infrastructure/monitoring/${infrastructure[key].instance}`} >Start</Link>);
         }
       } else if ('accepted' == monitoringStatus) {
         monitoring = (
           <div>
             <span className="action-button config nubity-red" onClick={this._warning.bind(this, 'monitoringStop', infrastructure[key], monitoringCode)}>Stop</span>
-            <Link className="action-button config-right nubity-grey" to="configure" params={{id: infrastructure[key].instance}}>
+            <Link className="action-button config-right nubity-grey" to={`/infrastructure/configure/${infrastructure[key].instance}`} >
               <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>
           </div>
@@ -339,7 +340,7 @@ module.exports = React.createClass({
         monitoring = (
           <div>
             <span className="action-button config nubity-blue" onClick={this._deleteOrderCancelation.bind(this, monitoringCode)}>Dismiss</span>
-            <Link className="action-button config-right nubity-grey" to="configure" params={{id: infrastructure[key].instance}}>
+            <Link className="action-button config-right nubity-grey" to="configure" to={`/infrastructure/configure/${infrastructure[key].instance}`} >
               <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>
           </div>
@@ -543,5 +544,7 @@ module.exports = React.createClass({
         {this.state.warning}
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = Infrastructure;

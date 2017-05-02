@@ -9,9 +9,9 @@ var addFunnel                  = require('highcharts/modules/funnel');
 var GraphEmptyState            = require('./Graph_empty_state.react');
 var Moment                     = require('moment');
 
-module.exports = React.createClass({
+class Graph extends React.Component {
 
-  componentDidMount: function () {
+  componentDidMount() {
     GraphStore.addChangeListener(this._onChange);
     if (null !== this.props.graph.content) {
       var graph = this.props.graph;
@@ -168,23 +168,23 @@ module.exports = React.createClass({
         series: chartSeries,
       });
     }
-  },
+  }
 
-  getUserTimeZoneOffset: function () {
+  getUserTimeZoneOffset() {
     var date = new Date();
     var timezoneOffset = date.toLocaleString('en-EN', {hour: '2-digit', hour12: false, timeZone: getUserData('timezone')});
     return parseInt(timezoneOffset);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     GraphStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
+  _onChange() {
 
-  },
+  }
 
-  render: function () {
+  render() {
     if (null !== this.props.graph.content) {
       return (
         <div id={this.props.name} style={{'width': '100%'}}>
@@ -195,5 +195,7 @@ module.exports = React.createClass({
     return (
       <GraphEmptyState />
     );
-  },
-});
+  }
+}
+
+module.exports = Graph;

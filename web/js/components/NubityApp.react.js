@@ -1,51 +1,50 @@
-var React        = require('react');
-var RouteHandler = require('react-router').RouteHandler;
-var NavBar       = require('./NavBar.react');
-var SideBar      = require('./SideBar.react');
-var Footer       = require('./Footer.react');
-var Auth         = require('j-toker');
-var SessionStore = require('../stores/SessionStore');
+var React                 = require('react');
+var NavBar                = require('./NavBar.react');
+var SideBar               = require('./SideBar.react');
+var Footer                = require('./Footer.react');
+var Auth                  = require('j-toker');
+var SessionStore          = require('../stores/SessionStore');
 
-var NubityApp  = React.createClass({
-  getInitialState: function () {
-    return {
+class NubityApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       user:       Auth.user,
       isLoggedIn: SessionStore.isLoggedIn(),
     };
-  },
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      this.setState({
-        isLoggedIn: SessionStore.isLoggedIn(),
-      });
-    }
-  },
+  _onChange() {
+    this.setState({
+      isLoggedIn: SessionStore.isLoggedIn(),
+    });
+  }
 
-  render: function () {
+  render() {
     var loggedIn = this.state.isLoggedIn;
     var dashboard;
     if (true == loggedIn) {
       dashboard =
         <span>
-          <NavBar />
-          <SideBar />
-          <RouteHandler />
-          <Footer />
+          <NavBar {...this.props} />
+          <SideBar {...this.props} />
+          {this.props.children}
+          <Footer {...this.props} />
         </span>
       ;
     } else {
       dashboard =
         <span>
-          <RouteHandler />
+          {this.props.children}
         </span>
       ;
     }
@@ -54,7 +53,7 @@ var NubityApp  = React.createClass({
         {dashboard}
       </div>
     );
-  },
-});
+  }
+}
 
 module.exports = NubityApp;

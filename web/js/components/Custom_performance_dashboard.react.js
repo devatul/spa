@@ -7,51 +7,54 @@ var Graphs                     = require('./Custom_graphs.react');
 var Modal                      = require('react-bootstrap').Modal;
 var Preloader                  = require('./Preloader.react');
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class CustomPerformanceDashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       slots:     '',
       showModal: false,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this.close = this.close.bind(this);
+    this.execute = this.execute.bind(this);
+    this.removeDashboard = this.removeDashboard.bind(this);
+  }
 
-  close: function () {
+  close() {
     this.setState({
       showModal: false,
     });
-  },
+  }
 
-  execute: function () {
+  execute() {
     this.setState({
       showModal: false,
     });
     removeDashboard(this.props.dashboard.dashboard);
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     getCustomSlots(this.props.dashboard.dashboard);
     GraphStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     GraphStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
+  _onChange() {
     getCustomSlots(this.props.dashboard.dashboard);
-    if (this.isMounted()) {
-      this.setState({
-        slots: GraphStore.getCustomSlots(),
-      });
-    }
-  },
+    this.setState({
+      slots: GraphStore.getCustomSlots(),
+    });
+  }
 
-  removeDashboard: function () {
+  removeDashboard() {
     this.setState({showModal: true});
 
-  },
+  }
 
-  render: function () {
+  render() {
     if (!this.state.slots) {
       return (
         <Preloader />
@@ -82,5 +85,7 @@ module.exports = React.createClass({
         </Modal>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = CustomPerformanceDashboard;

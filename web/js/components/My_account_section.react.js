@@ -7,13 +7,13 @@ var getUserData                = require('../actions/StorageActions').getUserDat
 var SessionStore               = require('../stores/SessionStore');
 var _                          = require('lodash');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class MyAccountSection extends React.Component {
+  constructor(props) {
+    super(props);
     var timezones = SessionStore.getTimezones();
     var locales = SessionStore.getLocales();
     var notificationLevel = this._getNotificationLevel();
-
-    return {
+    this.state = {
       timezones:         timezones,
       locales:           locales,
       firstname:         getUserData('firstname'),
@@ -30,37 +30,42 @@ module.exports = React.createClass({
       n_message:         '',
       n_messageClass:    'hidden',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._submit = this._submit.bind(this);
+    this._getNotificationLevel = this._getNotificationLevel.bind(this);
+    this._showError = this._showError.bind(this);
+    this._listErrors = this._listErrors.bind(this);
+    this._closeAlert = this._closeAlert.bind(this);
+    this._onChangeAvatar = this._onChangeAvatar.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var timezones = SessionStore.getTimezones();
-      var locales = SessionStore.getLocales();
-      this.setState({
-        timezones: timezones,
-        locales:   locales,
-      });
-    }
-  },
+  _onChange() {
+    var timezones = SessionStore.getTimezones();
+    var locales = SessionStore.getLocales();
+    this.setState({
+      timezones: timezones,
+      locales:   locales,
+    });
+  }
 
-  _getNotificationLevel: function () {
+  _getNotificationLevel() {
     var user = JSON.parse(localStorage.getItem('nubity-user'));
     var notificationLevel = null;
     if (user && user.notification_severity_level) {
       notificationLevel = user.notification_severity_level[0] && user.notification_severity_level[0].name;
     }
     return notificationLevel;
-  },
+  }
 
-  _submit: function () {
+  _submit() {
     var userData = {
       firstname: this.state.firstname,
       lastname:  this.state.lastname,
@@ -104,9 +109,9 @@ module.exports = React.createClass({
         n_messageClass: 'alert alert-danger',
       });
     }.bind(this));
-  },
+  }
 
-  _showError: function (message) {
+  _showError(message) {
     var errorList = '';
     if ('string' !== typeof message[0]) {
       var error = [];
@@ -118,9 +123,9 @@ module.exports = React.createClass({
       errorList = message[0];
     }
     return errorList;
-  },
+  }
 
-  _listErrors: function (error, lable) {
+  _listErrors(error, lable) {
     var err = [];
     _.map(error, function (errMsg) {
       err.push(<li>{errMsg}</li>);
@@ -131,16 +136,16 @@ module.exports = React.createClass({
         <br />
         <ul>{err}</ul>
       </li>);
-  },
+  }
 
-  _onChangeAvatar: function (e) {
+  _onChangeAvatar(e) {
     var file = e.target.files[0];
     this.setState({
       avatar: file,
     });
-  },
+  }
 
-  _closeAlert: function (alertToken) {
+  _closeAlert(alertToken) {
     if ('formAlert' === alertToken) {
       this.setState({
         message:      '',
@@ -153,9 +158,9 @@ module.exports = React.createClass({
         n_messageClass: 'hidden',
       });
     }
-  },
+  }
 
-  render: function () {
+  render() {
     var notificationLevel = this.state.notificationLevel;
     var locale = this.state.locales;
     var avatar    = '';
@@ -413,5 +418,7 @@ module.exports = React.createClass({
         </form>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = MyAccountSection;

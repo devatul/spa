@@ -1,7 +1,10 @@
 var React                    = require('react');
-var Router                   = require('react-router');
-var Route                    = Router.Route;
-var DefaultRoute             = Router.DefaultRoute;
+var reactRouter              = require('react-router');
+var Router                   = reactRouter.Router;
+var hashHistory              = reactRouter.hashHistory;
+var IndexRoute               = reactRouter.IndexRoute;
+var ReactDOM                 = require('react-dom');
+var Route                    = reactRouter.Route;
 var NubityApp                = require('./components/NubityApp.react');
 var Login                    = require('./components/Login.react');
 var NotFound                 = require('./components/Not_found.react');
@@ -26,30 +29,32 @@ var InfrastructureMonitoring = require('./components/Infrastructure_monitoring.r
 var InfrastructureConfigure  = require('./components/Infrastructure_configure_monitoring.react');
 
 var routes = (
-  <Route handler={NubityApp} path='/'>
-    <Route name="login" path='/login' handler={Login} />
-    <Route name="forgot_password" path='/forgot-password' handler={ForgotPassword} />
-    <Route name="change_password" path='/change-password/:token' handler={ChangePassword} />
-    <Route name="signup" path='/signup' handler={Signup} />
-    <Route name="confirm_account" path='/confirm-account/:token' handler={ConfirmAccount} />
-    <Route name="onboarding" path='/onboarding' handler={OnBoarding} />
-    <Route name="configure" path='/infrastructure/configure/:id' handler={InfrastructureConfigure} />
-    <Route name="monitoring" path='/infrastructure/monitoring/:id' handler={InfrastructureMonitoring} />
-    <Route name="infrastructure" path='/infrastructure' handler={Infrastructure} />
-    <Route name="dashboard" path='/' handler={Dashboard} />
-    <Route name="alerts" path='/alerts' handler={Alerts} />
-    <Route name="performance" path='/performance' handler={Performance} />
-    <Route name="ninja" path='/support' handler={Ninja} />
-    <Route name="create_ticket" path='/support/create-ticket' handler={CreateTicket} />
-    <Route name="live_chat" path='/support/live-chat' handler={LiveChat} />
-    <Route name="view_ticket" path='/support/view-ticket/' handler={ViewTicket} />
-    <Route name="view_ticket_params" path='/support/view-ticket/:id' handler={ViewTicket} />
-    <Route name="terms_and_conditions" path='/terms-and-conditions' handler={TermsAndConditions} />
-    <Route name="privacy_policies" path='/privacy-policies' handler={PrivacyPolicies} />
-    <Route name="reset_password" path='/reset-password/:token' handler={ResetPassword} />
-    <Route name="home" path='/' handler={Home} />
-    <Route name="not-found" path='*' handler={NotFound} />
-    <DefaultRoute handler={Login} />
-  </Route>
+  <Router history={hashHistory}>
+    <Route component={NubityApp} path='/'>
+      <Route name="login" path='/login' component={Login} />
+      <Route name="forgot_password" path='/forgot-password' component={ForgotPassword} />
+      <Route name="change_password" path='/change-password/:token' component={ChangePassword} />
+      <Route name="signup" path='/signup' component={Signup} />
+      <Route name="confirm_account" path='/confirm-account/:token' component={ConfirmAccount} />
+      <Route name="onboarding" path='/onboarding' component={OnBoarding} />
+      <Route name="configure" path='/infrastructure/configure/:id' component={InfrastructureConfigure} />
+      <Route name="monitoring" path='/infrastructure/monitoring/:id' component={InfrastructureMonitoring} />
+      <Route name="infrastructure" path='/infrastructure' component={Infrastructure} />
+      <Route name="dashboard" path='/dashboard' component={Dashboard} />
+      <Route name="alerts" path='/alerts' component={Alerts} />
+      <Route name="performance" path='/performance' component={Performance} />
+      <Route name="ninja" path='/ninja-support' component={Ninja} />
+      <Route name="create_ticket" path='/create-ticket' component={CreateTicket} />
+      <Route name="live_chat" path='/live-chat' component={LiveChat} />
+      <route name="terms_and_conditions" path='/terms-and-conditions' component={TermsAndConditions} />
+      <route name="privacy_policies" path='/privacy-policies' component={PrivacyPolicies} />
+      <Route name="view_ticket" path='/view-ticket/' component={ViewTicket} />
+      <Route name="view_ticket_params" path='/view-ticket/:id' component={ViewTicket} />
+      <Route name="reset_password" path='/reset-password/:token' component={ResetPassword} />
+      <Route name="home" path='/' component={Home} />
+      <IndexRoute component={Login} />
+    </Route>
+  </Router>
 );
+
 module.exports = routes;

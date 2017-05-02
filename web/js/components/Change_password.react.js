@@ -4,25 +4,27 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var ChangePasswordAction       = require('../actions/RequestActions').changePassword;
 
-module.exports = React.createClass({
-  getInitialState: function () {
-  },
+class ChangePassword extends React.Component {
+  constructor(props) {
+    super(props);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-  },
+  _onChange() {
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
-    var password  = this.refs.password.getDOMNode().value;
-    var password2 = this.refs.password2.getDOMNode().value;
+    var password  = this.refs.password.value;
+    var password2 = this.refs.password2.value;
     var url       = window.location.href;
     var start     = parseInt(url.indexOf('change_password/')) + parseInt(16);
     var token     = url.slice(parseInt(start));
@@ -35,9 +37,9 @@ module.exports = React.createClass({
     } else {
       ChangePasswordAction(token, password, password2);
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
@@ -73,5 +75,7 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}
+
+module.exports = ChangePassword;

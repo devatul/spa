@@ -1,8 +1,11 @@
 var React                      = require('react');
 
-module.exports = React.createClass({
+class PrivacyPolicies extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  render: function () {
+  render() {
     return (
       <div className="principal-section-loggedout">
         <div className="section-title">
@@ -374,5 +377,7 @@ module.exports = React.createClass({
         <div className="gra"></div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = PrivacyPolicies;

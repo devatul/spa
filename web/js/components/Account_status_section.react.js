@@ -2,10 +2,11 @@ var React                      = require('react');
 var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
+var createReactClass           = require('create-react-class');
 
-module.exports = React.createClass({
+class AccountStatusSection extends React.Component {
 
-  render: function () {
+  render() {
     return (
       <div>
         <div className="section-title">
@@ -14,62 +15,66 @@ module.exports = React.createClass({
         <hr />
         <div className="col-xs-12">
           <table className="table table-condensed">
-            <tr>
-              <th className="light-grey-background">Cloud Name</th>
-              <th className="light-grey-background">Server</th>
-              <th className="light-grey-background">Memory</th>
-              <th className="light-grey-background">Monitoring</th>
-              <th className="light-grey-background">Support</th>
-              <th className="light-grey-background">Monthly price</th>
-            </tr>
-            <tr>
-              <td>front 2</td>
-              <td>server - bla bla</td>
-              <td>GB</td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>$00,00</td>
-            </tr>
-            <tr>
-              <td>front 1</td>
-              <td>server - bla bla</td>
-              <td>GB</td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>$00,00</td>
-            </tr>
-            <tr>
-              <td>back 1</td>
-              <td>server - bla bla</td>
-              <td>GB</td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>$00,00</td>
-            </tr>
-            <tr>
-              <td>back 2</td>
-              <td>server - bla bla</td>
-              <td>GB</td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>
-                <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
-              </td>
-              <td>$00,00</td>
-            </tr>
+            <thead>
+              <tr>
+                <th className="light-grey-background">Cloud Name</th>
+                <th className="light-grey-background">Server</th>
+                <th className="light-grey-background">Memory</th>
+                <th className="light-grey-background">Monitoring</th>
+                <th className="light-grey-background">Support</th>
+                <th className="light-grey-background">Monthly price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>front 2</td>
+                <td>server - bla bla</td>
+                <td>GB</td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>$00,00</td>
+              </tr>
+              <tr>
+                <td>front 1</td>
+                <td>server - bla bla</td>
+                <td>GB</td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>$00,00</td>
+              </tr>
+              <tr>
+                <td>back 1</td>
+                <td>server - bla bla</td>
+                <td>GB</td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>$00,00</td>
+              </tr>
+              <tr>
+                <td>back 2</td>
+                <td>server - bla bla</td>
+                <td>GB</td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>
+                  <i className="fa fa-check-circle green-icon" aria-hidden="true"></i>
+                </td>
+                <td>$00,00</td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div className="col-sm-12">
@@ -77,5 +82,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = AccountStatusSection;

@@ -21,81 +21,84 @@ var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Modal                      = require('react-bootstrap').Modal;
 var Button                     = require('react-bootstrap').Button;
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class DefaultDashboard extends React.Component {
+  constructor(props) {
+    super(props);
     var mainAlerts = AlertsStore.getDashboardAlerts();
     var stats      = AlertsStore.getDashboardStats();
-    return {
+    this.state = {
       mainAlerts: mainAlerts.member,
       dashboards: '',
       dashboard:  '',
       stats:      stats,
       modalType:  '',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this.close = this.close.bind(this);
+    this._acknowledge = this._acknowledge.bind(this);
+    this._warning = this._warning.bind(this);
+    this._goToDashboard = this._goToDashboard.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     getDashboardAlerts();
     getDashboards();
     getStats();
     AlertsStore.addChangeListener(this._onChange);
     GraphStore.addChangeListener(this._onChange);
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     AlertsStore.removeChangeListener(this._onChange);
     GraphStore.removeChangeListener(this._onChange);
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var mainAlerts       = AlertsStore.getDashboardAlerts();
-      var dashboards       = GraphStore.getDashboards();
-      var dashboard        = GraphStore.getDashboard();
-      var stats            = AlertsStore.getDashboardStats();
-      this.setState({
-        mainAlerts: mainAlerts.member,
-        dashboards: dashboards,
-        dashboard:  dashboard,
-        stats:      stats,
-      });
+  _onChange() {
+    var mainAlerts       = AlertsStore.getDashboardAlerts();
+    var dashboards       = GraphStore.getDashboards();
+    var dashboard        = GraphStore.getDashboard();
+    var stats            = AlertsStore.getDashboardStats();
+    this.setState({
+      mainAlerts: mainAlerts.member,
+      dashboards: dashboards,
+      dashboard:  dashboard,
+      stats:      stats,
+    });
 
-      if (AlertsStore.isAlertTicket()) {
-        redirect('create_ticket');
-      }
+    if (AlertsStore.isAlertTicket()) {
+      redirect('create_ticket');
     }
-  },
+  }
 
-  _goToAlerts: function () {
+  _goToAlerts() {
     redirect('alerts');
-  },
+  }
 
-  _goToPerformance: function () {
+  _goToPerformance() {
     redirect('performance');
-  },
+  }
 
-  _createTicket: function (alert) {
+  _createTicket(alert) {
     createAlertTicket(alert);
-  },
+  }
 
-  _acknowledge: function (alertId) {
+  _acknowledge(alertId) {
     acknowledge(alertId);
     this.setState({
       showModal: false,
     });
-  },
+  }
 
-  close: function () {
+  close() {
     this.setState({
       showModal: false,
       modalType: '',
     });
-  },
+  }
 
-  _warning: function (props) {
+  _warning(props) {
     switch (props) {
       case 'mute':
         this.setState({
@@ -104,13 +107,13 @@ module.exports = React.createClass({
         });
         break;
     }
-  },
+  }
 
-  _goToDashboard: function (dashboard) {
+  _goToDashboard(dashboard) {
     // body...
-  },
+  }
 
-  render: function () {
+  render() {
     var mainAlerts = this.state.mainAlerts;
     var notice;
     var tooltip = '';
@@ -302,7 +305,7 @@ module.exports = React.createClass({
       );
 
       rows[rows.length] = (
-        <tr className="content">
+        <tr key={rows.length} className="content">
           <td className="icons">
             <OverlayTrigger placement="top" overlay={severityTooltip}>
               <i className={level} aria-hidden="true"></i>
@@ -392,5 +395,7 @@ module.exports = React.createClass({
         {warning}
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = DefaultDashboard;

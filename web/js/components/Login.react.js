@@ -1,5 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
@@ -7,18 +6,20 @@ var Preloader                  = require('./Preloader.react');
 var loginAction                = require('../actions/RequestActions').login;
 var getUserForSwitchUser       = require('../actions/RequestActions').getUserForSwitchUser;
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
-    return {
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       loading:      false,
       messageClass: 'hidden',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this.closeAlert = this.closeAlert.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
-
     var url          = window.location.href;
     var start        = parseInt(url.indexOf('?'));
     var end          = parseInt(url.indexOf('&return='));
@@ -36,65 +37,61 @@ module.exports = React.createClass({
       }
       localStorage.setItem('switching-user', false);
     }
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
+  _onChange() {
+    this.setState({
+      loading: false,
+    });
+    var message = SessionStore.getLoginError();
+    if ('' != message) {
       this.setState({
-        loading: false,
+        message:      message,
+        loading:      false,
+        messageClass: 'alert alert-danger alert-margin',
       });
-
-      var message = SessionStore.getLoginError();
-      if ('' != message) {
-        this.setState({
-          message:      message,
-          loading:      false,
-          messageClass: 'alert alert-danger alert-margin',
-        });
-      }
     }
-  },
+  }
 
-  closeAlert: function (argument) {
+  closeAlert(argument) {
     this.setState({
       message:      '',
       messageClass: 'hidden',
     });
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     this.setState({
       loading: true,
     });
     e.preventDefault();
     var user      = {};
-    user.email = this.refs.email.getDOMNode().value;
-    user.password = this.refs.password.getDOMNode().value;
-
+    user.email = this.refs.email.value;
+    user.password = this.refs.password.value;
     loginAction(user);
-  },
+  }
 
-  _redirectForgotPassword: function () {
-    redirect('forgot_password');
-  },
+  _redirectForgotPassword() {
+    redirect('forgot-password');
+  }
 
-  _redirectSignUp: function () {
+  _redirectSignUp() {
     redirect('signup');
-  },
+  }
 
-  _redirectTerms: function () {
-    redirect('terms_and_conditions');
-  },
+  _redirectTerms() {
+    redirect('terms-and-conditions');
+  }
 
-  _redirectPolicy: function () {
-    redirect('privacy_policies');
-  },
+  _redirectPolicy() {
+    redirect('privacy-policies');
+  }
 
-  render: function () {
+  render() {
     var login;
 
     if (true == this.state.loading) {
@@ -145,8 +142,8 @@ module.exports = React.createClass({
             <div className="row">
               <div className="col-xs-6">
                 <div className="checkbox">
-                  <label>
-                    <input type="checkbox"> Remember me</input>
+                  <label htmlFor="remember_me">
+                    <input name="remember_me" type="checkbox" />Remember me
                   </label>
                 </div>
               </div>
@@ -167,5 +164,7 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}
+
+module.exports = Login;

@@ -2,9 +2,9 @@ var React                         = require('react');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var Preloader                     = require('./Preloader.react');
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class WindowsSetup extends React.Component {
+  constructor(props) {
+    super(props);
     var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
     var token = (
       <div id="loading-message" className="col-sm-offset-1">
@@ -15,49 +15,49 @@ module.exports = React.createClass({
     if ('' != instanceForMonitoring && undefined !== instanceForMonitoring) {
       token = instanceForMonitoring.monitoring_agent.name;
     }
-    return {
+    this.state = {
       instanceForMonitoring: instanceForMonitoring,
       token:                 token,
       report:                report,
       tokenFlag:             true,
       reportFlag:            false,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     InfrastructureStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     InfrastructureStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
-      if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
-        var token = instanceForMonitoring.monitoring_agent.name;
-        this.setState({
-          token:     token,
-          tokenFlag: false,
-        });
-      }
-
-      if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && !this.state.reportFlag) {
-        if (instanceForMonitoring.monitoring_agent.isActive) {
-          this.setState({
-            reportFlag: true,
-            report:     'Report done',
-          });
-        }
-      }
-
+  _onChange() {
+    var instanceForMonitoring = InfrastructureStore.instanceForMonitoring();
+    if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && this.state.tokenFlag) {
+      var token = instanceForMonitoring.monitoring_agent.name;
       this.setState({
-        instanceForMonitoring: instanceForMonitoring,
+        token:     token,
+        tokenFlag: false,
       });
     }
-  },
-  render: function () {
+
+    if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && !this.state.reportFlag) {
+      if (instanceForMonitoring.monitoring_agent.isActive) {
+        this.setState({
+          reportFlag: true,
+          report:     'Report done',
+        });
+      }
+    }
+
+    this.setState({
+      instanceForMonitoring: instanceForMonitoring,
+    });
+  }
+
+  render() {
     return (
       <ol className="rounded-list">
         <li>
@@ -86,5 +86,7 @@ module.exports = React.createClass({
         </li>
       </ol>
     );
-  },
-});
+  }
+}
+
+module.exports = WindowsSetup;

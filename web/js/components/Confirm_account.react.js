@@ -5,47 +5,47 @@ var SessionStore               = require('../stores/SessionStore');
 var ConfirmAccountAction       = require('../actions/RequestActions').confirmAccount;
 var Preloader                  = require('./Preloader.react');
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class ConfirmAccount extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       message: '',
       code:    '',
     };
-  },
+    this.switchTrigger = this.switchTrigger.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     var url          = window.location.href;
     var start        = parseInt(url.indexOf('confirm-account/')) + parseInt(16);
     var token        = url.slice(parseInt(start));
     ConfirmAccountAction(token);
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      if ('' != SessionStore.getConfirmMessage() && '' != SessionStore.getConfirmCode()) {
-        this.setState({
-          message: SessionStore.getConfirmMessage(),
-          code:    SessionStore.getConfirmCode(),
-          icon:    '',
-        });
-      }
+  _onChange() {
+    if ('' != SessionStore.getConfirmMessage() && '' != SessionStore.getConfirmCode()) {
+      this.setState({
+        message: SessionStore.getConfirmMessage(),
+        code:    SessionStore.getConfirmCode(),
+        icon:    '',
+      });
     }
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
     var url          = window.location.href;
     var start        = parseInt(url.indexOf('confirm-account/')) + parseInt(16);
     var token        = url.slice(parseInt(start));
     ConfirmAccountAction(token);
-  },
+  }
 
-  render: function () {
+  render() {
     var icon = '';
     var legend = '';
 
@@ -84,5 +84,7 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}
+
+module.exports = ConfirmAccount;

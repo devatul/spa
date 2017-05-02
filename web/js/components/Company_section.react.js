@@ -7,60 +7,64 @@ var getUserData                = require('../actions/StorageActions').getUserDat
 var updateCompanyInfo          = require('../actions/RequestActions').updateCompanyInfo;
 var _                          = require('lodash');
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class CompanySection extends React.Component {
+  constructor(props) {
+    super(props);
     var companyInfo = SessionStore.getCompanyInfo();
     var timezones = SessionStore.getTimezones();
     var locales = SessionStore.getLocales();
-    return {
+    this.state = {
       timezones:    timezones,
       locales:      locales,
-      name:         companyInfo.name,
-      tradeName:    companyInfo.trade_name,
-      tin:          companyInfo.tin,
-      address:      companyInfo.address,
-      country:      companyInfo.country,
-      state:        companyInfo.state,
-      city:         companyInfo.city,
-      language:     companyInfo.locale,
-      postalCode:   companyInfo.postal_code,
-      timezone:     companyInfo.timezone,
+      name:         companyInfo.name || '',
+      tradeName:    companyInfo.trade_name || '',
+      tin:          companyInfo.tin || '',
+      address:      companyInfo.address || '',
+      country:      companyInfo.country || '',
+      state:        companyInfo.state || '',
+      city:         companyInfo.city || '',
+      language:     companyInfo.locale || '',
+      postalCode:   companyInfo.postal_code || '',
+      timezone:     companyInfo.timezone || '',
       message:      '',
       messageClass: 'hidden',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._submit = this._submit.bind(this);
+    this._showError = this._showError.bind(this);
+    this._listErrors = this._listErrors.bind(this);
+    this._closeAlert = this._closeAlert.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var companyInfo = SessionStore.getCompanyInfo();
-      var timezones = SessionStore.getTimezones();
-      var locales = SessionStore.getLocales();
-      this.setState({
-        timezones:  timezones,
-        locales:    locales,
-        name:       companyInfo.name,
-        tradeName:  companyInfo.trade_name,
-        tin:        companyInfo.tin,
-        address:    companyInfo.address,
-        country:    companyInfo.country,
-        state:      companyInfo.state,
-        city:       companyInfo.city,
-        language:   companyInfo.locale,
-        postalCode: companyInfo.postal_code,
-        timezone:   companyInfo.timezone,
-      });
-    }
-  },
+  _onChange() {
+    var companyInfo = SessionStore.getCompanyInfo();
+    var timezones = SessionStore.getTimezones();
+    var locales = SessionStore.getLocales();
+    this.setState({
+      timezones:  timezones,
+      locales:    locales,
+      name:       companyInfo.name || '',
+      tradeName:  companyInfo.trade_name || '',
+      tin:        companyInfo.tin || '',
+      address:    companyInfo.address || '',
+      country:    companyInfo.country || '',
+      state:      companyInfo.state || '',
+      city:       companyInfo.city || '',
+      language:   companyInfo.locale || '',
+      postalCode: companyInfo.postal_code || '',
+      timezone:   companyInfo.timezone || '',
+    });
+  }
 
-  _submit: function () {
+  _submit() {
     var companyInfo = {
       name:        this.state.name,
       trade_name:  this.state.tradeName,
@@ -86,9 +90,9 @@ module.exports = React.createClass({
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
-  },
+  }
 
-  _showError: function (message) {
+  _showError(message) {
     var errorList = '';
     if ('string' !== typeof message[0]) {
       var error = [];
@@ -100,9 +104,9 @@ module.exports = React.createClass({
       errorList = message[0];
     }
     return errorList;
-  },
+  }
 
-  _listErrors: function (error, lable) {
+  _listErrors(error, lable) {
     var err = [];
     _.map(error, function (errMsg) {
       err.push(<li>{errMsg}</li>);
@@ -113,16 +117,16 @@ module.exports = React.createClass({
         <br />
         <ul>{err}</ul>
       </li>);
-  },
+  }
 
-  _closeAlert: function () {
+  _closeAlert() {
     this.setState({
       message:      '',
       messageClass: 'hidden',
     });
-  },
+  }
 
-  render: function () {
+  render() {
     var SELF = this;
     var locale = this.state.locales;
 
@@ -305,5 +309,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = CompanySection;

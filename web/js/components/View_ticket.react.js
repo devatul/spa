@@ -17,9 +17,9 @@ var MenuItem                   = require('react-bootstrap').MenuItem;
 var Dropzone                   = require('react-dropzone');
 var openAttachment             = require('../actions/RequestActions').openAttachment;
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class ViewTicket extends React.Component {
+  constructor(props) {
+    super(props);
     NinjaStore.resetStore();
 
     var url = window.location.href;
@@ -28,41 +28,45 @@ module.exports = React.createClass({
 
     if (undefined !== id && id) {
       getTicket(id);
-      return {
+      this.state = {
         ticket:   '',
         title:    '',
         files:    [],
         dropzone: 'dropzone',
         button:   (<button type="submit" className="margin-tops blue-button">Send</button>),
       };
+    } else {
+      this.state = {
+        ticket: NinjaStore.getViewTicket(),
+      };
     }
+    this._onChange = this._onChange.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this.showDropZone = this.showDropZone.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-    return {
-      ticket: NinjaStore.getViewTicket(),
-    };
-
-  },
-
-  componentWillMount: function () {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
     NinjaStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     NinjaStore.resetViewingTicket();
     SessionStore.removeChangeListener(this._onChange);
     NinjaStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted() && NinjaStore.getViewTicket() != this.state.ticket) {
+  _onChange() {
+    if (NinjaStore.getViewTicket() != this.state.ticket) {
       this.setState({
         ticket: NinjaStore.getViewTicket(),
         title:  'Ticket - ' + NinjaStore.getViewTicket().name,
@@ -70,53 +74,53 @@ module.exports = React.createClass({
         button: (<button type="submit" className="margin-tops blue-button">Send</button>),
       });
     }
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
     var id = this.state.ticket.ticket;
-    var ticketReply = this.refs.content.getDOMNode().value;
+    var ticketReply = this.refs.content.value;
 
-    this.refs.content.getDOMNode().value = '';
+    this.refs.content.value = '';
     this.setState({
       button: (<Preloader size="mini" preloaderClass="custom-loader" />),
     });
 
     ReplyTicketAction(id, ticketReply, this.state.files);
 
-  },
+  }
 
-  _closeTicket: function () {
+  _closeTicket() {
     closeTicket(this.state.ticket.ticket);
-  },
+  }
 
-  _createTicket: function () {
-    redirect('create_ticket');
-  },
+  _createTicket() {
+    redirect('create-ticket');
+  }
 
-  _liveChat: function () {
-    redirect('live_chat');
-  },
+  _liveChat() {
+    redirect('live-chat');
+  }
 
-  onDrop: function (acceptedFiles, rejectedFiles) {
+  onDrop(acceptedFiles, rejectedFiles) {
     this.setState({
       files: acceptedFiles,
     });
-  },
+  }
 
-  showDropZone: function (e) {
+  showDropZone(e) {
     e.preventDefault();
     this.setState({
       dropzone: 'dropzone',
       ticket:   NinjaStore.getViewTicket(),
     });
-  },
+  }
 
-  _openAttachment: function (ticketId, attachmentId, attachmentName) {
+  _openAttachment(ticketId, attachmentId, attachmentName) {
     openAttachment(ticketId, attachmentId, attachmentName);
-  },
+  }
 
-  render: function () {
+  render() {
     var subject       = '';
     var ticket        = '';
     var replies;
@@ -302,5 +306,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = ViewTicket;

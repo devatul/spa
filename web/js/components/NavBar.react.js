@@ -17,91 +17,91 @@ var getCompanyInfo        = require('../actions/RequestActions').getCompanyInfo;
 var getTimezone           = require('../actions/RequestActions').getTimezone;
 var getLocales            = require('../actions/RequestActions').getLocales;
 
-var NavBar = React.createClass({
-
-  getInitialState: function () {
+class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
     var companyInfo = SessionStore.getCompanyInfo();
-    return {
+    this.state = {
       isLoggedIn:  SessionStore.isLoggedIn(),
       companyInfo: companyInfo,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._onClickLogOut = this._onClickLogOut.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
     $('.nav a').on('click', function () {
       $('.btn-navbar').click();
       $('.navbar-toggle').click();
     });
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
     RouteStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var companyInfo = SessionStore.getCompanyInfo();
-      this.setState({
-        isLoggedIn:  SessionStore.isLoggedIn(),
-        companyInfo: companyInfo,
-      });
-    }
-  },
+  _onChange() {
+    var companyInfo = SessionStore.getCompanyInfo();
+    this.setState({
+      isLoggedIn:  SessionStore.isLoggedIn(),
+      companyInfo: companyInfo,
+    });
+  }
 
-  _openAccount: function () {
+  _openAccount() {
     getTimezone();
     getLocales();
     getCompanyInfo();
-  },
+  }
 
-  _onClickLogOut: function () {
+  _onClickLogOut() {
     this.setState({
       mail:       '',
       isLoggedIn: '',
     });
 
     logOutAction();
-  },
+  }
 
-  _redirectOnboarding: function () {
+  _redirectOnboarding() {
     redirect('onboarding');
-  },
+  }
 
-  _openBilling: function () {
+  _openBilling() {
     $('#myModal').modal('show');
     $('#myModal').on('shown.bs.modal', function (e) {
     });
-  },
+  }
 
-  _profileButton: function () {
+  _profileButton() {
     localStorage.setItem('landing', true);
     redirect('landing');
-  },
+  }
 
-  _redirectLogin: function () {
+  _redirectLogin() {
     redirect('login');
-  },
+  }
 
-  _redirectSignUp: function () {
+  _redirectSignUp() {
     redirect('signup');
-  },
+  }
 
-  _redirectHome: function () {
+  _redirectHome() {
     redirect('home');
-  },
+  }
 
-  _onClickGoBackToAdmin: function (argument) {
+  _onClickGoBackToAdmin(argument) {
     goBackToAdmin();
-  },
+  }
 
-  onSelected: function (e) {
+  onSelected(e) {
     // doesn't need to have functionality
-  },
+  }
 
-  render: function () {
+  render() {
     var url       = window.location.href;
     var login     = url.search('login');
     var signup    = url.search('signup');
@@ -246,7 +246,7 @@ var NavBar = React.createClass({
         </nav>
       );
     }
-  },
-});
+  }
+}
 
 module.exports = NavBar;

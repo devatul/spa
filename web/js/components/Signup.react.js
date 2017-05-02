@@ -5,79 +5,80 @@ var signupAction               = require('../actions/RequestActions').signup;
 var getLocales                 = require('../actions/RequestActions').getLocales;
 var _                          = require('lodash');
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class Signup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       message:      '',
       locales:      '',
       messageClass: 'hidden',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     getLocales();
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
+  _onChange() {
+    var message = SessionStore.signupMessage();
+    if ('' != message) {
       this.setState({
-        locales: SessionStore.getLocales(),
+        message:      message,
+        messageClass: 'alert alert-success',
       });
-      var message = SessionStore.signupMessage();
-      if ('' != message) {
-        this.setState({
-          message:      message,
-          messageClass: 'alert alert-success',
-        });
-      }
     }
-  },
-  _createTicket: function () {
-    redirect('create_ticket');
-  },
+    this.setState({
+      locales: SessionStore.getLocales(),
+    });
+  }
 
-  _liveChat: function () {
-    redirect('live_chat');
-  },
+  _createTicket() {
+    redirect('create-ticket');
+  }
 
-  _redirectLogin: function () {
+  _liveChat() {
+    redirect('live-chat');
+  }
+
+  _redirectLogin() {
     redirect('login');
-  },
+  }
 
-  _redirectTerms: function () {
+  _redirectTerms() {
     redirect('terms_and_conditions');
-  },
+  }
 
-  _redirectPolicy: function () {
+  _redirectPolicy() {
     redirect('privacy_policies');
-  },
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
     var user       = {};
-    user.firstname = this.refs.firstname.getDOMNode().value;
-    user.lastname = this.refs.lastname.getDOMNode().value;
-    user.email = this.refs.email.getDOMNode().value;
-    user.password = this.refs.password.getDOMNode().value;
-    user.password2 = this.refs.password2.getDOMNode().value;
-    user.phone = this.refs.phone.getDOMNode().value;
-    user.company = this.refs.companyName.getDOMNode().value;
-    user.locale = this.refs.locales.getDOMNode().value;
-
+    user.firstname = this.refs.firstname.value;
+    user.lastname = this.refs.lastname.value;
+    user.email = this.refs.email.value;
+    user.password = this.refs.password.value;
+    user.password2 = this.refs.password2.value;
+    user.phone = this.refs.phone.value;
+    user.company = this.refs.companyName.value;
+    user.locale = this.refs.locales.value;
 
     signupAction(user).then(function () {
-      this.refs.firstname.getDOMNode().value = '';
-      this.refs.lastname.getDOMNode().value = '';
-      this.refs.email.getDOMNode().value = '';
-      this.refs.password.getDOMNode().value = '';
-      this.refs.password2.getDOMNode().value = '';
-      this.refs.phone.getDOMNode().value = '';
-      this.refs.companyName.getDOMNode().value = '';
+      this.refs.firstname.value = '';
+      this.refs.lastname.value = '';
+      this.refs.email.value = '';
+      this.refs.password.value = '';
+      this.refs.password2.value = '';
+      this.refs.phone.value = '';
+      this.refs.companyName.value = '';
     }.bind(this)).catch(function (message) {
       var error = [];
       if ('undefined' !== typeof message.firstname) {
@@ -107,9 +108,9 @@ module.exports = React.createClass({
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
-  },
+  }
 
-  _listErrors: function (error, lable) {
+  _listErrors(error, lable) {
     var err = [];
     _.map(error, function (errMsg) {
       err.push(<li>{errMsg}</li>);
@@ -117,9 +118,9 @@ module.exports = React.createClass({
     return <li><strong>{lable}</strong><br />
       <ul>{err}</ul>
     </li>;
-  },
+  }
 
-  render: function () {
+  render() {
     var locale  = this.state.locales;
     var locales = [];
     for (var key in locale) {
@@ -272,5 +273,7 @@ module.exports = React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}
+
+module.exports = Signup;

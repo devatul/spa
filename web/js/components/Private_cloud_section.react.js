@@ -14,11 +14,12 @@ var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Carousel                   = require('react-bootstrap').Carousel;
 var CarouselItem               = require('react-bootstrap').CarouselItem;
 
-module.exports = React.createClass({
-  getInitialState: function () {
+class PrivateCloudSection extends React.Component {
+  constructor(props) {
+    super(props);
     var connectedPrivateCloud = OnBoardingStore.getProviderCredentialPrivate();
     var credentialDetails = OnBoardingStore.getCredentialDetails();
-    return {
+    this.state = {
       connectedPrivateCloud: connectedPrivateCloud,
       activeProvider:        false,
       totalItems:            connectedPrivateCloud.totalItems,
@@ -28,22 +29,34 @@ module.exports = React.createClass({
       credetialInfo:         false,
       open:                  false,
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._scroll = this._scroll.bind(this);
+    this._revealFirstStepOfPrivateCloud = this._revealFirstStepOfPrivateCloud.bind(this);
+    this._revealSecondStepOfPrivateCloud = this._revealSecondStepOfPrivateCloud.bind(this);
+    this._revertPrivateSteps = this._revertPrivateSteps.bind(this);
+    this._submitData = this._submitData.bind(this);
+    this._getCloudInputField = this._getCloudInputField.bind(this);
+    this._onFileChange = this._onFileChange.bind(this);
+    this._updatePage = this._updatePage.bind(this);
+    this._editProviderCredential = this._editProviderCredential.bind(this);
+    this._deleteCredential = this._deleteCredential.bind(this);
+    this.clickProvider = this.clickProvider.bind(this);
 
-  limit:       5,
-  sectionKey:  '_PRIVATE',
-  editModalId: 'editModalPrivate',
+    this.limit = 5;
+    this.sectionKey = '_PRIVATE';
+    this.editModalId = 'editModalPrivate';
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     OnBoardingStore.addChangeListener(this._onChange);
     getProviderCredential(this.sectionKey, this.state.pageNo, this.limit);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     OnBoardingStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  componentWillReceiveProps: function (props) {
+  componentWillReceiveProps(props) {
     var width = props.providers.length * 150 || 600;
     $('#privateCloudProvidersList').css({width: width + 'px'});
 
@@ -53,22 +66,20 @@ module.exports = React.createClass({
       });
       getProviderCredential(this.sectionKey, props.page_no, this.limit);
     }
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var privateCloud = OnBoardingStore.getProviderCredentialPrivate();
-      var credentialDetails = OnBoardingStore.getCredentialDetails();
-      this.setState({
-        connectedPrivateCloud: privateCloud.member,
-        totalItems:            privateCloud.totalItems,
-        totalPages:            Math.ceil(parseInt(privateCloud.totalItems) / 5),
-        credentialDetails:     credentialDetails,
-      });
-    }
-  },
+  _onChange() {
+    var privateCloud = OnBoardingStore.getProviderCredentialPrivate();
+    var credentialDetails = OnBoardingStore.getCredentialDetails();
+    this.setState({
+      connectedPrivateCloud: privateCloud.member,
+      totalItems:            privateCloud.totalItems,
+      totalPages:            Math.ceil(parseInt(privateCloud.totalItems) / 5),
+      credentialDetails:     credentialDetails,
+    });
+  }
 
-  _scroll: function (arrow) {
+  _scroll(arrow) {
     var width = this.props.providers.length * 150;
     var view = $('#privateCloudProvidersList');
     var move = '100px';
@@ -81,21 +92,21 @@ module.exports = React.createClass({
     } else if (currentPosition >= sliderLimit) {
       view.stop(false, true).animate({left: '-=' + move}, {duration: 400});
     }
-  },
+  }
 
-  _revealFirstStepOfPrivateCloud: function () {
+  _revealFirstStepOfPrivateCloud() {
     $('#private1StepTitle').removeClass('hidden');
     $('#private1StepContent').removeClass('hidden');
     $('#privateCancelButton').removeClass('hidden');
     $('#privateAddButton').addClass('hidden');
-  },
+  }
 
-  _revealSecondStepOfPrivateCloud: function () {
+  _revealSecondStepOfPrivateCloud() {
     $('#private2StepTitle').removeClass('hidden');
     $('#private2StepContent').removeClass('hidden');
-  },
+  }
 
-  _revertPrivateSteps: function () {
+  _revertPrivateSteps() {
     $('#private1StepTitle').addClass('hidden');
     $('#private1StepContent').addClass('hidden');
     $('#private2StepTitle').addClass('hidden');
@@ -105,9 +116,9 @@ module.exports = React.createClass({
     this.setState({
       activeProvider: false,
     });
-  },
+  }
 
-  _submitData: function () {
+  _submitData() {
     var providerId = this.state.activeProvider.provider;
     var integrationName = $('input[name="privateIntegrationName"]').prop('value') || null;
     var apiKey = $('input[name="privateApiKey"]').prop('value') || null;
@@ -147,14 +158,14 @@ module.exports = React.createClass({
       $('.image-preview-input-title').text('Upload Certificate');
       $('.image-preview-filename').text('').addClass('hidden');
     });
-  },
+  }
 
-  _getCloudInputField: function () {
+  _getCloudInputField() {
     var _SELF = this;
     var credetials = this.state.activeProvider && this.state.activeProvider.requirements;
     var input = [];
     input.push(
-      <div className="form-group">
+      <div key={'integration-name'} className="form-group">
         <div className="input-group">
           <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
           <input type="text" className="form-control" name="privateIntegrationName" placeholder="Integration Name" />
@@ -163,7 +174,7 @@ module.exports = React.createClass({
     );
     if (-1 < _.indexOf(credetials, 'api-key')) {
       input.push(
-        <div className="form-group">
+        <div key={'api-key'} className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
             <input type="text" className="form-control" name="privateApiKey" placeholder="API Key" />
@@ -173,7 +184,7 @@ module.exports = React.createClass({
     }
     if (-1 < _.indexOf(credetials, 'endpoint')) {
       input.push(
-        <div className="form-group">
+        <div key={'endpoint'} className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
             <input type="text" className="form-control" name="privateEndpoint" placeholder="Access Key ID" />
@@ -183,7 +194,7 @@ module.exports = React.createClass({
     }
     if (-1 < _.indexOf(credetials, 'api-secret')) {
       input.push(
-        <div className="form-group">
+        <div key={'api-secret'} className="form-group">
           <div className="input-group">
             <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
             <input type="text" className="form-control" name="privateApiSecret" placeholder="Secret Access Key" />
@@ -193,7 +204,7 @@ module.exports = React.createClass({
     }
     if (-1 < _.indexOf(credetials, 'certificate')) {
       input.push(
-        <div className="input-group image-preview">
+        <div key={'certificate'} className="input-group image-preview">
           <span className="input-group-btn">
             <div className="btn btn-default image-preview-input">
               <span className="glyphicon glyphicon-folder-open"></span>
@@ -206,36 +217,36 @@ module.exports = React.createClass({
       );
     }
     return input;
-  },
+  }
 
-  _onFileChange: function () {
+  _onFileChange() {
     var file = $('#privateCertificate').prop('files')[0];
     $('.image-preview-input-title').text('Change Certificate');
     $('.image-preview-filename').text(file.name).removeClass('hidden');
-  },
+  }
 
-  _updatePage: function (page) {
+  _updatePage(page) {
     if (0 < page && page <= this.state.totalPages) {
       this.props.callUpdateURL(page);
     }
-  },
+  }
 
-  _editProviderCredential: function (credetialInfo) {
+  _editProviderCredential(credetialInfo) {
     this.setState({
       open:          true,
       credetialInfo: credetialInfo,
     });
     getCredentialDetails(credetialInfo.provider_credential);
-  },
+  }
 
-  _deleteCredential: function (id) {
+  _deleteCredential(id) {
     var _SELF = this;
     deleteProviderCredential(id).then(function () {
       getProviderCredential(_SELF.sectionKey, _SELF.state.pageNo, _SELF.limit);
     });
-  },
+  }
 
-  clickProvider: function (provider, id) {
+  clickProvider(provider, id) {
     this.setState({
       active: provider.provider,
     });
@@ -248,16 +259,16 @@ module.exports = React.createClass({
     this.setState({
       activeProvider: provider,
     });
-  },
+  }
 
-  render: function () {
+  render() {
     var providers = this.props.providers;
     var _SELF = this;
     var rows = [];
     if (providers !== undefined) {
       for (var key = 0; key < providers.length; key = key + 4) {
         rows.push(
-          <CarouselItem>
+          <CarouselItem key={key}>
             <div className="col-sm-8 col-sm-offset-2">
               <div className={providers[key] !== undefined ? 'col-sm-3' : 'hidden'}>
                 <a className={providers[key] !== undefined && this.state.active == providers[key].provider ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickProvider.bind(this, providers[key], key)}>
@@ -303,7 +314,7 @@ module.exports = React.createClass({
       if (providers !== undefined) {
         for (var count = 0; count < providers.length; count++) {
           providersItems.push(
-            <div className={providers[count] !== undefined ? 'carousel-item' : 'hidden'}>
+            <div key={count} className={providers[count] !== undefined ? 'carousel-item' : 'hidden'}>
               <a className={providers[count] !== undefined && this.state.active == providers[count].provider ? 'carousel-active thumbnail' : 'thumbnail'} onClick={this.clickProvider.bind(this, providers[count], count)}>
                 <img src={providers[count] !== undefined ? providers[count].logo.public_path : ''} alt="Image" className="img-responsive" />
                 <div className="centered"><span>{providers[count] !== undefined ? providers[count].name : ''}</span></div>
@@ -320,7 +331,7 @@ module.exports = React.createClass({
     var navpages = [];
     for (var i = 0; i < pages; i++) {
       var page = i + 1;
-      navpages[navpages.length] = <li className={this.state.pageNo === page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
+      navpages[navpages.length] = <li key={i} className={this.state.pageNo === page ? 'active' : ''}><a onClick={this._updatePage.bind(this, page)}>{page}</a></li>;
     }
 
     var paginatorClass;
@@ -346,7 +357,7 @@ module.exports = React.createClass({
       var tooltip = (<Tooltip id="tooltip">{statusLabel}</Tooltip>);
       if ('undefined' !== typeof provider) {
         connectionTableRow.push(
-          <tr>
+          <tr key={i}>
             <td>
               <div className="status-container">
                 <OverlayTrigger placement="top" overlay={tooltip}>
@@ -461,5 +472,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = PrivateCloudSection;

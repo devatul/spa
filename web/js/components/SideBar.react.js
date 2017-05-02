@@ -5,13 +5,13 @@ var Link                  = require('react-router').Link;
 var getStats              = require('../actions/RequestActions').getStats;
 var redirect              = require('../actions/RouteActions').redirect;
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class SideBar extends React.Component {
+  constructor(props) {
+    super(props);
     var stats       = AlertsStore.getDashboardStats();
     var url = window.location.href;
     if (0 <= url.search('infrastructure')) {
-      return {
+      this.state = {
         stats:               stats,
         infrastructureClass: 'nb-active',
         dashboardClass:      '',
@@ -19,9 +19,8 @@ module.exports = React.createClass({
         performanceClass:    '',
         ninjaSupportClass:   '',
       };
-    }
-    if (0 <= url.search('ticket')) {
-      return {
+    } else if (0 <= url.search('ticket')) {
+      this.state = {
         stats:               stats,
         infrastructureClass: '',
         dashboardClass:      '',
@@ -29,9 +28,8 @@ module.exports = React.createClass({
         performanceClass:    '',
         ninjaSupportClass:   'nb-active',
       };
-    }
-    if (0 <= url.search('support')) {
-      return {
+    } else if (0 <= url.search('ninja-support')) {
+      this.state = {
         stats:               stats,
         infrastructureClass: '',
         dashboardClass:      '',
@@ -39,9 +37,8 @@ module.exports = React.createClass({
         performanceClass:    '',
         ninjaSupportClass:   'nb-active',
       };
-    }
-    if (0 <= url.search('alerts')) {
-      return {
+    } else if (0 <= url.search('alerts')) {
+      this.state = {
         stats:               stats,
         infrastructureClass: '',
         dashboardClass:      '',
@@ -49,30 +46,37 @@ module.exports = React.createClass({
         performanceClass:    '',
         ninjaSupportClass:   '',
       };
+    } else {
+      this.state = {
+        stats:               stats,
+        dashboardClass:      'nb-active',
+        infrastructureClass: '',
+        alertsClass:         '',
+        performanceClass:    '',
+        ninjaSupportClass:   '',
+      };
     }
 
-    return {
-      stats:               stats,
-      dashboardClass:      'nb-active',
-      infrastructureClass: '',
-      alertsClass:         '',
-      performanceClass:    '',
-      ninjaSupportClass:   '',
-    };
-  },
+    this._onChange = this._onChange.bind(this);
+    this._dashboard = this._dashboard.bind(this);
+    this._alerts = this._alerts.bind(this);
+    this._infrastructure = this._infrastructure.bind(this);
+    this._performance = this._performance.bind(this);
+    this._ninjaSupport = this._ninjaSupport.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     getStats();
     AlertsStore.addChangeListener(this._onChange);
     RouteStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     AlertsStore.removeChangeListener(this._onChange);
     RouteStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
+  _onChange() {
     var url = window.location.href;
     if (0 <= url.search('infrastructure')) {
       this.setState({
@@ -115,16 +119,13 @@ module.exports = React.createClass({
         ninjaSupportClass:   '',
       });
     }
+    var stats      = AlertsStore.getDashboardStats();
+    this.setState({
+      stats: stats,
+    });
+  }
 
-    if (this.isMounted()) {
-      var stats      = AlertsStore.getDashboardStats();
-      this.setState({
-        stats: stats,
-      });
-    }
-  },
-
-  _dashboard: function () {
+  _dashboard() {
     redirect('dashboard');
     this.setState({
       dashboardClass:      'nb-active',
@@ -133,9 +134,9 @@ module.exports = React.createClass({
       performanceClass:    '',
       ninjaSupportClass:   '',
     });
-  },
+  }
 
-  _alerts: function () {
+  _alerts() {
     redirect('alerts');
     this.setState({
       alertsClass:         'nb-active',
@@ -144,9 +145,9 @@ module.exports = React.createClass({
       performanceClass:    '',
       ninjaSupportClass:   '',
     });
-  },
+  }
 
-  _infrastructure: function () {
+  _infrastructure() {
     redirect('infrastructure');
     this.setState({
       infrastructureClass: 'nb-active',
@@ -155,9 +156,9 @@ module.exports = React.createClass({
       performanceClass:    '',
       ninjaSupportClass:   '',
     });
-  },
+  }
 
-  _performance: function () {
+  _performance() {
     redirect('performance');
     this.setState({
       performanceClass:    'nb-active',
@@ -166,10 +167,10 @@ module.exports = React.createClass({
       alertsClass:         '',
       ninjaSupportClass:   '',
     });
-  },
+  }
 
-  _ninjaSupport: function () {
-    redirect('ninja');
+  _ninjaSupport() {
+    redirect('ninja-support');
     this.setState({
       ninjaSupportClass:   'nb-active',
       dashboardClass:      '',
@@ -177,9 +178,9 @@ module.exports = React.createClass({
       alertsClass:         '',
       performanceClass:    '',
     });
-  },
+  }
 
-  render: function () {
+  render() {
     var url    = window.location.href;
     var login  = url.search('login');
     var signup = url.search('signup');
@@ -293,5 +294,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-  },
-});
+  }
+}
+
+module.exports = SideBar;

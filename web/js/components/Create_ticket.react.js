@@ -9,91 +9,94 @@ var search                     = require('../actions/RequestActions').search;
 var CreateTicketAction         = require('../actions/RequestActions').createTicket;
 var Dropzone                   = require('react-dropzone');
 
-module.exports = React.createClass({
-
-  getInitialState: function () {
+class CreateTicket extends React.Component {
+  constructor(props) {
+    super(props);
     var search = SessionStore.search();
-    return {
+    this.state = {
       search:    search,
       instances: search.instances,
       clouds:    search.clouds,
       files:     [],
       dropzone:  'hidden',
     };
-  },
+    this._onChange = this._onChange.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._createPreview = this._createPreview.bind(this);
+    this.showDropZone = this.showDropZone.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       search();
     } else {
       redirect('login');
     }
     SessionStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillMount: function () {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
     }
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     AlertsStore.resetAlertTicket();
     SessionStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  _onChange: function () {
-    if (this.isMounted()) {
-      var search = SessionStore.search();
-      var serverCheck = '';
-      if (search.instances && AlertsStore.isAlertTicket()) {
-        var alert = AlertsStore.getAlertTicket();
-        for (var key in search.instances) {
-          if (search.instances[key].instance == alert.instance.id) {
-            serverCheck = search.instances[key].hostname;
-            break;
-          }
+  _onChange() {
+    var search = SessionStore.search();
+    var serverCheck = '';
+    if (search.instances && AlertsStore.isAlertTicket()) {
+      var alert = AlertsStore.getAlertTicket();
+      for (var key in search.instances) {
+        if (search.instances[key].instance == alert.instance.id) {
+          serverCheck = search.instances[key].hostname;
+          break;
         }
       }
-
-      this.setState({
-        search:      search,
-        instances:   search.instances,
-        clouds:      search.clouds,
-        serverCheck: serverCheck,
-      });
     }
-  },
+    this.setState({
+      search:      search,
+      instances:   search.instances,
+      clouds:      search.clouds,
+      serverCheck: serverCheck,
+    });
+  }
 
-  _onSubmit: function (e) {
+  _onSubmit(e) {
     e.preventDefault();
     var ticket = {};
-    ticket.department = this.refs.department.getDOMNode().value;
-    ticket.priority = this.refs.priority.getDOMNode().value;
-    ticket.type = this.refs.type.getDOMNode().value;
-    ticket.subject = this.refs.subject.getDOMNode().value;
-    ticket.content = this.refs.content.getDOMNode().value;
-    ticket.hostname = this.refs.hostname.getDOMNode().value;
+    ticket.department = this.refs.department.value;
+    ticket.priority = this.refs.priority.value;
+    ticket.type = this.refs.type.value;
+    ticket.subject = this.refs.subject.value;
+    ticket.content = this.refs.content.value;
+    ticket.hostname = this.refs.hostname.value;
     ticket.files = this.state.files;
     CreateTicketAction(ticket);
-  },
+  }
 
-  _createTicket: function () {
-    redirect('create_ticket');
-  },
+  _createTicket() {
+    redirect('create-ticket');
+  }
 
-  _liveChat: function () {
-    redirect('live_chat');
-  },
+  _liveChat() {
+    redirect('live-chat');
+  }
 
-  onDrop: function (acceptedFiles, rejectedFiles) {
+  onDrop(acceptedFiles, rejectedFiles) {
     this.setState({
       files: acceptedFiles,
     });
-  },
+  }
 
-  _createPreview: function (file) {
+  _createPreview(file) {
     var newFile, reader = new FileReader();
 
     reader.onloadend = function (e) {
@@ -106,14 +109,14 @@ module.exports = React.createClass({
 
     };
     reader.readAsDataURL(file);
-  },
-  showDropZone: function (e) {
+  }
+  showDropZone(e) {
     e.preventDefault();
     this.setState({
       dropzone: 'dropzone',
     });
-  },
-  render: function () {
+  }
+  render() {
     var search = this.state.search;
     var instances = this.state.instances;
     var servers = [];
@@ -126,14 +129,14 @@ module.exports = React.createClass({
     if (AlertsStore.isAlertTicket()) {
       var alert = AlertsStore.getAlertTicket();
       department = [
-        <select className="form-control" ref="department" defaultValue="support" onChange={this._onChange}>
+        <select key="department" className="form-control" ref="department" defaultValue="support" onChange={this._onChange}>
           <option value="billing">Billing</option>
           <option value="sales">Sales</option>
           <option value="support">Support</option>
         </select>,
       ];
       type = [
-        <select className="form-control" ref="type" defaultValue="incident">
+        <select key="type" className="form-control" ref="type" defaultValue="incident">
           <option value="" disabled ref="type">Select Type</option>
           <option value="incident">Incident</option>
           <option value="service-request">Service Request</option>
@@ -164,7 +167,7 @@ module.exports = React.createClass({
       }
     } else {
       department = [
-        <select className="form-control" ref="department" onChange={this._onChange}>
+        <select key="department1" className="form-control" ref="department" onChange={this._onChange}>
           <option value="billing">Billing</option>
           <option value="sales">Sales</option>
           <option value="support">Support</option>
@@ -172,7 +175,7 @@ module.exports = React.createClass({
       ];
 
       type = [
-        <select className="form-control" ref="type" defaultValue="">
+        <select key="type1" className="form-control" ref="type" defaultValue="">
           <option value="" disabled ref="type">Select Type</option>
           <option value="incident">Incident</option>
           <option value="service-request">Service Request</option>
@@ -180,13 +183,13 @@ module.exports = React.createClass({
       ];
     }
 
-    servers.push(<option value="" disabled>Select Server</option>);
+    servers.push(<option key="server_0" value="" disabled>Select Server</option>);
     for (key in instances) {
-      servers.push(<option value={instances[key].hostname}>{instances[key].hostname}</option>);
+      servers.push(<option key={instances[key].hostname} value={instances[key].hostname}>{instances[key].hostname}</option>);
     }
 
     var priority = [
-      <select className="form-control" ref="priority" defaultValue={priorityCheck}>
+      <select key="priority" className="form-control" ref="priority" defaultValue={priorityCheck}>
         <option value="" disabled>Select Priority</option>
         <option value="low">Low</option>
         <option value="medium">Medium</option>
@@ -232,7 +235,7 @@ module.exports = React.createClass({
             {priority}
           </div>
           <div className="col-xs-3 centered">
-            <select className="form-control" ref="hostname" value={serverCheck}>
+            <select className="form-control" key="hostname" ref="hostname" value={serverCheck}>
               {servers}
             </select>
           </div>
@@ -254,5 +257,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = CreateTicket;

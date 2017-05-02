@@ -1,9 +1,10 @@
 var React                      = require('react');
 var _                          = require('lodash');
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class EditProviderCredential extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       credetialInfo: '',
       name:          '',
       apiKey:        '',
@@ -13,9 +14,15 @@ module.exports = React.createClass({
       message:       '',
       messageClass:  'hidden',
     };
-  },
+    this._resetDialog = this._resetDialog.bind(this);
+    this._updateCredentials = this._updateCredentials.bind(this);
+    this._showError = this._showError.bind(this);
+    this._listErrors = this._listErrors.bind(this);
+    this._closeAlert = this._closeAlert.bind(this);
+    this._onFileChange = this._onFileChange.bind(this);
+  }
 
-  componentWillReceiveProps: function (props) {
+  componentWillReceiveProps(props) {
     var credentialDetails = props.credentialDetails;
     var credetialInfo = props.credetialInfo;
     if (props.open
@@ -31,9 +38,9 @@ module.exports = React.createClass({
         certificate:   credentialDetails.certificate,
       });
     }
-  },
+  }
 
-  _resetDialog: function () {
+  _resetDialog() {
     $('#' + this.props.modalId).modal('toggle');
     this.setState({
       credetialInfo: '',
@@ -43,9 +50,9 @@ module.exports = React.createClass({
       apiSecret:     '',
       certificate:   '',
     });
-  },
+  }
 
-  _updateCredentials: function () {
+  _updateCredentials() {
     var _SELF = this;
     var credetialId = this.state.credetialInfo.provider_credential || null;
     var providerId = this.state.credetialInfo.provider || null;
@@ -90,9 +97,9 @@ module.exports = React.createClass({
         messageClass: 'alert alert-danger',
       });
     }.bind(this));
-  },
+  }
 
-  _showError: function (message) {
+  _showError(message) {
     var errorList = '';
     if ('string' !== typeof message[0]) {
       var error = [];
@@ -104,9 +111,9 @@ module.exports = React.createClass({
       errorList = message[0];
     }
     return errorList;
-  },
+  }
 
-  _listErrors: function (error, lable) {
+  _listErrors(error, lable) {
     var err = [];
     _.map(error, function (errMsg) {
       err.push(<li>{errMsg}</li>);
@@ -117,16 +124,16 @@ module.exports = React.createClass({
         <br />
         <ul>{err}</ul>
       </li>);
-  },
+  }
 
-  _closeAlert: function () {
+  _closeAlert() {
     this.setState({
       message:      '',
       messageClass: 'hidden',
     });
-  },
+  }
 
-  _onFileChange: function (e) {
+  _onFileChange(e) {
     var file = e.target.files[0];
     var reader = new FileReader();
     var SELF = this;
@@ -138,9 +145,9 @@ module.exports = React.createClass({
     reader.readAsBinaryString(file);
     $('.image-preview-input-title').text('Change Certificate');
     $('.image-preview-filename').text(file.name).removeClass('hidden');
-  },
+  }
 
-  render: function () {
+  render() {
     var _SELF = this;
     var providers = this.props.allProviders || [];
     var credetialInfo = this.state.credetialInfo;
@@ -151,7 +158,7 @@ module.exports = React.createClass({
         var credetials = provider.requirements;
 
         input.push(
-          <div className="form-group">
+          <div key={'integration-name'} className="form-group">
             <label>Name</label>
             <div className="input-group">
               <span className="input-group-addon"><i className="fa fa-cloud fa" aria-hidden="true"></i></span>
@@ -161,7 +168,7 @@ module.exports = React.createClass({
         );
         if (-1 < _.indexOf(credetials, 'api-key')) {
           input.push(
-            <div className="form-group">
+            <div key={'api-key'} className="form-group">
               <label>Api Key</label>
               <div className="input-group">
                 <span className="input-group-addon"><i className="fa fa-key fa" aria-hidden="true"></i></span>
@@ -172,7 +179,7 @@ module.exports = React.createClass({
         }
         if (-1 < _.indexOf(credetials, 'endpoint')) {
           input.push(
-            <div className="form-group">
+            <div key={'endpoint'} className="form-group">
               <label>End Point</label>
               <div className="input-group">
                 <span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
@@ -183,7 +190,7 @@ module.exports = React.createClass({
         }
         if (-1 < _.indexOf(credetials, 'api-secret')) {
           input.push(
-            <div className="form-group">
+            <div key={'api-secret'} className="form-group">
               <label>Api Secret</label>
               <div className="input-group">
                 <span className="input-group-addon"><i className="fa fa-lock fa" aria-hidden="true"></i></span>
@@ -194,7 +201,7 @@ module.exports = React.createClass({
         }
         if (-1 < _.indexOf(credetials, 'certificate')) {
           input.push(
-            <div className="input-group image-preview">
+            <div key={'certificate'} className="input-group image-preview">
               <span className="input-group-btn">
                 <div className="btn btn-default image-preview-input">
                   <span className="glyphicon glyphicon-folder-open"></span>
@@ -235,5 +242,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = EditProviderCredential;

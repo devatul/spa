@@ -9,28 +9,30 @@ var Link                          = require('react-router').Link;
 var Tooltip                       = require('react-bootstrap').Tooltip;
 var OverlayTrigger                = require('react-bootstrap').OverlayTrigger;
 
-module.exports = React.createClass({
-  getInitialState: function () {
-    return {
+class InfrastructureSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       pageNo: 1,
     };
-  },
+    this.updateURL = this.updateURL.bind(this);
+  }
 
-  componentWillMount: function () {
+  componentWillMount() {
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
     }
-  },
+  }
 
-  updateURL: function (sectionId, pageNo) {
+  updateURL(sectionId, pageNo) {
     this.setState({
       pageNo: pageNo,
     });
     var hash = window.location.href.split('/infrastructure');
     window.location.href = hash[0] + '/infrastructure' + sectionId + '#page=' + pageNo;
-  },
-  render: function () {
+  }
+  render() {
     var overviewTooltip = (<Tooltip id="tooltip">Overview</Tooltip>);
     var publicTooltip = (<Tooltip id="tooltip">Public Cloud</Tooltip>);
     var privateTooltip = (<Tooltip id="tooltip">Private Cloud</Tooltip>);
@@ -125,5 +127,7 @@ module.exports = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+module.exports = InfrastructureSection;
