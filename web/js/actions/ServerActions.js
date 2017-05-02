@@ -42,6 +42,13 @@ module.exports = {
     });
   },
 
+  showMonitoredInstances: function (instances) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_MONITORED_INSTANCES,
+      res:        instances,
+    });
+  },
+
   showBillingHistory: function (billing) {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.SHOW_BILLING_HISTORY,

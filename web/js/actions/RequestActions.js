@@ -17,6 +17,10 @@ module.exports = {
     return NubityAPIUtils.signup(user);
   },
 
+  getMonitoredInstances: function () {
+    NubityAPIUtils.getMonitoredInstances();
+  },
+
   confirmAccount: function (token) {
     NubityAPIUtils.confirmAccount(token);
   },

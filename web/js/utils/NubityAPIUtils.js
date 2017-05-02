@@ -31,6 +31,7 @@ var showCustomDashboards           = require('../actions/ServerActions').showCus
 var showCustomSlots                = require('../actions/ServerActions').showCustomSlots;
 var showTimezone                   = require('../actions/ServerActions').showTimezone;
 var showLocales                    = require('../actions/ServerActions').showLocales;
+var showMonitoredInstances         = require('../actions/ServerActions').showMonitoredInstances;
 var deletedDashboard               = require('../actions/ServerActions').deletedDashboard;
 var showBillingHistory             = require('../actions/ServerActions').showBillingHistory;
 var APIEndpoints                   = Constants.APIEndpoints;
@@ -395,7 +396,7 @@ module.exports = {
       .post('/slot.json')
       .accept('application/json')
       .set('Authorization', token)
-      .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: 'TODAY'})
+      .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: '-3 hours'})
       .end(function (err, res) {
         this.validateToken(res).then(function (status) {
           if (!status) {
@@ -616,6 +617,25 @@ module.exports = {
           }.bind(this));
         }.bind(this));
     }
+  },
+
+  getMonitoredInstances: function () {
+    var company = getUserData('company');
+    var token   = this.getToken();
+    request
+      .get('/company/' + company + '/monitored-instances.json')
+      .accept('application/json')
+      .set('Authorization', token)
+      .end(function (err, res) {
+        var text = JSON.parse(res.text);
+        this.validateToken(res).then(function (status) {
+          if (!status) {
+            this.getMonitoredInstances();
+          } else {
+            showMonitoredInstances(text);
+          }
+        }.bind(this));
+      }.bind(this));
   },
 
   getStats: function () {

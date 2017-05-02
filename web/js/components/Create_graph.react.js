@@ -6,6 +6,7 @@ var GraphStore                 = require('../stores/GraphStore');
 var CreateDashboardAction      = require('../actions/RequestActions').createDashboard;
 var search                     = require('../actions/RequestActions').search;
 var getAvailableGraphTypes     = require('../actions/RequestActions').getAvailableGraphTypes;
+var getMonitoredInstances      = require('../actions/RequestActions').getMonitoredInstances;
 var Preloader                  = require('./Preloader.react');
 
 class CreateGraph extends React.Component {
@@ -14,7 +15,7 @@ class CreateGraph extends React.Component {
     var search = SessionStore.search();
     this.state = {
       search:     search,
-      instances:  search.instances,
+      instances:  GraphStore.getMonitoredInstances(),
       clouds:     search.clouds,
       graphTypes: '',
       loading:    'hidden',
@@ -28,6 +29,7 @@ class CreateGraph extends React.Component {
   componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       search();
+      getMonitoredInstances();
     } else {
       redirect('login');
     }
@@ -48,7 +50,7 @@ class CreateGraph extends React.Component {
       var graphTypes = GraphStore.getGraphTypes();
       this.setState({
         search:     search,
-        instances:  search.instances,
+        instances:  GraphStore.getMonitoredInstances(),
         clouds:     search.clouds,
         graphTypes: graphTypes.member,
       });
