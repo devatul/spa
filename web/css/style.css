@@ -135,7 +135,6 @@ a:hover, a:active, a:focus {
   width: 100%!important;
   height: 100%!important;
   overflow: auto;
-  padding: 0px!important;
 }
 .my-account-modal {
   padding: 0px!important;
@@ -148,6 +147,11 @@ a:hover, a:active, a:focus {
   color: #fff;
   background-color: #d4d4d4;
   margin: 10px;
+}
+.grey-close {
+  color: #d4d4d4;
+  margin: 10px;
+  font-size: 16px;
 }
 button.close {
   margin: 10px;
@@ -2505,4 +2509,10 @@ label {
   margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+/*INTERCOM*/
+#intercom-container .intercom-launcher-frame {
+  top: 58px!important;
+  bottom: inherit;
 }

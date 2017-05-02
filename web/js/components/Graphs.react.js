@@ -93,9 +93,7 @@ class Graphs extends React.Component {
         allGraphs[parseInt(dashboard[key].position) - 1] = (
           <div key={parseInt(dashboard[key].position) - 1} className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div className="widget" id="widget">
-              <button type="button" className="modal-close" aria-label="Close" onClick={this._deleteGraph.bind(this, dashboard[key])}>
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <i className="fa fa-times-circle grey-close" aria-hidden="true" onClick={this._deleteGraph.bind(this, dashboard[key])}></i>
               <button type="button" className="pull-right open-modal-graph" onClick={this._modalGraph.bind(this, dashboard[key])}>
                 <i className="fa fa-arrows-alt" aria-hidden="true"></i>
               </button>

@@ -6,6 +6,7 @@ var GraphStore                 = require('../stores/GraphStore');
 var CreateDashboardAction      = require('../actions/RequestActions').createDashboard;
 var search                     = require('../actions/RequestActions').search;
 var getAvailableGraphTypes     = require('../actions/RequestActions').getAvailableGraphTypes;
+var getMonitoredInstances      = require('../actions/RequestActions').getMonitoredInstances;
 var Preloader                  = require('./Preloader.react');
 
 class CreateCustomGraph extends React.Component {
@@ -14,7 +15,7 @@ class CreateCustomGraph extends React.Component {
     var search = SessionStore.search();
     this.state = {
       search:     search,
-      instances:  search.instances,
+      instances:  GraphStore.getMonitoredInstances(),
       clouds:     search.clouds,
       graphTypes: '',
       loading:    'hidden',
@@ -27,6 +28,7 @@ class CreateCustomGraph extends React.Component {
   componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       search();
+      getMonitoredInstances();
     } else {
       redirect('login');
     }
@@ -44,7 +46,7 @@ class CreateCustomGraph extends React.Component {
     var graphTypes = GraphStore.getGraphTypes();
     this.setState({
       search:     search,
-      instances:  search.instances,
+      instances:  GraphStore.getMonitoredInstances(),
       clouds:     search.clouds,
       graphTypes: graphTypes.member,
     });
@@ -57,7 +59,7 @@ class CreateCustomGraph extends React.Component {
   }
 
   _selectInstance() {
-    getAvailableGraphTypes(this.refs.server.getDOMNode().value);
+    getAvailableGraphTypes(this.refs.server.value);
     this.setState({
       loading: 'widget-preloader-div',
     });
@@ -65,10 +67,10 @@ class CreateCustomGraph extends React.Component {
 
   _onSubmit(e) {
     e.preventDefault();
-    var server       = this.refs.server.getDOMNode().value;
-    var chartType    = this.refs.chartType.getDOMNode().value;
-    this.refs.server.getDOMNode().value = '';
-    this.refs.chartType.getDOMNode().value = '';
+    var server       = this.refs.server.value;
+    var chartType    = this.refs.chartType.value;
+    this.refs.server.value = '';
+    this.refs.chartType.value = '';
     CreateDashboardAction('graph', server, chartType, this.props.dashboardId, this.props.position);
   }
 

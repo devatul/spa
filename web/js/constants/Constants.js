@@ -42,6 +42,7 @@ module.exports = {
     STORE_LOCALES:                       null,
     DELETED_DASHBOARD:                   null,
     SHOW_BILLING_HISTORY:                null,
+    SHOW_MONITORED_INSTANCES:            null,
   }),
 
   PayloadSources: keyMirror({
