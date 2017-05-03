@@ -121,6 +121,25 @@ module.exports = {
       }.bind(this));
   },
 
+  verifyAccount: function (email) {
+    return new Promise(function (resolve, reject) {
+      request
+        .post('/signup/resend-confirmation-request.json')
+        .send({email: email})
+        .accept('application/json')
+        .end(function (err, res) {
+          var text = JSON.parse(res.text);
+          var code = res.status;
+          if (200 === code) {
+            resolve('Verify account link sent to your email');
+          } else {
+            var message = text.message;
+            reject(message);
+          }
+        }.bind(this));
+    });
+  },
+
   getLocales: function () {
     var token = this.getToken();
     request
