@@ -23,6 +23,7 @@ var LiveChat                 = require('./components/Live_chat.react');
 var TermsAndConditions       = require('./components/Terms_and_conditions.react');
 var PrivacyPolicies          = require('./components/Privacy_policies.react');
 var ViewTicket               = require('./components/View_ticket.react');
+var VerifyAccount            = require('./components/Verify_account.react');
 var ConfirmAccount           = require('./components/Confirm_account.react');
 var Home                     = require('./components/Dashboard_section.react');
 var InfrastructureMonitoring = require('./components/Infrastructure_monitoring.react');
@@ -32,6 +33,7 @@ var routes = (
   <Router history={hashHistory}>
     <Route component={NubityApp} path='/'>
       <Route name="login" path='/login' component={Login} />
+      <Route name="verify-account" path='/verify-account' component={VerifyAccount} />
       <Route name="forgot_password" path='/forgot-password' component={ForgotPassword} />
       <Route name="change_password" path='/change-password/:token' component={ChangePassword} />
       <Route name="signup" path='/signup' component={Signup} />

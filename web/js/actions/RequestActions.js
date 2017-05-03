@@ -13,6 +13,10 @@ module.exports = {
     NubityAPIUtils.getUser();
   },
 
+  verifyAccount: function (email) {
+    return NubityAPIUtils.verifyAccount(email);
+  },
+
   signup: function (user) {
     return NubityAPIUtils.signup(user);
   },

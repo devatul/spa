@@ -51,6 +51,10 @@ class Signup extends React.Component {
     redirect('login');
   }
 
+  _redirectVerifyAccount() {
+    redirect('verify-account');
+  }
+
   _redirectTerms() {
     redirect('terms_and_conditions');
   }
@@ -140,6 +144,10 @@ class Signup extends React.Component {
           <div className="top-div">
             <p className="login-p">Have an account?</p>
             <a className="action-button nubity-blue" onClick={this._redirectLogin}>Log in</a>
+          </div>
+          <div className="top-div">
+            <p className="login-p">Unverified account?</p>
+            <a className="action-button nubity-blue" onClick={this._redirectVerifyAccount}>Verify it</a>
           </div>
           <div className="row">
             <div className="col-xs-12">
