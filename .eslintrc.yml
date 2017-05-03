@@ -37,6 +37,13 @@ rules:
     - always
   react/no-deprecated:
     - error
+  react/no-unknown-property:
+    - 1
+  react/no-find-dom-node:
+    - 1
+  react/jsx-boolean-value:
+    - 1
+    - never
   no-console:
     - error
     -
