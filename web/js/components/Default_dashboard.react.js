@@ -222,12 +222,12 @@ class DefaultDashboard extends React.Component {
       var userTimeZone = getUserData('timezone');
       var locale = getUserData('locale');
       moment.locale(locale);
-      var date_from_obj = moment.tz(mainAlerts[key].started_on, userTimeZone).toDate();
-      var from = date_from_obj.toLocaleDateString() + ' ' + date_from_obj.toLocaleTimeString();
+      var dateFromObj = moment.tz(mainAlerts[key].started_on, userTimeZone).toDate();
+      var from = dateFromObj.toLocaleDateString() + ' ' + dateFromObj.toLocaleTimeString();
       var to = '';
       if (null != mainAlerts[key].resolved_on) {
-        var date_to_obj = moment.tz(mainAlerts[key].resolved_on, userTimeZone).toDate();
-        to = date_to_obj.toLocaleDateString() + ' ' + date_to_obj.toLocaleTimeString();
+        var dateToObj = moment.tz(mainAlerts[key].resolved_on, userTimeZone).toDate();
+        to = dateToObj.toLocaleDateString() + ' ' + dateToObj.toLocaleTimeString();
       } else {
         to = '-';
       }
