@@ -266,13 +266,13 @@ class Alert extends React.Component {
       );
 
       moment.locale(locale);
-      var date_from_obj = moment.tz(alerts[key].started_on, userTimeZone).toDate();
-      var from = date_from_obj.toLocaleDateString() + ' ' + date_from_obj.toLocaleTimeString();
-      var date_to_obj = '';
+      var dateFromObj = moment.tz(alerts[key].started_on, userTimeZone).toDate();
+      var from = dateFromObj.toLocaleDateString() + ' ' + dateFromObj.toLocaleTimeString();
+      var dateToObj = '';
       var to = '';
       if (null != alerts[key].resolved_on) {
-        date_to_obj = moment.tz(alerts[key].resolved_on, userTimeZone).toDate();
-        to = date_to_obj.toLocaleDateString() + ' ' + date_to_obj.toLocaleTimeString();
+        dateToObj = moment.tz(alerts[key].resolved_on, userTimeZone).toDate();
+        to = dateToObj.toLocaleDateString() + ' ' + dateToObj.toLocaleTimeString();
         action = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';
@@ -393,12 +393,12 @@ class Alert extends React.Component {
       );
 
       moment.locale(locale);
-      date_from_obj = moment.tz(historyAlerts[key].started_on, userTimeZone).toDate();
-      from = date_from_obj.toLocaleDateString() + ' ' + date_from_obj.toLocaleTimeString();
+      dateFromObj = moment.tz(historyAlerts[key].started_on, userTimeZone).toDate();
+      from = dateFromObj.toLocaleDateString() + ' ' + dateFromObj.toLocaleTimeString();
       to = '';
       if (null != historyAlerts[key].resolved_on) {
-        date_to_obj = moment.tz(historyAlerts[key].resolved_on, userTimeZone).toDate();
-        to = date_to_obj.toLocaleDateString() + ' ' + date_to_obj.toLocaleTimeString();
+        dateToObj = moment.tz(historyAlerts[key].resolved_on, userTimeZone).toDate();
+        to = dateToObj.toLocaleDateString() + ' ' + dateToObj.toLocaleTimeString();
         haction = (<td className="icons hidden-xs"></td>);
       } else {
         to = '-';

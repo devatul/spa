@@ -4,17 +4,16 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var getUserData                = require('../actions/StorageActions').getUserData;
 var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
+var moment                     = require('moment');
+var momentTZ                   = require('moment-timezone');
 var Highcharts                 = require('highcharts');
 var addFunnel                  = require('highcharts/modules/funnel');
 var GraphEmptyState            = require('./Graph_empty_state.react');
-var Moment                     = require('moment');
 
 class ModalGraph extends React.Component {
   constructor(props) {
     super(props);
     this._onChange = this._onChange.bind(this);
-    this.closeAlert = this.closeAlert.bind(this);
-    this._onSubmit = this._onSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -96,7 +95,7 @@ class ModalGraph extends React.Component {
 
       Highcharts.setOptions({
         global: {
-          timezoneOffset: this.getUserTimeZoneOffset() * 60,
+          timezone: getUserData('timezone'),
         },
       });
 
@@ -173,12 +172,6 @@ class ModalGraph extends React.Component {
         series: chartSeries,
       });
     }
-  }
-
-  getUserTimeZoneOffset() {
-    var date = new Date();
-    var timezoneOffset = date.toLocaleString('en-EN', {hour: '2-digit', hour12: false, timeZone: getUserData('timezone')});
-    return parseInt(timezoneOffset);
   }
 
   componentWillUnmount() {

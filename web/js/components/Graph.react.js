@@ -4,10 +4,12 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var getUserData                = require('../actions/StorageActions').getUserData;
 var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
-var Highcharts                 = require('highcharts');
 var addFunnel                  = require('highcharts/modules/funnel');
 var GraphEmptyState            = require('./Graph_empty_state.react');
-var Moment                     = require('moment');
+var moment                     = require('moment');
+var momentTZ                   = require('moment-timezone');
+window.moment = moment;
+var Highcharts                 = require('highcharts');
 
 class Graph extends React.Component {
 
@@ -57,26 +59,25 @@ class Graph extends React.Component {
 
       for (var i = 0; i < graph.content.series.length; i++) {
         var data1   = graph.content.series[i].data;
-        var pointStart = new Date();
-
-        if (undefined !== data1[0] && undefined !== data1[0][0]) {
-          pointStart = data1[0][0] * 1000;
-        }
         var legend = graph.content.series[i].legend;
         var color = graph.content.series[i].color;
         var suffix = graph.content.series[i].unit;
         var coords = [];
+
         for (var key = 0; key < data1.length; key++) {
-          coords[key] = [new Date(data1[key][0] * 1000), data1[key][1]];
+          coords[key] = [data1[key][0] * 1000, data1[key][1]];
         }
+        var offset = moment.tz(data1[0][0] * 1000, getUserData('timezone')).utcOffset();
+        var h = Math.floor(offset / 60);
+        var m = offset % 60 || 0;
+        var tzoffset = (0 < h ? '+' : '') + h + ':' + ((10 > m ? '0' : '') + m);
 
         var chartSerie = {
-          name:          legend,
-          data:          coords,
-          color:         color,
-          pointStart:    pointStart,
-          pointInterval: 1 * 3600 * 24,
-          tooltip:       {
+          name:    legend,
+          data:    coords,
+          color:   color,
+          tooltip: {
+            headerFormat:  '{point.key} (UTC ' + tzoffset + ')<br/>',
             valueDecimals: 2,
             valueSuffix:   ' ' + suffix,
           },
@@ -84,15 +85,18 @@ class Graph extends React.Component {
         chartSeries.push(chartSerie);
       }
       var yTitle = 'Values';
+
       if (graph.content.series[0].unit) {
         yTitle = 'Values (' + graph.content.series[0].unit + ')';
       }
 
-      Highcharts.setOptions({
-        global: {
-          timezoneOffset: this.getUserTimeZoneOffset() * 60,
-        },
-      });
+      if (getUserData('timezone')) {
+        Highcharts.setOptions({
+          global: {
+            timezone: getUserData('timezone'),
+          },
+        });
+      }
 
       Highcharts.chart(this.props.name, {
         chart: {
@@ -168,12 +172,6 @@ class Graph extends React.Component {
         series: chartSeries,
       });
     }
-  }
-
-  getUserTimeZoneOffset() {
-    var date = new Date();
-    var timezoneOffset = date.toLocaleString('en-EN', {hour: '2-digit', hour12: false, timeZone: getUserData('timezone')});
-    return parseInt(timezoneOffset);
   }
 
   componentWillUnmount() {
