@@ -59,7 +59,7 @@ class ForgotPassword extends React.Component {
           <div className="login-logo"></div>
           <p className="login-title">Your cloud, managed</p>
           <p className="login-subtitle">Sign in to check all your Clouds, Servers, Devices and Apps.</p>
-          <form className="login-form col-xs-10 col-xs-offset-1" onSubmit={this._onSubmit}>
+          <form className="login-form" onSubmit={this._onSubmit}>
             <div className="row">
               <div className={this.state.messageClass} role="alert">
                 <button type="button" className="close" onClick={this.closeAlert} aria-label="Close"><span aria-hidden="true">&times;</span></button>

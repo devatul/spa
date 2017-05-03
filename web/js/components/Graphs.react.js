@@ -4,6 +4,7 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var getDashboard               = require('../actions/RequestActions').getDashboard;
 var deleteSlot                 = require('../actions/RequestActions').deleteSlot;
 var SessionStore               = require('../stores/SessionStore');
+var Preloader                  = require('./Preloader.react');
 var GraphStore                 = require('../stores/GraphStore');
 var CreateGraph                = require('./Create_graph.react');
 var Graph                      = require('./Graph.react');
@@ -106,7 +107,9 @@ class Graphs extends React.Component {
       }
       allGraphs = allGraphs.slice(0, 3);
     }
-
+    if (!dashboard) {
+      return (<Preloader />);
+    }
     return (
       <div className="row">
         {allGraphs}
