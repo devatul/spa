@@ -12,7 +12,7 @@ class ConfirmAccount extends React.Component {
       message: '',
       code:    '',
     };
-    this.switchTrigger = this.switchTrigger.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +64,7 @@ class ConfirmAccount extends React.Component {
       <section className="login-div">
         <div className="col-lg-4 col-lg-offset-4 login-box">
           <div className="verification-logo">
-            <img src="./images/logo-nubity_380.png" />
+            <img src="./images/logo-nubity-w.png" />
           </div>
           <div className="verification-legend">
             {legend}
