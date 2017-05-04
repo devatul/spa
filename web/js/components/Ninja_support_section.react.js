@@ -63,11 +63,14 @@ class NinjaSupportSection extends React.Component {
     }
 
     window.Intercom('boot', {
-      app_id:         'xs6j43ab',
-      name:           name,
-      email:          email,
-      created_at:     Math.ceil(Date.now() / 1000),
-      'company_name': this.state.companyName,
+      app_id:                   'xs6j43ab',
+      name:                     name,
+      email:                    email,
+      created_at:               Math.ceil(Date.now() / 1000),
+      'company_name':           this.state.companyName,
+      custom_launcher_selector: '#startLiveChat',
+      hide_default_launcher:    true,
+
     });
 
     return (
@@ -76,12 +79,8 @@ class NinjaSupportSection extends React.Component {
           <span className="item title">Support</span>
         </div>
         <div className="centered">
-          <a onClick={this._createTicket}>
-            <button className="action-button nubity-blue">Create Ticket</button>
-          </a>
-          <a onClick={this._liveChat}>
-            <button className="large-green-button hidden">Start Live Chat</button>
-          </a>
+          <button className="action-button inline nubity-blue" onClick={this._createTicket}>Create Ticket</button>
+          <button className="action-button inline nubity-blue" id="startLiveChat">Start Live Chat</button>
         </div>
         <div className="margin-sides min-height-subsection">
           <NinjaDefaultContent />

@@ -368,6 +368,10 @@ p.menu-text {
   color: #9e9e9e;
   font-size: 25px!important;
 }
+.inline {
+  display: inline!important;
+  margin: 10px!important;
+}
 .action-button, a.action-button {
   padding: .45em 1.4em;
   font-size: 10pt;
@@ -2511,10 +2515,4 @@ label {
   margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
-}
-
-/*INTERCOM*/
-#intercom-container .intercom-launcher-frame {
-  top: 58px!important;
-  bottom: inherit;
 }
