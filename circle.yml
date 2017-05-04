@@ -1,7 +1,7 @@
 dependencies:
   override:
     - npm install --prefix=web
-    - npm run build:prod --prefix=web
+    - npm run deploy --prefix=web --env=prod
     - ./web/node_modules/eslint/bin/eslint.js --fix web/.
   cache_directories:
     - web/node_modules

@@ -1,12 +1,8 @@
-SSH_key: ./server-key.ppk
-rsync:
- - '--include'
- - ' "js/bundle.js"'
- - '--exclude'
- - ' "js/*"'
- - '--exclude'
- - ' "node_modules"'
-host: 'deploy@127.0.0.1:22'
-src: '../web/*'
-dest: /var/www/html/spa
-baseURL: 'http://api.pricing.nubity.com'
+dev:
+  SSH_key: ../server-key.ppk
+  host: 'deploy@127.0.0.1:22'
+  baseURL: 'http://api.pricing.nubity.com'
+prod:
+  SSH_key: ../server-key.ppk
+  host: 'deploy@127.0.0.1:22'
+  baseURL: 'https://api.nubity.com'

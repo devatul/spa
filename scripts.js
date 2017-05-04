@@ -1,48 +1,43 @@
 
 module.exports = {
   gruntScript: function (grunt, YAML) {
-    var fileExists = grunt.file.exists('../parameters.yml');
-    var dist = grunt.file.readYAML('../parameters.yml.dist');
-    var parameters = grunt.file.readJSON('../parameters.json');
-    if (fileExists) {
-      var config = grunt.file.readYAML('../parameters.yml');
-    }
+    var NODE_ENV = process.env.NODE_ENV;
 
-    grunt.registerTask('env', 'setup app "env"', function (env) {
-      if ('prod' === env && fileExists) {
-        parameters.baseURL = config.baseURL || dist.baseURL;
-      } else if ('prod' === env && !fileExists) {
-        console.error('===========================================');
-        console.error('Error: Production envionment not available.\nRunning in default envionment');
-        console.error('===========================================');
-        parameters.baseURL = dist.baseURL;
-      } else {
-        parameters.baseURL = dist.baseURL;
+    var dist = grunt.file.readYAML('../parameters.yml.dist');
+    var parameters ;
+    grunt.registerTask('start', 'setup app "env"', function () {
+      var i = true;
+      for (var key in dist) {
+        if (key === NODE_ENV) {
+          i = false;
+          parameters = dist[key];
+        }
       }
-      grunt.file.write('../parameters.json', JSON.stringify(parameters, null, 1));
+      if (i) {
+        console.error('===========================================');
+        console.error('WARNING: '+NODE_ENV+' envionment not available.\nRunning in default envionment');
+        console.error('===========================================');
+        parameters = dist.dev;
+      }
+      grunt.file.write('./parameters.yml', YAML.stringify(parameters, null, 1));
     });
   },
 
-  shipitScript: function (shipit, YAML, path, fs) {
-    var config      = {};
-    var config_path = '../parameters.yml';
-    if (fs.existsSync(config_path)) {
-      config = YAML.load(config_path);
-    }
-    var dist        = YAML.load('../parameters.yml.dist');
+  shipitScript: function (shipit, YAML, path) {
+    var env = YAML.load('./parameters.yml');
 
     shipit.initConfig({
       default: {
-        rsync: config.rsync || dist.rsync,
+        rsync: [
+          '--include', '"js/bundle.js"',
+          '--exclude', '"js/*"',
+          '--exclude', '"node_modules"'
+        ]
       },
-      development: {
-        servers: dist.host,
-        key:     path.resolve(dist.SSH_key),
-      },
-      production: {
-        servers: config.host || dist.host,
-        key:     path.resolve(config.SSH_key || dist.SSH_key),
-      },
+      envionment: {
+        servers: env.host,
+        key:     path.resolve(env.SSH_key),
+      }
     });
 
     shipit.task('deploy', function () {
@@ -50,9 +45,18 @@ module.exports = {
     });
 
     shipit.on('updated', function () {
-      var buildDirectory = path.resolve(config.src || dist.src);
-      var serverDirectory = config.dest || dist.dest;
-      shipit.remoteCopy(buildDirectory, serverDirectory);
+      var buildDirectory = path.resolve('../web/*');
+      var serverDirectory = '/var/www/html/spa';
+      shipit.remoteCopy(buildDirectory, serverDirectory).then(function () {
+        console.error('STATUS: Files upload successful.');
+        shipit.emit('install_dependency');
+      });
+    });
+
+    shipit.on('install_dependency', function () {
+      shipit.remote('npm install',{cwd: '/var/www/html/spa'}).then(function () {
+        console.error('STATUS: npm install successful. \nDeployed successfully.');
+      });
     });
   },
 };
