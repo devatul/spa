@@ -34,6 +34,15 @@ After install, you'll need to execute a NPM command in order to build some depen
 Sample configuration for setting up a web server for MyNubity SPA can be found in
 [doc/webserver.md][2].
 
+### Running the built-in server in development environments
+
+At development time, you can also run the built-in HTTP server based on [`http-server`][3].
+To use it, you must run:
+
+    npm run http --prefix web
+
+It will expose the app at `http://0.0.0.0:8080/` address.
+
 3) Browsing MyNubity SPA
 ------------------------
 
@@ -45,3 +54,4 @@ To see a real-live page in action, access the following URI:
 
 [1]: https://docs.npmjs.com/getting-started/installing-node
 [2]: doc/webserver.md
+[3]: https://www.npmjs.com/package/http-server
