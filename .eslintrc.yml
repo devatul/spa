@@ -13,7 +13,7 @@ plugins:
   - react
 settings:
   react:
-    version: '0.13.3'
+    version: '15.5.4'
 rules:
   react/jsx-uses-vars: 1
   react/jsx-uses-react: 1
