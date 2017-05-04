@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
     <link rel="stylesheet" type="text/css" href="node_modules/nubity-webfont/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="node_modules/alertifyjs/build/alertify.min.js"></script>
     <link rel="stylesheet" href="node_modules/alertifyjs/build/css/alertify.min.css" />
@@ -63,8 +65,8 @@
 
         return function download(data, strFileName, strMimeType) {
 
-          var self      = window, 
-            defaultMime = 'application/octet-stream', 
+          var self      = window,
+            defaultMime = 'application/octet-stream',
             mimeType    = strMimeType || defaultMime,
             payload     = data,
             url         = !strFileName && !strMimeType && payload,
@@ -77,8 +79,8 @@
             blob,
             reader;
             myBlob      = myBlob.call ? myBlob.bind(self) : Blob ;
-          
-          if (String(this) === 'true') { 
+
+          if (String(this) === 'true') {
             payload  = [payload, mimeType];
             mimeType = payload[0];
             payload  = payload[1];
@@ -87,11 +89,11 @@
           if (url && url.length< 2048) {
             fileName     = url.split('/').pop().split('?')[0];
             anchor.href  = url;
-              if (-1 !== anchor.href.indexOf(url)) { 
+              if (-1 !== anchor.href.indexOf(url)) {
                 var ajax = new XMLHttpRequest();
                 ajax.open('GET', url, true);
                 ajax.responseType = 'blob';
-                ajax.onload       = function (e) { 
+                ajax.onload       = function (e) {
                 download(e.target.response, fileName, defaultMime);
               };
               setTimeout(function () { ajax.send();}, 0);
@@ -102,14 +104,14 @@
             if (payload.length > (1024*1024*1.999) && myBlob !== toString ) {
               payload  = dataUrlToBlob(payload);
               mimeType = payload.type || defaultMime;
-            } else {      
-              return navigator.msSaveBlob ?  
+            } else {
+              return navigator.msSaveBlob ?
               navigator.msSaveBlob(dataUrlToBlob(payload), fileName) :
-              saver(payload) ; 
+              saver(payload) ;
             }
           }
           blob = payload instanceof myBlob ? payload : new myBlob([payload], {type: mimeType}) ;
-          
+
           function dataUrlToBlob (strUrl) {
             var parts = strUrl.split(/[:;,]/),
             type = parts[1],
@@ -142,9 +144,9 @@
 
             if (/(Version)\/(\d+)\.(\d+)(?:\.(\d+))?.*Safari\//.test(navigator.userAgent)) {
               url = url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
-              if (!window.open(url)) { 
-                if (confirm('Displaying New Document\n\nUse Save As... to download, then click back to return to this page.')) { 
-                  location.href=url; 
+              if (!window.open(url)) {
+                if (confirm('Displaying New Document\n\nUse Save As... to download, then click back to return to this page.')) {
+                  location.href=url;
                 }
               }
               return true;
@@ -152,16 +154,16 @@
             var f = document.createElement('iframe');
             document.body.appendChild(f);
 
-            if (!winMode) { 
+            if (!winMode) {
               url = 'data:' + url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
             }
             f.src = url;
             setTimeout(function () { document.body.removeChild(f); }, 333);
           }
-          if (navigator.msSaveBlob) { 
+          if (navigator.msSaveBlob) {
             return navigator.msSaveBlob(blob, fileName);
           }
-          if (self.URL) { 
+          if (self.URL) {
             saver(self.URL.createObjectURL(blob), true);
           } else {
             if (typeof blob === 'string' || blob.constructor===toString) {

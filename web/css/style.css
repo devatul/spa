@@ -2754,3 +2754,7 @@ label {
 .style-type-none {
   list-style-type: none;
 }
+.select2-roles {
+  border-radius: 0px 4px 4px 0px !important;
+  border-color: #cccccc !important;
+}

@@ -249,9 +249,17 @@ module.exports = {
       res:        locales,
     });
   },
+
   deletedDashboard: function () {
     Dispatcher.handleServerAction({
       actionType: ActionTypes.DELETED_DASHBOARD,
+    });
+  },
+
+  showUserRoles: function (roles) {
+    Dispatcher.handleServerAction({
+      actionType: ActionTypes.SHOW_USER_ROLES,
+      res:        roles,
     });
   },
 };

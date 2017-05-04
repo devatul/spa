@@ -3,6 +3,7 @@ var Router                = require('../router');
 var logOutAction          = require('../actions/ServerActions').logOut;
 var goBackToAdmin         = require('../actions/ServerActions').goBackToAdmin;
 var redirect              = require('../actions/RouteActions').redirect;
+var getUserData           = require('../actions/StorageActions').getUserData;
 var SessionStore          = require('../stores/SessionStore');
 var RouteStore            = require('../stores/RouteStore');
 var MyAccountSection      = require('./My_account_section.react');
@@ -16,6 +17,7 @@ var OverlayTrigger        = require('react-bootstrap').OverlayTrigger;
 var getCompanyInfo        = require('../actions/RequestActions').getCompanyInfo;
 var getTimezone           = require('../actions/RequestActions').getTimezone;
 var getLocales            = require('../actions/RequestActions').getLocales;
+var _                     = require('lodash');
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -207,7 +209,7 @@ class NavBar extends React.Component {
                           <i className="icon nb-company small"></i> Company
                         </a>
                       </li>
-                      <li role="presentation" className="tab-link hidden">
+                      <li role="presentation" className={-1 < _.indexOf(getUserData('roles'), 'ROLE_USER_CREATE_USER') ? 'tab-link' : 'tab-link hidden'}>
                         <a className="grey-color" data-toggle="tab" href="#myTeam">
                           <i className="icon nb-team small"></i> My Team
                         </a>

@@ -251,4 +251,12 @@ module.exports = {
   getBillingHistory: function () {
     return NubityAPIUtils.getBillingHistory();
   },
+
+  createUser: function (userData) {
+    return NubityAPIUtils.createUser(userData);
+  },
+
+  getUserRoles: function () {
+    return NubityAPIUtils.getUserRoles();
+  },
 };

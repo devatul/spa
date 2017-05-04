@@ -21,6 +21,7 @@ var _companyInfo  = '';
 var _loginError   = '';
 var _locales      = '';
 var _timezones    = '';
+var _userRoles    = '';
 
 EventEmitter.prototype.setMaxListeners(50);
 
@@ -101,6 +102,10 @@ var SessionStore  = assign({}, EventEmitter.prototype, {
     return _locales;
   },
 
+  getUserRoles: function () {
+    return _userRoles;
+  },
+
 });
 
 SessionStore.dispatchToken = Dispatcher.register(function (payload) {
@@ -138,6 +143,11 @@ SessionStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.STORE_LOCALES:
       _locales = action.res;
+      SessionStore.emitChange();
+      break;
+
+    case ActionTypes.SHOW_USER_ROLES:
+      _userRoles = action.res;
       SessionStore.emitChange();
       break;
 

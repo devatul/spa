@@ -34,6 +34,7 @@ var showLocales                    = require('../actions/ServerActions').showLoc
 var showMonitoredInstances         = require('../actions/ServerActions').showMonitoredInstances;
 var deletedDashboard               = require('../actions/ServerActions').deletedDashboard;
 var showBillingHistory             = require('../actions/ServerActions').showBillingHistory;
+var showUserRoles                  = require('../actions/ServerActions').showUserRoles;
 var APIEndpoints                   = Constants.APIEndpoints;
 var routes                         = require('./RouteUtils');
 var _                              = require('lodash');
@@ -1540,6 +1541,57 @@ module.exports = {
           }
         }.bind(this));
       }.bind(this));
+  },
+
+  createUser: function (userData) {
+    var token   = this.getToken();
+    var SELF = this;
+
+    return new Promise(function (resolve, reject) {
+      request
+        .post('/user.json')
+        .type('application/json')
+        .send(userData)
+        .set('Authorization', token)
+        .end(function (err, res) {
+          var code = JSON.parse(res.status);
+          var text = JSON.parse(res.text);
+          if (200 <= code && 300 > code) {
+            resolve('User created successfully');
+          } else if (401 === code) {
+            SELF.validateToken(res).then(function (status) {
+              if (!status) {
+                SELF.createUser(userData);
+              }
+            }.bind(SELF));
+          } else {
+            reject(text);
+          }
+        }.bind(SELF));
+    });
+  },
+
+  getUserRoles: function () {
+    var token = this.getToken();
+    var SELF = this;
+
+    return new Promise(function (resolve) {
+      request
+        .get('/roles.json')
+        .accept('application/json')
+        .set('Authorization', token)
+        .end(function (err, res) {
+          var text = JSON.parse(res.text);
+          SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              SELF.getUserRoles();
+            } else {
+              showUserRoles(text);
+              resolve(text);
+            }
+          }.bind(SELF));
+        }.bind(SELF));
+    });
   },
 
   hasToRefresh: function () {
