@@ -78,11 +78,11 @@ class NinjaSupportSection extends React.Component {
         <div className="section-title">
           <span className="item title">Support</span>
         </div>
-        <div className="centered">
+        <div className="ninja-buttons centered">
           <button className="action-button inline nubity-blue" onClick={this._createTicket}>Create Ticket</button>
           <button className="action-button inline nubity-blue" id="startLiveChat">Start Live Chat</button>
         </div>
-        <div className="margin-sides min-height-subsection">
+        <div className="ninja-table margin-sides min-height-subsection">
           <NinjaDefaultContent />
         </div>
       </div>

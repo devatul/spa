@@ -5,7 +5,7 @@ var SessionStore               = require('../stores/SessionStore');
 
 class NotFound extends React.Component {
   redirectHome() {
-    redirect('home');
+    redirect('/');
   }
 
   render() {

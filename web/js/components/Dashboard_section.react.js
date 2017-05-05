@@ -127,8 +127,8 @@ class DashboardSection extends React.Component {
           <div className="section-title">
             <div className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}><span className="auto-margin">Main dashboard</span></div>
             {customDashboardsTabs}
-            <div className="item-tab-button" onClick={this._warning}>
-              <span className="auto-margin"><i className="icon nb-plus icon-state"></i> Add a custom dashboard</span>
+            <div className="item-tab-button new-dashboard-button" onClick={this._warning}>
+              <span className="auto-margin"><i className="icon fa fa-plus-circle new-dashboard-plus"></i> Add a custom dashboard</span>
             </div>
           </div>
         );
@@ -145,8 +145,8 @@ class DashboardSection extends React.Component {
         <div className="section-title">
           <div className={'0' == this.state.currentDashboardIndex ? 'item-tab title item-tab-active' : 'item-tab title'} onClick={this._goToDefaultDashboard}><span className="auto-margin">Main dashboard</span></div>
           {customDashboardsTabs}
-          <div className="item-tab-button" onClick={this._warning}>
-            <span className="auto-margin"><i className="icon nb-plus icon-state"></i> Add a custom dashboard</span>
+          <div className="item-tab-button new-dashboard-button" onClick={this._warning}>
+            <span className="auto-margin"><i className="icon fa fa-plus-circle new-dashboard-plus"></i> Add a custom dashboard</span>
           </div>
         </div>
       );

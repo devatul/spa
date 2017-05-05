@@ -135,33 +135,33 @@ class DefaultDashboard extends React.Component {
           <div className="col-xs-12 col-sm-4 col-md-4">
             <div className="dashboard-icons first">
               <div className="left">
-                <i className="icon nb-information" aria-hidden="true"></i>
+                <span><i className="icon nb-information" aria-hidden="true"></i></span>
               </div>
               <div className="right">
-                <div className="dashboard-icons-counter">{this.state.stats.info}</div>
-                <span className="dashboard-icons-info">Information</span>
+                <span>{this.state.stats.info}</span>
+                <span className="dashboard-icons-info"> Information</span>
               </div>
             </div>
           </div>
           <div className="col-xs-12 col-sm-4 col-md-4">
             <div className="dashboard-icons second">
               <div className="left">
-                <i className="icon nb-warning" aria-hidden="true"></i>
+                <span><i className="icon nb-warning" aria-hidden="true"></i></span>
               </div>
               <div className="right">
-                <div className="dashboard-icons-counter">{this.state.stats.warning}</div>
-                <span className="dashboard-icons-info">Warning</span>
+                <span>{this.state.stats.warning}</span>
+                <span className="dashboard-icons-info"> Warning</span>
               </div>
             </div>
           </div>
           <div className="col-xs-12 col-sm-4 col-md-4">
             <div className="dashboard-icons third">
               <div className="left">
-                <i className="icon nb-critical" aria-hidden="true"></i>
+                <span><i className="icon nb-critical" aria-hidden="true"></i></span>
               </div>
               <div className="right">
-                <div className="dashboard-icons-counter">{this.state.stats.critical}</div>
-                <span className="dashboard-icons-info">Critical</span>
+                <span>{this.state.stats.critical}</span>
+                <span className="dashboard-icons-info"> Critical</span>
               </div>
             </div>
           </div>
@@ -193,9 +193,9 @@ class DefaultDashboard extends React.Component {
         action = (
           <td className="icons hidden-xs">
             <span>
-              <span className='hidden-xs hidden-sm action-button-disabled'>Muted</span>
+              <span className='hidden-xs hidden-sm table-action-button action-button-disabled'>Muted</span>
               <OverlayTrigger placement="top" overlay={tooltip}>
-                <span className="hidden-md hidden-lg action-button-disabled" title="Notifications muted">
+                <span className="hidden-md hidden-lg table-action-button action-button-disabled" title="Notifications muted">
                   <i className="icon nb-mute-on grey-text small"></i>
                 </span>
               </OverlayTrigger>
@@ -207,9 +207,9 @@ class DefaultDashboard extends React.Component {
         action = (
           <td className="icons hidden-xs">
             <span>
-              <span className='action-button nubity-red hidden-xs hidden-sm' onClick={this._warning.bind(this, mute)}>Mute notifications</span>
+              <span className='table-action-button action-button nubity-red hidden-xs hidden-sm' onClick={this._warning.bind(this, mute)}>Mute notifications</span>
               <OverlayTrigger placement="top" overlay={tooltip}>
-                <span className="action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._warning.bind(this, mute)}>
+                <span className="table-action-button action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._warning.bind(this, mute)}>
                   <i className="icon nb-mute-off small white-text"></i>
                 </span>
               </OverlayTrigger>
@@ -244,8 +244,8 @@ class DefaultDashboard extends React.Component {
           notice = 'If you turn off the alerts, you won\'t receive them anymore!';
           confirmButtons = (
             <div className="pull-right">
-              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
-              <span className="action-button nubity-red" onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>OK</span>
+              <span className="table-action-button action-button nubity-blue" onClick={this.close}>Cancel</span>
+              <span className="table-action-button action-button nubity-red" onClick={this._acknowledge.bind(this, mainAlerts[key].id)}>OK</span>
             </div>
           );
           break;
@@ -283,7 +283,7 @@ class DefaultDashboard extends React.Component {
           );
           confirmButtons = (
             <div className="pull-right">
-              <span className="action-button nubity-blue" onClick={this.close}>Cancel</span>
+              <span className="table-action-button action-button nubity-blue" onClick={this.close}>Cancel</span>
             </div>
           );
       }
@@ -322,8 +322,8 @@ class DefaultDashboard extends React.Component {
           </td>
           {action}
           <td className="icons">
-            <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
-            <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, mainAlerts[key])}>
+            <span className="table-action-button action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
+            <span className="table-action-button action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, mainAlerts[key])}>
               <i className="icon nb-ticket white-text small"></i>
             </span>
           </td>
@@ -361,7 +361,7 @@ class DefaultDashboard extends React.Component {
                   <th className="hidden-xs hidden-sm">Started on</th>
                   <th className="hidden-xs hidden-sm">Resolved on</th>
                   <th className="column-button hidden-xs">Notifications</th>
-                  <th className="column-button">Report a problem</th>
+                  <th className="column-button">Support</th>
                 </tr>
               </thead>
               <tbody>

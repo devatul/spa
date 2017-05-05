@@ -8,7 +8,7 @@ module.exports = {
     redirect('dashboard');
   },
   redirectNinja: function () {
-    redirect('ninja');
+    redirect('ninja-support');
   },
   redirectTo: function (to) {
     redirect(to);

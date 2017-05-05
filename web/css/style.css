@@ -372,6 +372,9 @@ p.menu-text {
   display: inline!important;
   margin: 10px!important;
 }
+.table-action-button {
+  padding: 0.30em 0.8em!important;
+}
 .action-button, a.action-button {
   padding: .45em 1.4em;
   font-size: 10pt;
@@ -503,17 +506,17 @@ button.action-button:hover {
   margin-left: 30px;
 }
 .section-title {
-  height: 75px;
+  height: 60px;
   background-color: white;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .section-title .item-short {
   font-family: 'Open Sans', sans-serif;
   color: #9e9e9e;
 
-  height: 75px!important;
+  height: 60px!important;
   width: 16%!important;
-  line-height: 75px;
+  line-height: 60px;
   display: inline-flex;
   text-align: center;
   overflow: hidden;
@@ -522,9 +525,9 @@ button.action-button:hover {
   font-family: 'Open Sans', sans-serif;
   color: #9e9e9e;
 
-  height: 75px!important;
+  height: 60px!important;
   width: 100%!important;
-  line-height: 75px;
+  line-height: 60px;
   display: inline-flex;
   text-align: center;
   overflow: hidden;
@@ -533,24 +536,24 @@ button.action-button:hover {
 }
 .section-title .item.title {
   font-family: 'neosansregular', sans-serif;
-  font-size: 18pt;
+  font-size: 16pt;
   color: #58595b;
   position: relative;
-  height: 75px!important;
-  width: 100%!important;
-  line-height: 75px;
+  height: 60px!important;
+  width: auto!important;
+  line-height: 60px;
   display: inline-flex;
   text-align: center;
   overflow: hidden;
 }
 .section-title .item-tab {
   font-family: 'Open Sans', sans-serif;
-  border-right: 1px solid #e2e2e2;
+  border-right: 1px solid #eee;
   color: #9e9e9e;
   position: relative;
-  height: 75px!important;
+  height: 60px!important;
   width: 16%!important;
-  line-height: 75px;
+  line-height: 60px;
   display: inline-flex;
   text-align: center;
   overflow: hidden;
@@ -559,9 +562,9 @@ button.action-button:hover {
   font-family: 'Open Sans', sans-serif;
   color: #9e9e9e;
   position: relative;
-  height: 75px!important;
+  height: 60px!important;
   width: 16%!important;
-  line-height: 79px;
+  line-height: 63px;
   display: inline-flex;
   text-align: center;
   overflow: hidden;
@@ -569,24 +572,24 @@ button.action-button:hover {
 }
 .section-title .item-short.title {
   font-family: 'neosansregular', sans-serif;
-  font-size: 18pt;
+  font-size: 16pt;
   color: #58595b;
   position: relative;
-  height: 75px!important;
+  height: 60px!important;
   width: 16%!important;
-  line-height: 75px;
+  line-height: 60px;
   display: inline-flex;
   text-align: center;
   overflow: hidden;
 }
 .section-title .item-tab.title {
   font-family: 'neosansregular', sans-serif;
-  font-size: 18pt;
+  font-size: 16pt;
   color: #58595b;
   position: relative;
-  height: 75px!important;
+  height: 60px!important;
   width: 16%!important;
-  line-height: 75px;
+  line-height: 60px;
   display: inline-flex;
   text-align: center;
   overflow: hidden;
@@ -786,6 +789,9 @@ button.action-button:hover {
 .pointer {
   cursor: pointer!important;
 }
+.rounded {
+  border-radius: 7px;
+}
 .provider-text {
   color: grey;
   font-size: 17px;
@@ -859,7 +865,7 @@ button.action-button:hover {
   font-size: 20px;
 }
 .dashboard-icons {
-  height: 130px;
+  height: 80px;
   width: auto;
   max-width: 400px;
   margin-left: auto;
@@ -870,9 +876,34 @@ button.action-button:hover {
   text-align: center;
   background-color: #fff;
   border-radius: 5px;
-  padding: 15px 0;
   position: relative;
   box-shadow: 0 5px 5px #ccc;
+}
+.new-dashboard-button {
+  float: right;
+}
+.new-dashboard-plus {
+  vertical-align: middle;
+  font-size: 24px;
+  line-height: 60px;
+  margin-top: -3px;
+}
+.dashboard-icon {
+  font-size: 70px;
+  position: absolute;
+  left: 20%;
+}
+.dashboard-number {
+  font-size: 70plin70px;po:a;top:1;fon:35px;    line-height: 70px;
+  position: absolute;
+  top: 7px;
+  font-size: 25px;po:a;left:30%;laleft:30%4;
+}
+.dashboard-name {
+  line-height: 70px;
+  position: absolute;
+  top: 7px;
+  font-size: 15px;
 }
 .dashboard-icons:hover {
   filter: brightness(110%);
@@ -883,15 +914,16 @@ button.action-button:hover {
   position: relative;
 }
 .dashboard-icons .left {
-  bottom: 32px;
+  bottom: 10px;
   right: 15%;
   color: rgba(255,255,255,0.5);
-  font-size: 117pt;
+  font-size: 70pt;
 }
 .dashboard-icons .right {
-  bottom: 73%;
+  bottom: 61%;
   right: 55px;
   text-align: left;
+  font-size: 20px;
 }
 .dashboard-icons.first {
   background-color: #2d8ccf;
@@ -1017,6 +1049,24 @@ button.action-button:hover {
   height: calc(100% - 70px);
   margin-top: 50px;
   overflow: scroll;
+}
+.ninja-buttons {
+  position: absolute;
+  top: 0px;
+  margin: auto;
+  left: calc(50% - 246px);
+}
+.ninja-table {
+  padding-top: 0px;
+}
+@media (max-width: 900px) {
+  .ninja-buttons {
+    top: 78px;
+    left: inherit;
+  }
+  .ninja-table {
+    padding-top: 90px;
+  }
 }
 .button-shadow {
   -webkit-box-shadow: 0px 0px 25px -1px rgba(76,102,86,0.6);
@@ -1528,6 +1578,7 @@ table {
   box-shadow: 0px 3px 14px #c3c3c3;
   margin-bottom: 10px;
   background-color: #fff;
+  line-height: 0!important;
 }
 th.column-icon {
   width: 70px;
@@ -1535,10 +1586,16 @@ th.column-icon {
 th.column-button {
   width: 135px;
 }
-th, td {
+th {
   border-collapse: collapse;
   vertical-align: middle;
   height: 60px;
+}
+td, tr {
+  border-collapse: collapse;
+  vertical-align: middle;
+  height: 40px!important;
+  padding: 0!important;
 }
 th.fix {
   position: sticky;
@@ -1566,6 +1623,9 @@ tr.content {
 }
 tr.content:hover {
   background-color: #f2f2f2;
+}
+.alert-table td, .alert-table tr {
+  height: 38px!important;
 }
 /*Placeholders*/
 .empty-table {
@@ -1636,6 +1696,10 @@ tr.content:hover {
   }
 }
 @media screen and (max-width: 768px) {
+  td, tr {
+    height: auto!important;
+    line-height: inherit;
+  }
   .principal-section {
     width: 100%;
     margin-left: 0;
@@ -1686,10 +1750,10 @@ tr.content:hover {
     height: 50px;
   }
   .dashboard-icons .left {
-    font-size: 100pt;
+    font-size: 70pt;
   }
   .dashboard-icons .right {
-    bottom: 50%;
+    bottom: 61%;
     right: 30px;
   }
 }
@@ -2216,6 +2280,9 @@ a.link-login:hover {
 .allHeight {
   height: 300px;
   width: 100%;
+}
+.confirm-account-padding {
+  padding-top: 25px;
 }
 .alert-margin {
   margin-left: 15px;
