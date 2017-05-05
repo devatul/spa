@@ -175,7 +175,7 @@ class NinjaDefaultContent extends React.Component {
             <td className="ticket-id-name" title="View ticket">
               <Link className="ticket-id-name" to={`/view-ticket/${ticket[key].ticket}`} >{ticket[key].name}</Link>
             </td>
-            <td>{ticket[key].subject}</td>
+            <td className="left-aligned">{ticket[key].subject}</td>
             <td className="icons">
               <OverlayTrigger placement="top" overlay={priorityTooltip}>
                 <span className={priority}></span>

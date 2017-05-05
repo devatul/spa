@@ -446,7 +446,7 @@ class Infrastructure extends React.Component {
               </div>
             </OverlayTrigger>
           </td>
-          <td>{infrastructure[key].hostname}</td>
+          <td className="left-aligned">{infrastructure[key].hostname}</td>
           <td className="hidden-xs">
             <div className="integration">
               <div className="provider-logo">
@@ -455,7 +455,6 @@ class Infrastructure extends React.Component {
               <div className="credential-name">
                 <span className="label-inline">
                   <strong>{infrastructure[key].provider_credential_name}</strong><br />
-                  {infrastructure[key].external_identifier}
                 </span>
               </div>
             </div>
