@@ -285,9 +285,9 @@ class Alert extends React.Component {
               <i className={level} aria-hidden="true"></i>
             </OverlayTrigger>
           </td>
-          <td>{alerts[key].description}</td>
-          <td>{alerts[key].instance.hostname}</td>
-          <td className="hidden-xs hidden-sm">{alerts[key].instance.provider_credential.name}</td>
+          <td className="left-aligned">{alerts[key].description}</td>
+          <td className="left-aligned">{alerts[key].instance.hostname}</td>
+          <td className="left-aligned hidden-xs hidden-sm">{alerts[key].instance.provider_credential.name}</td>
           <td className="hidden-xs hidden-sm">
             <time dateTime="">{from}</time>
           </td>
@@ -411,9 +411,9 @@ class Alert extends React.Component {
               <i className={hlevel} aria-hidden="true"></i>
             </OverlayTrigger>
           </td>
-          <td>{historyAlerts[key].description}</td>
-          <td>{historyAlerts[key].instance.hostname}</td>
-          <td className="hidden-xs hidden-sm">{historyAlerts[key].instance.provider_credential.name}</td>
+          <td className="left-aligned">{historyAlerts[key].description}</td>
+          <td className="left-aligned">{historyAlerts[key].instance.hostname}</td>
+          <td className="left-aligned hidden-xs hidden-sm">{historyAlerts[key].instance.provider_credential.name}</td>
           <td className="hidden-xs hidden-sm">
             <time dateTime="">{from}</time>
           </td>
