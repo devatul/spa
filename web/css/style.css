@@ -775,6 +775,7 @@ button.action-button:hover {
 }
 .public-cloud-form {
   padding-left: 30px!important;
+  padding-bottom: 36px!important;
 }
 .public-cloud-button {
   border-radius: 0!important;
@@ -782,10 +783,19 @@ button.action-button:hover {
   padding: 3px 15px!important;
   margin: 5px!important;
 }
-.aws-text {
+.pointer {
+  cursor: pointer!important;
+}
+.provider-text {
   color: grey;
   font-size: 17px;
   text-align: center;
+}
+.provider-title {
+  text-align: center;
+  color: #555;
+  font-weight: 900;
+  font-size: 19px;
 }
 .play-tutorial {
   font-size: 70px!important;
@@ -1502,6 +1512,9 @@ ol.rounded-list {
 }
 .nubity-blue {
   background-color: #2d8ccf !important;
+}
+.link-nubity-blue {
+  color: #2d8ccf !important;
 }
 /*Table style*/
 table, th, td {
@@ -2451,6 +2464,10 @@ a.link-login:hover {
 }
 .add-cloud-table .column-action {
   width: 33%;
+}
+.nb-inline {
+  font-size: 3rem !important;
+  display: inline!important;
 }
 .connection-name-container, .status-container {
   display: inline-table;
