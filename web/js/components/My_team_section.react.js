@@ -5,6 +5,7 @@ var createUser                 = require('../actions/RequestActions').createUser
 var getUserRoles               = require('../actions/RequestActions').getUserRoles;
 var SessionStore               = require('../stores/SessionStore');
 var _                          = require('lodash');
+var Select2                    = require('react-select');
 
 class MyTeamSection extends React.Component {
   constructor(props) {
@@ -37,32 +38,16 @@ class MyTeamSection extends React.Component {
     this._closeAlert = this._closeAlert.bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
-    var SELF = this;
-    getUserRoles().then(function (data) {
-      var options = [];
-      _.map(data, function (role) {
-        options.push({text: role, id: role});
-      });
-      var $eventSelect = $('#roles');
-      $eventSelect.select2({
-        placeholder:       'user role...',
-        data:              options,
-        containerCssClass: 'select2-roles',
-      }).on('change', function () {
-        SELF.setState({
-          userRole: $eventSelect.val(),
-        });
-      });
-    });
+    getUserRoles();
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     SessionStore.removeChangeListener(this._onChange);
   }
 
-  _onChange () {
+  _onChange() {
     var timezones = SessionStore.getTimezones();
     var locales = SessionStore.getLocales();
     var roles = SessionStore.getUserRoles();
@@ -73,14 +58,18 @@ class MyTeamSection extends React.Component {
     });
   }
 
-  _submit () {
+  _submit() {
+    var userRole = [];
+    _.map(this.state.userRole, (role)=>{
+      userRole.push(role.value);
+    });
     var userData = {
       firstname: this.state.firstname,
       lastname:  this.state.lastname,
       email:     this.state.email,
       locale:    this.state.language,
       timezone:  this.state.timezone,
-      role:      this.state.userRole,
+      role:      userRole,
       password:  {
         password:        this.state.password,
         password_repeat: this.state.cmfPassword,
@@ -100,7 +89,7 @@ class MyTeamSection extends React.Component {
         password:          '',
         cmfPassword:       '',
         skype:             '',
-        userRole:          '',
+        userRole:          [],
         contactType:       '',
       });
     }.bind(this)).catch(function (message) {
@@ -112,7 +101,7 @@ class MyTeamSection extends React.Component {
     }.bind(this));
   }
 
-  _showError (message) {
+  _showError(message) {
     var errorList = '';
     if ('string' !== typeof message[0]) {
       var error = [];
@@ -126,7 +115,7 @@ class MyTeamSection extends React.Component {
     return errorList;
   }
 
-  _listErrors (error, lable) {
+  _listErrors(error, lable) {
     var err = [];
     _.map(error, function (errMsg) {
       err.push(<li>{errMsg}</li>);
@@ -139,14 +128,14 @@ class MyTeamSection extends React.Component {
       </li>);
   }
 
-  _closeAlert () {
+  _closeAlert() {
     this.setState({
       message:      '',
       messageClass: 'hidden',
     });
   }
 
-  render () {
+  render() {
     var notificationLevel = this.state.notificationLevel;
     var locale = this.state.locales;
     var SELF = this;
@@ -160,7 +149,11 @@ class MyTeamSection extends React.Component {
     for (var key in locale) {
       locales.push(<option key={key} value={key} >{locale[key]}</option>);
     }
-    console.log('this.state',this.state);
+
+    var options = [];
+    _.map(this.state.roles, function (role) {
+      options.push({value: role, label: role});
+    });
 
     return (
       <div>
@@ -301,8 +294,19 @@ class MyTeamSection extends React.Component {
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-lock" aria-hidden="true"></i>
                   </div>
-                  <select className="form-control no-shadow" className="form-control no-shadow" multiple="multiple" style={{width: '97%'}} id="roles" >
-                  </select>
+                  <Select2
+                    multi
+                    className="select2-roles"
+                    name="roles"
+                    value={this.state.userRole}
+                    options={options}
+                    placeholder="select user roles..."
+                    onChange={(val) => {
+                      this.setState({
+                        userRole: val,
+                      });
+                    }}
+                  />
                 </div>
               </div>
               <div className="form-group">

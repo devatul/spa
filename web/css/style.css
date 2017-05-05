@@ -2754,7 +2754,7 @@ label {
 .style-type-none {
   list-style-type: none;
 }
-.select2-roles {
+.select2-roles, .select2-roles .Select-control {
   border-radius: 0px 4px 4px 0px !important;
   border-color: #cccccc !important;
 }
