@@ -13,6 +13,7 @@ var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Carousel                   = require('react-bootstrap').Carousel;
 var CarouselItem               = require('react-bootstrap').CarouselItem;
+var Modal                      = require('react-bootstrap').Modal;
 
 class PrivateCloudSection extends React.Component {
   constructor(props) {
@@ -28,7 +29,10 @@ class PrivateCloudSection extends React.Component {
       credentialDetails:     credentialDetails,
       credetialInfo:         false,
       open:                  false,
+      showiam:               false,
     };
+    this.closeiam = this.closeiam.bind(this);
+    this.execute = this.execute.bind(this);
     this._onChange = this._onChange.bind(this);
     this._scroll = this._scroll.bind(this);
     this._revealFirstStepOfPrivateCloud = this._revealFirstStepOfPrivateCloud.bind(this);
@@ -45,6 +49,18 @@ class PrivateCloudSection extends React.Component {
     this.limit = 5;
     this.sectionKey = '_PRIVATE';
     this.editModalId = 'editModalPrivate';
+  }
+
+  closeiam() {
+    this.setState({
+      showiam: false,
+    });
+  }
+
+  execute() {
+    this.setState({
+      showiam: true,
+    });
   }
 
   componentDidMount() {
@@ -384,6 +400,39 @@ class PrivateCloudSection extends React.Component {
       }
     });
 
+    var videoSrc = '';
+    var doc = '';
+    var iam = '';
+
+    for (var k in this.state.activeProvider.provider_hints) {
+      if ('url' === this.state.activeProvider.provider_hints[k].type) {
+        doc = this.state.activeProvider.provider_hints[k];
+      }
+      if ('video-url' === this.state.activeProvider.provider_hints[k].type) {
+        videoSrc = this.state.activeProvider.provider_hints[k];
+      }
+      if ('iam-definition' === this.state.activeProvider.provider_hints[k].type) {
+        iam = this.state.activeProvider.provider_hints[k];
+      }
+    }
+
+    var user     = localStorage.getItem('nubity-user');
+    var jsonUser = JSON.parse(user);
+
+    var name  = jsonUser.firstname + ' ' + jsonUser.lastname;
+    var email = localStorage.getItem('nubity-user-email');
+
+    window.Intercom('boot', {
+      app_id:                   'xs6j43ab',
+      name:                     name,
+      email:                    email,
+      created_at:               Math.ceil(Date.now() / 1000),
+      'company_name':           this.state.companyName,
+      custom_launcher_selector: '#private-intercom',
+      hide_default_launcher:    true,
+
+    });
+
     return (
       <div>
         <button className="transparent-button" onClick={this._revealFirstStepOfPrivateCloud} id="privateAddButton">
@@ -406,20 +455,29 @@ class PrivateCloudSection extends React.Component {
           <span>Complete your cloud information</span>
         </div>
         <div className="row hidden" id="private2StepContent">
-          <form className="public-cloud-form col-lg-offset-1 col-lg-5">
+          <form className="public-cloud-form col-lg-offset-1 col-lg-5 col-md-12">
             <div style={{paddingTop: '10px'}}>
               {this._getCloudInputField()}
               <button type="button" className="btn btn-success pull-right public-cloud-button" onClick={function () { _SELF._submitData(); }}>Save</button>
               <button type="button" className="btn btn-default pull-right public-cloud-button grey-background">Cancel</button>
             </div>
           </form>
-          <div className="col-lg-5 centered hidden">
-            <p className="aws-text">How to integrate AWS with Nubity?</p>
-            <a>
-              <i className="fa fa-play-circle-o play-tutorial" aria-hidden="true"></i>
-            </a>
-            <p className="aws-text">Watch the video tutorial or</p>
-            <p className="aws-text">start live chat with Support</p>
+          <div className="col-lg-5 col-md-12 centered">
+            <p className="provider-title">How to integrate {this.state.activeProvider.name} with Nubity?</p>
+            <p className={videoSrc ? 'provider-text' : 'hidden'}>Watch the video tutorial:</p>
+            <a className={videoSrc ? 'provider-text pointer link-nubity-blue' : 'hidden'} href={videoSrc.content} target="_blank"><div className="icon nb-play nb-inline small"></div> {videoSrc.name}</a>
+            <p className={doc ? 'provider-text' : 'hidden'}>Check this external resource:</p>
+            <a className={doc ? 'provider-text pointer link-nubity-blue' : 'hidden'} href={doc.content} target="_blank"><div className="icon nb-attach nb-inline small"></div> {doc.name}</a>
+            <p className={iam ? 'provider-text' : 'hidden'}>See this policy definition:</p>
+            <p className={iam ? 'provider-text pointer link-nubity-blue' : 'hidden'} onClick={this.execute}><i className="fa fa-file-text-o" aria-hidden="true"></i> {iam.name}</p>
+            <Modal show={this.state.showiam} onHide={this.closeiam} bsSize="small">
+              <Modal.Body>
+                <pre>{iam.content}</pre>
+                <button className="action-button nubity-blue pointer" onClick={this.closeiam}>Close</button>
+              </Modal.Body>
+            </Modal>
+            <p className="provider-text">If you have any doubt or trouble</p>
+            <p className="provider-text pointer link-nubity-blue" id="private-intercom">start live chat with Support</p>
           </div>
         </div>
         <hr />
