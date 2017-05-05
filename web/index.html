@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="node_modules/nubity-webfont/styles.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript">
-      (function() {
+      (function () {
         var w = window;
         var ic = w.Intercom;
         if ('function' === typeof ic) {
@@ -22,11 +22,11 @@
           ic('update',intercomSettings);
         } else {
           var d = document;
-          var i = function() {
+          var i = function () {
             i.c(arguments)
           };
           i.q = [];
-          i.c = function(args) {
+          i.c = function (args) {
             i.q.push(args)
           };
           w.Intercom = i;
@@ -60,44 +60,44 @@
 
         return function download(data, strFileName, strMimeType) {
 
-          var self = window, 
-            defaultMime = "application/octet-stream", 
-            mimeType = strMimeType || defaultMime,
-            payload = data,
-            url = !strFileName && !strMimeType && payload,
-            anchor = document.createElement("a"),
-            toString = function (a) {
+          var self      = window, 
+            defaultMime = 'application/octet-stream', 
+            mimeType    = strMimeType || defaultMime,
+            payload     = data,
+            url         = !strFileName && !strMimeType && payload,
+            anchor      = document.createElement('a'),
+            toString    = function (a) {
               return String(a);
             },
-            myBlob = (self.Blob || self.MozBlob || self.WebKitBlob || toString),
-            fileName = strFileName || "download",
+            myBlob      = (self.Blob || self.MozBlob || self.WebKitBlob || toString),
+            fileName    = strFileName || 'download',
             blob,
             reader;
-            myBlob = myBlob.call ? myBlob.bind(self) : Blob ;
+            myBlob      = myBlob.call ? myBlob.bind(self) : Blob ;
           
-          if (String(this)==="true") { 
-            payload = [payload, mimeType];
+          if (String(this) === 'true') { 
+            payload  = [payload, mimeType];
             mimeType = payload[0];
-            payload = payload[1];
+            payload  = payload[1];
           }
 
           if (url && url.length< 2048) {
-            fileName = url.split("/").pop().split("?")[0];
-            anchor.href = url;
-              if (anchor.href.indexOf(url) !== -1) { 
+            fileName     = url.split('/').pop().split('?')[0];
+            anchor.href  = url;
+              if (-1 !== anchor.href.indexOf(url)) { 
                 var ajax = new XMLHttpRequest();
-                ajax.open( "GET", url, true);
+                ajax.open('GET', url, true);
                 ajax.responseType = 'blob';
-                ajax.onload = function(e){ 
+                ajax.onload       = function (e) { 
                 download(e.target.response, fileName, defaultMime);
               };
-              setTimeout(function(){ ajax.send();}, 0);
+              setTimeout(function () { ajax.send();}, 0);
               return ajax;
             }
           }
           if (/^data\:[\w+\-]+\/[\w+\-]+[,;]/.test(payload)) {
             if (payload.length > (1024*1024*1.999) && myBlob !== toString ) {
-              payload = dataUrlToBlob(payload);
+              payload  = dataUrlToBlob(payload);
               mimeType = payload.type || defaultMime;
             } else {      
               return navigator.msSaveBlob ?  
@@ -105,33 +105,33 @@
               saver(payload) ; 
             }
           }
-          blob = payload instanceof myBlob ?
-            payload :
-            new myBlob([payload], {type: mimeType}) ;
+          blob = payload instanceof myBlob ? payload : new myBlob([payload], {type: mimeType}) ;
+          
           function dataUrlToBlob (strUrl) {
             var parts = strUrl.split(/[:;,]/),
             type = parts[1],
-            decoder = parts[2] == "base64" ? atob : decodeURIComponent,
+            decoder = parts[2] == 'base64' ? atob : decodeURIComponent,
             binData = decoder( parts.pop() ),
             mx = binData.length,
             i = 0,
             uiArr = new Uint8Array(mx);
             for(i;i<mx;++i) uiArr[i] = binData.charCodeAt(i);
             return new myBlob([uiArr], {type: type});
-           }
-          function saver(url, winMode){
+          }
+
+          function saver(url, winMode) {
             if ('download' in anchor) {
-              anchor.href = url;
-              anchor.setAttribute("download", fileName);
-              anchor.className = "download-js-link";
-              anchor.innerHTML = "downloading...";
-              anchor.style.display = "none";
+              anchor.href          = url;
+              anchor.setAttribute('download', fileName);
+              anchor.className     = 'download-js-link';
+              anchor.innerHTML     = 'downloading...';
+              anchor.style.display = 'none';
               document.body.appendChild(anchor);
-              setTimeout(function() {
+              setTimeout(function () {
                 anchor.click();
                 document.body.removeChild(anchor);
                 if (winMode === true) {
-                  setTimeout(function(){ self.URL.revokeObjectURL(anchor.href);}, 250 );
+                  setTimeout(function () { self.URL.revokeObjectURL(anchor.href);}, 250 );
                 }
               }, 66);
               return true;
@@ -140,20 +140,20 @@
             if (/(Version)\/(\d+)\.(\d+)(?:\.(\d+))?.*Safari\//.test(navigator.userAgent)) {
               url = url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
               if (!window.open(url)) { 
-                if (confirm("Displaying New Document\n\nUse Save As... to download, then click back to return to this page.")) { 
+                if (confirm('Displaying New Document\n\nUse Save As... to download, then click back to return to this page.')) { 
                   location.href=url; 
                 }
               }
               return true;
             }
-            var f = document.createElement("iframe");
+            var f = document.createElement('iframe');
             document.body.appendChild(f);
 
-            if(!winMode){ 
-              url = "data:" + url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
+            if (!winMode) { 
+              url = 'data:' + url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
             }
             f.src = url;
-            setTimeout(function(){ document.body.removeChild(f); }, 333);
+            setTimeout(function () { document.body.removeChild(f); }, 333);
           }
           if (navigator.msSaveBlob) { 
             return navigator.msSaveBlob(blob, fileName);
@@ -161,15 +161,15 @@
           if (self.URL) { 
             saver(self.URL.createObjectURL(blob), true);
           } else {
-            if(typeof blob === "string" || blob.constructor===toString) {
+            if (typeof blob === 'string' || blob.constructor===toString) {
               try {
-                return saver("data:" + mimeType + ";base64," + self.btoa(blob));
+                return saver('data:' + mimeType + ';base64,' + self.btoa(blob));
               } catch (y) {
-                return saver("data:" + mimeType + "," + encodeURIComponent(blob));
+                return saver('data:' + mimeType + ',' + encodeURIComponent(blob));
               }
             }
             reader = new FileReader();
-            reader.onload = function(e){
+            reader.onload = function (e) {
               saver(this.result);
             };
             reader.readAsDataURL(blob);
@@ -184,5 +184,24 @@
     <section id="nubityApp"></section>
     <script src="js/bundle.js"></script>
   </body>
+  <script>
+    if ('my.nubity.com' === window.location.hostname) {
+      (function (i,s,o,g,r,a,m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+          (i[r].q=i[r].q||[]).push(arguments)
+        },
+        i[r].l = 1 * new Date();
+        a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38473356-1', 'auto');
+      ga('send', 'pageview');
+    }
+  </script>
 
 </html>

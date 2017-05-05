@@ -54,6 +54,7 @@ var routes = (
       <Route name="view_ticket_params" path='/view-ticket/:id' component={ViewTicket} />
       <Route name="reset_password" path='/reset-password/:token' component={ResetPassword} />
       <Route name="home" path='/' component={Home} />
+      <Route name="not-found" path='*' component={NotFound} />
       <IndexRoute component={Login} />
     </Route>
   </Router>

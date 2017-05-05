@@ -37,6 +37,10 @@ class ConfirmAccount extends React.Component {
     }
   }
 
+  _redirectLogin() {
+    redirect('login');
+  }
+
   _onSubmit(e) {
     e.preventDefault();
     var url          = window.location.href;
@@ -48,6 +52,7 @@ class ConfirmAccount extends React.Component {
   render() {
     var icon = '';
     var legend = '';
+    var message = '';
 
     if (null == this.state.message.key) {
       icon = (<Preloader />);
@@ -56,16 +61,17 @@ class ConfirmAccount extends React.Component {
     if (400 <= this.state.code) {
       icon = (<i className="icon nb-close-circle x-large red-text" aria-hidden="true"></i>);
       legend = 'There was an error on your account verification';
+      message = 'This confirmation link is no longer valid. May be your account is already verified.';
     } else if ('' != this.state.code) {
       icon = (<i className="icon nb-thick-circle x-large green-text" aria-hidden="true"></i>);
       legend = 'Your account has been successfully verified';
     }
     return (
-      <section className="login-div">
-        <div className="col-lg-4 col-lg-offset-4 login-box">
-          <div className="verification-logo">
+      <section className="login-div valign-wrapper">
+        <div className="col-lg-4 valign">
+          <a className="verification-logo" onClick={this._redirectLogin}>
             <img src="./images/logo-nubity-w.png" />
-          </div>
+          </a>
           <div className="verification-legend">
             {legend}
           </div>
@@ -73,10 +79,15 @@ class ConfirmAccount extends React.Component {
             {icon}
           </div>
           <div>
-            <div className="col-sm-12 light-grey-background">
-              <div className="pull-left">
+            <div className={message ? 'col-sm-12 rounded' : 'hidden'}>
+              <div>
                 <i className="input-icon icon nb-information icon-state" aria-hidden="true"></i>
-                {this.state.message}
+                {message}
+              </div>
+              <br />
+              <div className="confirm-account-padding">
+                <p className="login-p">Try to</p>
+                <a className="action-button nubity-blue" onClick={this._redirectLogin}>Log in</a>
               </div>
             </div>
             <div className="min"></div>
