@@ -39,6 +39,27 @@ class MyAccountSection extends React.Component {
     this._onChangeAvatar = this._onChangeAvatar.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    if (false === props.open) {
+      var notificationLevel = this._getNotificationLevel();
+      this.setState({
+        firstname:         getUserData('firstname'),
+        lastname:          getUserData('lastname'),
+        email:             getUserData('username'),
+        language:          getUserData('locale'),
+        notificationLevel: notificationLevel,
+        timezone:          getUserData('timezone'),
+        password:          '',
+        cmfPassword:       '',
+        avatar:            false,
+        message:           '',
+        messageClass:      'hidden',
+        n_message:         '',
+        n_messageClass:    'hidden',
+      });
+    }
+  }
+
   componentDidMount() {
     SessionStore.addChangeListener(this._onChange);
   }
@@ -72,6 +93,7 @@ class MyAccountSection extends React.Component {
       email:     this.state.email,
       locale:    this.state.language,
       timezone:  this.state.timezone,
+      roles:     getUserData('roles'),
       password:  {
         password:        this.state.password,
         password_repeat: this.state.cmfPassword,
@@ -128,7 +150,7 @@ class MyAccountSection extends React.Component {
   _listErrors(error, lable) {
     var err = [];
     _.map(error, function (errMsg) {
-      err.push(<li>{errMsg}</li>);
+      err.push(<li className="style-type-none">{errMsg}</li>);
     });
     return (
       <li>
@@ -257,12 +279,12 @@ class MyAccountSection extends React.Component {
                 }} />
                 <i className="fa fa-camera cam-icon" aria-hidden="true"></i>
               </div>
+              <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>Avatar selected</span>
             </div>
             <div className="col-xs-12 col-sm-1 col-md-1 my-account-data">
-              <p className="my-account-title">{this.state.firstname} {this.state.lastname} </p>
-              <p className="my-account-email">{this.state.email}</p>
+              <p className="my-account-title">{getUserData('firstname')} {getUserData('lastname')} </p>
+              <p className="my-account-email">{getUserData('username')}</p>
             </div>
-            <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>Avatar Slected</span>
           </div>
         </form>
         <hr />

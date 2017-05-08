@@ -44,6 +44,26 @@ class CompanySection extends React.Component {
     SessionStore.removeChangeListener(this._onChange);
   }
 
+  componentWillReceiveProps(props) {
+    if (false === props.open) {
+      var companyInfo = SessionStore.getCompanyInfo();
+      this.setState({
+        name:         companyInfo.name || '',
+        tradeName:    companyInfo.trade_name || '',
+        tin:          companyInfo.tin || '',
+        address:      companyInfo.address || '',
+        country:      companyInfo.country || '',
+        state:        companyInfo.state || '',
+        city:         companyInfo.city || '',
+        language:     companyInfo.locale || '',
+        postalCode:   companyInfo.postal_code || '',
+        timezone:     companyInfo.timezone || '',
+        message:      '',
+        messageClass: 'hidden',
+      });
+    }
+  }
+
   _onChange() {
     var companyInfo = SessionStore.getCompanyInfo();
     var timezones = SessionStore.getTimezones();
@@ -99,7 +119,7 @@ class CompanySection extends React.Component {
       for (var key in message) {
         error.push(this._listErrors(message[key], key + ' errors :'));
       }
-      errorList = <ul>{error}</ul>;
+      errorList = <ul className="style-type-none">{error}</ul>;
     } else {
       errorList = message[0];
     }

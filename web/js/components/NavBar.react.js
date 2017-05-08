@@ -24,9 +24,11 @@ class NavBar extends React.Component {
     this.state = {
       isLoggedIn:  SessionStore.isLoggedIn(),
       companyInfo: companyInfo,
+      open:        false,
     };
     this._onChange = this._onChange.bind(this);
     this._onClickLogOut = this._onClickLogOut.bind(this);
+    this._openDialog = this._openDialog.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +37,11 @@ class NavBar extends React.Component {
     $('.nav a').on('click', function () {
       $('.btn-navbar').click();
       $('.navbar-toggle').click();
+    });
+    $('#myModal').on('hidden.bs.modal', () => {
+      this.setState({
+        open: false,
+      });
     });
   }
 
@@ -51,10 +58,13 @@ class NavBar extends React.Component {
     });
   }
 
-  _openAccount() {
+  _openDialog() {
     getTimezone();
     getLocales();
     getCompanyInfo();
+    this.setState({
+      open: true,
+    });
   }
 
   _onClickLogOut() {
@@ -165,7 +175,7 @@ class NavBar extends React.Component {
                 </li>
                 <li className="up-li">
                   <OverlayTrigger placement="bottom" overlay={configure}>
-                    <a className="onboarding-button" onClick={this._openAccount} data-toggle="modal" data-target="#myModal">
+                    <a className="onboarding-button" onClick={this._openDialog} data-toggle="modal" data-target="#myModal">
                       <i className="icon nb-config-circle"></i>
                     </a>
                   </OverlayTrigger>
@@ -221,7 +231,7 @@ class NavBar extends React.Component {
                   </div>
                   <div className="tab-content section-content menu-tab-content">
                     <div id="myAccount" className="tab-pane fade in active">
-                      <MyAccountSection />
+                      <MyAccountSection open={this.state.open} />
                     </div>
                     <div id="billingHistory" className="tab-pane fade">
                       <BillingHistorySection />
@@ -230,10 +240,10 @@ class NavBar extends React.Component {
                       <PaymentMethodSection />
                     </div>
                     <div id="company" className="tab-pane fade">
-                      <CompanySection />
+                      <CompanySection open={this.state.open} />
                     </div>
                     <div id="myTeam" className="tab-pane fade">
-                      <MyTeamSection />
+                      <MyTeamSection open={this.state.open} />
                     </div>
                     <div id="accountStatus" className="tab-pane fade">
                       <AccountStatusSection />
