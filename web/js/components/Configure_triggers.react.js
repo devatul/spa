@@ -70,7 +70,7 @@ class ConfigureTrigger extends React.Component {
 
     return (
       <div>
-        <table>
+        <table className="triggers-table">
           <thead>
             <tr>
               <th colSpan="4">Items description</th>

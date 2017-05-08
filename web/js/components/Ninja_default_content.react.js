@@ -184,7 +184,7 @@ class NinjaDefaultContent extends React.Component {
             <td className="hidden-xs">
               <i className={department_icon} aria-hidden="true"></i> {department_name}
             </td>
-            <td className="hidden-xs">{ticket[key].hostname}</td>
+            <td className="hidden-xs left-aligned">{ticket[key].hostname}</td>
             <td className="hidden-xs hidden-sm">
               <time dateTime={ticket[key].created_at}>{from}</time>
             </td>

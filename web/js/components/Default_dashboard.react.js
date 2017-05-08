@@ -313,7 +313,7 @@ class DefaultDashboard extends React.Component {
           </td>
           <td className="left-aligned">{mainAlerts[key].description}</td>
           <td className="left-aligned">{mainAlerts[key].instance.hostname}</td>
-          <td className="hidden-xs hidden-sm">{mainAlerts[key].instance.provider_credential.name}</td>
+          <td className="hidden-xs hidden-sm left-aligned">{mainAlerts[key].instance.provider_credential.name}</td>
           <td className="hidden-xs hidden-sm">
             <time dateTime={mainAlerts[key].started_on}>{from}</time>
           </td>

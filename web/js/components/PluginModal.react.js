@@ -22,7 +22,7 @@ class PluginModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({showModal: true});
+    this.setState({showModal: false});
   }
 
   close() {
