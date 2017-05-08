@@ -74,7 +74,7 @@ module.exports = {
         resolve(true);
       } else {
         var text = JSON.parse(res.text);
-        var err = [];
+        var err = text.message || [];
         _.map(text.messages, function (errMag, i) {
           err = parseInt(i + 1) + '. ' + errMag + '\n';
         });
@@ -1316,17 +1316,17 @@ module.exports = {
         .end(function (err, res) {
           var code = res.status;
           var text = JSON.parse(res.text);
-          if (200 <= code && 300 > code) {
-            SELF.setUserData(text);
-            resolve('Data updated successfully');
-          } else if (401 === code) {
+          if (400 === code) {
+            reject(text);
+          } else {
             SELF.validateToken(res).then(function (status) {
               if (!status) {
                 SELF.updateUserData(userData);
+              } else {
+                SELF.setUserData(text);
+                resolve('Data updated successfully');
               }
             }.bind(SELF));
-          } else {
-            reject(text);
           }
         }.bind(SELF));
     });
@@ -1376,18 +1376,18 @@ module.exports = {
         .set('Authorization', token)
         .end(function (err, res) {
           var code = res.status;
-          if (200 <= code && 300 > code) {
-            SELF.getUser().then(function () {
-              resolve('Severity updated successfully');
-            });
-          } else if (401 === code) {
+          if (400 === code) {
+            reject('Error updating severity');
+          } else {
             SELF.validateToken(res).then(function (status) {
               if (!status) {
                 SELF.updateNotificationLevel(severity);
+              } else {
+                SELF.getUser().then(function () {
+                  resolve('Severity updated successfully');
+                });
               }
             }.bind(SELF));
-          } else {
-            reject('Error updating severity');
           }
         }.bind(SELF));
     });
@@ -1407,17 +1407,17 @@ module.exports = {
         .end(function (err, res) {
           var code = res.status;
           var text = JSON.parse(res.text);
-          if (200 === code) {
-            showCompany(text);
-            resolve('Company info updated successfully');
-          } else if (401 === code) {
+          if (400 === code) {
+            reject(text);
+          } else {
             SELF.validateToken(res).then(function (status) {
               if (!status) {
                 SELF.updateCompanyInfo(companyInfo);
+              } else {
+                showCompany(text);
+                resolve('Company info updated successfully');
               }
             }.bind(SELF));
-          } else {
-            reject(text);
           }
         }.bind(SELF));
     });

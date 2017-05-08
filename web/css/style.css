@@ -2393,7 +2393,7 @@ a.link-login:hover {
 }
 .change-avatar {
   height: 100%;
-  width: 80%;
+  width: 100%;
   position: absolute;
   border-radius: 50%;
   border: 1px solid #ccc;
@@ -2427,9 +2427,10 @@ a.link-login:hover {
   top: 0;
 }
 .avatar-slected {
+  font-size: 12px;
   display: block;
-  position: absolute;
-  margin-top: 74px;
+  position: fixed;
+  margin-left: -15px;
   color: rgba(15, 53, 80, 0.91);
   font-style: italic;
 }
@@ -2603,4 +2604,10 @@ label {
   margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.alertify {
+  z-index: 999999;
+}
+.style-type-none {
+  list-style-type: none;
 }
