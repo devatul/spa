@@ -157,3 +157,4 @@ globals:
   define: false
   module: false
   download: true
+  alertify: true

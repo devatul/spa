@@ -187,7 +187,7 @@ class CompanySection extends React.Component {
             </div>
             <div className="public-cloud-form col-sm-6">
               <div className="form-group">
-                <label className="company-labels">Comercial name</label>
+                <label className="company-labels">Commercial name</label>
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="input-icon fa fa-area-chart" aria-hidden="true"></i>

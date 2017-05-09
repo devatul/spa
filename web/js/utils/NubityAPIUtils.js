@@ -411,17 +411,44 @@ module.exports = {
 
   createGraph: function (widget, instance, chart, dashboardId, position) {
     var token   = this.getToken();
+    var _SELF = this;
+
+    return new Promise(function (resolve, reject) {
+      request
+        .post('/slot.json')
+        .accept('application/json')
+        .set('Authorization', token)
+        .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: '-3 hours'})
+        .end(function (err, res) {
+          _SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              reject();
+            } else {
+              _SELF.getDashboards();
+              resolve();
+            }
+          }.bind(_SELF));
+        }.bind(_SELF));
+    });
+  },
+
+  createDasboard: function (widget, server, chart) {
+    var company = getUserData('company');
+    var token   = this.getToken();
+    var user    = getUserData('user');
+
     request
-      .post('/slot.json')
+      .post('/dashboard') // Changed to createDasboard
       .accept('application/json')
       .set('Authorization', token)
-      .send({instance_id: instance, graph_id: chart, type: 'graph', dashboard_id: dashboardId, position: position, custom_interval: '-3 hours'})
+      .send({user_id: user, company_id: company, scope: 'dashboard'})
       .end(function (err, res) {
+        var text = JSON.parse(res.text);
         this.validateToken(res).then(function (status) {
           if (!status) {
-            this.createGraph(widget, instance, chart, dashboardId, position);
+            this.createDasboard(widget, server, chart);
           } else {
-            this.getDashboards();
+            showDashboards(text);
           }
         }.bind(this));
       }.bind(this));
@@ -769,28 +796,6 @@ module.exports = {
             this.getProviders();
           } else {
             showProviders(text);
-          }
-        }.bind(this));
-      }.bind(this));
-  },
-
-  createDasboard: function (widget, server, chart) {
-    var company = getUserData('company');
-    var token   = this.getToken();
-    var user    = getUserData('user');
-
-    request
-      .post('/dashboard') // Changed to createDasboard
-      .accept('application/json')
-      .set('Authorization', token)
-      .send({user_id: user, company_id: company, scope: 'dashboard'})
-      .end(function (err, res) {
-        var text = JSON.parse(res.text);
-        this.validateToken(res).then(function (status) {
-          if (!status) {
-            this.getDashboards();
-          } else {
-            showDashboards(text);
           }
         }.bind(this));
       }.bind(this));

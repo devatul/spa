@@ -85,7 +85,7 @@ module.exports = {
   },
 
   createDashboard: function (widget, server, chart, dashboardId, position) {
-    NubityAPIUtils.createGraph(widget, server, chart, dashboardId, position);
+    return NubityAPIUtils.createGraph(widget, server, chart, dashboardId, position);
   },
 
   createGraph: function (widget, server, chart, dashboardId, position) {
