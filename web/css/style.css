@@ -316,10 +316,14 @@ button.close {
   margin-right: 7px;
 }
 .msg {
-  font-family: 'neosansregular';
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  color: grey;
 }
 .ok {
-  font-family: 'neosansregular';
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  color: #555;
   border-radius: 3px;
 }
 .alertify .alert>*, .alertify .dialog>* {
