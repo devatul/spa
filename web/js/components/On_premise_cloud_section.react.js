@@ -374,7 +374,7 @@ class OnPremiseCloudSection extends React.Component {
       var tooltip = (<Tooltip id="tooltip">{statusLabel}</Tooltip>);
       if ('undefined' !== typeof provider) {
         connectionTableRow.push(
-          <tr key={i}>
+          <tr key={i} className="content">
             <td>
               <div className="status-container">
                 <OverlayTrigger placement="top" overlay={tooltip}>
@@ -382,16 +382,16 @@ class OnPremiseCloudSection extends React.Component {
                 </OverlayTrigger>
               </div>
             </td>
-            <td>
+            <td className="left-aligned">
               <div className="connection-name-container">
                 {null !== provider.logo ? <img src={provider.logo.public_path} className="logo-max-size m-l-10 m-t-15"></img> : <span className="clouds-icons aws m-l-10"></span>}
-                <span className="label-inline">{provider.name}</span>
+                <span className="label-inline">{data.name}</span>
               </div>
             </td>
-            <td className="">
+            <td className="hidden-xs hidden-sm">
               <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
             </td>
-            <td className="icons">
+            <td className="hidden-xs hidden-sm">
               <div className="action-btn-container"><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () { _SELF._editProviderCredential(data); }}>Edit</span></div>
               <div className="action-btn-container hidden"><span className="action-button add-cloud-btn-disabled">Disable</span></div>
               <div className="action-btn-container"><span className="action-button add-cloud-btn-deleted" onClick={function () { _SELF._deleteCredential(data.provider_credential); }}>Delete</span></div>
@@ -486,19 +486,21 @@ class OnPremiseCloudSection extends React.Component {
           <span>Connected clouds</span>
         </div>
         <div className="add-cloud-table-container">
-          <table className="add-cloud-table">
-            <thead>
-              <tr>
-                <th className="">Status</th>
-                <th className="">Connection name</th>
-                <th className="">Last Sync</th>
-                <th className="column-action">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {connectionTableRow}
-            </tbody>
-          </table>
+          <div className="alert-table">
+            <table>
+              <thead>
+                <tr>
+                  <th className="column-icon">Status</th>
+                  <th>Connection name</th>
+                  <th className="hidden-xs hidden-sm">Last sync</th>
+                  <th className="hidden-xs hidden-sm">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {connectionTableRow}
+              </tbody>
+            </table>
+          </div>
         </div>
         <nav aria-label="Page navigation" className={paginatorClass}>
           <ul className="pagination">

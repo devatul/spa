@@ -8,7 +8,7 @@ module.exports = {
     redirect('/');
   },
   redirectNinja: function () {
-    redirect('ninja-support');
+    redirect('support');
   },
   redirectTo: function (to) {
     redirect(to);

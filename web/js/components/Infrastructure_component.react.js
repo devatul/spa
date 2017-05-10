@@ -325,13 +325,13 @@ class Infrastructure extends React.Component {
         monitoring = (<span className="action-button nubity-grey no-button">Start</span>);
       } else if ('' == monitoringStatus) {
         if (undefined !== infrastructure[key].instance) {
-          monitoring = (<Link className="action-button nubity-green" to={`/infrastructure/monitoring/${infrastructure[key].instance}`} >Start</Link>);
+          monitoring = (<Link className="action-button nubity-green" to={`/infrastructure/${infrastructure[key].instance}/monitoring`} >Start</Link>);
         }
       } else if ('accepted' == monitoringStatus) {
         monitoring = (
           <div>
             <span className="action-button config nubity-red" onClick={this._warning.bind(this, 'monitoringStop', infrastructure[key], monitoringCode)}>Stop</span>
-            <Link className="action-button config-right nubity-grey" to={`/infrastructure/configure/${infrastructure[key].instance}`} >
+            <Link className="action-button config-right nubity-grey" to={`/infrastructure/${infrastructure[key].instance}/monitoring/configure`} >
               <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>
           </div>
@@ -340,7 +340,7 @@ class Infrastructure extends React.Component {
         monitoring = (
           <div>
             <span className="action-button config nubity-blue" onClick={this._deleteOrderCancelation.bind(this, monitoringCode)}>Dismiss</span>
-            <Link className="action-button config-right nubity-grey" to="configure" to={`/infrastructure/configure/${infrastructure[key].instance}`} >
+            <Link className="action-button config-right nubity-grey" to="configure" to={`/infrastructure/${infrastructure[key].instance}/monitoring/configure`} >
               <i className="icon nb-config small dark-grey-text" aria-hidden="true"></i>
             </Link>
           </div>

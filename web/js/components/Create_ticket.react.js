@@ -83,7 +83,7 @@ class CreateTicket extends React.Component {
   }
 
   _createTicket() {
-    redirect('create-ticket');
+    redirect('support/create-ticket');
   }
 
   _liveChat() {

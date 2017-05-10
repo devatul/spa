@@ -516,6 +516,23 @@ button.action-button:hover {
   margin-top: 100px;
   margin-left: 30px;
 }
+.logged-out-title {
+  margin-top: 0px!important;
+  padding-top: 13px;
+}
+.logged-in-title {
+  margin-top: 50px!important;
+  padding-top: 13px;
+}
+.polices-text {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+}
+.log-in-margin {
+  margin-left: 100px;
+}
 .section-title {
   height: 60px;
   background-color: white;

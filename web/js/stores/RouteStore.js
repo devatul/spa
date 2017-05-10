@@ -49,7 +49,7 @@ RouteStore.dispatchToken = Dispatcher.register(function (payload) {
       break;
 
     case ActionTypes.CREATE_ALERT_TICKET:
-      router.transitionTo('create-ticket');
+      router.transitionTo('support/create-ticket');
       RouteStore.emitChange();
       break;
 
