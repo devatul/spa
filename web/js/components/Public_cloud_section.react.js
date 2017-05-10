@@ -174,8 +174,8 @@ class PublicCloudSection extends React.Component {
       $('input[name="publicEndpoint"]').val('');
       $('input[name="publicApiSecret"]').val('');
       $('#publicCertificate').val('');
-      $('.image-preview-input-title').text('Upload Certificate');
-      $('.image-preview-filename').text('').addClass('hidden');
+      $('.image-title').text('Upload certificate');
+      $('.image-filename').text('').addClass('hidden');
     });
   }
 
@@ -227,11 +227,11 @@ class PublicCloudSection extends React.Component {
           <span className="input-group-btn">
             <div className="btn btn-default image-preview-input">
               <span className="glyphicon glyphicon-folder-open"></span>
-              <span className="image-preview-input-title">Upload Certificate</span>
+              <span className="image-title">Upload certificate</span>
               <input type="file" name="certificate" id="publicCertificate" onChange={function () { _SELF._onFileChange(); }} />
             </div>
           </span>
-          <span className="form-control image-preview-filename hidden"></span>
+          <span className="form-control image-filename hidden"></span>
         </div>
       );
     }
@@ -240,8 +240,8 @@ class PublicCloudSection extends React.Component {
 
   _onFileChange() {
     var file = $('#publicCertificate').prop('files')[0];
-    $('.image-preview-input-title').text('Change Certificate');
-    $('.image-preview-filename').text(file.name).removeClass('hidden');
+    $('.image-title').text('Change certificate');
+    $('.image-filename').text(file.name).removeClass('hidden');
   }
 
   _explore2step(provider, id) {

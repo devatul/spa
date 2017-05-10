@@ -5,14 +5,16 @@ class EditProviderCredential extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      credetialInfo: '',
-      name:          '',
-      apiKey:        '',
-      endpoint:      '',
-      apiSecret:     '',
-      certificate:   '',
-      message:       '',
-      messageClass:  'hidden',
+      credetialInfo:  '',
+      name:           '',
+      apiKey:         '',
+      endpoint:       '',
+      apiSecret:      '',
+      certificate:    '',
+      message:        '',
+      messageClass:   'hidden',
+      fileName:       '',
+      fileLoadStatus: '',
     };
     this._resetDialog = this._resetDialog.bind(this);
     this._updateCredentials = this._updateCredentials.bind(this);
@@ -137,14 +139,26 @@ class EditProviderCredential extends React.Component {
     var file = e.target.files[0];
     var reader = new FileReader();
     var SELF = this;
+    reader.onloadstart = function () {
+      $('.image-filename').removeClass('hidden');
+      $('.image-title').text('Change certificate');
+      SELF.setState({
+        fileName:       file.name,
+        fileLoadStatus: 'fa-spinner fa-spin',
+      });
+    };
+    reader.onerror = function () {
+      SELF.setState({
+        fileLoadStatus: 'fa-times red-text',
+      });
+    };
     reader.onload = function (event) {
       SELF.setState({
-        certificate: event.target.result,
+        certificate:    event.target.result,
+        fileLoadStatus: 'fa-check-circle green-text',
       });
     };
     reader.readAsBinaryString(file);
-    $('.image-preview-input-title').text('Change Certificate');
-    $('.image-preview-filename').text(file.name).removeClass('hidden');
   }
 
   render() {
@@ -205,11 +219,11 @@ class EditProviderCredential extends React.Component {
               <span className="input-group-btn">
                 <div className="btn btn-default image-preview-input">
                   <span className="glyphicon glyphicon-folder-open"></span>
-                  <span className="image-preview-input-title">Upload Certificate</span>
+                  <span className="image-title">Upload certificate</span>
                   <input type="file" name="editCertificate" id="editCertificate" onChange={function (e) { _SELF._onFileChange(e); }} />
                 </div>
               </span>
-              <span className="form-control image-preview-filename hidden"></span>
+              <span className="form-control image-filename hidden">{this.state.fileName}<i className={'fa ' + this.state.fileLoadStatus + ' font-20 pull-right'} aria-hidden="true"></i></span>
             </div>
         );
         }

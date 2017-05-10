@@ -916,6 +916,10 @@ button.action-button:hover {
   background: transparent;
   border: solid 0px transparent;
 }
+.transparent-button span {
+  float: right;
+  margin-top: 4px;
+}
 .centered {
   text-align: center;
 }
@@ -2639,7 +2643,7 @@ a.link-login:hover {
   opacity: 0;
   filter: alpha(opacity=0);
 }
-.image-preview-input-title {
+.image-title {
   margin-left:5px;
 }
 .scroll-step1 {
@@ -2753,4 +2757,7 @@ label {
 }
 .style-type-none {
   list-style-type: none;
+}
+.font-20 {
+  font-size: 20px;
 }
