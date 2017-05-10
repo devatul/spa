@@ -5,7 +5,7 @@ module.exports = {
     redirect('login');
   },
   redirectDashboard: function () {
-    redirect('dashboard');
+    redirect('/');
   },
   redirectNinja: function () {
     redirect('ninja-support');

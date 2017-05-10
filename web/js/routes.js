@@ -25,7 +25,6 @@ var PrivacyPolicies          = require('./components/Privacy_policies.react');
 var ViewTicket               = require('./components/View_ticket.react');
 var VerifyAccount            = require('./components/Verify_account.react');
 var ConfirmAccount           = require('./components/Confirm_account.react');
-var Home                     = require('./components/Dashboard_section.react');
 var InfrastructureMonitoring = require('./components/Infrastructure_monitoring.react');
 var InfrastructureConfigure  = require('./components/Infrastructure_configure_monitoring.react');
 
@@ -42,7 +41,6 @@ var routes = (
       <Route name="configure" path='/infrastructure/configure/:id' component={InfrastructureConfigure} />
       <Route name="monitoring" path='/infrastructure/monitoring/:id' component={InfrastructureMonitoring} />
       <Route name="infrastructure" path='/infrastructure' component={Infrastructure} />
-      <Route name="dashboard" path='/dashboard' component={Dashboard} />
       <Route name="alerts" path='/alerts' component={Alerts} />
       <Route name="performance" path='/performance' component={Performance} />
       <Route name="ninja" path='/ninja-support' component={Ninja} />
@@ -53,9 +51,8 @@ var routes = (
       <Route name="view_ticket" path='/view-ticket/' component={ViewTicket} />
       <Route name="view_ticket_params" path='/view-ticket/:id' component={ViewTicket} />
       <Route name="reset_password" path='/reset-password/:token' component={ResetPassword} />
-      <Route name="home" path='/' component={Home} />
       <Route name="not-found" path='*' component={NotFound} />
-      <IndexRoute component={Login} />
+      <IndexRoute component={Dashboard} />
     </Route>
   </Router>
 );

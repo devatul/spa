@@ -33,7 +33,7 @@ class Login extends React.Component {
       getUserForSwitchUser();
     } else {
       if (SessionStore.isLoggedIn()) {
-        redirect('dashboard');
+        redirect('/');
       }
       localStorage.setItem('switching-user', false);
     }

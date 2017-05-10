@@ -126,7 +126,7 @@ class SideBar extends React.Component {
   }
 
   _dashboard() {
-    redirect('dashboard');
+    redirect('/');
     this.setState({
       dashboardClass:      'nb-active',
       infrastructureClass: '',
