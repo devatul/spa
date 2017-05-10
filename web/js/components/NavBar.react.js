@@ -99,8 +99,8 @@ class NavBar extends React.Component {
     redirect('signup');
   }
 
-  _redirectHome() {
-    redirect('home');
+  _redirectIndex() {
+    redirect('/');
   }
 
   _onClickGoBackToAdmin(argument) {
@@ -151,7 +151,7 @@ class NavBar extends React.Component {
         <nav className="navbar navbar-default nav navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
-              <a onClick={this._redirectHome}>
+              <a onClick={this._redirectIndex}>
                 <img src="./images/nubity-logo-hd-W.png" alt="Nubity" title="Nubity" className="nav-brand" />
                 <span className="navbar-company-name">{this.state.companyInfo.name}</span>
               </a>

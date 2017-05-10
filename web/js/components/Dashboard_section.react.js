@@ -34,7 +34,11 @@ class DashboardSection extends React.Component {
     this._goToDashboard = this._goToDashboard.bind(this);
     this._goToDefaultDashboard = this._goToDefaultDashboard.bind(this);
   }
-
+  componentWillMount() {
+    if (!SessionStore.isLoggedIn()) {
+      redirect('login');
+    }
+  }
   componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       getCompanyInfo();
