@@ -93,7 +93,7 @@ class Alert extends React.Component {
       loadingHistory: false,
     });
     if (AlertsStore.isAlertTicket()) {
-      redirect('create-ticket');
+      redirect('support/create-ticket');
     }
   }
 

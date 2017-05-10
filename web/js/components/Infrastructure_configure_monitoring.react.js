@@ -10,8 +10,8 @@ class InfrastructureConfigureMonitoring extends React.Component {
   constructor(props) {
     super(props);
     var url = window.location.href.split('#');
-    var position = url[1].indexOf('configure') + 10;
-    var id = url[1].slice(position);
+    var position = url[1].split('/');
+    var id = position[2];
     var instanceConfiguration = InfrastructureStore.instanceConfiguration(id);
     this.state = {
       instanceConfiguration: instanceConfiguration,
@@ -25,8 +25,8 @@ class InfrastructureConfigureMonitoring extends React.Component {
   componentDidMount() {
     if (SessionStore.isLoggedIn()) {
       var url = window.location.href.split('#');
-      var position = url[1].indexOf('configure') + 10;
-      var id = url[1].slice(position);
+      var position = url[1].split('/');
+      var id = position[2];
       getInstanceConfiguration(id);
     } else {
       redirect('login');

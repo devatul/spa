@@ -28,7 +28,7 @@ class SideBar extends React.Component {
         performanceClass:    '',
         ninjaSupportClass:   'nb-active',
       };
-    } else if (0 <= url.search('ninja-support')) {
+    } else if (0 <= url.search('support')) {
       this.state = {
         stats:               stats,
         infrastructureClass: '',
@@ -170,7 +170,7 @@ class SideBar extends React.Component {
   }
 
   _ninjaSupport() {
-    redirect('ninja-support');
+    redirect('support');
     this.setState({
       ninjaSupportClass:   'nb-active',
       dashboardClass:      '',

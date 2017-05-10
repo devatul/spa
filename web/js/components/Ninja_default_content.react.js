@@ -65,7 +65,7 @@ class NinjaDefaultContent extends React.Component {
       totalPages: Math.ceil(parseInt(ninja.totalItems) / 10),
     });
     if (NinjaStore.isViewingTicket()) {
-      redirect('view-ticket');
+      redirect('/support/view-ticket');
     }
   }
 
@@ -173,7 +173,7 @@ class NinjaDefaultContent extends React.Component {
               </OverlayTrigger>
             </td>
             <td className="ticket-id-name" title="View ticket">
-              <Link className="ticket-id-name" to={`/view-ticket/${ticket[key].ticket}`} >{ticket[key].name}</Link>
+              <Link className="ticket-id-name" to={`/support/${ticket[key].ticket}`} >{ticket[key].name}</Link>
             </td>
             <td className="left-aligned">{ticket[key].subject}</td>
             <td className="icons">

@@ -38,18 +38,17 @@ var routes = (
       <Route name="signup" path='/signup' component={Signup} />
       <Route name="confirm_account" path='/confirm-account/:token' component={ConfirmAccount} />
       <Route name="onboarding" path='/onboarding' component={OnBoarding} />
-      <Route name="configure" path='/infrastructure/configure/:id' component={InfrastructureConfigure} />
-      <Route name="monitoring" path='/infrastructure/monitoring/:id' component={InfrastructureMonitoring} />
+      <Route name="configure" path='/infrastructure/:id/monitoring/configure' component={InfrastructureConfigure} />
+      <Route name="monitoring" path='/infrastructure/:id/monitoring' component={InfrastructureMonitoring} />
       <Route name="infrastructure" path='/infrastructure' component={Infrastructure} />
       <Route name="alerts" path='/alerts' component={Alerts} />
       <Route name="performance" path='/performance' component={Performance} />
-      <Route name="ninja" path='/ninja-support' component={Ninja} />
-      <Route name="create_ticket" path='/create-ticket' component={CreateTicket} />
+      <Route name="ninja" path='/support' component={Ninja} />
+      <Route name="view_ticket_params" path='/support/:id' component={ViewTicket} />
+      <Route name="create_ticket" path='/support/create-ticket' component={CreateTicket} />
       <Route name="live_chat" path='/live-chat' component={LiveChat} />
       <route name="terms_and_conditions" path='/terms-and-conditions' component={TermsAndConditions} />
       <route name="privacy_policies" path='/privacy-policies' component={PrivacyPolicies} />
-      <Route name="view_ticket" path='/view-ticket/' component={ViewTicket} />
-      <Route name="view_ticket_params" path='/view-ticket/:id' component={ViewTicket} />
       <Route name="reset_password" path='/reset-password/:token' component={ResetPassword} />
       <Route name="not-found" path='*' component={NotFound} />
       <IndexRoute component={Dashboard} />

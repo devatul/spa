@@ -39,14 +39,6 @@ class Signup extends React.Component {
     });
   }
 
-  _createTicket() {
-    redirect('create-ticket');
-  }
-
-  _liveChat() {
-    redirect('live-chat');
-  }
-
   _redirectLogin() {
     redirect('login');
   }

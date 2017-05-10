@@ -23,7 +23,7 @@ class ViewTicket extends React.Component {
     NinjaStore.resetStore();
 
     var url = window.location.href;
-    var position = url.indexOf('view-ticket') + 12;
+    var position = url.indexOf('support') + 8;
     var id = url.slice(position);
 
     if (undefined !== id && id) {
@@ -144,7 +144,7 @@ class ViewTicket extends React.Component {
       message = $('<textarea />').html(message).text();
       var body = this.state.ticket.replies[this.state.ticket.replies.length - 1];
       for (var key in body.ticket_attachments) {
-        attachments.push(<div className="attachments-link" onClick={this._openAttachment.bind(this, body.ticket_attachments[key].ticket_id, body.ticket_attachments[key].ticketAttachment, body.ticket_attachments[key].filename)}>{body.ticket_attachments[key].filename}</div>);
+        attachments.push(<div key={key} className="attachments-link" onClick={this._openAttachment.bind(this, body.ticket_attachments[key].ticket_id, body.ticket_attachments[key].ticketAttachment, body.ticket_attachments[key].filename)}>{body.ticket_attachments[key].filename}</div>);
       }
       subject = this.state.ticket.subject;
       var index = replies.length - 1;
@@ -154,7 +154,7 @@ class ViewTicket extends React.Component {
 
       var allReplies = [];
       for (var i in replies) {
-        allReplies.push(<Reply reply={replies[i]} />);
+        allReplies.push(<Reply key={key} reply={replies[i]} />);
       }
     }
 
@@ -215,7 +215,7 @@ class ViewTicket extends React.Component {
     var preview = [];
     if (0 < this.state.files.length) {
       for (var cont in this.state.files) {
-        preview.push(<div className="col-xs-2"><object className="preview" data={this.state.files[cont].preview}></object><p>{this.state.files[cont].name}</p></div>);
+        preview.push(<div key={key} className="col-xs-2"><object className="preview" data={this.state.files[cont].preview}></object><p>{this.state.files[cont].name}</p></div>);
       }
       filesPreview = (
         <div>

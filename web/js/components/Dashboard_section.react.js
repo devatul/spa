@@ -71,7 +71,7 @@ class DashboardSection extends React.Component {
     });
 
     if (AlertsStore.isAlertTicket()) {
-      redirect('create-ticket');
+      redirect('support/create-ticket');
     }
   }
 

@@ -12,7 +12,7 @@ class LiveChat extends React.Component {
   }
 
   _createTicket() {
-    redirect('create-ticket');
+    redirect('support/create-ticket');
   }
 
   componentWillMount() {
