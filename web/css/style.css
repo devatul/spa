@@ -492,6 +492,40 @@ button.action-button:hover {
 .no-button {
   cursor: no-drop;
 }
+.no-border {
+  border: solid 0px transparent;
+  background: transparent;
+  border-radius: 100%;
+  margin: 10px 0;
+  padding: 1px 5.5px;
+}
+.no-border:hover {
+  background: #f2f2f2;
+}
+.no-border:focus {
+  background: #f2f2f2;
+}
+.alerts-dropdown .btn-group {
+  float: inherit!important;
+}
+.ellipsis-medium {
+  font-size: 21px;
+}
+.ellipsis-span {
+  height: 15px;
+  overflow: hidden;
+  position: absolute;
+  top: 3px;
+  left: 5.5px;
+}
+.ellipsis-button {
+  height: 32px;
+  width: 32px;
+  position: relative;
+}
+.muted-span {
+  padding: 0px;
+}
 .social-links {
   width: 100px;
   text-align: center;
@@ -1732,7 +1766,7 @@ tr.content:hover {
 @media screen and (max-width: 768px) {
   td, tr {
     height: auto!important;
-    line-height: inherit;
+    line-height: normal;
   }
   .principal-section {
     width: 100%;

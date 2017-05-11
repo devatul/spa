@@ -742,7 +742,7 @@ module.exports = {
   },
 
   acknowledge: function (alertId) {
-    var company = localStorage.getItem('nubity-company');
+    var company = getUserData('company');
     var token   = this.getToken();
 
     request
