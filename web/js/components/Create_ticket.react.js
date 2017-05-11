@@ -130,9 +130,9 @@ class CreateTicket extends React.Component {
       var alert = AlertsStore.getAlertTicket();
       department = [
         <select key="department" className="form-control" ref="department" defaultValue="support" onChange={this._onChange}>
+          <option value="support">Support</option>
           <option value="billing">Billing</option>
           <option value="sales">Sales</option>
-          <option value="support">Support</option>
         </select>,
       ];
       type = [
@@ -168,9 +168,9 @@ class CreateTicket extends React.Component {
     } else {
       department = [
         <select key="department1" className="form-control" ref="department" onChange={this._onChange}>
+          <option value="support">Support</option>
           <option value="billing">Billing</option>
           <option value="sales">Sales</option>
-          <option value="support">Support</option>
         </select>,
       ];
 
