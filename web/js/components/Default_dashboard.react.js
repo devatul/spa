@@ -20,6 +20,10 @@ var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Modal                      = require('react-bootstrap').Modal;
 var Button                     = require('react-bootstrap').Button;
+var DropdownButton             = require('react-bootstrap').DropdownButton;
+var Dropdown                   = require('react-bootstrap').Dropdown;
+var ButtonToolbar              = require('react-bootstrap').ButtonToolbar;
+var MenuItem                   = require('react-bootstrap').MenuItem;
 
 class DefaultDashboard extends React.Component {
   constructor(props) {
@@ -32,6 +36,7 @@ class DefaultDashboard extends React.Component {
       dashboard:  '',
       stats:      stats,
       modalType:  '',
+      mute:       '',
     };
     this._onChange = this._onChange.bind(this);
     this.close = this.close.bind(this);
@@ -85,9 +90,11 @@ class DefaultDashboard extends React.Component {
   }
 
   _acknowledge(alertId) {
-    acknowledge(alertId);
+    var mute = this.state.mute;
+    acknowledge(mute);
     this.setState({
       showModal: false,
+      mute:      '',
     });
   }
 
@@ -95,6 +102,7 @@ class DefaultDashboard extends React.Component {
     this.setState({
       showModal: false,
       modalType: '',
+      mute:      '',
     });
   }
 
@@ -109,6 +117,18 @@ class DefaultDashboard extends React.Component {
     }
   }
 
+  _warningMute(props, id) {
+    switch (props) {
+      case 'mute':
+        this.setState({
+          modalType: 'mute',
+          showModal: true,
+          mute:      id,
+        });
+        break;
+    }
+  }
+
   _goToDashboard(dashboard) {
     // body...
   }
@@ -116,7 +136,6 @@ class DefaultDashboard extends React.Component {
   render() {
     var mainAlerts = this.state.mainAlerts;
     var notice;
-    var tooltip = '';
 
     if (undefined !== mainAlerts) {
       if (1 < mainAlerts.length) {
@@ -183,39 +202,6 @@ class DefaultDashboard extends React.Component {
       } else if ('info' == mainAlerts[key].level) {
         level = 'icon nb-information icon-state blue-text';
         severityTooltip = (<Tooltip id="tooltip">Information</Tooltip>);
-      }
-
-      var action = '';
-      tooltip = '';
-
-      if (mainAlerts[key].is_acknowledged) {
-        tooltip = (<Tooltip id="tooltip">Notifications Muted</Tooltip>);
-        action = (
-          <td className="icons hidden-xs">
-            <span>
-              <span className='hidden-xs hidden-sm table-action-button action-button-disabled'>Muted</span>
-              <OverlayTrigger placement="top" overlay={tooltip}>
-                <span className="hidden-md hidden-lg table-action-button action-button-disabled" title="Notifications muted">
-                  <i className="icon nb-mute-on grey-text small"></i>
-                </span>
-              </OverlayTrigger>
-            </span>
-          </td>
-        );
-      } else {
-        tooltip = (<Tooltip id="tooltip">Mute notifications</Tooltip>);
-        action = (
-          <td className="icons hidden-xs">
-            <span>
-              <span className='table-action-button action-button nubity-red hidden-xs hidden-sm' onClick={this._warning.bind(this, mute)}>Mute notifications</span>
-              <OverlayTrigger placement="top" overlay={tooltip}>
-                <span className="table-action-button action-button nubity-red hidden-md hidden-lg" title="Mute notifications" onClick={this._warning.bind(this, mute)}>
-                  <i className="icon nb-mute-off small white-text"></i>
-                </span>
-              </OverlayTrigger>
-            </span>
-          </td>
-        );
       }
 
       var totalItems = this.state.mainAlerts.legth;
@@ -304,7 +290,36 @@ class DefaultDashboard extends React.Component {
         </Modal>
       );
 
-      rows[rows.length] = (
+      var action = '';
+
+      if (mainAlerts[key].is_acknowledged) {
+        action = (
+          <span className='hidden-xs muted-span action-button-disabled'><i className="icon nb-mute-on small"></i> Muted</span>
+        );
+      } else {
+        action = (
+          <span className='dark-grey-text hidden-xs' onClick={this._warningMute.bind(this, mute, mainAlerts[key].id)}><i className="icon nb-mute-off small"></i> Mute</span>
+        );
+      }
+
+      var newAction = (
+        <td className="centered alerts-dropdown hidden-xs">
+          <ButtonToolbar>
+            <DropdownButton className="no-border ellipsis-button" bsStyle="default" title={<span className="ellipsis-span"><i className="icon nb-ellipsis ellipsis-medium"></i></span>} noCaret pullRight id="dropdown-no-caret">
+              <MenuItem eventKey="1">
+                {action}
+              </MenuItem>
+              <MenuItem eventKey="2">
+                <span className="dark-grey-text hidden-xs" onClick={this._createTicket.bind(this, mainAlerts[key])}>
+                  <i className="icon nb-ticket small"></i> Create Ticket
+                </span>
+              </MenuItem>
+            </DropdownButton>
+          </ButtonToolbar>
+        </td>
+      );
+
+      rows.push(
         <tr key={rows.length} className="content">
           <td className="icons">
             <OverlayTrigger placement="top" overlay={severityTooltip}>
@@ -320,13 +335,7 @@ class DefaultDashboard extends React.Component {
           <td className="hidden-xs hidden-sm">
             <time dateTime={mainAlerts[key].resolved_on}>{to}</time>
           </td>
-          {action}
-          <td className="icons">
-            <span className="table-action-button action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, mainAlerts[key])}>Create Ticket</span>
-            <span className="table-action-button action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, mainAlerts[key])}>
-              <i className="icon nb-ticket white-text small"></i>
-            </span>
-          </td>
+          {newAction}
         </tr>
       );
     }
@@ -360,8 +369,7 @@ class DefaultDashboard extends React.Component {
                   <th className="hidden-xs hidden-sm">Integration</th>
                   <th className="hidden-xs hidden-sm">Started on</th>
                   <th className="hidden-xs hidden-sm">Resolved on</th>
-                  <th className="column-button hidden-xs">Notifications</th>
-                  <th className="column-button">Support</th>
+                  <th className="column-button hidden-xs">Actions</th>
                 </tr>
               </thead>
               <tbody>
