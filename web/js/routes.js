@@ -44,8 +44,8 @@ var routes = (
       <Route name="alerts" path='/alerts' component={Alerts} />
       <Route name="performance" path='/performance' component={Performance} />
       <Route name="ninja" path='/support' component={Ninja} />
-      <Route name="view_ticket_params" path='/support/:id' component={ViewTicket} />
       <Route name="create_ticket" path='/support/create-ticket' component={CreateTicket} />
+      <Route name="view_ticket_params" path='/support/:id' component={ViewTicket} />
       <Route name="live_chat" path='/live-chat' component={LiveChat} />
       <route name="terms_and_conditions" path='/terms-and-conditions' component={TermsAndConditions} />
       <route name="privacy_policies" path='/privacy-policies' component={PrivacyPolicies} />
