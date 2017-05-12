@@ -145,7 +145,7 @@
               url = url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
               if (!window.open(url)) {
                 if (confirm('Displaying New Document\n\nUse Save As... to download, then click back to return to this page.')) {
-                  location.href=url;
+                  location.href = url;
                 }
               }
               return true;

@@ -25,6 +25,7 @@ class MyTeamSection extends React.Component {
       language:          getUserData('locale'),
       notificationLevel: '',
       timezone:          getUserData('timezone'),
+      avatar:            false,
       password:          '',
       cmfPassword:       '',
       userRole:          [],
@@ -63,19 +64,40 @@ class MyTeamSection extends React.Component {
     _.map(this.state.userRole, (role)=>{
       userRole.push(role.value);
     });
-    var userData = {
-      firstname: this.state.firstname,
-      lastname:  this.state.lastname,
-      email:     this.state.email,
-      locale:    this.state.language,
-      timezone:  this.state.timezone,
-      role:      userRole,
-      password:  {
-        password:        this.state.password,
-        password_repeat: this.state.cmfPassword,
-      },
-    };
 
+    var userData = {};
+    var password = {};
+
+    if (!_.isEmpty(this.state.firstname)) {
+      userData.firstname = this.state.firstname;
+    }
+    if (!_.isEmpty(this.state.lastname)) {
+      userData.lastname = this.state.lastname;
+    }
+    if (!_.isEmpty(this.state.email)) {
+      userData.email = this.state.email;
+    }
+    if (!_.isEmpty(this.state.language)) {
+      userData.locale = this.state.language;
+    }
+    if (this.state.avatar) {
+      userData.avatar = this.state.avatar;
+    }
+    if (!_.isEmpty(this.state.timezone)) {
+      userData.timezone = this.state.timezone;
+    }
+    if (!_.isEmpty(userRole)) {
+      // userData.role = userRole;
+    }
+    if (!_.isEmpty(this.state.password)) {
+      password['password'] = this.state.password;
+    }
+    if (!_.isEmpty(this.state.cmfPassword)) {
+      password['password_repeat'] = this.state.cmfPassword;
+    }
+    if (!_.isEmpty(password)) {
+      userData.password = password;
+    }
     createUser(userData).then(function (text) {
       this.setState({
         message:      'User created successfully',
@@ -164,20 +186,26 @@ class MyTeamSection extends React.Component {
             <h2>My Team</h2>
           </div>
           <div className="row">
-            <div className="col-xs-1">
+            <div className="col-xs-1 hidden">
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
+            </div>
+            <div className="col-xs-1 hidden">
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
+            </div>
+            <div className="col-xs-1 hidden">
+              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
+            </div>
+            <div className="col-xs-1 hidden">
               <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
             </div>
             <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
-            </div>
-            <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
-            </div>
-            <div className="col-xs-1">
-              <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Shawn_Tok_Profile.jpg" height="45" width="45" alt="..." className="img-circle" />
-            </div>
-            <div className="col-xs-1">
+              <input type="file" className="add-avatar" name="addAvatar" id="addAvatar" onChange={function (e) {
+                SELF.setState({
+                  avatar: e.target.files[0],
+                });
+              }} />
               <button className="btn-plus-circle">+</button>
+              <span className={this.state.avatar ? 'avatar-slected' : 'hidden'}>{this.state.avatar ? this.state.avatar.name : ''}</span>
             </div>
           </div>
           <hr />
@@ -299,6 +327,9 @@ class MyTeamSection extends React.Component {
                   />
                 </div>
               </div>
+            </div>
+            <div className="col-xs-12">
+              <hr />
             </div>
             <div className="col-sm-12">
               <h3><i className="input-icon fa fa-bell" aria-hidden="true"></i><span className="padding-left">Alerts Notification</span></h3>

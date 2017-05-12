@@ -1547,26 +1547,31 @@ module.exports = {
     var SELF = this;
 
     return new Promise(function (resolve, reject) {
-      request
+      var req = request
         .post('/user.json')
-        .type('application/json')
-        .send(userData)
-        .set('Authorization', token)
-        .end(function (err, res) {
-          var code = JSON.parse(res.status);
-          var text = JSON.parse(res.text);
-          if (400 === code) {
-            reject(text);
-          } else {
-            SELF.validateToken(res).then(function (status) {
-              if (!status) {
-                SELF.createUser(userData);
-              } else {
-                resolve(text);
-              }
-            }.bind(SELF));
-          }
-        }.bind(SELF));
+        .set('Authorization', token);
+      for (var key in userData) {
+        if ('avatar' !== key) {
+          req.field(key, userData[key]);
+        } else {
+          req.attach(key, userData[key]);
+        }
+      }
+      req.end(function (err, res) {
+        var code = JSON.parse(res.status);
+        var text = JSON.parse(res.text);
+        if (400 === code) {
+          reject(text);
+        } else {
+          SELF.validateToken(res).then(function (status) {
+            if (!status) {
+              SELF.createUser(userData);
+            } else {
+              resolve(text);
+            }
+          }.bind(SELF));
+        }
+      }.bind(SELF));
     });
   },
 
