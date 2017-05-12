@@ -17,16 +17,16 @@ module.exports = {
     return NubityAPIUtils.verifyAccount(email);
   },
 
+  confirmAccount: function (token) {
+    return NubityAPIUtils.confirmAccount(token);
+  },
+
   signup: function (user) {
     return NubityAPIUtils.signup(user);
   },
 
   getMonitoredInstances: function () {
     NubityAPIUtils.getMonitoredInstances();
-  },
-
-  confirmAccount: function (token) {
-    NubityAPIUtils.confirmAccount(token);
   },
 
   forgotPassword: function (email) {

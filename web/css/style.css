@@ -2487,6 +2487,18 @@ a.link-login:hover {
   margin: 0px;
   line-height: 27px;
 }
+.li100 {
+  height: 100px;
+}
+.li150 {
+  height: 150px;
+}
+.margin-li {
+  margin-bottom: 24px!important;
+}
+.windows-buttons {
+  margin-right: 15px;
+}
 .white-medium {
   font-size: 6px;
   position: absolute;

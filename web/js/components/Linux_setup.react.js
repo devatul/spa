@@ -118,9 +118,9 @@ class LinuxSetup extends React.Component {
     var script = 'NUBITY_TOKEN=' + this.state.token + ' bash -c "$(curl https://packages.nubity.com/installer/nubity-installer.sh)"';
     return (
       <ol className="rounded-list">
-        <li className="first-step">
+        <li className="first-step li150">
           <div className="row">
-            <p className="rounded-list-title"><span>In order to start the health check on your instance, copy this script and execute it with root privlegies in a terminal at the instance you want to monitor:</span></p>
+            <p className="rounded-list-title margin-li"><span>In order to start the health check on your instance, copy this script and execute it with root privlegies in a terminal at the instance you want to monitor:</span></p>
             <OneLiner text={script} clickToken={this.clickToken} />
           </div>
           <br />
