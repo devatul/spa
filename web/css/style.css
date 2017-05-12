@@ -1126,7 +1126,7 @@ button.action-button:hover {
 }
 .ninja-buttons {
   position: absolute;
-  top: 0px;
+  top: -4.5px;
   margin: auto;
   left: calc(50% - 246px);
 }
@@ -1135,11 +1135,18 @@ button.action-button:hover {
 }
 @media (max-width: 900px) {
   .ninja-buttons {
-    top: 78px;
-    left: inherit;
+    top: 56px;
+  }
+  .ninja-buttons button {
+    margin: 3px!important;
   }
   .ninja-table {
     padding-top: 90px;
+  }
+}
+@media (max-width: 529px) {
+  .ninja-buttons {
+    left: inherit!important;
   }
 }
 .button-shadow {

@@ -43,7 +43,6 @@ class CustomPerformanceDashboard extends React.Component {
   }
 
   _onChange() {
-    getCustomSlots(this.props.dashboard.dashboard);
     this.setState({
       slots: GraphStore.getCustomSlots(),
     });
