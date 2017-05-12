@@ -99,77 +99,91 @@ class Graph extends React.Component {
       }
 
       Highcharts.chart(this.props.name, {
-        chart: {
-          type:          'spline',
-          zoomType:      'x',
-          className:     'hichart-main-container',
-          spacingBottom: 10,
-          spacingTop:    30,
-          spacingLeft:   10,
-          spacingRight:  10,
+        'chart': {
+          'type':          'spline',
+          'zoomType':      'x',
+          'className':     'hichart-main-container',
+          'spacingBottom': 10,
+          'spacingTop':    30,
+          'spacingLeft':   10,
+          'spacingRight':  10,
         },
 
-        exporting: {
-          enabled: false,
+        'exporting': {
+          'enabled': false,
         },
 
-        credits: {
-          enabled: false,
+        'credits': {
+          'enabled': false,
         },
 
-        title: {
-          text: slot_name + ' of ' + hostname,
+        'title': {
+          'text': slot_name + ' of ' + hostname,
         },
 
-        tooltip: {
-          shared:     true,
-          crosshairs: true,
-        },
-
-        xAxis: {
-          type:                 'datetime',
-          dateTimeLabelFormats: {
-            second: '%H:%M:%S',
-            minute: '%H:%M',
-            hour:   '%H:%M',
-            day:    '%e. %b',
-            week:   '%e. %b',
-            month:  '%b \'%y',
-            year:   '%Y',
-          },
-          title: {
-            text: 'Date',
+        'tooltip': {
+          'shared':          true,
+          'crosshairs':      true,
+          'backgroundColor': '#717171',
+          'borderColor':     'black',
+          'borderRadius':    10,
+          'borderWidth':     0,
+          'style':           {
+            'color': 'white',
           },
         },
 
-        yAxis: {
-          title: {
-            text: yTitle,
+        'xAxis': {
+          'type':                 'datetime',
+          'dateTimeLabelFormats': {
+            'second': '%H:%M:%S',
+            'minute': '%H:%M',
+            'hour':   '%H:%M',
+            'day':    '%e. %b',
+            'week':   '%e. %b',
+            'month':  '%b \'%y',
+            'year':   '%Y',
           },
-          opposite:   false,
-          min:        0,
-          maxPadding: 0.2,
-          plotLines:  [{
-            value: 0,
-            width: 1,
-            color: '#808080',
+          'title': {
+            'text': 'Date',
+          },
+        },
+
+        'yAxis': {
+          'title': {
+            'text': yTitle,
+          },
+          'opposite':   false,
+          'min':        0,
+          'maxPadding': 0.2,
+          'plotLines':  [{
+            'value': 0,
+            'width': 1,
+            'color': '#808080',
           }],
         },
 
-        legend: {
-          enabled:       true,
-          align:         'center',
-          verticalAlign: 'bottom',
+        'legend': {
+          'enabled':       false,
+          'align':         'center',
+          'verticalAlign': 'bottom',
         },
 
-        navigator: {
-          height: 25,
+        'navigator': {
+          'height': 25,
         },
 
-        rangeSelector: {
-          enabled: false,
+        'rangeSelector': {
+          'enabled': false,
         },
-        series: chartSeries,
+        'series':     chartSeries,
+        'responsive': {
+          'rules': [{
+            'condition': {
+              'maxHeight': 280,
+            },
+          }],
+        },
       });
     }
   }

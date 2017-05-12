@@ -157,7 +157,7 @@ class DefaultDashboard extends React.Component {
                 <span><i className="icon nb-information" aria-hidden="true"></i></span>
               </div>
               <div className="right">
-                <span>{this.state.stats.info}</span>
+                <span className="dashboard-icons-counter">{this.state.stats.info}</span>
                 <span className="dashboard-icons-info"> Information</span>
               </div>
             </div>
@@ -168,7 +168,7 @@ class DefaultDashboard extends React.Component {
                 <span><i className="icon nb-warning" aria-hidden="true"></i></span>
               </div>
               <div className="right">
-                <span>{this.state.stats.warning}</span>
+                <span className="dashboard-icons-counter">{this.state.stats.warning}</span>
                 <span className="dashboard-icons-info"> Warning</span>
               </div>
             </div>
@@ -179,7 +179,7 @@ class DefaultDashboard extends React.Component {
                 <span><i className="icon nb-critical" aria-hidden="true"></i></span>
               </div>
               <div className="right">
-                <span>{this.state.stats.critical}</span>
+                <span className="dashboard-icons-counter">{this.state.stats.critical}</span>
                 <span className="dashboard-icons-info"> Critical</span>
               </div>
             </div>
@@ -213,7 +213,7 @@ class DefaultDashboard extends React.Component {
       var to = '';
       if (null != mainAlerts[key].resolved_on) {
         var dateToObj = moment.tz(mainAlerts[key].resolved_on, userTimeZone).toDate();
-        to = dateToObj.toLocaleDateString() + ' ' + dateToObj.toLocaleTimeString();
+        to = (<span><i className="icon nb-time grey-text small"></i> {dateToObj.toLocaleDateString() + ' ' + dateToObj.toLocaleTimeString()}</span>);
       } else {
         to = '-';
       }
@@ -291,12 +291,15 @@ class DefaultDashboard extends React.Component {
       );
 
       var action = '';
+      var actionIcon = '';
 
       if (mainAlerts[key].is_acknowledged) {
+        actionIcon = (<i className="icon nb-mute-on small light-grey-text"></i>);
         action = (
           <span className='hidden-xs muted-span action-button-disabled'><i className="icon nb-mute-on small"></i> Muted</span>
         );
       } else {
+        actionIcon = '';
         action = (
           <span className='dark-grey-text hidden-xs' onClick={this._warningMute.bind(this, mute, mainAlerts[key].id)}><i className="icon nb-mute-off small"></i> Mute</span>
         );
@@ -326,11 +329,11 @@ class DefaultDashboard extends React.Component {
               <i className={level} aria-hidden="true"></i>
             </OverlayTrigger>
           </td>
-          <td className="left-aligned">{mainAlerts[key].description}</td>
+          <td className="left-aligned"><strong>{mainAlerts[key].description}</strong> {actionIcon}</td>
           <td className="left-aligned">{mainAlerts[key].instance.hostname}</td>
           <td className="hidden-xs hidden-sm left-aligned">{mainAlerts[key].instance.provider_credential.name}</td>
           <td className="hidden-xs hidden-sm">
-            <time dateTime={mainAlerts[key].started_on}>{from}</time>
+            <time dateTime={mainAlerts[key].started_on}><i className="icon nb-time grey-text small"></i> {from}</time>
           </td>
           <td className="hidden-xs hidden-sm">
             <time dateTime={mainAlerts[key].resolved_on}>{to}</time>
@@ -395,7 +398,6 @@ class DefaultDashboard extends React.Component {
         <h2 className="dashboard-title">Alerts resume</h2>
         {stats}
         {alertTable}
-        <br />
         <h2 className="dashboard-title">Graphs</h2>
         <div className="margin-sides row">
           <Graphs />

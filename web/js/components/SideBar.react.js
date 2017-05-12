@@ -216,19 +216,19 @@ class SideBar extends React.Component {
           <div className="menu-buttons">
             <a onClick={this._dashboard} className={this.state.dashboardClass}>
               <div className="menu-button">
-                <div className="icon nb-dashboard medium"></div>
+                <div className="icon nb-dashboard icon-sidebar"></div>
                 <p className="menu-text">Dashboard</p>
               </div>
             </a>
             <a onClick={this._infrastructure} className={this.state.infrastructureClass}>
               <div className="menu-button">
-                <div className="icon nb-infrastructure medium"></div>
+                <div className="icon nb-infrastructure icon-sidebar"></div>
                 <p className="menu-text">Infrastructure</p>
               </div>
             </a>
             <a onClick={this._alerts} className={this.state.alertsClass}>
               <div className="menu-button">
-                <div className="icon nb-alert medium">
+                <div className="icon nb-alert icon-sidebar">
                   {alertBadge}
                 </div>
                 <p className="menu-text">Alerts</p>
@@ -236,20 +236,20 @@ class SideBar extends React.Component {
             </a>
             <a onClick={this._performance} className={this.state.performanceClass}>
               <div className="menu-button hidden">
-                <div className="icon nb-performance medium"></div>
+                <div className="icon nb-performance icon-sidebar"></div>
                 <p className="menu-text">Performance</p>
               </div>
             </a>
             <a onClick={this._ninjaSupport} className={this.state.ninjaSupportClass}>
               <div className="menu-button">
-                <div className="icon nb-ninja-support medium"></div>
+                <div className="icon nb-ninja-support icon-sidebar"></div>
                 <p className="menu-text">Support</p>
               </div>
             </a>
           </div>
           <div className="social-links">
             <div className="menu-button hide-it">
-              <div className="icon nb-feedback medium"></div>
+              <div className="icon nb-feedback icon-sidebar"></div>
               <p className="menu-text">Feedback</p>
             </div>
             <div className="">
