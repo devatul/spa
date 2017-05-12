@@ -110,7 +110,7 @@ class OnboardingSection extends React.Component {
     var _SELF = this;
 
     return (
-      <div className="main-section-cloud">
+      <div className="principal-section">
         <div className="section-title">
           <span className="item title">{this.state.title}</span>
         </div>

@@ -1624,6 +1624,9 @@ ol.rounded-list {
 .green-text {
   color: #43a306 !important;
 }
+.light-green-text {
+  color: #5cda0b!important;
+}
 .yellow-text {
   color: #ffc524 !important;
 }
@@ -2463,6 +2466,34 @@ a.link-login:hover {
   position: relative;
   top: 3px;
 }
+.clipboard-span {
+  padding: 0px;
+}
+.report-div {
+  height: 150px;
+  width: 344px;
+  border-radius: 10px;
+  background-color: grey;
+  padding: 30px;
+  margin: 0px;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+.report-success-div {
+  padding: 11px!important;
+}
+.report-success-p {
+  margin: 0px;
+  line-height: 27px;
+}
+.white-medium {
+  font-size: 6px;
+  position: absolute;
+  left: 164px;
+  top: -18px;
+  color: white;
+}
 .clipboard-button {
   position: relative;
   display: inline-block;
@@ -2474,9 +2505,9 @@ a.link-login:hover {
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
-  background-color: #eee;
-  background-image: linear-gradient(#fcfcfc,#eee);
-  border: 1px solid #d5d5d5;
+  background-color: transparent;
+  background-image: transparent;
+  border: 1px solid transparent;
   border-radius: 3px;
   -webkit-user-select: none;
   -moz-user-select: none;
