@@ -179,16 +179,20 @@ module.exports = {
   },
 
   confirmAccount: function (token) {
-    request
-      .get('/signup/email-confirm/' + token + '.json')
-      .accept('application/json')
-      .end(function (err, res) {
-        var text = JSON.parse(res.text);
-        var code = res.status;
-        if (400 <= code) {
-          showConfirmMessage(text.code, text.message);
-        }
-      }.bind(this));
+    return new Promise(function (resolve, reject) {
+      request
+        .get('/signup/email-confirm/' + token + '.json')
+        .accept('application/json')
+        .end(function (err, res) {
+          var text = JSON.parse(res.text);
+          var code = res.status;
+          if (400 <= code) {
+            reject(text.message);
+          } else {
+            resolve();
+          }
+        });
+    });
   },
 
   forgotPassword: function (email) {

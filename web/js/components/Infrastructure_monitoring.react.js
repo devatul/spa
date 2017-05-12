@@ -52,7 +52,7 @@ class InfrastructureMonitoring extends React.Component {
         <div className="section-title">
           <span className="item title">{this.state.title}</span>
         </div>
-        <div className="section-tabs">Select OS for agent installation</div>
+        <h2 className="dashboard-title">Select OS for agent installation</h2>
         <div>
           <ul className="nav nav-tabs section-tabs">
             <li role="presentation" className="active">

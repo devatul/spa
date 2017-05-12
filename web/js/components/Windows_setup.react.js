@@ -1,6 +1,7 @@
 var React                         = require('react');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var Preloader                     = require('./Preloader.react');
+var OneLiner                      = require('./One_liner.react');
 
 class WindowsSetup extends React.Component {
   constructor(props) {
@@ -11,7 +12,12 @@ class WindowsSetup extends React.Component {
         <div className="row centered"><Preloader size="mini" /></div>
       </div>
     );
-    var report = (<div><Preloader size="mini" /> <p className="notice">Waiting for the first Nubity Agent report.</p></div>);
+    var report = (
+      <div className="report-div">
+        <p className="notice">Wait for the first Nubity agent report</p>
+        <Preloader size="white-medium" />
+      </div>
+    );
     if ('' != instanceForMonitoring && undefined !== instanceForMonitoring) {
       token = instanceForMonitoring.monitoring_agent.name;
     }
@@ -45,9 +51,19 @@ class WindowsSetup extends React.Component {
 
     if ('' != instanceForMonitoring && undefined !== instanceForMonitoring && !this.state.reportFlag) {
       if (instanceForMonitoring.monitoring_agent.isActive) {
+        var url      = window.location.href;
+        var position = url.split('#');
+        var url2     = position[1].split('/');
+        var id       = url2[2];
+        var report = (
+          <div className="report-div report-success-div">
+            <p className="notice report-success-p">Nubity agent has been successfully installed at your instance, now is time to <Link className="action-button nubity-blue" to={`/infrastructure/${id}/monitoring/configure`}>Configure it</Link> under your own needs.</p>
+            <i className="icon nb-thick-circle medium light-green-text" aria-hidden="true"></i>
+          </div>
+        );
         this.setState({
           reportFlag: true,
-          report:     'Report done',
+          report:     report,
         });
       }
     }
@@ -60,28 +76,21 @@ class WindowsSetup extends React.Component {
   render() {
     return (
       <ol className="rounded-list">
-        <li>
-          <p className="rounded-list-title"><span>Download the Installation Script and run it with Root privileges </span></p>
-          <a className="action-button nubity-green col-sm-offset-1" target="_blank" href="http://packages.nubity.com/windows/x64/nubity-agent-x64-last.exe">Download Installation Script 64 bits</a>
-          <a className="action-button nubity-green col-sm-offset-1" target="_blank" href="http://packages.nubity.com/windows/x86/nubity-agent-x86-last.exe">Download Installation Script 32 bits</a>
+        <li className="li100">
+          <p className="rounded-list-title margin-li"><span>In order to start the health check on your instance, donwload the installer that matches your architecture and execute it with elevated privlegies at the instance you want to monitor:</span></p>
+          <a className="action-button nubity-blue windows-buttons" target="_blank" href="http://packages.nubity.com/windows/x64/nubity-agent-x64-last.exe">Download installer for 64 bits</a>
+          <a className="action-button nubity-blue windows-buttons" target="_blank" href="http://packages.nubity.com/windows/x86/nubity-agent-x86-last.exe">Download installer for 32 bits</a>
         </li>
-        <li>
-          <p className="rounded-list-title"><span>Validation - Important!</span></p>
-          <p className="col-sm-offset-1">During the installation enter the following Key to validate the agent:</p>
-          <div className="col-sm-offset-1 centered">
-            {this.state.token}
+        <li className="li100">
+          <p className="rounded-list-title"><span>During the installation enter the following Key to validate the agent:</span></p>
+          <div className="centered">
+            <OneLiner text={this.state.token} clickToken={this.clickToken} />
           </div>
         </li>
         <li>
-          <p className="rounded-list-title"><span>Run it with administrator privileges</span></p>
-        </li>
-        <li>
-          <p className="rounded-list-title"><span>Monitor your server</span></p>
-          <div className="col-sm-offset-1">
-            <p className="notice">In a few minutes the Nubity Agent will send data to Nubity, and you can then create alerts and checks for your instance!</p>
-            <div id="loading-message" className="col-sm-offset-1">
-              {this.state.report}
-            </div>
+          <p className="rounded-list-title"><span>When the Nubity agent is installed, in a few minutes it will start sending data and you will be able to configure alerts and checks for your instance:</span></p>
+          <div id="loading-message">
+            {this.state.report}
           </div>
         </li>
       </ol>
