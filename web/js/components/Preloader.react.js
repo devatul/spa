@@ -10,6 +10,8 @@ class Preloader extends React.Component {
       preloaderClass += 'loader-mini';
     } else if ('medium' == this.props.size) {
       preloaderClass += 'loader-medium';
+    } else if ('white-medium' == this.props.size) {
+      preloaderClass += 'white-medium loader';
     } else {
       preloaderClass += 'loader';
     }

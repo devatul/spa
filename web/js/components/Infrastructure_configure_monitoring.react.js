@@ -9,9 +9,10 @@ var redirect                      = require('../actions/RouteActions').redirect;
 class InfrastructureConfigureMonitoring extends React.Component {
   constructor(props) {
     super(props);
-    var url = window.location.href.split('#');
-    var position = url[1].split('/');
-    var id = position[2];
+    var url      = window.location.href;
+    var position = url.split('#');
+    var url2     = position[1].split('/');
+    var id       = url2[2];
     var instanceConfiguration = InfrastructureStore.instanceConfiguration(id);
     this.state = {
       instanceConfiguration: instanceConfiguration,
@@ -24,9 +25,10 @@ class InfrastructureConfigureMonitoring extends React.Component {
 
   componentDidMount() {
     if (SessionStore.isLoggedIn()) {
-      var url = window.location.href.split('#');
-      var position = url[1].split('/');
-      var id = position[2];
+      var url      = window.location.href;
+      var position = url.split('#');
+      var url2     = position[1].split('/');
+      var id       = url2[2];
       getInstanceConfiguration(id);
     } else {
       redirect('login');
