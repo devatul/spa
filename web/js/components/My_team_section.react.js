@@ -3,6 +3,8 @@ var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var createUser                 = require('../actions/RequestActions').createUser;
 var getUserRoles               = require('../actions/RequestActions').getUserRoles;
+var updateNotificationLevel    = require('../actions/RequestActions').updateNotificationLevel;
+var getUserData                = require('../actions/StorageActions').getUserData;
 var SessionStore               = require('../stores/SessionStore');
 var _                          = require('lodash');
 var Select2                    = require('react-select');
@@ -20,14 +22,12 @@ class MyTeamSection extends React.Component {
       firstname:         '',
       lastname:          '',
       email:             '',
-      language:          '',
+      language:          getUserData('locale'),
       notificationLevel: '',
-      timezone:          '',
+      timezone:          getUserData('timezone'),
       password:          '',
       cmfPassword:       '',
-      skype:             '',
       userRole:          [],
-      contactType:       '',
       message:           '',
       messageClass:      'hidden',
     };
@@ -76,22 +76,24 @@ class MyTeamSection extends React.Component {
       },
     };
 
-    createUser(userData).then(function (msg) {
+    createUser(userData).then(function (text) {
       this.setState({
-        message:           msg,
-        messageClass:      'alert alert-success',
-        firstname:         '',
-        lastname:          '',
-        email:             '',
-        language:          '',
-        notificationLevel: '',
-        timezone:          '',
-        password:          '',
-        cmfPassword:       '',
-        skype:             '',
-        userRole:          [],
-        contactType:       '',
+        message:      'User created successfully',
+        messageClass: 'alert alert-success',
+        firstname:    '',
+        lastname:     '',
+        email:        '',
+        language:     '',
+        timezone:     '',
+        password:     '',
+        cmfPassword:  '',
+        userRole:     [],
       });
+      updateNotificationLevel(text.user, this.state.notificationLevel).then(function (msg) {
+        this.setState({
+          notificationLevel: '',
+        });
+      }.bind(this));
     }.bind(this)).catch(function (message) {
       var err = this._showError(message);
       this.setState({
@@ -140,12 +142,12 @@ class MyTeamSection extends React.Component {
     var locale = this.state.locales;
     var SELF = this;
 
-    var timezones = [<option key={-1} value="" >---select timezone---</option>];
+    var timezones = [];
     _.map(this.state.timezones, function (timezone, i) {
       timezones.push(<option key={i} value={timezone} >{timezone}</option>);
     });
 
-    var locales = [<option key={0} value="" >---select locale---</option>];
+    var locales = [];
     for (var key in locale) {
       locales.push(<option key={key} value={key} >{locale[key]}</option>);
     }
@@ -226,7 +228,7 @@ class MyTeamSection extends React.Component {
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <i className="input-icon fa fa-lock" aria-hidden="true"></i>
+                    <i className="input-icon icon nb-lock" aria-hidden="true"></i>
                   </div>
                   <input type="password" className="form-control no-shadow" id="password" placeholder="Password" onChange={function (e) {
                     SELF.setState({
@@ -238,7 +240,7 @@ class MyTeamSection extends React.Component {
               <div className="form-group">
                 <div className="input-group">
                   <span className="input-group-addon">
-                    <i className="input-icon icon nb-lock small" aria-hidden="true"></i>
+                    <i className="input-icon icon nb-lock" aria-hidden="true"></i>
                   </span>
                   <input type="password" className="form-control no-shadow" ref="cmfPassword" placeholder="confirm Password" onChange={function (e) {
                     SELF.setState({
@@ -249,18 +251,6 @@ class MyTeamSection extends React.Component {
               </div>
             </div>
             <div className="public-cloud-form col-lg-offset-0 col-lg-6">
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <i className="input-icon fa fa-skype" aria-hidden="true"></i>
-                  </div>
-                  <input type="text" className="form-control no-shadow" id="skype" placeholder="Skype" onChange={function (e) {
-                    SELF.setState({
-                      skype: e.target.value,
-                    });
-                  }} value={this.state.skype} />
-                </div>
-              </div>
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">
@@ -309,65 +299,68 @@ class MyTeamSection extends React.Component {
                   />
                 </div>
               </div>
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <i className="input-icon fa fa-user" aria-hidden="true"></i>
-                  </div>
-                  <input type="text" className="form-control no-shadow" id="contactType" placeholder="Contact Type" onChange={function (e) {
-                    SELF.setState({
-                      contactType: e.target.value,
-                    });
-                  }} value={this.state.contactType} />
-                </div>
-              </div>
             </div>
-            <div className="col-sm-12 light-grey-background">
+            <div className="col-sm-12">
               <h3><i className="input-icon fa fa-bell" aria-hidden="true"></i><span className="padding-left">Alerts Notification</span></h3>
             </div>
-            <div className="col-sm-12 light-grey-background">
-              <div className="form-group col-sm-4">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <div className="checkbox account-checkbox">
-                      <input type="checkbox" value="info" onChange={function (e) {
-                        SELF.setState({
-                          notificationLevel: 'info',
-                        });
-                      }} checked={'info' === notificationLevel} />
-                    </div>
+            <div className="col-sm-12">
+              <div className="col-lg-3 col-md-6 col-xs-12">
+                <label className="input-group">
+                  <span className="input-group-addon">
+                    <input type="radio" name="notificationLevel" id="inlineRadio1" value="info" onChange={function (e) {
+                      SELF.setState({
+                        notificationLevel: 'info',
+                      });
+                    }} checked={'info' === notificationLevel} />
+                  </span>
+                  <div className="form-control inline-flex">
+                    <i className="icon nb-information blue-text small"></i> Information
                   </div>
-                  <div className="form-control no-shadow" id="information">Information</div>
-                </div>
+                </label>
               </div>
-              <div className="form-group col-sm-4">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <div className="checkbox account-checkbox">
-                      <input type="checkbox" value="" onChange={function (e) {
-                        SELF.setState({
-                          notificationLevel: 'warning',
-                        });
-                      }} checked={'warning' === notificationLevel} />
-                    </div>
+              <div className="col-lg-3 col-md-6 col-xs-12">
+                <label className="input-group">
+                  <span className="input-group-addon">
+                    <input type="radio" name="notificationLevel" id="inlineRadio2" value="warning" onChange={function (e) {
+                      SELF.setState({
+                        notificationLevel: 'warning',
+                      });
+                    }} checked={'warning' === notificationLevel} />
+                  </span>
+                  <div className="form-control inline-flex">
+                    <i className="icon nb-warning yellow-text small"></i> Warning
                   </div>
-                  <div className="form-control no-shadow" id="warning">Warning</div>
-                </div>
+                </label>
               </div>
-              <div className="form-group col-sm-4">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <div className="checkbox account-checkbox">
-                      <input type="checkbox" value="critical" onChange={function (e) {
-                        SELF.setState({
-                          notificationLevel: 'critical',
-                        });
-                      }} checked={'critical' === notificationLevel} />
-                    </div>
+              <div className="col-lg-3 col-md-6 col-xs-12">
+                <label className="input-group">
+                  <span className="input-group-addon">
+                    <input type="radio" name="notificationLevel" id="inlineRadio3" value="critical" onChange={function (e) {
+                      SELF.setState({
+                        notificationLevel: 'critical',
+                      });
+                    }} checked={'critical' === notificationLevel} />
+                  </span>
+                  <div className="form-control inline-flex">
+                    <i className="icon nb-critical red-text small"></i> Critical
                   </div>
-                  <div className="form-control no-shadow" id="critical">Critical</div>
-                </div>
+                </label>
               </div>
+              <div className="col-lg-3 col-md-6 col-xs-12">
+                <label className="input-group">
+                  <span className="input-group-addon">
+                    <input type="radio" name="notificationLevel" id="inlineRadio3" value="none" onChange={function (e) {
+                      SELF.setState({
+                        notificationLevel: 'none',
+                      });
+                    }} checked={undefined === notificationLevel || 'none' === notificationLevel || null === notificationLevel} />
+                  </span>
+                  <div className="form-control inline-flex">
+                    <i className="icon nb-mute-on grey-text small"></i> Mute
+                   </div>
+                </label>
+              </div>
+              <div className="min"></div>
             </div>
             <div className="col-sm-12">
               <button type="button" onClick={this._submit} className="btn btn-success pull-right public-cloud-button">Save</button>

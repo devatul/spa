@@ -200,8 +200,8 @@ module.exports = {
     NubityAPIUtils.modifyingTrigger(instanceId, triggerId, status);
   },
 
-  updateNotificationLevel: function (severity) {
-    return NubityAPIUtils.updateNotificationLevel(severity);
+  updateNotificationLevel: function (userId, severity) {
+    return NubityAPIUtils.updateNotificationLevel(userId, severity);
   },
 
   getTimezone: function () {

@@ -16,6 +16,7 @@ class MyAccountSection extends React.Component {
     this.state = {
       timezones:         timezones,
       locales:           locales,
+      userId:            getUserData('user'),
       firstname:         getUserData('firstname'),
       lastname:          getUserData('lastname'),
       email:             getUserData('username'),
@@ -118,7 +119,7 @@ class MyAccountSection extends React.Component {
       });
     }.bind(this));
 
-    updateNotificationLevel(this.state.notificationLevel).then(function (msg) {
+    updateNotificationLevel(this.state.userId, this.state.notificationLevel).then(function (msg) {
       this.setState({
         n_message:         msg,
         n_messageClass:    'alert alert-success',

@@ -1373,16 +1373,15 @@ module.exports = {
     }.bind(this));
   },
 
-  updateNotificationLevel: function (severity) {
+  updateNotificationLevel: function (userId, severity) {
     var token   = this.getToken();
     var company = getUserData('company');
-    var user    = getUserData('user');
     var SELF = this;
     return new Promise(function (resolve, reject) {
       request
         .put('/company/' + company + '/notification-severity-level.json')
         .type('application/json')
-        .send({user_id: user, company_id: company, severity: severity})
+        .send({user_id: userId, company_id: company, severity: severity})
         .set('Authorization', token)
         .end(function (err, res) {
           var code = res.status;
@@ -1556,16 +1555,16 @@ module.exports = {
         .end(function (err, res) {
           var code = JSON.parse(res.status);
           var text = JSON.parse(res.text);
-          if (200 <= code && 300 > code) {
-            resolve('User created successfully');
-          } else if (401 === code) {
+          if (400 === code) {
+            reject(text);
+          } else {
             SELF.validateToken(res).then(function (status) {
               if (!status) {
                 SELF.createUser(userData);
+              } else {
+                resolve(text);
               }
             }.bind(SELF));
-          } else {
-            reject(text);
           }
         }.bind(SELF));
     });
