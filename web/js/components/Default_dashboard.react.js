@@ -15,12 +15,9 @@ var acknowledge                = require('../actions/RequestActions').acknowledg
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Modal                      = require('react-bootstrap').Modal;
-var Button                     = require('react-bootstrap').Button;
 var DropdownButton             = require('react-bootstrap').DropdownButton;
-var Dropdown                   = require('react-bootstrap').Dropdown;
 var ButtonToolbar              = require('react-bootstrap').ButtonToolbar;
 var MenuItem                   = require('react-bootstrap').MenuItem;
-var _                          = require('lodash');
 import Authorization from './Authorization.react';
 
 class DefaultDashboard extends Authorization {

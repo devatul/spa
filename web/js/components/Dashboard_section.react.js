@@ -8,6 +8,8 @@ var CustomPerformanceDashboard = require('./Custom_performance_dashboard.react')
 var getCustomDashboards        = require('../actions/RequestActions').getCustomDashboards;
 var createCustomDashboard      = require('../actions/RequestActions').createCustomDashboard;
 var Modal                      = require('react-bootstrap').Modal;
+var Tooltip                    = require('react-bootstrap').Tooltip;
+var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 
 class DashboardSection extends React.Component {

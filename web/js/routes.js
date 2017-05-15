@@ -42,9 +42,9 @@ var routes = (
       <Route name="infrastructure" path='/infrastructure' component={Infrastructure} />
       <Route name="alerts" path='/alerts' component={Alerts} />
       <Route name="performance" path='/performance' component={Performance} />
-      <Route name="ninja" authorize={['ROLE_USER_TICKET']} path='/ninja-support' component={Ninja} />
-      <Route name="create_ticket" authorize={['ROLE_USER_TICKET']} path='/create-ticket' component={CreateTicket} />
-      <Route name="view_ticket_params" authorize={['ROLE_USER_TICKET']} path='/view-ticket/:id' component={ViewTicket} />
+      <Route name="ninja" authorize={['ROLE_USER_TICKET']} path='/support' component={Ninja} />
+      <Route name="create_ticket" authorize={['ROLE_USER_TICKET']} path='/support/create-ticket' component={CreateTicket} />
+      <Route name="view_ticket_params" authorize={['ROLE_USER_TICKET']} path='/support/:id' component={ViewTicket} />
       <Route name="live_chat" path='/live-chat' component={LiveChat} />
       <route name="terms_and_conditions" path='/terms-and-conditions' component={TermsAndConditions} />
       <route name="privacy_policies" path='/privacy-policies' component={PrivacyPolicies} />
