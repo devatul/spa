@@ -6,6 +6,7 @@ var updateNewCredentials       = require('../actions/RequestActions').updateNewC
 var getProviderCredential      = require('../actions/RequestActions').getProviderCredential;
 var getCredentialDetails       = require('../actions/RequestActions').getCredentialDetails;
 var deleteProviderCredential   = require('../actions/RequestActions').deleteProviderCredential;
+var getUserData                = require('../actions/StorageActions').getUserData;
 var EditProviderCredential     = require('./Edit_provider_credential.react');
 var _                          = require('lodash');
 var moment                     = require('moment');
@@ -388,7 +389,7 @@ class PrivateCloudSection extends React.Component {
               </div>
             </td>
             <td className="hidden-xs hidden-sm">
-              <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
+              <div>{moment.tz(data.checked_at, getUserData('timezone')).format('MM/DD/YYYY HH:mm:ss')}</div>
             </td>
             <td className="hidden-xs hidden-sm">
               <div className="action-btn-container"><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () { _SELF._editProviderCredential(data); }}>Edit</span></div>

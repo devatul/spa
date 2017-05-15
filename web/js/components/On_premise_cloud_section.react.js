@@ -14,6 +14,7 @@ var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Carousel                   = require('react-bootstrap').Carousel;
 var CarouselItem               = require('react-bootstrap').CarouselItem;
 var Modal                      = require('react-bootstrap').Modal;
+var getUserData                = require('../actions/StorageActions').getUserData;
 
 class OnPremiseCloudSection extends React.Component {
   constructor(props) {
@@ -389,7 +390,7 @@ class OnPremiseCloudSection extends React.Component {
               </div>
             </td>
             <td className="hidden-xs hidden-sm">
-              <div>{moment(data.checked_at).format('MM/DD/YYYY hh:mm:ss')}</div>
+              <div>{moment.tz(data.checked_at, getUserData('timezone')).format('MM/DD/YYYY HH:mm:ss')}</div>
             </td>
             <td className="hidden-xs hidden-sm">
               <div className="action-btn-container"><span className="action-button nubity-blue" data-toggle="modal" data-target={'#' + _SELF.editModalId} onClick={function () { _SELF._editProviderCredential(data); }}>Edit</span></div>

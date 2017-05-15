@@ -67,17 +67,17 @@ class Graph extends React.Component {
         for (var key = 0; key < data1.length; key++) {
           coords[key] = [data1[key][0] * 1000, data1[key][1]];
         }
-        var offset = moment.tz(data1[0][0] * 1000, getUserData('timezone')).utcOffset();
-        var h = Math.floor(offset / 60);
-        var m = offset % 60 || 0;
-        var tzoffset = (0 < h ? '+' : '') + h + ':' + ((10 > m ? '0' : '') + m);
+
+        if (0 < data1.length) {
+          var offset = moment.tz(data1[0][0] * 1000, getUserData('timezone')).format('(UTC Z)');
+        }
 
         var chartSerie = {
           name:    legend,
           data:    coords,
           color:   color,
           tooltip: {
-            headerFormat:  '{point.key} (UTC ' + tzoffset + ')<br/>',
+            headerFormat:  '{point.key} ' + offset + '<br/>',
             valueDecimals: 2,
             valueSuffix:   ' ' + suffix,
           },

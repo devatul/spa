@@ -131,8 +131,7 @@ class NinjaDefaultContent extends React.Component {
         var priority = '';
         var tooltip = '';
         var priorityTooltip = '';
-        var date_obj = moment.tz(ticket[key].created_at, userTimeZone).toDate();
-        var from = date_obj.toLocaleDateString() + ' ' + date_obj.toLocaleTimeString();
+        var from = moment.tz(ticket[key].created_at, userTimeZone).format('YYYY-M-D HH:mm:ss (UTC Z)');
 
         tooltip = <Tooltip id="tooltip" style={{textTransform: 'capitalize'}}>{ticket[key].status}</Tooltip>;
         status = 'icon nb-ticket icon-state ';

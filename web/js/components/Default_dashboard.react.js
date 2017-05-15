@@ -208,12 +208,11 @@ class DefaultDashboard extends React.Component {
       var userTimeZone = getUserData('timezone');
       var locale = getUserData('locale');
       moment.locale(locale);
-      var dateFromObj = moment.tz(mainAlerts[key].started_on, userTimeZone).toDate();
-      var from = dateFromObj.toLocaleDateString() + ' ' + dateFromObj.toLocaleTimeString();
+      var from = moment.tz(mainAlerts[key].started_on, userTimeZone).format('YYYY-M-D HH:mm:ss (UTC Z)');
       var to = '';
       if (null != mainAlerts[key].resolved_on) {
-        var dateToObj = moment.tz(mainAlerts[key].resolved_on, userTimeZone).toDate();
-        to = (<span><i className="icon nb-time grey-text small"></i> {dateToObj.toLocaleDateString() + ' ' + dateToObj.toLocaleTimeString()}</span>);
+        var dateToObj = moment.tz(mainAlerts[key].resolved_on, userTimeZone).format('YYYY-M-D HH:mm:ss (UTC Z)');
+        to = (<span><i className="icon nb-time grey-text small"></i> {dateToObj}</span>);
       } else {
         to = '-';
       }
