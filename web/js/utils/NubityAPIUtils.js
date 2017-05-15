@@ -1372,16 +1372,15 @@ module.exports = {
     }.bind(this));
   },
 
-  updateNotificationLevel: function (severity) {
+  updateNotificationLevel: function (userId, severity) {
     var token   = this.getToken();
     var company = getUserData('company');
-    var user    = getUserData('user');
     var SELF = this;
     return new Promise(function (resolve, reject) {
       request
         .put('/company/' + company + '/notification-severity-level.json')
         .type('application/json')
-        .send({user_id: user, company_id: company, severity: severity})
+        .send({user_id: userId, company_id: company, severity: severity})
         .set('Authorization', token)
         .end(function (err, res) {
           var code = res.status;

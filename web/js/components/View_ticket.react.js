@@ -16,8 +16,11 @@ var ButtonToolbar              = require('react-bootstrap').ButtonToolbar;
 var MenuItem                   = require('react-bootstrap').MenuItem;
 var Dropzone                   = require('react-dropzone');
 var openAttachment             = require('../actions/RequestActions').openAttachment;
+var getUserData                = require('../actions/StorageActions').getUserData;
+var _                          = require('lodash');
+import Authorization from './Authorization.react';
 
-class ViewTicket extends React.Component {
+class ViewTicket extends Authorization {
   constructor(props) {
     super(props);
     NinjaStore.resetStore();
@@ -25,6 +28,7 @@ class ViewTicket extends React.Component {
     var url = window.location.href;
     var position = url.indexOf('support') + 8;
     var id = url.slice(position);
+    var roles = getUserData('roles');
 
     if (undefined !== id && id) {
       getTicket(id);
@@ -34,12 +38,15 @@ class ViewTicket extends React.Component {
         files:    [],
         dropzone: 'dropzone',
         button:   (<button type="submit" className="margin-tops blue-button">Send</button>),
+        roles:    roles,
       };
     } else {
       this.state = {
         ticket: NinjaStore.getViewTicket(),
       };
     }
+    this.userRoles = roles;
+    this.notAuthorizedPath = '/not-found';
     this._onChange = this._onChange.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
     this.onDrop = this.onDrop.bind(this);
@@ -48,6 +55,7 @@ class ViewTicket extends React.Component {
   }
 
   componentWillMount() {
+    this.authorizeRoute();
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
@@ -121,6 +129,9 @@ class ViewTicket extends React.Component {
   }
 
   render() {
+    if (!SessionStore.isLoggedIn()) {
+      return (<div></div>);
+    }
     var subject       = '';
     var ticket        = '';
     var replies;
@@ -205,10 +216,6 @@ class ViewTicket extends React.Component {
       }
 
       var from = Moment(this.state.ticket.created_at).format('lll');
-    }
-
-    if (!SessionStore.isLoggedIn()) {
-      return (<div></div>);
     }
 
     var filesPreview = (<p>Try dropping some files here, or click to select files to upload.</p>);

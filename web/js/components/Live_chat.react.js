@@ -4,10 +4,14 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var saveURI                    = require('../actions/RequestActions').saveURI;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
+var getUserData                = require('../actions/StorageActions').getUserData;
+var _                          = require('lodash');
+import Authorization from './Authorization.react';
 
-class LiveChat extends React.Component {
+class LiveChat extends Authorization {
   constructor(props) {
     super(props);
+    this.allowedRoles = ['ROLE_USER_TICKET'];
     this.updateURL = this.updateURL.bind(this);
   }
 
@@ -23,6 +27,12 @@ class LiveChat extends React.Component {
   }
 
   render() {
+    if (this.rolesMatched(this.allowedRoles)) {
+      createTicketButton = <a onClick={this._createTicket}>
+        <button className="large-green-button">Create Ticket</button>
+      </a>;
+    }
+
     if (!SessionStore.isLoggedIn()) {
       return (<div></div>);
     }
@@ -33,9 +43,7 @@ class LiveChat extends React.Component {
           <h2 className="align-center">Start Live Chat</h2>
         </div>
         <div className="centered">
-          <a onClick={this._createTicket}>
-            <button className="large-green-button">Create Ticket</button>
-          </a>
+          {createTicketButton}
         </div>
         <div className="margin-sides min-height-subsection">
           <div className="col-xs-3 centered">

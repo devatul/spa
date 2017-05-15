@@ -4,10 +4,12 @@ var RouteStore            = require('../stores/RouteStore');
 var Link                  = require('react-router').Link;
 var getStats              = require('../actions/RequestActions').getStats;
 var redirect              = require('../actions/RouteActions').redirect;
+import Authorization from './Authorization.react';
 
-class SideBar extends React.Component {
+class SideBar extends Authorization {
   constructor(props) {
     super(props);
+    this.allowedRoles = ['ROLE_USER_TICKET'];
     var stats       = AlertsStore.getDashboardStats();
     var url = window.location.href;
     if (0 <= url.search('infrastructure')) {
@@ -240,12 +242,12 @@ class SideBar extends React.Component {
                 <p className="menu-text">Performance</p>
               </div>
             </a>
-            <a onClick={this._ninjaSupport} className={this.state.ninjaSupportClass}>
+            {this.rolesMatched(this.allowedRoles) ? <a onClick={this._ninjaSupport} className={this.state.ninjaSupportClass}>
               <div className="menu-button">
                 <div className="icon nb-ninja-support icon-sidebar"></div>
                 <p className="menu-text">Support</p>
               </div>
-            </a>
+            </a> : ''}
           </div>
           <div className="social-links">
             <div className="menu-button hide-it">

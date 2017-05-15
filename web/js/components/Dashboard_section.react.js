@@ -24,7 +24,7 @@ class DashboardSection extends React.Component {
     var companyInfo = SessionStore.getCompanyInfo();
     this.state = {
       companyInfo:           companyInfo,
-      currentDashboard:      (<DefaultDashboard />),
+      currentDashboard:      (<DefaultDashboard {...this.props} />),
       currentDashboardIndex: '0',
     };
     this._onChange = this._onChange.bind(this);
@@ -59,7 +59,7 @@ class DashboardSection extends React.Component {
     if (GraphStore.deletedDashboard()) {
       getCustomDashboards();
       this.setState({
-        currentDashboard:      (<DefaultDashboard />),
+        currentDashboard:      (<DefaultDashboard {...this.props} />),
         currentDashboardIndex: '0',
       });
       GraphStore.resetDeletedDashboard();
@@ -109,7 +109,7 @@ class DashboardSection extends React.Component {
 
   _goToDefaultDashboard() {
     this.setState({
-      currentDashboard:      (<DefaultDashboard />),
+      currentDashboard:      (<DefaultDashboard {...this.props} />),
       currentDashboardIndex: '0',
     });
   }

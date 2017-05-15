@@ -16,8 +16,10 @@ var Tooltip                    = require('react-bootstrap').Tooltip;
 var Modal                      = require('react-bootstrap').Modal;
 var Button                     = require('react-bootstrap').Button;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
+var _                          = require('lodash');
+import Authorization from './Authorization.react';
 
-class Alert extends React.Component {
+class Alert extends Authorization {
   constructor(props) {
     super(props);
     var alerts = AlertsStore.getAlerts();
@@ -33,6 +35,7 @@ class Alert extends React.Component {
       loadingHistory:    false,
       modalType:         '',
     };
+    this.allowedRoles = ['ROLE_USER_TICKET'];
     this._onChange = this._onChange.bind(this);
     this._updatePage = this._updatePage.bind(this);
     this.updateURL = this.updateURL.bind(this);
@@ -296,10 +299,15 @@ class Alert extends React.Component {
           </td>
           {action}
           <td className="icons">
-            <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>
-            <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, alerts[key])}>
-              <i className="icon nb-ticket white-text small"></i>
-            </span>
+            {this.rolesMatched(this.allowedRoles) ?
+              <span>
+                <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, alerts[key])}>Create Ticket</span>
+                <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, alerts[key])}>
+                  <i className="icon nb-ticket white-text small"></i>
+                </span>
+              </span>
+              : <span></span>
+            }
           </td>
         </tr>
       );
@@ -422,10 +430,15 @@ class Alert extends React.Component {
           </td>
           {haction}
           <td className="icons">
-            <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
-            <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, historyAlerts[key])}>
-              <i className="icon nb-ticket white-text small"></i>
-            </span>
+            {this.rolesMatched(this.allowedRoles) ?
+              <span>
+                <span className="action-button nubity-green hidden-xs hidden-sm" onClick={this._createTicket.bind(this, historyAlerts[key])}>Create Ticket</span>
+                <span className="action-button nubity-green hidden-md hidden-lg" title="Create ticket" onClick={this._createTicket.bind(this, historyAlerts[key])}>
+                  <i className="icon nb-ticket white-text small"></i>
+                </span>
+              </span>
+              : <span></span>
+            }
           </td>
         </tr>
       );

@@ -8,18 +8,25 @@ var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var search                     = require('../actions/RequestActions').search;
 var CreateTicketAction         = require('../actions/RequestActions').createTicket;
 var Dropzone                   = require('react-dropzone');
+var getUserData                = require('../actions/StorageActions').getUserData;
+var _                          = require('lodash');
+import Authorization from './Authorization.react';
 
-class CreateTicket extends React.Component {
+class CreateTicket extends Authorization {
   constructor(props) {
     super(props);
     var search = SessionStore.search();
+    var roles = getUserData('roles');
     this.state = {
       search:    search,
       instances: search.instances,
       clouds:    search.clouds,
       files:     [],
       dropzone:  'hidden',
+      roles:     roles,
     };
+    this.userRoles = roles;
+    this.notAuthorizedPath = '/not-found';
     this._onChange = this._onChange.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
@@ -38,6 +45,7 @@ class CreateTicket extends React.Component {
   }
 
   componentWillMount() {
+    this.authorizeRoute();
     if (!SessionStore.isLoggedIn()) {
       saveURI();
       redirect('login');
@@ -117,6 +125,15 @@ class CreateTicket extends React.Component {
     });
   }
   render() {
+    if (!SessionStore.isLoggedIn()) {
+      return (<div></div>);
+    } else if (0 > _.indexOf(this.state.roles, 'ROLE_USER_TICKET')) {
+      return (<div className="principal-section">
+        <div className="section-title">
+          <h4 className="align-center" style={{color: 'rgb(219, 7, 32)'}}>Access denied to this page</h4>
+        </div>
+      </div>);
+    }
     var search = this.state.search;
     var instances = this.state.instances;
     var servers = [];
@@ -197,9 +214,6 @@ class CreateTicket extends React.Component {
       </select>,
     ];
 
-    if (!SessionStore.isLoggedIn()) {
-      return (<div></div>);
-    }
     var filesPreview = (<p>Try dropping some files here, or click to select files to upload.</p>);
     var preview = [];
     if (0 < this.state.files.length) {

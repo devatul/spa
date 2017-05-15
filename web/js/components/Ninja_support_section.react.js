@@ -4,18 +4,23 @@ var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
+var getUserData                = require('../actions/StorageActions').getUserData;
+import Authorization from './Authorization.react';
 
-class NinjaSupportSection extends React.Component {
+class NinjaSupportSection extends Authorization {
   constructor(props) {
     super(props);
     var companyInfo = SessionStore.getCompanyInfo();
     this.state = {
       companyName: companyInfo.name,
     };
+    this.userRoles = getUserData('roles');
+    this.notAuthorizedPath = '/not-found';
     this._onChange = this._onChange.bind(this);
   }
 
   componentWillMount() {
+    this.authorizeRoute();
     if (!SessionStore.isLoggedIn()) {
       redirect('login');
     }

@@ -24,8 +24,10 @@ var DropdownButton             = require('react-bootstrap').DropdownButton;
 var Dropdown                   = require('react-bootstrap').Dropdown;
 var ButtonToolbar              = require('react-bootstrap').ButtonToolbar;
 var MenuItem                   = require('react-bootstrap').MenuItem;
+var _                          = require('lodash');
+import Authorization from './Authorization.react';
 
-class DefaultDashboard extends React.Component {
+class DefaultDashboard extends Authorization {
   constructor(props) {
     super(props);
     var mainAlerts = AlertsStore.getDashboardAlerts();
@@ -38,6 +40,7 @@ class DefaultDashboard extends React.Component {
       modalType:  '',
       mute:       '',
     };
+    this.allowedRoles = ['ROLE_USER_TICKET'];
     this._onChange = this._onChange.bind(this);
     this.close = this.close.bind(this);
     this._acknowledge = this._acknowledge.bind(this);
@@ -312,11 +315,14 @@ class DefaultDashboard extends React.Component {
               <MenuItem eventKey="1">
                 {action}
               </MenuItem>
-              <MenuItem eventKey="2">
-                <span className="dark-grey-text hidden-xs" onClick={this._createTicket.bind(this, mainAlerts[key])}>
-                  <i className="icon nb-ticket small"></i> Create Ticket
-                </span>
-              </MenuItem>
+              {this.rolesMatched(this.allowedRoles) ?
+                <MenuItem eventKey="2">
+                  <span className="dark-grey-text hidden-xs" onClick={this._createTicket.bind(this, mainAlerts[key])}>
+                    <i className="icon nb-ticket small"></i> Create Ticket
+                  </span>
+                </MenuItem>
+                : ''
+              }
             </DropdownButton>
           </ButtonToolbar>
         </td>

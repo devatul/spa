@@ -165,6 +165,7 @@ class NinjaDefaultContent extends React.Component {
           priority = 'icon nb-level-high red-text icon-state';
           priorityTooltip = (<Tooltip id="tooltip">High</Tooltip>);
         }
+
         rows.push(
           <tr key={key} className="content">
             <td className="icons">
