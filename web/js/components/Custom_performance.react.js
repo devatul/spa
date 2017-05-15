@@ -1,7 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
-var SessionStore               = require('../stores/SessionStore');
 var CreateGraph                = require('./Create_graph.react');
 
 class CustomPerformance extends React.Component {

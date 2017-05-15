@@ -1,7 +1,4 @@
 var React                         = require('react');
-var Router                        = require('../router');
-var redirect                      = require('../actions/RouteActions').redirect;
-var SessionStore                  = require('../stores/SessionStore');
 var InfrastructureStore           = require('../stores/InfrastructureStore');
 var Preloader                     = require('./Preloader.react');
 var getInstanceForMonitoring      = require('../actions/RequestActions').getInstanceForMonitoring;

@@ -1,7 +1,6 @@
 var React                 = require('react');
 var AlertsStore           = require('../stores/AlertsStore');
 var RouteStore            = require('../stores/RouteStore');
-var Link                  = require('react-router').Link;
 var getStats              = require('../actions/RequestActions').getStats;
 var redirect              = require('../actions/RouteActions').redirect;
 import Authorization from './Authorization.react';

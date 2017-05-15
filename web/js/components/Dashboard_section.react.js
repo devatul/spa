@@ -1,21 +1,13 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var moment                     = require('moment');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
 var AlertsStore                = require('../stores/AlertsStore');
-var Preloader                  = require('./Preloader.react');
 var DefaultDashboard           = require('./Default_dashboard.react');
 var CustomPerformanceDashboard = require('./Custom_performance_dashboard.react');
 var getCustomDashboards        = require('../actions/RequestActions').getCustomDashboards;
 var createCustomDashboard      = require('../actions/RequestActions').createCustomDashboard;
-var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
-var acknowledge                = require('../actions/RequestActions').acknowledge;
-var Tooltip                    = require('react-bootstrap').Tooltip;
-var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
 var Modal                      = require('react-bootstrap').Modal;
-var Button                     = require('react-bootstrap').Button;
 var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
 
 class DashboardSection extends React.Component {

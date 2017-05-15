@@ -7,10 +7,8 @@ var router        = require('../router');
 var ActionTypes   = Constants.ActionTypes;
 var CHANGE_EVENT  = 'change';
 
-var _currentID      = null;
 var _confirmMessage = '';
 var _confirmCode    = '';
-var _threads        = {};
 var _signupMessage  = '';
 var _errorMessage = '';
 var _errorCode    = '';

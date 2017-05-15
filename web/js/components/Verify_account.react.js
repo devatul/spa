@@ -1,7 +1,5 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
-var SessionStore               = require('../stores/SessionStore');
 var verifyAccountAction        = require('../actions/RequestActions').verifyAccount;
 var Preloader                  = require('./Preloader.react');
 

@@ -3,7 +3,6 @@ var uninstallPlugin            = require('../actions/RequestActions').uninstallP
 var installPlugin              = require('../actions/RequestActions').installPlugin;
 var PluginModal                = require('./PluginModal.react');
 var Preloader                  = require('./Preloader.react');
-var alertify                   = require('alertify.js');
 
 class PluginsTable extends React.Component {
   constructor(props) {

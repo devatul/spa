@@ -1,7 +1,6 @@
 var React                      = require('react');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
-var NinjaDefaultContent        = require('./Ninja_default_content.react');
 var Preloader                  = require('./Preloader.react');
 var loginAction                = require('../actions/RequestActions').login;
 var getUserForSwitchUser       = require('../actions/RequestActions').getUserForSwitchUser;

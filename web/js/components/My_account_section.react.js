@@ -1,6 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
 var updateUserData             = require('../actions/RequestActions').updateUserData;
 var updateNotificationLevel    = require('../actions/RequestActions').updateNotificationLevel;
 var getUserData                = require('../actions/StorageActions').getUserData;

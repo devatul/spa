@@ -1,13 +1,9 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
 var getUserData                = require('../actions/StorageActions').getUserData;
-var SessionStore               = require('../stores/SessionStore');
 var GraphStore                 = require('../stores/GraphStore');
 var addFunnel                  = require('highcharts/modules/funnel');
 var GraphEmptyState            = require('./Graph_empty_state.react');
 var moment                     = require('moment');
-var momentTZ                   = require('moment-timezone');
 window.moment = moment;
 var Highcharts                 = require('highcharts');
 

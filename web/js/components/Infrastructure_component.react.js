@@ -1,15 +1,9 @@
 var React                      = require('react');
-var ReactPropTypes             = require('prop-types');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
-var redirectWithParams         = require('../actions/RouteActions').redirectWithParams;
-var SessionStore               = require('../stores/SessionStore');
 var InfrastructureStore        = require('../stores/InfrastructureStore');
 var getInfrastructureOverview  = require('../actions/RequestActions').getInfrastructureOverview;
 var getInfrastructureOnPremise = require('../actions/RequestActions').getInfrastructureOnPremise;
 var getInfrastructurePrivateCloud = require('../actions/RequestActions').getInfrastructurePrivateCloud;
 var getInfrastructurePublicCloud  = require('../actions/RequestActions').getInfrastructurePublicCloud;
-var getMonitored               = require('../actions/RequestActions').getMonitored;
 var getManaged                 = require('../actions/RequestActions').getManaged;
 var stopOrder                  = require('../actions/RequestActions').stopOrder;
 var startInstance              = require('../actions/RequestActions').startInstance;
@@ -19,7 +13,6 @@ var deleteOrderCancelation     = require('../actions/RequestActions').deleteOrde
 var Preloader                  = require('./Preloader.react');
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
-var Button                     = require('react-bootstrap').Button;
 var Link                       = require('react-router').Link;
 var Warning                    = require('./Warning.react');
 

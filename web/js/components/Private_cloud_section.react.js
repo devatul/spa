@@ -1,5 +1,4 @@
 var React                      = require('react');
-var redirect                   = require('../actions/RouteActions').redirect;
 var OnBoardingStore            = require('../stores/OnBoardingStore');
 var submitCloudData            = require('../actions/RequestActions').submitCloudData;
 var updateNewCredentials       = require('../actions/RequestActions').updateNewCredentials;

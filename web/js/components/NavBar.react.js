@@ -1,5 +1,4 @@
 var React                 = require('react');
-var Router                = require('../router');
 var logOutAction          = require('../actions/ServerActions').logOut;
 var goBackToAdmin         = require('../actions/ServerActions').goBackToAdmin;
 var redirect              = require('../actions/RouteActions').redirect;

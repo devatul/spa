@@ -1,5 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var GraphStore                 = require('../stores/GraphStore');
 var getCustomSlots             = require('../actions/RequestActions').getCustomSlots;
 var removeDashboard            = require('../actions/RequestActions').removeDashboard;

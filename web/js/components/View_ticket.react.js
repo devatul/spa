@@ -8,7 +8,6 @@ var ReplyTicketAction          = require('../actions/RequestActions').replyTicke
 var closeTicket                = require('../actions/RequestActions').closeTicket;
 var Preloader                  = require('./Preloader.react');
 var Reply                      = require('./Ticket_reply.react');
-var FormHeader                 = require('./View_ticket_form_header.react');
 var Moment                     = require('moment');
 var Dropdown                   = require('react-bootstrap').Dropdown;
 var Button                     = require('react-bootstrap').Button;
@@ -17,7 +16,6 @@ var MenuItem                   = require('react-bootstrap').MenuItem;
 var Dropzone                   = require('react-dropzone');
 var openAttachment             = require('../actions/RequestActions').openAttachment;
 var getUserData                = require('../actions/StorageActions').getUserData;
-var _                          = require('lodash');
 import Authorization from './Authorization.react';
 
 class ViewTicket extends Authorization {

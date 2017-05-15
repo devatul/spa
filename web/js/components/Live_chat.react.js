@@ -1,11 +1,7 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var saveURI                    = require('../actions/RequestActions').saveURI;
 var SessionStore               = require('../stores/SessionStore');
-var NinjaDefaultContent        = require('./Ninja_default_content.react');
-var getUserData                = require('../actions/StorageActions').getUserData;
-var _                          = require('lodash');
 import Authorization from './Authorization.react';
 
 class LiveChat extends Authorization {
@@ -27,6 +23,7 @@ class LiveChat extends Authorization {
   }
 
   render() {
+    var createTicketButton = '';
     if (this.rolesMatched(this.allowedRoles)) {
       createTicketButton = <a onClick={this._createTicket}>
         <button className="large-green-button">Create Ticket</button>

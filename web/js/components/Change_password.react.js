@@ -1,6 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var ChangePasswordAction       = require('../actions/RequestActions').changePassword;
 

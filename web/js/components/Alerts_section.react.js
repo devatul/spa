@@ -1,5 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var moment                     = require('moment-timezone');
 var redirect                   = require('../actions/RouteActions').redirect;
 var saveURI                    = require('../actions/RequestActions').saveURI;
@@ -9,14 +8,11 @@ var getAlerts                  = require('../actions/RequestActions').getAlerts;
 var getHistoryAlerts           = require('../actions/RequestActions').getHistoryAlerts;
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;
 var getUserData                = require('../actions/StorageActions').getUserData;
-var getLocaleDateFormat        = require('../actions/StorageActions').getLocaleDateFormat;
 var acknowledge                = require('../actions/RequestActions').acknowledge;
 var Preloader                  = require('./Preloader.react');
 var Tooltip                    = require('react-bootstrap').Tooltip;
 var Modal                      = require('react-bootstrap').Modal;
-var Button                     = require('react-bootstrap').Button;
 var OverlayTrigger             = require('react-bootstrap').OverlayTrigger;
-var _                          = require('lodash');
 import Authorization from './Authorization.react';
 
 class Alert extends Authorization {

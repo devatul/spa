@@ -1,5 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var moment                     = require('moment-timezone');
 var redirect                   = require('../actions/RouteActions').redirect;
 var GraphStore                 = require('../stores/GraphStore');
@@ -7,11 +6,8 @@ var SessionStore               = require('../stores/SessionStore');
 var AlertsStore                = require('../stores/AlertsStore');
 var getDashboardAlerts         = require('../actions/RequestActions').getDashboardAlerts;
 var getDashboards              = require('../actions/RequestActions').getDashboards;
-var getDashboard               = require('../actions/RequestActions').getDashboard;
 var getStats                   = require('../actions/RequestActions').getStats;
-var getUser                    = require('../actions/RequestActions').getUser;
 var getUserData                = require('../actions/StorageActions').getUserData;
-var getLocaleDateFormat        = require('../actions/StorageActions').getLocaleDateFormat;
 var Graphs                     = require('./Graphs.react');
 var Preloader                  = require('./Preloader.react');
 var createAlertTicket          = require('../actions/ServerActions').createAlertTicket;

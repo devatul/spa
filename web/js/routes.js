@@ -3,7 +3,6 @@ var reactRouter              = require('react-router');
 var Router                   = reactRouter.Router;
 var hashHistory              = reactRouter.hashHistory;
 var IndexRoute               = reactRouter.IndexRoute;
-var ReactDOM                 = require('react-dom');
 var Route                    = reactRouter.Route;
 var NubityApp                = require('./components/NubityApp.react');
 var Login                    = require('./components/Login.react');

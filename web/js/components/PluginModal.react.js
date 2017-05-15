@@ -1,9 +1,5 @@
 var React                 = require('react');
 var Modal                 = require('react-bootstrap').Modal;
-var Popover               = require('react-bootstrap').Popover;
-var Button                = require('react-bootstrap').Button;
-var Tooltip               = require('react-bootstrap').Tooltip;
-var OverlayTrigger        = require('react-bootstrap').OverlayTrigger;
 var configureAction       = require('../actions/RequestActions').configureTemplate;
 
 class PluginModal extends React.Component {

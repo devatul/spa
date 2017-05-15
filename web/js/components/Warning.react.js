@@ -1,5 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var Modal                      = require('react-bootstrap').Modal;
 
 class Warning extends React.Component {

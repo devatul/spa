@@ -1,9 +1,5 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
-var getCompanyInfo             = require('../actions/RequestActions').getCompanyInfo;
-var getUserData                = require('../actions/StorageActions').getUserData;
 var updateCompanyInfo          = require('../actions/RequestActions').updateCompanyInfo;
 var _                          = require('lodash');
 

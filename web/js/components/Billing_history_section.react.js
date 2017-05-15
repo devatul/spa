@@ -1,8 +1,5 @@
 var React                      = require('react');
-var Router                     = require('../router');
-var redirect                   = require('../actions/RouteActions').redirect;
-var getBillingHistory          = require('../actions/RequestActions').getBillingHistory;
-var SessionStore               = require('../stores/SessionStore');
+// var getBillingHistory          = require('../actions/RequestActions').getBillingHistory;
 var OnboardingStore            = require('../stores/OnBoardingStore');
 
 class BillingHistorySection extends React.Component {

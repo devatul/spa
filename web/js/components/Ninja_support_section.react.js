@@ -1,5 +1,4 @@
 var React                      = require('react');
-var Router                     = require('../router');
 var redirect                   = require('../actions/RouteActions').redirect;
 var SessionStore               = require('../stores/SessionStore');
 var NinjaDefaultContent        = require('./Ninja_default_content.react');
